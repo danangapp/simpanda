@@ -1,4 +1,4 @@
-const sql = require("./db.js");
+const sql = require("../config/db.js");
 
 // constructor
 const User = function (user) {
@@ -57,7 +57,7 @@ User.getAll = result => {
 User.updateById = (id, user, result) => {
   sql.query(
     "UPDATE user SET nama = ?, username = ? WHERE id = ?",
-    [user.username, user.name, id],
+    [user.nama, user.username, id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);

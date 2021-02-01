@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: process.env });
+  res.json({ message: "Simpanda Application" });
 });
 
 require("./app/routes/activitylog.js")(app);

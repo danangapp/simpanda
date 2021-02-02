@@ -3,6 +3,16 @@ const sql = require("../config/db.js");
 // constructor
 const Cabang = function (cabang) {
     this.nama = cabang.nama;
+    this.almt_cabang = cabang.almt_cabang;
+    this.cabang_cms = cabang.cabang_cms;
+    this.no_account_cabang = cabang.no_account_cabang;
+    this.nm_cabang_3digit = cabang.nm_cabang_3digit;
+    this.kd_account_cabang = cabang.kd_account_cabang;
+    this.kd_cabang_jai_puspel = cabang.kd_cabang_jai_puspel;
+    this.org_id = cabang.org_id;
+    this.port_code = cabang.port_code;
+    this.autospk = cabang.autospk;
+    this.kd_jenis_pelabuhan = cabang.kd_jenis_pelabuhan;
 };
 
 Cabang.create = (newCabang, result) => {
@@ -65,8 +75,8 @@ Cabang.design = result => {
 
 Cabang.updateById = (id, cabang, result) => {
     sql.query(
-        "UPDATE cabang SET  nama = ? WHERE id = ?",
-        [cabang.nama, id],
+        "UPDATE cabang SET  nama = ?, almt_cabang = ?, cabang_cms = ?, no_account_cabang = ?, nm_cabang_3digit = ?, kd_account_cabang = ?, kd_cabang_jai_puspel = ?, org_id = ?, port_code = ?, autospk = ?, kd_jenis_pelabuhan = ? WHERE id = ?",
+        [cabang.nama, cabang.almt_cabang, cabang.cabang_cms, cabang.no_account_cabang, cabang.nm_cabang_3digit, cabang.kd_account_cabang, cabang.kd_cabang_jai_puspel, cabang.org_id, cabang.port_code, cabang.autospk, cabang.kd_jenis_pelabuhan, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

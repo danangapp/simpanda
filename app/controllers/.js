@@ -1,4 +1,4 @@
-const Cabang = require("../models/cabang.js");
+const  = require("../models/.js");
 
 exports.create = (req, res) => {
     if (!req.body) {
@@ -7,7 +7,7 @@ exports.create = (req, res) => {
         });
     }
 
-    const cabang = new Cabang({
+    const  = new ({
         nama: req.body.nama,
         almt_cabang: req.body.almt_cabang,
         cabang_cms: req.body.cabang_cms,
@@ -21,48 +21,48 @@ exports.create = (req, res) => {
         kd_jenis_pelabuhan: req.body.kd_jenis_pelabuhan,
     });
 
-    Cabang.create(cabang, (err, data) => {
+    .create(, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the Cabang."
+                    err.message || "Some error occurred while creating the ."
             });
         else res.send(data);
     });
 };
 
 exports.findAll = (req, res) => {
-    Cabang.getAll((err, data) => {
+    .getAll((err, data) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving cabangnames."
+                    err.message || "Some error occurred while retrieving names."
             });
         else res.send(data);
     });
 };
 
 exports.design = (req, res) => {
-    Cabang.design((err, data) => {
+    .design((err, data) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving cabangnames."
+                    err.message || "Some error occurred while retrieving names."
             });
         else res.send(data);
     });
 };
 
 exports.findOne = (req, res) => {
-    Cabang.findById(req.params.id, (err, data) => {
+    .findById(req.params.id, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Not found Cabang with id ${req.params.id}.`
+                    message: `Not found  with id ${req.params.id}.`
                 });
             } else {
                 res.status(500).send({
-                    message: "Error retrieving Cabang with id " + req.params.id
+                    message: "Error retrieving  with id " + req.params.id
                 });
             }
         } else res.send(data);
@@ -79,18 +79,18 @@ exports.update = (req, res) => {
 
     console.log(req.body);
 
-    Cabang.updateById(
+    .updateById(
         req.params.id,
-        new Cabang(req.body),
+        new (req.body),
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
                     res.status(404).send({
-                        message: `Not found Cabang with id ${req.params.id}.`
+                        message: `Not found  with id ${req.params.id}.`
                     });
                 } else {
                     res.status(500).send({
-                        message: "Error updating Cabang with id " + req.params.id
+                        message: "Error updating  with id " + req.params.id
                     });
                 }
             } else res.send(data);
@@ -99,28 +99,28 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-    Cabang.remove(req.params.id, (err, data) => {
+    .remove(req.params.id, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Not found Cabang with id ${req.params.id}.`
+                    message: `Not found  with id ${req.params.id}.`
                 });
             } else {
                 res.status(500).send({
-                    message: "Could not delete Cabang with id " + req.params.id
+                    message: "Could not delete  with id " + req.params.id
                 });
             }
-        } else res.send({ message: `Cabang was deleted successfully!` });
+        } else res.send({ message: ` was deleted successfully!` });
     });
 };
 
 exports.deleteAll = (req, res) => {
-    Cabang.removeAll((err, data) => {
+    .removeAll((err, data) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while removing all cabangnames."
+                    err.message || "Some error occurred while removing all names."
             });
-        else res.send({ message: `All Cabangs were deleted successfully!` });
+        else res.send({ message: `All s were deleted successfully!` });
     });
 };

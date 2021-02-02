@@ -8,8 +8,8 @@ exports.create = (req, res) => {
     }
 
     const sertifikat = new Sertifikat({
-        tipe: req.body.tipe,
-        pemilik: req.body.pemilik,
+        tipe_cert_id: req.body.tipe_cert_id,
+        personil_id: req.body.personil_id,
         no_sertifikat: req.body.no_sertifikat,
         issuer: req.body.issuer,
         tempat_keluar_sertifikat: req.body.tempat_keluar_sertifikat,

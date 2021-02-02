@@ -2,11 +2,11 @@ const sql = require("../config/db.js");
 
 // constructor
 const SaranaBantuPemanduPersonil = function (saranabantupemandupersonil) {
-    this.SARANA_BANTU_PEMANDU_id = saranabantupemandupersonil.SARANA_BANTU_PEMANDU_id;
+    this.sarana_bantu_pemandu_id = saranabantupemandupersonil.sarana_bantu_pemandu_id;
     this.nama = saranabantupemandupersonil.nama;
     this.jabatan = saranabantupemandupersonil.jabatan;
-    this.keterangan_kapal = saranabantupemandupersonil.keterangan_kapal;
-    this.status_ijazah = saranabantupemandupersonil.status_ijazah;
+    this.asset_kapal_id = saranabantupemandupersonil.asset_kapal_id;
+    this.status_ijazah_id = saranabantupemandupersonil.status_ijazah_id;
 };
 
 SaranaBantuPemanduPersonil.create = (newSaranaBantuPemanduPersonil, result) => {
@@ -56,8 +56,8 @@ SaranaBantuPemanduPersonil.getAll = result => {
 
 SaranaBantuPemanduPersonil.updateById = (id, saranabantupemandupersonil, result) => {
     sql.query(
-        "UPDATE sarana_bantu_pemandu_personil SET  SARANA_BANTU_PEMANDU_id = ?, nama = ?, jabatan = ?, keterangan_kapal = ?, status_ijazah = ? WHERE id = ?",
-        [saranabantupemandupersonil.SARANA_BANTU_PEMANDU_id, saranabantupemandupersonil.nama, saranabantupemandupersonil.jabatan, saranabantupemandupersonil.keterangan_kapal, saranabantupemandupersonil.status_ijazah, id],
+        "UPDATE sarana_bantu_pemandu_personil SET  sarana_bantu_pemandu_id = ?, nama = ?, jabatan = ?, asset_kapal_id = ?, status_ijazah_id = ? WHERE id = ?",
+        [saranabantupemandupersonil.sarana_bantu_pemandu_id, saranabantupemandupersonil.nama, saranabantupemandupersonil.jabatan, saranabantupemandupersonil.asset_kapal_id, saranabantupemandupersonil.status_ijazah_id, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

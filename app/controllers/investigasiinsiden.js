@@ -8,7 +8,7 @@ exports.create = (req, res) => {
     }
 
     const investigasiinsiden = new InvestigasiInsiden({
-        approval_status: req.body.approval_status,
+        approval_status_id: req.body.approval_status_id,
         no_report: req.body.no_report,
         unit_terkait: req.body.unit_terkait,
         judul_report: req.body.judul_report,
@@ -44,7 +44,7 @@ exports.create = (req, res) => {
         tanggal_pemeriksaan: req.body.tanggal_pemeriksaan,
         nama: req.body.nama,
         jabatan: req.body.jabatan,
-        status: req.body.status,
+        status_investigasi_insiden_id: req.body.status_investigasi_insiden_id,
         prepard_by: req.body.prepard_by,
         prepard_tanggal: req.body.prepard_tanggal,
         reviewed_by: req.body.reviewed_by,

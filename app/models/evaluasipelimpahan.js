@@ -2,8 +2,8 @@ const sql = require("../config/db.js");
 
 // constructor
 const EvaluasiPelimpahan = function (evaluasipelimpahan) {
-    this.approval_status = evaluasipelimpahan.approval_status;
-    this.cabang = evaluasipelimpahan.cabang;
+    this.approval_status_id = evaluasipelimpahan.approval_status_id;
+    this.cabang_id = evaluasipelimpahan.cabang_id;
     this.bup = evaluasipelimpahan.bup;
     this.izin_bup = evaluasipelimpahan.izin_bup;
     this.penetapan_perairan_pandu = evaluasipelimpahan.penetapan_perairan_pandu;
@@ -66,8 +66,8 @@ EvaluasiPelimpahan.getAll = result => {
 
 EvaluasiPelimpahan.updateById = (id, evaluasipelimpahan, result) => {
     sql.query(
-        "UPDATE evaluasi_pelimpahan SET  approval_status = ?, cabang = ?, bup = ?, izin_bup = ?, penetapan_perairan_pandu = ?, izin_pelimpahan = ?, pengawas_pemanduan = ?, laporan_bulanan = ?, bukti_pembayaran_pnpb = ?, sispro = ?, tarif_jasa_pandu_tunda = ?, data_dukung = ?, dile_pendukung = ?, tanggal_sk = ?, file_sk_pelimpahan = ? WHERE id = ?",
-        [evaluasipelimpahan.approval_status, evaluasipelimpahan.cabang, evaluasipelimpahan.bup, evaluasipelimpahan.izin_bup, evaluasipelimpahan.penetapan_perairan_pandu, evaluasipelimpahan.izin_pelimpahan, evaluasipelimpahan.pengawas_pemanduan, evaluasipelimpahan.laporan_bulanan, evaluasipelimpahan.bukti_pembayaran_pnpb, evaluasipelimpahan.sispro, evaluasipelimpahan.tarif_jasa_pandu_tunda, evaluasipelimpahan.data_dukung, evaluasipelimpahan.dile_pendukung, evaluasipelimpahan.tanggal_sk, evaluasipelimpahan.file_sk_pelimpahan, id],
+        "UPDATE evaluasi_pelimpahan SET  approval_status_id = ?, cabang_id = ?, bup = ?, izin_bup = ?, penetapan_perairan_pandu = ?, izin_pelimpahan = ?, pengawas_pemanduan = ?, laporan_bulanan = ?, bukti_pembayaran_pnpb = ?, sispro = ?, tarif_jasa_pandu_tunda = ?, data_dukung = ?, dile_pendukung = ?, tanggal_sk = ?, file_sk_pelimpahan = ? WHERE id = ?",
+        [evaluasipelimpahan.approval_status_id, evaluasipelimpahan.cabang_id, evaluasipelimpahan.bup, evaluasipelimpahan.izin_bup, evaluasipelimpahan.penetapan_perairan_pandu, evaluasipelimpahan.izin_pelimpahan, evaluasipelimpahan.pengawas_pemanduan, evaluasipelimpahan.laporan_bulanan, evaluasipelimpahan.bukti_pembayaran_pnpb, evaluasipelimpahan.sispro, evaluasipelimpahan.tarif_jasa_pandu_tunda, evaluasipelimpahan.data_dukung, evaluasipelimpahan.dile_pendukung, evaluasipelimpahan.tanggal_sk, evaluasipelimpahan.file_sk_pelimpahan, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

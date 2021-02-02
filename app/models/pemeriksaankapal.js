@@ -2,10 +2,10 @@ const sql = require("../config/db.js");
 
 // constructor
 const PemeriksaanKapal = function (pemeriksaankapal) {
-    this.approval_status = pemeriksaankapal.approval_status;
-    this.nama_kapal = pemeriksaankapal.nama_kapal;
+    this.approval_status_id = pemeriksaankapal.approval_status_id;
+    this.asset_kapal_id = pemeriksaankapal.asset_kapal_id;
     this.cabang = pemeriksaankapal.cabang;
-    this.kondisi = pemeriksaankapal.kondisi;
+    this.kondisi_id = pemeriksaankapal.kondisi_id;
     this.tanggal_awal = pemeriksaankapal.tanggal_awal;
     this.tanggal_akhir = pemeriksaankapal.tanggal_akhir;
     this.keterangan = pemeriksaankapal.keterangan;
@@ -58,8 +58,8 @@ PemeriksaanKapal.getAll = result => {
 
 PemeriksaanKapal.updateById = (id, pemeriksaankapal, result) => {
     sql.query(
-        "UPDATE pemeriksaan_kapal SET  approval_status = ?, nama_kapal = ?, cabang = ?, kondisi = ?, tanggal_awal = ?, tanggal_akhir = ?, keterangan = ? WHERE id = ?",
-        [pemeriksaankapal.approval_status, pemeriksaankapal.nama_kapal, pemeriksaankapal.cabang, pemeriksaankapal.kondisi, pemeriksaankapal.tanggal_awal, pemeriksaankapal.tanggal_akhir, pemeriksaankapal.keterangan, id],
+        "UPDATE pemeriksaan_kapal SET  approval_status_id = ?, asset_kapal_id = ?, cabang = ?, kondisi_id = ?, tanggal_awal = ?, tanggal_akhir = ?, keterangan = ? WHERE id = ?",
+        [pemeriksaankapal.approval_status_id, pemeriksaankapal.asset_kapal_id, pemeriksaankapal.cabang, pemeriksaankapal.kondisi_id, pemeriksaankapal.tanggal_awal, pemeriksaankapal.tanggal_akhir, pemeriksaankapal.keterangan, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

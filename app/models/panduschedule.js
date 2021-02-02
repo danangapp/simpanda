@@ -3,10 +3,10 @@ const sql = require("../config/db.js");
 // constructor
 const PanduSchedule = function (panduschedule) {
     this.date = panduschedule.date;
-    this.cabang = panduschedule.cabang;
+    this.cabang_id = panduschedule.cabang_id;
     this.pandu_jaga_id = panduschedule.pandu_jaga_id;
     this.pandu_jaga_nama = panduschedule.pandu_jaga_nama;
-    this.status = panduschedule.status;
+    this.status_absen = panduschedule.status_absen;
     this.keterangan = panduschedule.keterangan;
 };
 
@@ -57,8 +57,8 @@ PanduSchedule.getAll = result => {
 
 PanduSchedule.updateById = (id, panduschedule, result) => {
     sql.query(
-        "UPDATE pandu_schedule SET  date = ?, cabang = ?, pandu_jaga_id = ?, pandu_jaga_nama = ?, status = ?, keterangan = ? WHERE id = ?",
-        [panduschedule.date, panduschedule.cabang, panduschedule.pandu_jaga_id, panduschedule.pandu_jaga_nama, panduschedule.status, panduschedule.keterangan, id],
+        "UPDATE pandu_schedule SET  date = ?, cabang_id = ?, pandu_jaga_id = ?, pandu_jaga_nama = ?, status_absen = ?, keterangan = ? WHERE id = ?",
+        [panduschedule.date, panduschedule.cabang_id, panduschedule.pandu_jaga_id, panduschedule.pandu_jaga_nama, panduschedule.status_absen, panduschedule.keterangan, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

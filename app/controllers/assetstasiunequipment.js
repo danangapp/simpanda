@@ -9,12 +9,12 @@ exports.create = (req, res) => {
 
     const assetstasiunequipment = new AssetStasiunEquipment({
         nomor_asset: req.body.nomor_asset,
-        tipe: req.body.tipe,
+        tipe_stasiun_id: req.body.tipe_stasiun_id,
         nama: req.body.nama,
         tahun_perolehan: req.body.tahun_perolehan,
         nilai_perolehan: req.body.nilai_perolehan,
         kondisi: req.body.kondisi,
-        approval_status: req.body.approval_status,
+        approval_status_id: req.body.approval_status_id,
     });
 
     AssetStasiunEquipment.create(assetstasiunequipment, (err, data) => {

@@ -8,8 +8,8 @@ exports.create = (req, res) => {
     }
 
     const evaluasipelimpahan = new EvaluasiPelimpahan({
-        approval_status: req.body.approval_status,
-        cabang: req.body.cabang,
+        approval_status_id: req.body.approval_status_id,
+        cabang_id: req.body.cabang_id,
         bup: req.body.bup,
         izin_bup: req.body.izin_bup,
         penetapan_perairan_pandu: req.body.penetapan_perairan_pandu,

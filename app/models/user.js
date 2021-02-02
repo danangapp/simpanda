@@ -5,8 +5,8 @@ const User = function (user) {
     this.username = user.username;
     this.nama = user.nama;
     this.password = user.password;
-    this.user_group = user.user_group;
-    this.role = user.role;
+    this.user_group_id = user.user_group_id;
+    this.role_id = user.role_id;
 };
 
 User.create = (newUser, result) => {
@@ -56,8 +56,8 @@ User.getAll = result => {
 
 User.updateById = (id, user, result) => {
     sql.query(
-        "UPDATE user SET  username = ?, nama = ?, password = ?, user_group = ?, role = ? WHERE id = ?",
-        [user.username, user.nama, user.password, user.user_group, user.role, id],
+        "UPDATE user SET  username = ?, nama = ?, password = ?, user_group_id = ?, role_id = ? WHERE id = ?",
+        [user.username, user.nama, user.password, user.user_group_id, user.role_id, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

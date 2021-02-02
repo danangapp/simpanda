@@ -14,7 +14,7 @@ exports.create = (req, res) => {
         nilai_perolehan: req.body.nilai_perolehan,
         wilayah: req.body.wilayah,
         nilai_buku: req.body.nilai_buku,
-        approval_status: req.body.approval_status,
+        approval_status_id: req.body.approval_status_id,
         tanggal: req.body.tanggal,
         nilai: req.body.nilai,
         catatan: req.body.catatan,

@@ -8,10 +8,10 @@ exports.create = (req, res) => {
     }
 
     const pemeriksaankapal = new PemeriksaanKapal({
-        approval_status: req.body.approval_status,
-        nama_kapal: req.body.nama_kapal,
+        approval_status_id: req.body.approval_status_id,
+        asset_kapal_id: req.body.asset_kapal_id,
         cabang: req.body.cabang,
-        kondisi: req.body.kondisi,
+        kondisi_id: req.body.kondisi_id,
         tanggal_awal: req.body.tanggal_awal,
         tanggal_akhir: req.body.tanggal_akhir,
         keterangan: req.body.keterangan,

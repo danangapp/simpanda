@@ -11,8 +11,8 @@ exports.create = (req, res) => {
         username: req.body.username,
         nama: req.body.nama,
         password: req.body.password,
-        user_group: req.body.user_group,
-        role: req.body.role,
+        user_group_id: req.body.user_group_id,
+        role_id: req.body.role_id,
     });
 
     User.create(user, (err, data) => {

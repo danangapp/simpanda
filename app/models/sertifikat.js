@@ -2,8 +2,8 @@ const sql = require("../config/db.js");
 
 // constructor
 const Sertifikat = function (sertifikat) {
-    this.tipe = sertifikat.tipe;
-    this.pemilik = sertifikat.pemilik;
+    this.tipe_cert_id = sertifikat.tipe_cert_id;
+    this.personil_id = sertifikat.personil_id;
     this.no_sertifikat = sertifikat.no_sertifikat;
     this.issuer = sertifikat.issuer;
     this.tempat_keluar_sertifikat = sertifikat.tempat_keluar_sertifikat;
@@ -60,8 +60,8 @@ Sertifikat.getAll = result => {
 
 Sertifikat.updateById = (id, sertifikat, result) => {
     sql.query(
-        "UPDATE sertifikat SET  tipe = ?, pemilik = ?, no_sertifikat = ?, issuer = ?, tempat_keluar_sertifikat = ?, tanggal_keluar_sertifikat = ?, tanggal_expire = ?, reminder_date = ?, sertifikat = ? WHERE id = ?",
-        [sertifikat.tipe, sertifikat.pemilik, sertifikat.no_sertifikat, sertifikat.issuer, sertifikat.tempat_keluar_sertifikat, sertifikat.tanggal_keluar_sertifikat, sertifikat.tanggal_expire, sertifikat.reminder_date, sertifikat.sertifikat, id],
+        "UPDATE sertifikat SET  tipe_cert_id = ?, personil_id = ?, no_sertifikat = ?, issuer = ?, tempat_keluar_sertifikat = ?, tanggal_keluar_sertifikat = ?, tanggal_expire = ?, reminder_date = ?, sertifikat = ? WHERE id = ?",
+        [sertifikat.tipe_cert_id, sertifikat.personil_id, sertifikat.no_sertifikat, sertifikat.issuer, sertifikat.tempat_keluar_sertifikat, sertifikat.tanggal_keluar_sertifikat, sertifikat.tanggal_expire, sertifikat.reminder_date, sertifikat.sertifikat, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

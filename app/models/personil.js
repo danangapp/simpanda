@@ -2,19 +2,19 @@ const sql = require("../config/db.js");
 
 // constructor
 const Personil = function (personil) {
-    this.tipe_personil = personil.tipe_personil;
-    this.approval_status = personil.approval_status;
-    this.simop_KD_PERS_PANDU = personil.simop_KD_PERS_PANDU;
-    this.simop_KD_PERS_PANDU_CBG = personil.simop_KD_PERS_PANDU_CBG;
+    this.tipe_personil_id = personil.tipe_personil_id;
+    this.approval_status_id = personil.approval_status_id;
+    this.simop_kd_pers_pandu = personil.simop_kd_pers_pandu;
+    this.simop_kd_pers_pandu_cbg = personil.simop_kd_pers_pandu_cbg;
     this.enable = personil.enable;
-    this.kapal = personil.kapal;
+    this.asset_kapal_id = personil.asset_kapal_id;
     this.nama = personil.nama;
     this.kelas = personil.kelas;
     this.tempat_lahir = personil.tempat_lahir;
     this.tanggal_lahir = personil.tanggal_lahir;
     this.nipp = personil.nipp;
     this.jabatan = personil.jabatan;
-    this.status_kepegawaian = personil.status_kepegawaian;
+    this.status_kepegawaian_id = personil.status_kepegawaian_id;
     this.cv = personil.cv;
     this.tempat_tugas = personil.tempat_tugas;
     this.nomor_sk = personil.nomor_sk;
@@ -73,8 +73,8 @@ Personil.getAll = result => {
 
 Personil.updateById = (id, personil, result) => {
     sql.query(
-        "UPDATE personil SET  tipe_personil = ?, approval_status = ?, simop_KD_PERS_PANDU = ?, simop_KD_PERS_PANDU_CBG = ?, enable = ?, kapal = ?, nama = ?, kelas = ?, tempat_lahir = ?, tanggal_lahir = ?, nipp = ?, jabatan = ?, status_kepegawaian = ?, cv = ?, tempat_tugas = ?, nomor_sk = ?, tanggal_mulai = ?, tanggal_selesai = ?, sk = ?, skpp = ?, surat_kesehatan = ?, sertifikat_id = ? WHERE id = ?",
-        [personil.tipe_personil, personil.approval_status, personil.simop_KD_PERS_PANDU, personil.simop_KD_PERS_PANDU_CBG, personil.enable, personil.kapal, personil.nama, personil.kelas, personil.tempat_lahir, personil.tanggal_lahir, personil.nipp, personil.jabatan, personil.status_kepegawaian, personil.cv, personil.tempat_tugas, personil.nomor_sk, personil.tanggal_mulai, personil.tanggal_selesai, personil.sk, personil.skpp, personil.surat_kesehatan, personil.sertifikat_id, id],
+        "UPDATE personil SET  tipe_personil_id = ?, approval_status_id = ?, simop_kd_pers_pandu = ?, simop_kd_pers_pandu_cbg = ?, enable = ?, asset_kapal_id = ?, nama = ?, kelas = ?, tempat_lahir = ?, tanggal_lahir = ?, nipp = ?, jabatan = ?, status_kepegawaian_id = ?, cv = ?, tempat_tugas = ?, nomor_sk = ?, tanggal_mulai = ?, tanggal_selesai = ?, sk = ?, skpp = ?, surat_kesehatan = ?, sertifikat_id = ? WHERE id = ?",
+        [personil.tipe_personil_id, personil.approval_status_id, personil.simop_kd_pers_pandu, personil.simop_kd_pers_pandu_cbg, personil.enable, personil.asset_kapal_id, personil.nama, personil.kelas, personil.tempat_lahir, personil.tanggal_lahir, personil.nipp, personil.jabatan, personil.status_kepegawaian_id, personil.cv, personil.tempat_tugas, personil.nomor_sk, personil.tanggal_mulai, personil.tanggal_selesai, personil.sk, personil.skpp, personil.surat_kesehatan, personil.sertifikat_id, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

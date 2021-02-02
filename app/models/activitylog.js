@@ -5,7 +5,7 @@ const ActivityLog = function (activitylog) {
     this.date = activitylog.date;
     this.item = activitylog.item;
     this.action = activitylog.action;
-    this.actor = activitylog.actor;
+    this.user_id = activitylog.user_id;
     this.remark = activitylog.remark;
 };
 
@@ -56,8 +56,8 @@ ActivityLog.getAll = result => {
 
 ActivityLog.updateById = (id, activitylog, result) => {
     sql.query(
-        "UPDATE activity_log SET  date = ?, item = ?, action = ?, actor = ?, remark = ? WHERE id = ?",
-        [activitylog.date, activitylog.item, activitylog.action, activitylog.actor, activitylog.remark, id],
+        "UPDATE activity_log SET  date = ?, item = ?, action = ?, user_id = ?, remark = ? WHERE id = ?",
+        [activitylog.date, activitylog.item, activitylog.action, activitylog.user_id, activitylog.remark, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

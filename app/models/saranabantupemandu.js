@@ -2,8 +2,8 @@ const sql = require("../config/db.js");
 
 // constructor
 const SaranaBantuPemandu = function (saranabantupemandu) {
-    this.approval_status = saranabantupemandu.approval_status;
-    this.lokasi = saranabantupemandu.lokasi;
+    this.approval_status_id = saranabantupemandu.approval_status_id;
+    this.cabang_id = saranabantupemandu.cabang_id;
     this.tanggal_pemeriksaan = saranabantupemandu.tanggal_pemeriksaan;
     this.pelaksana = saranabantupemandu.pelaksana;
 };
@@ -55,8 +55,8 @@ SaranaBantuPemandu.getAll = result => {
 
 SaranaBantuPemandu.updateById = (id, saranabantupemandu, result) => {
     sql.query(
-        "UPDATE sarana_bantu_pemandu SET  approval_status = ?, lokasi = ?, tanggal_pemeriksaan = ?, pelaksana = ? WHERE id = ?",
-        [saranabantupemandu.approval_status, saranabantupemandu.lokasi, saranabantupemandu.tanggal_pemeriksaan, saranabantupemandu.pelaksana, id],
+        "UPDATE sarana_bantu_pemandu SET  approval_status_id = ?, cabang_id = ?, tanggal_pemeriksaan = ?, pelaksana = ? WHERE id = ?",
+        [saranabantupemandu.approval_status_id, saranabantupemandu.cabang_id, saranabantupemandu.tanggal_pemeriksaan, saranabantupemandu.pelaksana, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

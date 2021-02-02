@@ -8,7 +8,7 @@ const AssetRumahDinas = function (assetrumahdinas) {
     this.nilai_perolehan = assetrumahdinas.nilai_perolehan;
     this.wilayah = assetrumahdinas.wilayah;
     this.nilai_buku = assetrumahdinas.nilai_buku;
-    this.approval_status = assetrumahdinas.approval_status;
+    this.approval_status_id = assetrumahdinas.approval_status_id;
     this.tanggal = assetrumahdinas.tanggal;
     this.nilai = assetrumahdinas.nilai;
     this.catatan = assetrumahdinas.catatan;
@@ -61,8 +61,8 @@ AssetRumahDinas.getAll = result => {
 
 AssetRumahDinas.updateById = (id, assetrumahdinas, result) => {
     sql.query(
-        "UPDATE asset_rumah_dinas SET  nama_assets = ?, satuan = ?, tahun_perolehan = ?, nilai_perolehan = ?, wilayah = ?, nilai_buku = ?, approval_status = ?, tanggal = ?, nilai = ?, catatan = ? WHERE id = ?",
-        [assetrumahdinas.nama_assets, assetrumahdinas.satuan, assetrumahdinas.tahun_perolehan, assetrumahdinas.nilai_perolehan, assetrumahdinas.wilayah, assetrumahdinas.nilai_buku, assetrumahdinas.approval_status, assetrumahdinas.tanggal, assetrumahdinas.nilai, assetrumahdinas.catatan, id],
+        "UPDATE asset_rumah_dinas SET  nama_assets = ?, satuan = ?, tahun_perolehan = ?, nilai_perolehan = ?, wilayah = ?, nilai_buku = ?, approval_status_id = ?, tanggal = ?, nilai = ?, catatan = ? WHERE id = ?",
+        [assetrumahdinas.nama_assets, assetrumahdinas.satuan, assetrumahdinas.tahun_perolehan, assetrumahdinas.nilai_perolehan, assetrumahdinas.wilayah, assetrumahdinas.nilai_buku, assetrumahdinas.approval_status_id, assetrumahdinas.tanggal, assetrumahdinas.nilai, assetrumahdinas.catatan, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

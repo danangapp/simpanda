@@ -4,7 +4,7 @@ const sql = require("../config/db.js");
 const UserGroup = function (usergroup) {
     this.nama = usergroup.nama;
     this.keterangan = usergroup.keterangan;
-    this.cabang = usergroup.cabang;
+    this.cabang_id = usergroup.cabang_id;
     this.access_dashboard = usergroup.access_dashboard;
     this.access_resource_pandu = usergroup.access_resource_pandu;
     this.access_resource_pendukung = usergroup.access_resource_pendukung;
@@ -65,8 +65,8 @@ UserGroup.getAll = result => {
 
 UserGroup.updateById = (id, usergroup, result) => {
     sql.query(
-        "UPDATE user_group SET  nama = ?, keterangan = ?, cabang = ?, access_dashboard = ?, access_resource_pandu = ?, access_resource_pendukung = ?, access_resource_absensi = ?, access_asset_kapal = ?, access_asset_stasiun = ?, access_asset_rumah = ?, access_asset_absensi = ?, access_inspection_sarana = ?, access_inspection_pemeriksaan = ?, access_inspection_investigasi = ? WHERE id = ?",
-        [usergroup.nama, usergroup.keterangan, usergroup.cabang, usergroup.access_dashboard, usergroup.access_resource_pandu, usergroup.access_resource_pendukung, usergroup.access_resource_absensi, usergroup.access_asset_kapal, usergroup.access_asset_stasiun, usergroup.access_asset_rumah, usergroup.access_asset_absensi, usergroup.access_inspection_sarana, usergroup.access_inspection_pemeriksaan, usergroup.access_inspection_investigasi, id],
+        "UPDATE user_group SET  nama = ?, keterangan = ?, cabang_id = ?, access_dashboard = ?, access_resource_pandu = ?, access_resource_pendukung = ?, access_resource_absensi = ?, access_asset_kapal = ?, access_asset_stasiun = ?, access_asset_rumah = ?, access_asset_absensi = ?, access_inspection_sarana = ?, access_inspection_pemeriksaan = ?, access_inspection_investigasi = ? WHERE id = ?",
+        [usergroup.nama, usergroup.keterangan, usergroup.cabang_id, usergroup.access_dashboard, usergroup.access_resource_pandu, usergroup.access_resource_pendukung, usergroup.access_resource_absensi, usergroup.access_asset_kapal, usergroup.access_asset_stasiun, usergroup.access_asset_rumah, usergroup.access_asset_absensi, usergroup.access_inspection_sarana, usergroup.access_inspection_pemeriksaan, usergroup.access_inspection_investigasi, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

@@ -10,7 +10,7 @@ exports.create = (req, res) => {
     const usergroup = new UserGroup({
         nama: req.body.nama,
         keterangan: req.body.keterangan,
-        cabang: req.body.cabang,
+        cabang_id: req.body.cabang_id,
         access_dashboard: req.body.access_dashboard,
         access_resource_pandu: req.body.access_resource_pandu,
         access_resource_pendukung: req.body.access_resource_pendukung,

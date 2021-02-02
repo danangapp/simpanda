@@ -8,8 +8,8 @@ exports.create = (req, res) => {
     }
 
     const saranabantupemandu = new SaranaBantuPemandu({
-        approval_status: req.body.approval_status,
-        lokasi: req.body.lokasi,
+        approval_status_id: req.body.approval_status_id,
+        cabang_id: req.body.cabang_id,
         tanggal_pemeriksaan: req.body.tanggal_pemeriksaan,
         pelaksana: req.body.pelaksana,
     });

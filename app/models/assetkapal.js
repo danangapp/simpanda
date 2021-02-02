@@ -2,11 +2,11 @@ const sql = require("../config/db.js");
 
 // constructor
 const AssetKapal = function (assetkapal) {
-    this.simop_KD_FAS = assetkapal.simop_KD_FAS;
+    this.simop_kd_fas = assetkapal.simop_kd_fas;
     this.kepemilikan_kapal = assetkapal.kepemilikan_kapal;
-    this.simop_STATUS_MILIK = assetkapal.simop_STATUS_MILIK;
-    this.simop_KD_AGEN = assetkapal.simop_KD_AGEN;
-    this.jenis_kapal = assetkapal.jenis_kapal;
+    this.simop_status_milik = assetkapal.simop_status_milik;
+    this.simop_kd_agen = assetkapal.simop_kd_agen;
+    this.tipe_asset_id = assetkapal.tipe_asset_id;
     this.nama_asset = assetkapal.nama_asset;
     this.horse_power = assetkapal.horse_power;
     this.tahun_perolehan = assetkapal.tahun_perolehan;
@@ -14,10 +14,10 @@ const AssetKapal = function (assetkapal) {
     this.lokasi = assetkapal.lokasi;
     this.enable = assetkapal.enable;
     this.asset_number = assetkapal.asset_number;
-    this.simop_KD_PUSPEL_JAI = assetkapal.simop_KD_PUSPEL_JAI;
-    this.simop_NEW_PUSPEL_JAI = assetkapal.simop_NEW_PUSPEL_JAI;
-    this.simop_NEW_ASSET_JSI = assetkapal.simop_NEW_ASSET_JSI;
-    this.approval_status = assetkapal.approval_status;
+    this.simop_kd_puspel_jai = assetkapal.simop_kd_puspel_jai;
+    this.simop_new_puspel_jai = assetkapal.simop_new_puspel_jai;
+    this.simop_new_asset_jai = assetkapal.simop_new_asset_jai;
+    this.approval_status_id = assetkapal.approval_status_id;
     this.loa = assetkapal.loa;
     this.tahun_pembuatan = assetkapal.tahun_pembuatan;
     this.breadth = assetkapal.breadth;
@@ -42,7 +42,7 @@ const AssetKapal = function (assetkapal) {
     this.notasi_perairan = assetkapal.notasi_perairan;
     this.notasi_lambung = assetkapal.notasi_lambung;
     this.gross_tonnage = assetkapal.gross_tonnage;
-    this.nolard_pull = assetkapal.nolard_pull;
+    this.bolard_pull = assetkapal.bolard_pull;
     this.kecepatan = assetkapal.kecepatan;
     this.ship_particular = assetkapal.ship_particular;
     this.sertifikat_id = assetkapal.sertifikat_id;
@@ -95,8 +95,8 @@ AssetKapal.getAll = result => {
 
 AssetKapal.updateById = (id, assetkapal, result) => {
     sql.query(
-        "UPDATE asset_kapal SET  simop_KD_FAS = ?, kepemilikan_kapal = ?, simop_STATUS_MILIK = ?, simop_KD_AGEN = ?, jenis_kapal = ?, nama_asset = ?, horse_power = ?, tahun_perolehan = ?, nilai_perolehan = ?, lokasi = ?, enable = ?, asset_number = ?, simop_KD_PUSPEL_JAI = ?, simop_NEW_PUSPEL_JAI = ?, simop_NEW_ASSET_JSI = ?, approval_status = ?, loa = ?, tahun_pembuatan = ?, breadth = ?, kontruksi = ?, depth = ?, negara_pembuat = ?, draft_max = ?, daya = ?, putaran = ?, merk = ?, tipe = ?, daya_motor = ?, daya_generator = ?, putaran_spesifikasi = ?, merk_spesifikasi = ?, tipe_spesifikasi = ?, klas = ?, notasi_permesinan = ?, no_registrasi = ?, notasi_perlengkapan = ?, port_of_registration = ?, notasi_perairan = ?, notasi_lambung = ?, gross_tonnage = ?, nolard_pull = ?, kecepatan = ?, ship_particular = ?, sertifikat_id = ? WHERE id = ?",
-        [assetkapal.simop_KD_FAS, assetkapal.kepemilikan_kapal, assetkapal.simop_STATUS_MILIK, assetkapal.simop_KD_AGEN, assetkapal.jenis_kapal, assetkapal.nama_asset, assetkapal.horse_power, assetkapal.tahun_perolehan, assetkapal.nilai_perolehan, assetkapal.lokasi, assetkapal.enable, assetkapal.asset_number, assetkapal.simop_KD_PUSPEL_JAI, assetkapal.simop_NEW_PUSPEL_JAI, assetkapal.simop_NEW_ASSET_JSI, assetkapal.approval_status, assetkapal.loa, assetkapal.tahun_pembuatan, assetkapal.breadth, assetkapal.kontruksi, assetkapal.depth, assetkapal.negara_pembuat, assetkapal.draft_max, assetkapal.daya, assetkapal.putaran, assetkapal.merk, assetkapal.tipe, assetkapal.daya_motor, assetkapal.daya_generator, assetkapal.putaran_spesifikasi, assetkapal.merk_spesifikasi, assetkapal.tipe_spesifikasi, assetkapal.klas, assetkapal.notasi_permesinan, assetkapal.no_registrasi, assetkapal.notasi_perlengkapan, assetkapal.port_of_registration, assetkapal.notasi_perairan, assetkapal.notasi_lambung, assetkapal.gross_tonnage, assetkapal.nolard_pull, assetkapal.kecepatan, assetkapal.ship_particular, assetkapal.sertifikat_id, id],
+        "UPDATE asset_kapal SET  simop_kd_fas = ?, kepemilikan_kapal = ?, simop_status_milik = ?, simop_kd_agen = ?, tipe_asset_id = ?, nama_asset = ?, horse_power = ?, tahun_perolehan = ?, nilai_perolehan = ?, lokasi = ?, enable = ?, asset_number = ?, simop_kd_puspel_jai = ?, simop_new_puspel_jai = ?, simop_new_asset_jai = ?, approval_status_id = ?, loa = ?, tahun_pembuatan = ?, breadth = ?, kontruksi = ?, depth = ?, negara_pembuat = ?, draft_max = ?, daya = ?, putaran = ?, merk = ?, tipe = ?, daya_motor = ?, daya_generator = ?, putaran_spesifikasi = ?, merk_spesifikasi = ?, tipe_spesifikasi = ?, klas = ?, notasi_permesinan = ?, no_registrasi = ?, notasi_perlengkapan = ?, port_of_registration = ?, notasi_perairan = ?, notasi_lambung = ?, gross_tonnage = ?, bolard_pull = ?, kecepatan = ?, ship_particular = ?, sertifikat_id = ? WHERE id = ?",
+        [assetkapal.simop_kd_fas, assetkapal.kepemilikan_kapal, assetkapal.simop_status_milik, assetkapal.simop_kd_agen, assetkapal.tipe_asset_id, assetkapal.nama_asset, assetkapal.horse_power, assetkapal.tahun_perolehan, assetkapal.nilai_perolehan, assetkapal.lokasi, assetkapal.enable, assetkapal.asset_number, assetkapal.simop_kd_puspel_jai, assetkapal.simop_new_puspel_jai, assetkapal.simop_new_asset_jai, assetkapal.approval_status_id, assetkapal.loa, assetkapal.tahun_pembuatan, assetkapal.breadth, assetkapal.kontruksi, assetkapal.depth, assetkapal.negara_pembuat, assetkapal.draft_max, assetkapal.daya, assetkapal.putaran, assetkapal.merk, assetkapal.tipe, assetkapal.daya_motor, assetkapal.daya_generator, assetkapal.putaran_spesifikasi, assetkapal.merk_spesifikasi, assetkapal.tipe_spesifikasi, assetkapal.klas, assetkapal.notasi_permesinan, assetkapal.no_registrasi, assetkapal.notasi_perlengkapan, assetkapal.port_of_registration, assetkapal.notasi_perairan, assetkapal.notasi_lambung, assetkapal.gross_tonnage, assetkapal.bolard_pull, assetkapal.kecepatan, assetkapal.ship_particular, assetkapal.sertifikat_id, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

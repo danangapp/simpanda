@@ -3,12 +3,12 @@ const sql = require("../config/db.js");
 // constructor
 const AssetStasiunEquipment = function (assetstasiunequipment) {
     this.nomor_asset = assetstasiunequipment.nomor_asset;
-    this.tipe = assetstasiunequipment.tipe;
+    this.tipe_stasiun_id = assetstasiunequipment.tipe_stasiun_id;
     this.nama = assetstasiunequipment.nama;
     this.tahun_perolehan = assetstasiunequipment.tahun_perolehan;
     this.nilai_perolehan = assetstasiunequipment.nilai_perolehan;
     this.kondisi = assetstasiunequipment.kondisi;
-    this.approval_status = assetstasiunequipment.approval_status;
+    this.approval_status_id = assetstasiunequipment.approval_status_id;
 };
 
 AssetStasiunEquipment.create = (newAssetStasiunEquipment, result) => {
@@ -58,8 +58,8 @@ AssetStasiunEquipment.getAll = result => {
 
 AssetStasiunEquipment.updateById = (id, assetstasiunequipment, result) => {
     sql.query(
-        "UPDATE asset_stasiun_equipment SET  nomor_asset = ?, tipe = ?, nama = ?, tahun_perolehan = ?, nilai_perolehan = ?, kondisi = ?, approval_status = ? WHERE id = ?",
-        [assetstasiunequipment.nomor_asset, assetstasiunequipment.tipe, assetstasiunequipment.nama, assetstasiunequipment.tahun_perolehan, assetstasiunequipment.nilai_perolehan, assetstasiunequipment.kondisi, assetstasiunequipment.approval_status, id],
+        "UPDATE asset_stasiun_equipment SET  nomor_asset = ?, tipe_stasiun_id = ?, nama = ?, tahun_perolehan = ?, nilai_perolehan = ?, kondisi = ?, approval_status_id = ? WHERE id = ?",
+        [assetstasiunequipment.nomor_asset, assetstasiunequipment.tipe_stasiun_id, assetstasiunequipment.nama, assetstasiunequipment.tahun_perolehan, assetstasiunequipment.nilai_perolehan, assetstasiunequipment.kondisi, assetstasiunequipment.approval_status_id, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

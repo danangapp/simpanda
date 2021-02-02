@@ -8,11 +8,11 @@ exports.create = (req, res) => {
     }
 
     const saranabantupemandupersonil = new SaranaBantuPemanduPersonil({
-        SARANA_BANTU_PEMANDU_id: req.body.SARANA_BANTU_PEMANDU_id,
+        sarana_bantu_pemandu_id: req.body.sarana_bantu_pemandu_id,
         nama: req.body.nama,
         jabatan: req.body.jabatan,
-        keterangan_kapal: req.body.keterangan_kapal,
-        status_ijazah: req.body.status_ijazah,
+        asset_kapal_id: req.body.asset_kapal_id,
+        status_ijazah_id: req.body.status_ijazah_id,
     });
 
     SaranaBantuPemanduPersonil.create(saranabantupemandupersonil, (err, data) => {

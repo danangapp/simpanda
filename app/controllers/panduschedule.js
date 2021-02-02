@@ -9,10 +9,10 @@ exports.create = (req, res) => {
 
     const panduschedule = new PanduSchedule({
         date: req.body.date,
-        cabang: req.body.cabang,
+        cabang_id: req.body.cabang_id,
         pandu_jaga_id: req.body.pandu_jaga_id,
         pandu_jaga_nama: req.body.pandu_jaga_nama,
-        status: req.body.status,
+        status_absen: req.body.status_absen,
         keterangan: req.body.keterangan,
     });
 

@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all StatusAbsens
     app.get("/statusabsen", statusabsen.findAll);
 
+    // View Design StatusAbsens
+    app.options("/statusabsen", statusabsen.design);
+
     // Retrieve a single StatusAbsen with id
     app.get("/statusabsen/:id", statusabsen.findOne);
 

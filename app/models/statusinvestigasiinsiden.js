@@ -50,6 +50,19 @@ StatusInvestigasiInsiden.getAll = result => {
     });
 };
 
+StatusInvestigasiInsiden.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'status_investigasi_insiden'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("statusinvestigasiinsiden: ", res);
+        result(null, res);
+    });
+};
+
 StatusInvestigasiInsiden.updateById = (id, statusinvestigasiinsiden, result) => {
     sql.query(
         "UPDATE status_investigasi_insiden SET  nama = ? WHERE id = ?",

@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all AssetStasiunEquipments
     app.get("/assetstasiunequipment", assetstasiunequipment.findAll);
 
+    // View Design AssetStasiunEquipments
+    app.options("/assetstasiunequipment", assetstasiunequipment.design);
+
     // Retrieve a single AssetStasiunEquipment with id
     app.get("/assetstasiunequipment/:id", assetstasiunequipment.findOne);
 

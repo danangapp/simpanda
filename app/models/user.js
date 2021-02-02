@@ -54,6 +54,19 @@ User.getAll = result => {
     });
 };
 
+User.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'user'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("user: ", res);
+        result(null, res);
+    });
+};
+
 User.updateById = (id, user, result) => {
     sql.query(
         "UPDATE user SET  username = ?, nama = ?, password = ?, user_group_id = ?, role_id = ? WHERE id = ?",

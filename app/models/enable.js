@@ -50,6 +50,19 @@ Enable.getAll = result => {
     });
 };
 
+Enable.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'enable'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("enable: ", res);
+        result(null, res);
+    });
+};
+
 Enable.updateById = (id, enable, result) => {
     sql.query(
         "UPDATE enable SET  nama = ? WHERE id = ?",

@@ -54,6 +54,19 @@ ActivityLog.getAll = result => {
     });
 };
 
+ActivityLog.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'activity_log'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("activitylog: ", res);
+        result(null, res);
+    });
+};
+
 ActivityLog.updateById = (id, activitylog, result) => {
     sql.query(
         "UPDATE activity_log SET  date = ?, item = ?, action = ?, user_id = ?, remark = ? WHERE id = ?",

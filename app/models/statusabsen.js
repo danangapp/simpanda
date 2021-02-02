@@ -50,6 +50,19 @@ StatusAbsen.getAll = result => {
     });
 };
 
+StatusAbsen.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'status_absen'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("statusabsen: ", res);
+        result(null, res);
+    });
+};
+
 StatusAbsen.updateById = (id, statusabsen, result) => {
     sql.query(
         "UPDATE status_absen SET  nama = ? WHERE id = ?",

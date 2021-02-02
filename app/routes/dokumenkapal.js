@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all DokumenKapals
     app.get("/dokumenkapal", dokumenkapal.findAll);
 
+    // View Design DokumenKapals
+    app.options("/dokumenkapal", dokumenkapal.design);
+
     // Retrieve a single DokumenKapal with id
     app.get("/dokumenkapal/:id", dokumenkapal.findOne);
 

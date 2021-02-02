@@ -56,6 +56,19 @@ PemeriksaanKapal.getAll = result => {
     });
 };
 
+PemeriksaanKapal.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'pemeriksaan_kapal'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("pemeriksaankapal: ", res);
+        result(null, res);
+    });
+};
+
 PemeriksaanKapal.updateById = (id, pemeriksaankapal, result) => {
     sql.query(
         "UPDATE pemeriksaan_kapal SET  approval_status_id = ?, asset_kapal_id = ?, cabang = ?, kondisi_id = ?, tanggal_awal = ?, tanggal_akhir = ?, keterangan = ? WHERE id = ?",

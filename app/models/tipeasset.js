@@ -50,6 +50,19 @@ TipeAsset.getAll = result => {
     });
 };
 
+TipeAsset.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'tipe_asset'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("tipeasset: ", res);
+        result(null, res);
+    });
+};
+
 TipeAsset.updateById = (id, tipeasset, result) => {
     sql.query(
         "UPDATE tipe_asset SET  nama = ? WHERE id = ?",

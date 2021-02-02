@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all PemeriksaanKapals
     app.get("/pemeriksaankapal", pemeriksaankapal.findAll);
 
+    // View Design PemeriksaanKapals
+    app.options("/pemeriksaankapal", pemeriksaankapal.design);
+
     // Retrieve a single PemeriksaanKapal with id
     app.get("/pemeriksaankapal/:id", pemeriksaankapal.findOne);
 

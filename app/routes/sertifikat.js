@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all Sertifikats
     app.get("/sertifikat", sertifikat.findAll);
 
+    // View Design Sertifikats
+    app.options("/sertifikat", sertifikat.design);
+
     // Retrieve a single Sertifikat with id
     app.get("/sertifikat/:id", sertifikat.findOne);
 

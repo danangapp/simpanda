@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all Cabangs
     app.get("/cabang", cabang.findAll);
 
+    // View Design Cabangs
+    app.options("/cabang", cabang.design);
+
     // Retrieve a single Cabang with id
     app.get("/cabang/:id", cabang.findOne);
 

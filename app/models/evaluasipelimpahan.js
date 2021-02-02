@@ -64,6 +64,19 @@ EvaluasiPelimpahan.getAll = result => {
     });
 };
 
+EvaluasiPelimpahan.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'evaluasi_pelimpahan'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("evaluasipelimpahan: ", res);
+        result(null, res);
+    });
+};
+
 EvaluasiPelimpahan.updateById = (id, evaluasipelimpahan, result) => {
     sql.query(
         "UPDATE evaluasi_pelimpahan SET  approval_status_id = ?, cabang_id = ?, bup = ?, izin_bup = ?, penetapan_perairan_pandu = ?, izin_pelimpahan = ?, pengawas_pemanduan = ?, laporan_bulanan = ?, bukti_pembayaran_pnpb = ?, sispro = ?, tarif_jasa_pandu_tunda = ?, data_dukung = ?, dile_pendukung = ?, tanggal_sk = ?, file_sk_pelimpahan = ? WHERE id = ?",

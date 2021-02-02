@@ -53,6 +53,19 @@ SaranaBantuPemandu.getAll = result => {
     });
 };
 
+SaranaBantuPemandu.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'sarana_bantu_pemandu'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("saranabantupemandu: ", res);
+        result(null, res);
+    });
+};
+
 SaranaBantuPemandu.updateById = (id, saranabantupemandu, result) => {
     sql.query(
         "UPDATE sarana_bantu_pemandu SET  approval_status_id = ?, cabang_id = ?, tanggal_pemeriksaan = ?, pelaksana = ? WHERE id = ?",

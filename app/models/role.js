@@ -50,6 +50,19 @@ Role.getAll = result => {
     });
 };
 
+Role.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'role'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("role: ", res);
+        result(null, res);
+    });
+};
+
 Role.updateById = (id, role, result) => {
     sql.query(
         "UPDATE role SET  nama = ? WHERE id = ?",

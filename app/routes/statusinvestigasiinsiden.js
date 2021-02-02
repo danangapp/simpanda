@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all StatusInvestigasiInsidens
     app.get("/statusinvestigasiinsiden", statusinvestigasiinsiden.findAll);
 
+    // View Design StatusInvestigasiInsidens
+    app.options("/statusinvestigasiinsiden", statusinvestigasiinsiden.design);
+
     // Retrieve a single StatusInvestigasiInsiden with id
     app.get("/statusinvestigasiinsiden/:id", statusinvestigasiinsiden.findOne);
 

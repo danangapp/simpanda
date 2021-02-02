@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all Enables
     app.get("/enable", enable.findAll);
 
+    // View Design Enables
+    app.options("/enable", enable.design);
+
     // Retrieve a single Enable with id
     app.get("/enable/:id", enable.findOne);
 

@@ -50,6 +50,19 @@ StatusKepegawaian.getAll = result => {
     });
 };
 
+StatusKepegawaian.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'status_kepegawaian'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("statuskepegawaian: ", res);
+        result(null, res);
+    });
+};
+
 StatusKepegawaian.updateById = (id, statuskepegawaian, result) => {
     sql.query(
         "UPDATE status_kepegawaian SET  nama = ? WHERE id = ?",

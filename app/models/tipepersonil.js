@@ -50,6 +50,19 @@ TipePersonil.getAll = result => {
     });
 };
 
+TipePersonil.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'tipe_personil'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("tipepersonil: ", res);
+        result(null, res);
+    });
+};
+
 TipePersonil.updateById = (id, tipepersonil, result) => {
     sql.query(
         "UPDATE tipe_personil SET  nama = ? WHERE id = ?",

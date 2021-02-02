@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all TipeStasiuns
     app.get("/tipestasiun", tipestasiun.findAll);
 
+    // View Design TipeStasiuns
+    app.options("/tipestasiun", tipestasiun.design);
+
     // Retrieve a single TipeStasiun with id
     app.get("/tipestasiun/:id", tipestasiun.findOne);
 

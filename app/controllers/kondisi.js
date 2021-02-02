@@ -32,6 +32,17 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.design = (req, res) => {
+    Kondisi.design((err, data) => {
+        if (err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving kondisinames."
+            });
+        else res.send(data);
+    });
+};
+
 exports.findOne = (req, res) => {
     Kondisi.findById(req.params.id, (err, data) => {
         if (err) {

@@ -93,6 +93,19 @@ AssetKapal.getAll = result => {
     });
 };
 
+AssetKapal.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'asset_kapal'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("assetkapal: ", res);
+        result(null, res);
+    });
+};
+
 AssetKapal.updateById = (id, assetkapal, result) => {
     sql.query(
         "UPDATE asset_kapal SET  simop_kd_fas = ?, kepemilikan_kapal = ?, simop_status_milik = ?, simop_kd_agen = ?, tipe_asset_id = ?, nama_asset = ?, horse_power = ?, tahun_perolehan = ?, nilai_perolehan = ?, lokasi = ?, enable = ?, asset_number = ?, simop_kd_puspel_jai = ?, simop_new_puspel_jai = ?, simop_new_asset_jai = ?, approval_status_id = ?, loa = ?, tahun_pembuatan = ?, breadth = ?, kontruksi = ?, depth = ?, negara_pembuat = ?, draft_max = ?, daya = ?, putaran = ?, merk = ?, tipe = ?, daya_motor = ?, daya_generator = ?, putaran_spesifikasi = ?, merk_spesifikasi = ?, tipe_spesifikasi = ?, klas = ?, notasi_permesinan = ?, no_registrasi = ?, notasi_perlengkapan = ?, port_of_registration = ?, notasi_perairan = ?, notasi_lambung = ?, gross_tonnage = ?, bolard_pull = ?, kecepatan = ?, ship_particular = ?, sertifikat_id = ? WHERE id = ?",

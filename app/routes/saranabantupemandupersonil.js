@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all SaranaBantuPemanduPersonils
     app.get("/saranabantupemandupersonil", saranabantupemandupersonil.findAll);
 
+    // View Design SaranaBantuPemanduPersonils
+    app.options("/saranabantupemandupersonil", saranabantupemandupersonil.design);
+
     // Retrieve a single SaranaBantuPemanduPersonil with id
     app.get("/saranabantupemandupersonil/:id", saranabantupemandupersonil.findOne);
 

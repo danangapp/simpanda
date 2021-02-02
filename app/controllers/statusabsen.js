@@ -32,6 +32,17 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.design = (req, res) => {
+    StatusAbsen.design((err, data) => {
+        if (err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving statusabsennames."
+            });
+        else res.send(data);
+    });
+};
+
 exports.findOne = (req, res) => {
     StatusAbsen.findById(req.params.id, (err, data) => {
         if (err) {

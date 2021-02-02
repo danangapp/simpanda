@@ -32,6 +32,17 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.design = (req, res) => {
+    DokumenKapal.design((err, data) => {
+        if (err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving dokumenkapalnames."
+            });
+        else res.send(data);
+    });
+};
+
 exports.findOne = (req, res) => {
     DokumenKapal.findById(req.params.id, (err, data) => {
         if (err) {

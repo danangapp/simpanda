@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all UserGroups
     app.get("/usergroup", usergroup.findAll);
 
+    // View Design UserGroups
+    app.options("/usergroup", usergroup.design);
+
     // Retrieve a single UserGroup with id
     app.get("/usergroup/:id", usergroup.findOne);
 

@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all ActivityLogs
     app.get("/activitylog", activitylog.findAll);
 
+    // View Design ActivityLogs
+    app.options("/activitylog", activitylog.design);
+
     // Retrieve a single ActivityLog with id
     app.get("/activitylog/:id", activitylog.findOne);
 

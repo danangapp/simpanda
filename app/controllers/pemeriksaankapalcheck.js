@@ -32,6 +32,17 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.design = (req, res) => {
+    PemeriksaanKapalCheck.design((err, data) => {
+        if (err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving pemeriksaankapalchecknames."
+            });
+        else res.send(data);
+    });
+};
+
 exports.findOne = (req, res) => {
     PemeriksaanKapalCheck.findById(req.params.id, (err, data) => {
         if (err) {

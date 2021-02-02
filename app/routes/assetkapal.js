@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all AssetKapals
     app.get("/assetkapal", assetkapal.findAll);
 
+    // View Design AssetKapals
+    app.options("/assetkapal", assetkapal.design);
+
     // Retrieve a single AssetKapal with id
     app.get("/assetkapal/:id", assetkapal.findOne);
 

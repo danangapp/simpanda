@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all KondisiUmums
     app.get("/kondisiumum", kondisiumum.findAll);
 
+    // View Design KondisiUmums
+    app.options("/kondisiumum", kondisiumum.design);
+
     // Retrieve a single KondisiUmum with id
     app.get("/kondisiumum/:id", kondisiumum.findOne);
 

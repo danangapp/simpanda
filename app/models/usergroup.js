@@ -63,6 +63,19 @@ UserGroup.getAll = result => {
     });
 };
 
+UserGroup.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'user_group'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("usergroup: ", res);
+        result(null, res);
+    });
+};
+
 UserGroup.updateById = (id, usergroup, result) => {
     sql.query(
         "UPDATE user_group SET  nama = ?, keterangan = ?, cabang_id = ?, access_dashboard = ?, access_resource_pandu = ?, access_resource_pendukung = ?, access_resource_absensi = ?, access_asset_kapal = ?, access_asset_stasiun = ?, access_asset_rumah = ?, access_asset_absensi = ?, access_inspection_sarana = ?, access_inspection_pemeriksaan = ?, access_inspection_investigasi = ? WHERE id = ?",

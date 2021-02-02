@@ -50,6 +50,19 @@ KondisiUmum.getAll = result => {
     });
 };
 
+KondisiUmum.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'kondisi_umum'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("kondisiumum: ", res);
+        result(null, res);
+    });
+};
+
 KondisiUmum.updateById = (id, kondisiumum, result) => {
     sql.query(
         "UPDATE kondisi_umum SET  nama = ? WHERE id = ?",

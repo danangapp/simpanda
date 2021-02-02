@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all PanduSchedules
     app.get("/panduschedule", panduschedule.findAll);
 
+    // View Design PanduSchedules
+    app.options("/panduschedule", panduschedule.design);
+
     // Retrieve a single PanduSchedule with id
     app.get("/panduschedule/:id", panduschedule.findOne);
 

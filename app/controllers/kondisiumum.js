@@ -32,6 +32,17 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.design = (req, res) => {
+    KondisiUmum.design((err, data) => {
+        if (err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving kondisiumumnames."
+            });
+        else res.send(data);
+    });
+};
+
 exports.findOne = (req, res) => {
     KondisiUmum.findById(req.params.id, (err, data) => {
         if (err) {

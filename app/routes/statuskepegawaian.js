@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all StatusKepegawaians
     app.get("/statuskepegawaian", statuskepegawaian.findAll);
 
+    // View Design StatusKepegawaians
+    app.options("/statuskepegawaian", statuskepegawaian.design);
+
     // Retrieve a single StatusKepegawaian with id
     app.get("/statuskepegawaian/:id", statuskepegawaian.findOne);
 

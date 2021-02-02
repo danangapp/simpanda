@@ -50,6 +50,19 @@ Cabang.getAll = result => {
     });
 };
 
+Cabang.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'cabang'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("cabang: ", res);
+        result(null, res);
+    });
+};
+
 Cabang.updateById = (id, cabang, result) => {
     sql.query(
         "UPDATE cabang SET  nama = ? WHERE id = ?",

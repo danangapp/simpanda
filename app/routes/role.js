@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all Roles
     app.get("/role", role.findAll);
 
+    // View Design Roles
+    app.options("/role", role.design);
+
     // Retrieve a single Role with id
     app.get("/role/:id", role.findOne);
 

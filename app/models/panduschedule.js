@@ -55,6 +55,19 @@ PanduSchedule.getAll = result => {
     });
 };
 
+PanduSchedule.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'pandu_schedule'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("panduschedule: ", res);
+        result(null, res);
+    });
+};
+
 PanduSchedule.updateById = (id, panduschedule, result) => {
     sql.query(
         "UPDATE pandu_schedule SET  date = ?, cabang_id = ?, pandu_jaga_id = ?, pandu_jaga_nama = ?, status_absen = ?, keterangan = ? WHERE id = ?",

@@ -74,6 +74,17 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.design = (req, res) => {
+    InvestigasiInsiden.design((err, data) => {
+        if (err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving investigasiinsidennames."
+            });
+        else res.send(data);
+    });
+};
+
 exports.findOne = (req, res) => {
     InvestigasiInsiden.findById(req.params.id, (err, data) => {
         if (err) {

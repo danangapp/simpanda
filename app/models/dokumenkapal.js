@@ -50,6 +50,19 @@ DokumenKapal.getAll = result => {
     });
 };
 
+DokumenKapal.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'dokumen_kapal'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("dokumenkapal: ", res);
+        result(null, res);
+    });
+};
+
 DokumenKapal.updateById = (id, dokumenkapal, result) => {
     sql.query(
         "UPDATE dokumen_kapal SET  nama = ? WHERE id = ?",

@@ -36,6 +36,17 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.design = (req, res) => {
+    ActivityLog.design((err, data) => {
+        if (err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving activitylognames."
+            });
+        else res.send(data);
+    });
+};
+
 exports.findOne = (req, res) => {
     ActivityLog.findById(req.params.id, (err, data) => {
         if (err) {

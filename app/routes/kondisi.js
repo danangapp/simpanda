@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all Kondisis
     app.get("/kondisi", kondisi.findAll);
 
+    // View Design Kondisis
+    app.options("/kondisi", kondisi.design);
+
     // Retrieve a single Kondisi with id
     app.get("/kondisi/:id", kondisi.findOne);
 

@@ -50,6 +50,19 @@ TipeStasiun.getAll = result => {
     });
 };
 
+TipeStasiun.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'tipe_stasiun'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("tipestasiun: ", res);
+        result(null, res);
+    });
+};
+
 TipeStasiun.updateById = (id, tipestasiun, result) => {
     sql.query(
         "UPDATE tipe_stasiun SET  nama = ? WHERE id = ?",

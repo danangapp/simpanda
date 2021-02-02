@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all ApprovalStatuss
     app.get("/approvalstatus", approvalstatus.findAll);
 
+    // View Design ApprovalStatuss
+    app.options("/approvalstatus", approvalstatus.design);
+
     // Retrieve a single ApprovalStatus with id
     app.get("/approvalstatus/:id", approvalstatus.findOne);
 

@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all ArmadaSchedules
     app.get("/armadaschedule", armadaschedule.findAll);
 
+    // View Design ArmadaSchedules
+    app.options("/armadaschedule", armadaschedule.design);
+
     // Retrieve a single ArmadaSchedule with id
     app.get("/armadaschedule/:id", armadaschedule.findOne);
 

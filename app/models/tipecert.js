@@ -51,6 +51,19 @@ TipeCert.getAll = result => {
     });
 };
 
+TipeCert.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'tipe_cert'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("tipecert: ", res);
+        result(null, res);
+    });
+};
+
 TipeCert.updateById = (id, tipecert, result) => {
     sql.query(
         "UPDATE tipe_cert SET  nama = ?, remark = ? WHERE id = ?",

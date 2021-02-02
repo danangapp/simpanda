@@ -50,6 +50,19 @@ StatusEvaluasiPelimpahan.getAll = result => {
     });
 };
 
+StatusEvaluasiPelimpahan.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'status_evaluasi_pelimpahan'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("statusevaluasipelimpahan: ", res);
+        result(null, res);
+    });
+};
+
 StatusEvaluasiPelimpahan.updateById = (id, statusevaluasipelimpahan, result) => {
     sql.query(
         "UPDATE status_evaluasi_pelimpahan SET  nama = ? WHERE id = ?",

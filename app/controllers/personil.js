@@ -53,6 +53,17 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.design = (req, res) => {
+    Personil.design((err, data) => {
+        if (err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving personilnames."
+            });
+        else res.send(data);
+    });
+};
+
 exports.findOne = (req, res) => {
     Personil.findById(req.params.id, (err, data) => {
         if (err) {

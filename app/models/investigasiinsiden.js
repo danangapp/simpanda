@@ -92,6 +92,19 @@ InvestigasiInsiden.getAll = result => {
     });
 };
 
+InvestigasiInsiden.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'investigasi_insiden'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("investigasiinsiden: ", res);
+        result(null, res);
+    });
+};
+
 InvestigasiInsiden.updateById = (id, investigasiinsiden, result) => {
     sql.query(
         "UPDATE investigasi_insiden SET  approval_status_id = ?, no_report = ?, unit_terkait = ?, judul_report = ?, kronologi_kejadian = ?, temuan_investigasi = ?, bukti_temuan = ?, saksi_1 = ?, saksi_2 = ?, investigator = ?, rincian_kegiatan = ?, luka_sakit = ?, wujud_cedera = ?, bagian_tubuh_cedera = ?, mekanisme_cedera = ?, kerusakan_alat = ?, uraian_kejadian = ?, analisa_penyebab = ?, peralatan_kelengkapan = ?, alat_pelindung_diri = ?, perilaku = ?, kebersihan_kerapihan = ?, peralatan_perlengkapan = ?, kemampuan_kondisi_fisik = ?, pemeliharaan_perbaikan = ?, design = ?, tingkat_kemampuan = ?, penjagaan = ?, tidandakan_terkait = ?, faktor_utama_insiden = ?, rekomendasi_tindakan = ?, pihak_yang_bertanggungjawab = ?, pelaksana = ?, tanggal_pemeriksaan = ?, nama = ?, jabatan = ?, status_investigasi_insiden_id = ?, prepard_by = ?, prepard_tanggal = ?, reviewed_by = ?, reviewed_tanggal = ?, approved_by = ?, approved_tanggal = ? WHERE id = ?",

@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all TipePersonils
     app.get("/tipepersonil", tipepersonil.findAll);
 
+    // View Design TipePersonils
+    app.options("/tipepersonil", tipepersonil.design);
+
     // Retrieve a single TipePersonil with id
     app.get("/tipepersonil/:id", tipepersonil.findOne);
 

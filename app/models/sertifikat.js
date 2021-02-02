@@ -58,6 +58,19 @@ Sertifikat.getAll = result => {
     });
 };
 
+Sertifikat.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'sertifikat'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("sertifikat: ", res);
+        result(null, res);
+    });
+};
+
 Sertifikat.updateById = (id, sertifikat, result) => {
     sql.query(
         "UPDATE sertifikat SET  tipe_cert_id = ?, personil_id = ?, no_sertifikat = ?, issuer = ?, tempat_keluar_sertifikat = ?, tanggal_keluar_sertifikat = ?, tanggal_expire = ?, reminder_date = ?, sertifikat = ? WHERE id = ?",

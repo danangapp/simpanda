@@ -37,6 +37,17 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.design = (req, res) => {
+    PanduSchedule.design((err, data) => {
+        if (err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving panduschedulenames."
+            });
+        else res.send(data);
+    });
+};
+
 exports.findOne = (req, res) => {
     PanduSchedule.findById(req.params.id, (err, data) => {
         if (err) {

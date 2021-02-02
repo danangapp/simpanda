@@ -71,6 +71,19 @@ Personil.getAll = result => {
     });
 };
 
+Personil.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'personil'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("personil: ", res);
+        result(null, res);
+    });
+};
+
 Personil.updateById = (id, personil, result) => {
     sql.query(
         "UPDATE personil SET  tipe_personil_id = ?, approval_status_id = ?, simop_kd_pers_pandu = ?, simop_kd_pers_pandu_cbg = ?, enable = ?, asset_kapal_id = ?, nama = ?, kelas = ?, tempat_lahir = ?, tanggal_lahir = ?, nipp = ?, jabatan = ?, status_kepegawaian_id = ?, cv = ?, tempat_tugas = ?, nomor_sk = ?, tanggal_mulai = ?, tanggal_selesai = ?, sk = ?, skpp = ?, surat_kesehatan = ?, sertifikat_id = ? WHERE id = ?",

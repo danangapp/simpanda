@@ -33,6 +33,17 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.design = (req, res) => {
+    TipeCert.design((err, data) => {
+        if (err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving tipecertnames."
+            });
+        else res.send(data);
+    });
+};
+
 exports.findOne = (req, res) => {
     TipeCert.findById(req.params.id, (err, data) => {
         if (err) {

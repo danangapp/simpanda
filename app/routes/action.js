@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all Actions
     app.get("/action", action.findAll);
 
+    // View Design Actions
+    app.options("/action", action.design);
+
     // Retrieve a single Action with id
     app.get("/action/:id", action.findOne);
 

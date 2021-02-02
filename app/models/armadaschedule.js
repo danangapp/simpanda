@@ -57,6 +57,19 @@ ArmadaSchedule.getAll = result => {
     });
 };
 
+ArmadaSchedule.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'armada_schedule'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("armadaschedule: ", res);
+        result(null, res);
+    });
+};
+
 ArmadaSchedule.updateById = (id, armadaschedule, result) => {
     sql.query(
         "UPDATE armada_schedule SET  date = ?, cabang = ?, kategori_armada = ?, armada_id = ?, status = ?, jam_pengoperasian = ?, reliabiliy = ?, keterangan = ? WHERE id = ?",

@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all TipeAssets
     app.get("/tipeasset", tipeasset.findAll);
 
+    // View Design TipeAssets
+    app.options("/tipeasset", tipeasset.design);
+
     // Retrieve a single TipeAsset with id
     app.get("/tipeasset/:id", tipeasset.findOne);
 

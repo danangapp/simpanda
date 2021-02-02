@@ -50,6 +50,19 @@ TipeSaranaPemanduKapal.getAll = result => {
     });
 };
 
+TipeSaranaPemanduKapal.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'tipe_sarana_pemandu_kapal'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("tipesaranapemandukapal: ", res);
+        result(null, res);
+    });
+};
+
 TipeSaranaPemanduKapal.updateById = (id, tipesaranapemandukapal, result) => {
     sql.query(
         "UPDATE tipe_sarana_pemandu_kapal SET  nama = ? WHERE id = ?",

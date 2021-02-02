@@ -50,6 +50,19 @@ StatusIjazah.getAll = result => {
     });
 };
 
+StatusIjazah.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'status_ijazah'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("statusijazah: ", res);
+        result(null, res);
+    });
+};
+
 StatusIjazah.updateById = (id, statusijazah, result) => {
     sql.query(
         "UPDATE status_ijazah SET  nama = ? WHERE id = ?",

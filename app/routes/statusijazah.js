@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all StatusIjazahs
     app.get("/statusijazah", statusijazah.findAll);
 
+    // View Design StatusIjazahs
+    app.options("/statusijazah", statusijazah.design);
+
     // Retrieve a single StatusIjazah with id
     app.get("/statusijazah/:id", statusijazah.findOne);
 

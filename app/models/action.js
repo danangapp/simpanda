@@ -50,6 +50,19 @@ Action.getAll = result => {
     });
 };
 
+Action.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'action'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("action: ", res);
+        result(null, res);
+    });
+};
+
 Action.updateById = (id, action, result) => {
     sql.query(
         "UPDATE action SET  nama = ? WHERE id = ?",

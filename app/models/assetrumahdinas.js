@@ -59,6 +59,19 @@ AssetRumahDinas.getAll = result => {
     });
 };
 
+AssetRumahDinas.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'asset_rumah_dinas'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("assetrumahdinas: ", res);
+        result(null, res);
+    });
+};
+
 AssetRumahDinas.updateById = (id, assetrumahdinas, result) => {
     sql.query(
         "UPDATE asset_rumah_dinas SET  nama_assets = ?, satuan = ?, tahun_perolehan = ?, nilai_perolehan = ?, wilayah = ?, nilai_buku = ?, approval_status_id = ?, tanggal = ?, nilai = ?, catatan = ? WHERE id = ?",

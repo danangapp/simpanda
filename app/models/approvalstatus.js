@@ -50,6 +50,19 @@ ApprovalStatus.getAll = result => {
     });
 };
 
+ApprovalStatus.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'approval_status'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("approvalstatus: ", res);
+        result(null, res);
+    });
+};
+
 ApprovalStatus.updateById = (id, approvalstatus, result) => {
     sql.query(
         "UPDATE approval_status SET  name = ? WHERE id = ?",

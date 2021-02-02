@@ -56,6 +56,19 @@ AssetStasiunEquipment.getAll = result => {
     });
 };
 
+AssetStasiunEquipment.design = result => {
+    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'asset_stasiun_equipment'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("assetstasiunequipment: ", res);
+        result(null, res);
+    });
+};
+
 AssetStasiunEquipment.updateById = (id, assetstasiunequipment, result) => {
     sql.query(
         "UPDATE asset_stasiun_equipment SET  nomor_asset = ?, tipe_stasiun_id = ?, nama = ?, tahun_perolehan = ?, nilai_perolehan = ?, kondisi = ?, approval_status_id = ? WHERE id = ?",

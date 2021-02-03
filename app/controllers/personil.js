@@ -45,7 +45,13 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
     // const query = req.query;
     // for (var i in query) {
-    //     console.log(i)
+    //     var str = query[i];
+    //     // var split = str.split(",");
+    //     if (typeof str != "string") {
+    //         for (var x in str) {
+    //             console.log(str[x]);
+    //         }
+    //     }
     // }
     Personil.getAll(req.query, (err, data) => {
         if (err)

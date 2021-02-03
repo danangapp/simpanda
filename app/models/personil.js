@@ -59,13 +59,30 @@ Personil.findById = (id, result) => {
 };
 
 Personil.getAll = (param, result) => {
-    // console.log('param', Object.keys(param).length)
+    // for (var i in query) {
+    //     var str = query[i];
+    //     // var split = str.split(",");
+    //     if (typeof str != "string") {
+    //         for (var x in str) {
+    //             console.log(str[x]);
+    //         }
+    //     }
+    // }
+
     const length = Object.keys(param).length;
     var query = "SELECT * FROM personil";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
-            query += i + " like '%" + param[i] + "%' or ";
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                for (var x in str) {
+                    query += i + " like '%" + str[x] + "%' or ";
+                }
+            } else {
+                query += i + " like '%" + param[i] + "%' or ";
+            }
         }
         query = query.substring(0, query.length - 4);
     }

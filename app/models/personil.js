@@ -58,15 +58,26 @@ Personil.findById = (id, result) => {
     });
 };
 
-Personil.getAll = result => {
-    sql.query("SELECT * FROM personil", (err, res) => {
+Personil.getAll = (param, result) => {
+    // console.log('param', Object.keys(param).length)
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM personil";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            query += i + " like '%" + param[i] + "%' or ";
+        }
+        query = query.substring(0, query.length - 4);
+    }
+    console.log(query);
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("personil: ", res);
+        // console.log("personil: ", res);
         result(null, res);
     });
 };
@@ -85,16 +96,17 @@ Personil.design = result => {
 };
 
 Personil.updateById = (id, personil, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in personil) {
-	    if (personil[i]) {
-	        str += i + " = ?, ";
-	        obj.push(personil[i]);
-	    }
-	    no++;
-	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
+    var str = "", obj = [], no = 1;
+    for (var i in personil) {
+        if (personil[i]) {
+            console.log('horee', personil[i])
+            str += i + " = ?, ";
+            obj.push(personil[i]);
+        }
+        no++;
+    }
+    obj.push(id);
+    str = str.substring(0, str.length - 2);
 
     sql.query(
         "UPDATE personil SET " + str + " WHERE id = ?",
@@ -112,6 +124,7 @@ Personil.updateById = (id, personil, result) => {
                 return;
             }
 
+            // console.log("updated personil: ", { id: id, ...personil });
             result(null, { id: id, ...personil });
         }
     );

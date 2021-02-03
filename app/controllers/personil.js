@@ -43,7 +43,11 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    Personil.getAll((err, data) => {
+    // const query = req.query;
+    // for (var i in query) {
+    //     console.log(i)
+    // }
+    Personil.getAll(req.query, (err, data) => {
         if (err)
             res.status(500).send({
                 message:

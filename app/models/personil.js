@@ -77,14 +77,18 @@ Personil.getAll = (param, result) => {
             var str = param[i];
             // var split = str.split(",");
             if (typeof str != "string") {
+                query += "(";
                 for (var x in str) {
-                    query += i + " like '%" + str[x] + "%' or ";
+                    query += i + " ='" + str[x] + "' or ";
                 }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
             } else {
-                query += i + " like '%" + param[i] + "%' or ";
+                query += i + " ='" + param[i] + "' and ";
             }
         }
-        query = query.substring(0, query.length - 4);
+
+        query = query.substring(0, query.length - 5);
     }
     console.log(query);
     sql.query(query, (err, res) => {

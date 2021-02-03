@@ -68,9 +68,20 @@ SaranaBantuPemanduPersonil.design = result => {
 };
 
 SaranaBantuPemanduPersonil.updateById = (id, saranabantupemandupersonil, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in saranabantupemandupersonil) {
+	    if (saranabantupemandupersonil[i]) {
+	        str += i + " = ?, ";
+	        obj.push(saranabantupemandupersonil[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE sarana_bantu_pemandu_personil SET  sarana_bantu_pemandu_id = ?, nama = ?, jabatan = ?, asset_kapal_id = ?, status_ijazah_id = ? WHERE id = ?",
-        [saranabantupemandupersonil.sarana_bantu_pemandu_id, saranabantupemandupersonil.nama, saranabantupemandupersonil.jabatan, saranabantupemandupersonil.asset_kapal_id, saranabantupemandupersonil.status_ijazah_id, id],
+        "UPDATE sarana_bantu_pemandu_personil SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -84,7 +95,6 @@ SaranaBantuPemanduPersonil.updateById = (id, saranabantupemandupersonil, result)
                 return;
             }
 
-            console.log("updated saranabantupemandupersonil: ", { id: id, ...saranabantupemandupersonil });
             result(null, { id: id, ...saranabantupemandupersonil });
         }
     );

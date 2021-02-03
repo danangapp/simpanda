@@ -64,9 +64,20 @@ TipePersonil.design = result => {
 };
 
 TipePersonil.updateById = (id, tipepersonil, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in tipepersonil) {
+	    if (tipepersonil[i]) {
+	        str += i + " = ?, ";
+	        obj.push(tipepersonil[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE tipe_personil SET  nama = ? WHERE id = ?",
-        [tipepersonil.nama, id],
+        "UPDATE tipe_personil SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -80,7 +91,6 @@ TipePersonil.updateById = (id, tipepersonil, result) => {
                 return;
             }
 
-            console.log("updated tipepersonil: ", { id: id, ...tipepersonil });
             result(null, { id: id, ...tipepersonil });
         }
     );

@@ -70,9 +70,20 @@ AssetStasiunEquipment.design = result => {
 };
 
 AssetStasiunEquipment.updateById = (id, assetstasiunequipment, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in assetstasiunequipment) {
+	    if (assetstasiunequipment[i]) {
+	        str += i + " = ?, ";
+	        obj.push(assetstasiunequipment[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE asset_stasiun_equipment SET  nomor_asset = ?, tipe_stasiun_id = ?, nama = ?, tahun_perolehan = ?, nilai_perolehan = ?, kondisi = ?, approval_status_id = ? WHERE id = ?",
-        [assetstasiunequipment.nomor_asset, assetstasiunequipment.tipe_stasiun_id, assetstasiunequipment.nama, assetstasiunequipment.tahun_perolehan, assetstasiunequipment.nilai_perolehan, assetstasiunequipment.kondisi, assetstasiunequipment.approval_status_id, id],
+        "UPDATE asset_stasiun_equipment SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -86,7 +97,6 @@ AssetStasiunEquipment.updateById = (id, assetstasiunequipment, result) => {
                 return;
             }
 
-            console.log("updated assetstasiunequipment: ", { id: id, ...assetstasiunequipment });
             result(null, { id: id, ...assetstasiunequipment });
         }
     );

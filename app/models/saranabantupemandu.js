@@ -67,9 +67,20 @@ SaranaBantuPemandu.design = result => {
 };
 
 SaranaBantuPemandu.updateById = (id, saranabantupemandu, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in saranabantupemandu) {
+	    if (saranabantupemandu[i]) {
+	        str += i + " = ?, ";
+	        obj.push(saranabantupemandu[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE sarana_bantu_pemandu SET  approval_status_id = ?, cabang_id = ?, tanggal_pemeriksaan = ?, pelaksana = ? WHERE id = ?",
-        [saranabantupemandu.approval_status_id, saranabantupemandu.cabang_id, saranabantupemandu.tanggal_pemeriksaan, saranabantupemandu.pelaksana, id],
+        "UPDATE sarana_bantu_pemandu SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -83,7 +94,6 @@ SaranaBantuPemandu.updateById = (id, saranabantupemandu, result) => {
                 return;
             }
 
-            console.log("updated saranabantupemandu: ", { id: id, ...saranabantupemandu });
             result(null, { id: id, ...saranabantupemandu });
         }
     );

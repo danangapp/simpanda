@@ -70,9 +70,20 @@ PemeriksaanKapal.design = result => {
 };
 
 PemeriksaanKapal.updateById = (id, pemeriksaankapal, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in pemeriksaankapal) {
+	    if (pemeriksaankapal[i]) {
+	        str += i + " = ?, ";
+	        obj.push(pemeriksaankapal[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE pemeriksaan_kapal SET  approval_status_id = ?, asset_kapal_id = ?, cabang = ?, kondisi_id = ?, tanggal_awal = ?, tanggal_akhir = ?, keterangan = ? WHERE id = ?",
-        [pemeriksaankapal.approval_status_id, pemeriksaankapal.asset_kapal_id, pemeriksaankapal.cabang, pemeriksaankapal.kondisi_id, pemeriksaankapal.tanggal_awal, pemeriksaankapal.tanggal_akhir, pemeriksaankapal.keterangan, id],
+        "UPDATE pemeriksaan_kapal SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -86,7 +97,6 @@ PemeriksaanKapal.updateById = (id, pemeriksaankapal, result) => {
                 return;
             }
 
-            console.log("updated pemeriksaankapal: ", { id: id, ...pemeriksaankapal });
             result(null, { id: id, ...pemeriksaankapal });
         }
     );

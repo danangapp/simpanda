@@ -64,9 +64,20 @@ StatusIjazah.design = result => {
 };
 
 StatusIjazah.updateById = (id, statusijazah, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in statusijazah) {
+	    if (statusijazah[i]) {
+	        str += i + " = ?, ";
+	        obj.push(statusijazah[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE status_ijazah SET  nama = ? WHERE id = ?",
-        [statusijazah.nama, id],
+        "UPDATE status_ijazah SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -80,7 +91,6 @@ StatusIjazah.updateById = (id, statusijazah, result) => {
                 return;
             }
 
-            console.log("updated statusijazah: ", { id: id, ...statusijazah });
             result(null, { id: id, ...statusijazah });
         }
     );

@@ -72,9 +72,20 @@ Sertifikat.design = result => {
 };
 
 Sertifikat.updateById = (id, sertifikat, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in sertifikat) {
+	    if (sertifikat[i]) {
+	        str += i + " = ?, ";
+	        obj.push(sertifikat[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE sertifikat SET  tipe_cert_id = ?, personil_id = ?, no_sertifikat = ?, issuer = ?, tempat_keluar_sertifikat = ?, tanggal_keluar_sertifikat = ?, tanggal_expire = ?, reminder_date = ?, sertifikat = ? WHERE id = ?",
-        [sertifikat.tipe_cert_id, sertifikat.personil_id, sertifikat.no_sertifikat, sertifikat.issuer, sertifikat.tempat_keluar_sertifikat, sertifikat.tanggal_keluar_sertifikat, sertifikat.tanggal_expire, sertifikat.reminder_date, sertifikat.sertifikat, id],
+        "UPDATE sertifikat SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -88,7 +99,6 @@ Sertifikat.updateById = (id, sertifikat, result) => {
                 return;
             }
 
-            console.log("updated sertifikat: ", { id: id, ...sertifikat });
             result(null, { id: id, ...sertifikat });
         }
     );

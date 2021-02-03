@@ -78,9 +78,20 @@ EvaluasiPelimpahan.design = result => {
 };
 
 EvaluasiPelimpahan.updateById = (id, evaluasipelimpahan, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in evaluasipelimpahan) {
+	    if (evaluasipelimpahan[i]) {
+	        str += i + " = ?, ";
+	        obj.push(evaluasipelimpahan[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE evaluasi_pelimpahan SET  approval_status_id = ?, cabang_id = ?, bup = ?, izin_bup = ?, penetapan_perairan_pandu = ?, izin_pelimpahan = ?, pengawas_pemanduan = ?, laporan_bulanan = ?, bukti_pembayaran_pnpb = ?, sispro = ?, tarif_jasa_pandu_tunda = ?, data_dukung = ?, dile_pendukung = ?, tanggal_sk = ?, file_sk_pelimpahan = ? WHERE id = ?",
-        [evaluasipelimpahan.approval_status_id, evaluasipelimpahan.cabang_id, evaluasipelimpahan.bup, evaluasipelimpahan.izin_bup, evaluasipelimpahan.penetapan_perairan_pandu, evaluasipelimpahan.izin_pelimpahan, evaluasipelimpahan.pengawas_pemanduan, evaluasipelimpahan.laporan_bulanan, evaluasipelimpahan.bukti_pembayaran_pnpb, evaluasipelimpahan.sispro, evaluasipelimpahan.tarif_jasa_pandu_tunda, evaluasipelimpahan.data_dukung, evaluasipelimpahan.dile_pendukung, evaluasipelimpahan.tanggal_sk, evaluasipelimpahan.file_sk_pelimpahan, id],
+        "UPDATE evaluasi_pelimpahan SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -94,7 +105,6 @@ EvaluasiPelimpahan.updateById = (id, evaluasipelimpahan, result) => {
                 return;
             }
 
-            console.log("updated evaluasipelimpahan: ", { id: id, ...evaluasipelimpahan });
             result(null, { id: id, ...evaluasipelimpahan });
         }
     );

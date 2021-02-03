@@ -69,9 +69,20 @@ PanduSchedule.design = result => {
 };
 
 PanduSchedule.updateById = (id, panduschedule, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in panduschedule) {
+	    if (panduschedule[i]) {
+	        str += i + " = ?, ";
+	        obj.push(panduschedule[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE pandu_schedule SET  date = ?, cabang_id = ?, pandu_jaga_id = ?, pandu_jaga_nama = ?, status_absen = ?, keterangan = ? WHERE id = ?",
-        [panduschedule.date, panduschedule.cabang_id, panduschedule.pandu_jaga_id, panduschedule.pandu_jaga_nama, panduschedule.status_absen, panduschedule.keterangan, id],
+        "UPDATE pandu_schedule SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -85,7 +96,6 @@ PanduSchedule.updateById = (id, panduschedule, result) => {
                 return;
             }
 
-            console.log("updated panduschedule: ", { id: id, ...panduschedule });
             result(null, { id: id, ...panduschedule });
         }
     );

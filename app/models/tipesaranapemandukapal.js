@@ -64,9 +64,20 @@ TipeSaranaPemanduKapal.design = result => {
 };
 
 TipeSaranaPemanduKapal.updateById = (id, tipesaranapemandukapal, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in tipesaranapemandukapal) {
+	    if (tipesaranapemandukapal[i]) {
+	        str += i + " = ?, ";
+	        obj.push(tipesaranapemandukapal[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE tipe_sarana_pemandu_kapal SET  nama = ? WHERE id = ?",
-        [tipesaranapemandukapal.nama, id],
+        "UPDATE tipe_sarana_pemandu_kapal SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -80,7 +91,6 @@ TipeSaranaPemanduKapal.updateById = (id, tipesaranapemandukapal, result) => {
                 return;
             }
 
-            console.log("updated tipesaranapemandukapal: ", { id: id, ...tipesaranapemandukapal });
             result(null, { id: id, ...tipesaranapemandukapal });
         }
     );

@@ -64,9 +64,20 @@ StatusKepegawaian.design = result => {
 };
 
 StatusKepegawaian.updateById = (id, statuskepegawaian, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in statuskepegawaian) {
+	    if (statuskepegawaian[i]) {
+	        str += i + " = ?, ";
+	        obj.push(statuskepegawaian[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE status_kepegawaian SET  nama = ? WHERE id = ?",
-        [statuskepegawaian.nama, id],
+        "UPDATE status_kepegawaian SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -80,7 +91,6 @@ StatusKepegawaian.updateById = (id, statuskepegawaian, result) => {
                 return;
             }
 
-            console.log("updated statuskepegawaian: ", { id: id, ...statuskepegawaian });
             result(null, { id: id, ...statuskepegawaian });
         }
     );

@@ -64,9 +64,20 @@ KondisiUmum.design = result => {
 };
 
 KondisiUmum.updateById = (id, kondisiumum, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in kondisiumum) {
+	    if (kondisiumum[i]) {
+	        str += i + " = ?, ";
+	        obj.push(kondisiumum[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE kondisi_umum SET  nama = ? WHERE id = ?",
-        [kondisiumum.nama, id],
+        "UPDATE kondisi_umum SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -80,7 +91,6 @@ KondisiUmum.updateById = (id, kondisiumum, result) => {
                 return;
             }
 
-            console.log("updated kondisiumum: ", { id: id, ...kondisiumum });
             result(null, { id: id, ...kondisiumum });
         }
     );

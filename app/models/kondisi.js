@@ -64,9 +64,20 @@ Kondisi.design = result => {
 };
 
 Kondisi.updateById = (id, kondisi, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in kondisi) {
+	    if (kondisi[i]) {
+	        str += i + " = ?, ";
+	        obj.push(kondisi[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE kondisi SET  nama = ? WHERE id = ?",
-        [kondisi.nama, id],
+        "UPDATE kondisi SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -80,7 +91,6 @@ Kondisi.updateById = (id, kondisi, result) => {
                 return;
             }
 
-            console.log("updated kondisi: ", { id: id, ...kondisi });
             result(null, { id: id, ...kondisi });
         }
     );

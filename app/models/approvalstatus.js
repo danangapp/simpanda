@@ -64,9 +64,20 @@ ApprovalStatus.design = result => {
 };
 
 ApprovalStatus.updateById = (id, approvalstatus, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in approvalstatus) {
+	    if (approvalstatus[i]) {
+	        str += i + " = ?, ";
+	        obj.push(approvalstatus[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE approval_status SET  name = ? WHERE id = ?",
-        [approvalstatus.name, id],
+        "UPDATE approval_status SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -80,7 +91,6 @@ ApprovalStatus.updateById = (id, approvalstatus, result) => {
                 return;
             }
 
-            console.log("updated approvalstatus: ", { id: id, ...approvalstatus });
             result(null, { id: id, ...approvalstatus });
         }
     );

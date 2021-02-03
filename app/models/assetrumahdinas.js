@@ -73,9 +73,20 @@ AssetRumahDinas.design = result => {
 };
 
 AssetRumahDinas.updateById = (id, assetrumahdinas, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in assetrumahdinas) {
+	    if (assetrumahdinas[i]) {
+	        str += i + " = ?, ";
+	        obj.push(assetrumahdinas[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE asset_rumah_dinas SET  nama_assets = ?, satuan = ?, tahun_perolehan = ?, nilai_perolehan = ?, wilayah = ?, nilai_buku = ?, approval_status_id = ?, tanggal = ?, nilai = ?, catatan = ? WHERE id = ?",
-        [assetrumahdinas.nama_assets, assetrumahdinas.satuan, assetrumahdinas.tahun_perolehan, assetrumahdinas.nilai_perolehan, assetrumahdinas.wilayah, assetrumahdinas.nilai_buku, assetrumahdinas.approval_status_id, assetrumahdinas.tanggal, assetrumahdinas.nilai, assetrumahdinas.catatan, id],
+        "UPDATE asset_rumah_dinas SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -89,7 +100,6 @@ AssetRumahDinas.updateById = (id, assetrumahdinas, result) => {
                 return;
             }
 
-            console.log("updated assetrumahdinas: ", { id: id, ...assetrumahdinas });
             result(null, { id: id, ...assetrumahdinas });
         }
     );

@@ -64,9 +64,20 @@ PemeriksaanKapalCheck.design = result => {
 };
 
 PemeriksaanKapalCheck.updateById = (id, pemeriksaankapalcheck, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in pemeriksaankapalcheck) {
+	    if (pemeriksaankapalcheck[i]) {
+	        str += i + " = ?, ";
+	        obj.push(pemeriksaankapalcheck[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE pemeriksaan_kapal_check SET  question = ? WHERE id = ?",
-        [pemeriksaankapalcheck.question, id],
+        "UPDATE pemeriksaan_kapal_check SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -80,7 +91,6 @@ PemeriksaanKapalCheck.updateById = (id, pemeriksaankapalcheck, result) => {
                 return;
             }
 
-            console.log("updated pemeriksaankapalcheck: ", { id: id, ...pemeriksaankapalcheck });
             result(null, { id: id, ...pemeriksaankapalcheck });
         }
     );

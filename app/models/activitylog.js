@@ -68,9 +68,20 @@ ActivityLog.design = result => {
 };
 
 ActivityLog.updateById = (id, activitylog, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in activitylog) {
+	    if (activitylog[i]) {
+	        str += i + " = ?, ";
+	        obj.push(activitylog[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE activity_log SET  date = ?, item = ?, action = ?, user_id = ?, remark = ? WHERE id = ?",
-        [activitylog.date, activitylog.item, activitylog.action, activitylog.user_id, activitylog.remark, id],
+        "UPDATE activity_log SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -84,7 +95,6 @@ ActivityLog.updateById = (id, activitylog, result) => {
                 return;
             }
 
-            console.log("updated activitylog: ", { id: id, ...activitylog });
             result(null, { id: id, ...activitylog });
         }
     );

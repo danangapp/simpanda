@@ -64,9 +64,20 @@ TipeAsset.design = result => {
 };
 
 TipeAsset.updateById = (id, tipeasset, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in tipeasset) {
+	    if (tipeasset[i]) {
+	        str += i + " = ?, ";
+	        obj.push(tipeasset[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE tipe_asset SET  nama = ? WHERE id = ?",
-        [tipeasset.nama, id],
+        "UPDATE tipe_asset SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -80,7 +91,6 @@ TipeAsset.updateById = (id, tipeasset, result) => {
                 return;
             }
 
-            console.log("updated tipeasset: ", { id: id, ...tipeasset });
             result(null, { id: id, ...tipeasset });
         }
     );

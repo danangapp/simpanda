@@ -64,9 +64,20 @@ Action.design = result => {
 };
 
 Action.updateById = (id, action, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in action) {
+	    if (action[i]) {
+	        str += i + " = ?, ";
+	        obj.push(action[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE action SET  nama = ? WHERE id = ?",
-        [action.nama, id],
+        "UPDATE action SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -80,7 +91,6 @@ Action.updateById = (id, action, result) => {
                 return;
             }
 
-            console.log("updated action: ", { id: id, ...action });
             result(null, { id: id, ...action });
         }
     );

@@ -74,9 +74,20 @@ Cabang.design = result => {
 };
 
 Cabang.updateById = (id, cabang, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in cabang) {
+	    if (cabang[i]) {
+	        str += i + " = ?, ";
+	        obj.push(cabang[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE cabang SET  nama = ?, almt_cabang = ?, cabang_cms = ?, no_account_cabang = ?, nm_cabang_3digit = ?, kd_account_cabang = ?, kd_cabang_jai_puspel = ?, org_id = ?, port_code = ?, autospk = ?, kd_jenis_pelabuhan = ? WHERE id = ?",
-        [cabang.nama, cabang.almt_cabang, cabang.cabang_cms, cabang.no_account_cabang, cabang.nm_cabang_3digit, cabang.kd_account_cabang, cabang.kd_cabang_jai_puspel, cabang.org_id, cabang.port_code, cabang.autospk, cabang.kd_jenis_pelabuhan, id],
+        "UPDATE cabang SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -90,7 +101,6 @@ Cabang.updateById = (id, cabang, result) => {
                 return;
             }
 
-            console.log("updated cabang: ", { id: id, ...cabang });
             result(null, { id: id, ...cabang });
         }
     );

@@ -64,9 +64,20 @@ Enable.design = result => {
 };
 
 Enable.updateById = (id, enable, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in enable) {
+	    if (enable[i]) {
+	        str += i + " = ?, ";
+	        obj.push(enable[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE enable SET  nama = ? WHERE id = ?",
-        [enable.nama, id],
+        "UPDATE enable SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -80,7 +91,6 @@ Enable.updateById = (id, enable, result) => {
                 return;
             }
 
-            console.log("updated enable: ", { id: id, ...enable });
             result(null, { id: id, ...enable });
         }
     );

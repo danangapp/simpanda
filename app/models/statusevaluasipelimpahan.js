@@ -64,9 +64,20 @@ StatusEvaluasiPelimpahan.design = result => {
 };
 
 StatusEvaluasiPelimpahan.updateById = (id, statusevaluasipelimpahan, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in statusevaluasipelimpahan) {
+	    if (statusevaluasipelimpahan[i]) {
+	        str += i + " = ?, ";
+	        obj.push(statusevaluasipelimpahan[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE status_evaluasi_pelimpahan SET  nama = ? WHERE id = ?",
-        [statusevaluasipelimpahan.nama, id],
+        "UPDATE status_evaluasi_pelimpahan SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -80,7 +91,6 @@ StatusEvaluasiPelimpahan.updateById = (id, statusevaluasipelimpahan, result) => 
                 return;
             }
 
-            console.log("updated statusevaluasipelimpahan: ", { id: id, ...statusevaluasipelimpahan });
             result(null, { id: id, ...statusevaluasipelimpahan });
         }
     );

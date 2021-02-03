@@ -64,9 +64,20 @@ StatusAbsen.design = result => {
 };
 
 StatusAbsen.updateById = (id, statusabsen, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in statusabsen) {
+	    if (statusabsen[i]) {
+	        str += i + " = ?, ";
+	        obj.push(statusabsen[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE status_absen SET  nama = ? WHERE id = ?",
-        [statusabsen.nama, id],
+        "UPDATE status_absen SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -80,7 +91,6 @@ StatusAbsen.updateById = (id, statusabsen, result) => {
                 return;
             }
 
-            console.log("updated statusabsen: ", { id: id, ...statusabsen });
             result(null, { id: id, ...statusabsen });
         }
     );

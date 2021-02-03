@@ -64,9 +64,20 @@ Role.design = result => {
 };
 
 Role.updateById = (id, role, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in role) {
+	    if (role[i]) {
+	        str += i + " = ?, ";
+	        obj.push(role[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE role SET  nama = ? WHERE id = ?",
-        [role.nama, id],
+        "UPDATE role SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -80,7 +91,6 @@ Role.updateById = (id, role, result) => {
                 return;
             }
 
-            console.log("updated role: ", { id: id, ...role });
             result(null, { id: id, ...role });
         }
     );

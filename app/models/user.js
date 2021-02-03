@@ -68,9 +68,20 @@ User.design = result => {
 };
 
 User.updateById = (id, user, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in user) {
+	    if (user[i]) {
+	        str += i + " = ?, ";
+	        obj.push(user[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE user SET  username = ?, nama = ?, password = ?, user_group_id = ?, role_id = ? WHERE id = ?",
-        [user.username, user.nama, user.password, user.user_group_id, user.role_id, id],
+        "UPDATE user SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -84,7 +95,6 @@ User.updateById = (id, user, result) => {
                 return;
             }
 
-            console.log("updated user: ", { id: id, ...user });
             result(null, { id: id, ...user });
         }
     );

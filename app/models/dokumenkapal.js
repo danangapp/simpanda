@@ -64,9 +64,20 @@ DokumenKapal.design = result => {
 };
 
 DokumenKapal.updateById = (id, dokumenkapal, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in dokumenkapal) {
+	    if (dokumenkapal[i]) {
+	        str += i + " = ?, ";
+	        obj.push(dokumenkapal[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE dokumen_kapal SET  nama = ? WHERE id = ?",
-        [dokumenkapal.nama, id],
+        "UPDATE dokumen_kapal SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -80,7 +91,6 @@ DokumenKapal.updateById = (id, dokumenkapal, result) => {
                 return;
             }
 
-            console.log("updated dokumenkapal: ", { id: id, ...dokumenkapal });
             result(null, { id: id, ...dokumenkapal });
         }
     );

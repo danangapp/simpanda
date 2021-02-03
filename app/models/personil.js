@@ -85,9 +85,20 @@ Personil.design = result => {
 };
 
 Personil.updateById = (id, personil, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in personil) {
+	    if (personil[i]) {
+	        str += i + " = ?, ";
+	        obj.push(personil[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE personil SET  tipe_personil_id = ?, approval_status_id = ?, simop_kd_pers_pandu = ?, simop_kd_pers_pandu_cbg = ?, enable = ?, asset_kapal_id = ?, nama = ?, kelas = ?, tempat_lahir = ?, tanggal_lahir = ?, nipp = ?, jabatan = ?, status_kepegawaian_id = ?, cv = ?, tempat_tugas = ?, nomor_sk = ?, tanggal_mulai = ?, tanggal_selesai = ?, sk = ?, skpp = ?, surat_kesehatan = ?, sertifikat_id = ? WHERE id = ?",
-        [personil.tipe_personil_id, personil.approval_status_id, personil.simop_kd_pers_pandu, personil.simop_kd_pers_pandu_cbg, personil.enable, personil.asset_kapal_id, personil.nama, personil.kelas, personil.tempat_lahir, personil.tanggal_lahir, personil.nipp, personil.jabatan, personil.status_kepegawaian_id, personil.cv, personil.tempat_tugas, personil.nomor_sk, personil.tanggal_mulai, personil.tanggal_selesai, personil.sk, personil.skpp, personil.surat_kesehatan, personil.sertifikat_id, id],
+        "UPDATE personil SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -101,7 +112,6 @@ Personil.updateById = (id, personil, result) => {
                 return;
             }
 
-            console.log("updated personil: ", { id: id, ...personil });
             result(null, { id: id, ...personil });
         }
     );

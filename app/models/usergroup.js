@@ -77,9 +77,20 @@ UserGroup.design = result => {
 };
 
 UserGroup.updateById = (id, usergroup, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in usergroup) {
+	    if (usergroup[i]) {
+	        str += i + " = ?, ";
+	        obj.push(usergroup[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE user_group SET  nama = ?, keterangan = ?, cabang_id = ?, access_dashboard = ?, access_resource_pandu = ?, access_resource_pendukung = ?, access_resource_absensi = ?, access_asset_kapal = ?, access_asset_stasiun = ?, access_asset_rumah = ?, access_asset_absensi = ?, access_inspection_sarana = ?, access_inspection_pemeriksaan = ?, access_inspection_investigasi = ? WHERE id = ?",
-        [usergroup.nama, usergroup.keterangan, usergroup.cabang_id, usergroup.access_dashboard, usergroup.access_resource_pandu, usergroup.access_resource_pendukung, usergroup.access_resource_absensi, usergroup.access_asset_kapal, usergroup.access_asset_stasiun, usergroup.access_asset_rumah, usergroup.access_asset_absensi, usergroup.access_inspection_sarana, usergroup.access_inspection_pemeriksaan, usergroup.access_inspection_investigasi, id],
+        "UPDATE user_group SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -93,7 +104,6 @@ UserGroup.updateById = (id, usergroup, result) => {
                 return;
             }
 
-            console.log("updated usergroup: ", { id: id, ...usergroup });
             result(null, { id: id, ...usergroup });
         }
     );

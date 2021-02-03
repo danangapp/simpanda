@@ -106,9 +106,20 @@ InvestigasiInsiden.design = result => {
 };
 
 InvestigasiInsiden.updateById = (id, investigasiinsiden, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in investigasiinsiden) {
+	    if (investigasiinsiden[i]) {
+	        str += i + " = ?, ";
+	        obj.push(investigasiinsiden[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE investigasi_insiden SET  approval_status_id = ?, no_report = ?, unit_terkait = ?, judul_report = ?, kronologi_kejadian = ?, temuan_investigasi = ?, bukti_temuan = ?, saksi_1 = ?, saksi_2 = ?, investigator = ?, rincian_kegiatan = ?, luka_sakit = ?, wujud_cedera = ?, bagian_tubuh_cedera = ?, mekanisme_cedera = ?, kerusakan_alat = ?, uraian_kejadian = ?, analisa_penyebab = ?, peralatan_kelengkapan = ?, alat_pelindung_diri = ?, perilaku = ?, kebersihan_kerapihan = ?, peralatan_perlengkapan = ?, kemampuan_kondisi_fisik = ?, pemeliharaan_perbaikan = ?, design = ?, tingkat_kemampuan = ?, penjagaan = ?, tidandakan_terkait = ?, faktor_utama_insiden = ?, rekomendasi_tindakan = ?, pihak_yang_bertanggungjawab = ?, pelaksana = ?, tanggal_pemeriksaan = ?, nama = ?, jabatan = ?, status_investigasi_insiden_id = ?, prepard_by = ?, prepard_tanggal = ?, reviewed_by = ?, reviewed_tanggal = ?, approved_by = ?, approved_tanggal = ? WHERE id = ?",
-        [investigasiinsiden.approval_status_id, investigasiinsiden.no_report, investigasiinsiden.unit_terkait, investigasiinsiden.judul_report, investigasiinsiden.kronologi_kejadian, investigasiinsiden.temuan_investigasi, investigasiinsiden.bukti_temuan, investigasiinsiden.saksi_1, investigasiinsiden.saksi_2, investigasiinsiden.investigator, investigasiinsiden.rincian_kegiatan, investigasiinsiden.luka_sakit, investigasiinsiden.wujud_cedera, investigasiinsiden.bagian_tubuh_cedera, investigasiinsiden.mekanisme_cedera, investigasiinsiden.kerusakan_alat, investigasiinsiden.uraian_kejadian, investigasiinsiden.analisa_penyebab, investigasiinsiden.peralatan_kelengkapan, investigasiinsiden.alat_pelindung_diri, investigasiinsiden.perilaku, investigasiinsiden.kebersihan_kerapihan, investigasiinsiden.peralatan_perlengkapan, investigasiinsiden.kemampuan_kondisi_fisik, investigasiinsiden.pemeliharaan_perbaikan, investigasiinsiden.design, investigasiinsiden.tingkat_kemampuan, investigasiinsiden.penjagaan, investigasiinsiden.tidandakan_terkait, investigasiinsiden.faktor_utama_insiden, investigasiinsiden.rekomendasi_tindakan, investigasiinsiden.pihak_yang_bertanggungjawab, investigasiinsiden.pelaksana, investigasiinsiden.tanggal_pemeriksaan, investigasiinsiden.nama, investigasiinsiden.jabatan, investigasiinsiden.status_investigasi_insiden_id, investigasiinsiden.prepard_by, investigasiinsiden.prepard_tanggal, investigasiinsiden.reviewed_by, investigasiinsiden.reviewed_tanggal, investigasiinsiden.approved_by, investigasiinsiden.approved_tanggal, id],
+        "UPDATE investigasi_insiden SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -122,7 +133,6 @@ InvestigasiInsiden.updateById = (id, investigasiinsiden, result) => {
                 return;
             }
 
-            console.log("updated investigasiinsiden: ", { id: id, ...investigasiinsiden });
             result(null, { id: id, ...investigasiinsiden });
         }
     );

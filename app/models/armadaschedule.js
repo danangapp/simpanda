@@ -71,9 +71,20 @@ ArmadaSchedule.design = result => {
 };
 
 ArmadaSchedule.updateById = (id, armadaschedule, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in armadaschedule) {
+	    if (armadaschedule[i]) {
+	        str += i + " = ?, ";
+	        obj.push(armadaschedule[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE armada_schedule SET  date = ?, cabang = ?, kategori_armada = ?, armada_id = ?, status = ?, jam_pengoperasian = ?, reliabiliy = ?, keterangan = ? WHERE id = ?",
-        [armadaschedule.date, armadaschedule.cabang, armadaschedule.kategori_armada, armadaschedule.armada_id, armadaschedule.status, armadaschedule.jam_pengoperasian, armadaschedule.reliabiliy, armadaschedule.keterangan, id],
+        "UPDATE armada_schedule SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -87,7 +98,6 @@ ArmadaSchedule.updateById = (id, armadaschedule, result) => {
                 return;
             }
 
-            console.log("updated armadaschedule: ", { id: id, ...armadaschedule });
             result(null, { id: id, ...armadaschedule });
         }
     );

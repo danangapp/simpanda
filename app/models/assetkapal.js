@@ -107,9 +107,20 @@ AssetKapal.design = result => {
 };
 
 AssetKapal.updateById = (id, assetkapal, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in assetkapal) {
+	    if (assetkapal[i]) {
+	        str += i + " = ?, ";
+	        obj.push(assetkapal[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE asset_kapal SET  simop_kd_fas = ?, kepemilikan_kapal = ?, simop_status_milik = ?, simop_kd_agen = ?, tipe_asset_id = ?, nama_asset = ?, horse_power = ?, tahun_perolehan = ?, nilai_perolehan = ?, lokasi = ?, enable = ?, asset_number = ?, simop_kd_puspel_jai = ?, simop_new_puspel_jai = ?, simop_new_asset_jai = ?, approval_status_id = ?, loa = ?, tahun_pembuatan = ?, breadth = ?, kontruksi = ?, depth = ?, negara_pembuat = ?, draft_max = ?, daya = ?, putaran = ?, merk = ?, tipe = ?, daya_motor = ?, daya_generator = ?, putaran_spesifikasi = ?, merk_spesifikasi = ?, tipe_spesifikasi = ?, klas = ?, notasi_permesinan = ?, no_registrasi = ?, notasi_perlengkapan = ?, port_of_registration = ?, notasi_perairan = ?, notasi_lambung = ?, gross_tonnage = ?, bolard_pull = ?, kecepatan = ?, ship_particular = ?, sertifikat_id = ? WHERE id = ?",
-        [assetkapal.simop_kd_fas, assetkapal.kepemilikan_kapal, assetkapal.simop_status_milik, assetkapal.simop_kd_agen, assetkapal.tipe_asset_id, assetkapal.nama_asset, assetkapal.horse_power, assetkapal.tahun_perolehan, assetkapal.nilai_perolehan, assetkapal.lokasi, assetkapal.enable, assetkapal.asset_number, assetkapal.simop_kd_puspel_jai, assetkapal.simop_new_puspel_jai, assetkapal.simop_new_asset_jai, assetkapal.approval_status_id, assetkapal.loa, assetkapal.tahun_pembuatan, assetkapal.breadth, assetkapal.kontruksi, assetkapal.depth, assetkapal.negara_pembuat, assetkapal.draft_max, assetkapal.daya, assetkapal.putaran, assetkapal.merk, assetkapal.tipe, assetkapal.daya_motor, assetkapal.daya_generator, assetkapal.putaran_spesifikasi, assetkapal.merk_spesifikasi, assetkapal.tipe_spesifikasi, assetkapal.klas, assetkapal.notasi_permesinan, assetkapal.no_registrasi, assetkapal.notasi_perlengkapan, assetkapal.port_of_registration, assetkapal.notasi_perairan, assetkapal.notasi_lambung, assetkapal.gross_tonnage, assetkapal.bolard_pull, assetkapal.kecepatan, assetkapal.ship_particular, assetkapal.sertifikat_id, id],
+        "UPDATE asset_kapal SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -123,7 +134,6 @@ AssetKapal.updateById = (id, assetkapal, result) => {
                 return;
             }
 
-            console.log("updated assetkapal: ", { id: id, ...assetkapal });
             result(null, { id: id, ...assetkapal });
         }
     );

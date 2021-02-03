@@ -64,9 +64,20 @@ TipeStasiun.design = result => {
 };
 
 TipeStasiun.updateById = (id, tipestasiun, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in tipestasiun) {
+	    if (tipestasiun[i]) {
+	        str += i + " = ?, ";
+	        obj.push(tipestasiun[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE tipe_stasiun SET  nama = ? WHERE id = ?",
-        [tipestasiun.nama, id],
+        "UPDATE tipe_stasiun SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -80,7 +91,6 @@ TipeStasiun.updateById = (id, tipestasiun, result) => {
                 return;
             }
 
-            console.log("updated tipestasiun: ", { id: id, ...tipestasiun });
             result(null, { id: id, ...tipestasiun });
         }
     );

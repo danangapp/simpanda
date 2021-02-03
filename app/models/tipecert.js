@@ -65,9 +65,20 @@ TipeCert.design = result => {
 };
 
 TipeCert.updateById = (id, tipecert, result) => {
+	var str = "", obj = [], no = 1;
+	for (var i in tipecert) {
+	    if (tipecert[i]) {
+	        str += i + " = ?, ";
+	        obj.push(tipecert[i]);
+	    }
+	    no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
     sql.query(
-        "UPDATE tipe_cert SET  nama = ?, remark = ? WHERE id = ?",
-        [tipecert.nama, tipecert.remark, id],
+        "UPDATE tipe_cert SET " + str + " WHERE id = ?",
+        obj,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -81,7 +92,6 @@ TipeCert.updateById = (id, tipecert, result) => {
                 return;
             }
 
-            console.log("updated tipecert: ", { id: id, ...tipecert });
             result(null, { id: id, ...tipecert });
         }
     );

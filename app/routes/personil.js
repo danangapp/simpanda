@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all Personils
     app.get("/personil", personil.findAll);
 
+    // Retrieve all Personils
+    app.get("/personil", personil.findAll);
+
     // View Design Personils
     app.options("/personil", personil.design);
 

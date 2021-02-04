@@ -1,4 +1,6 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const Personil = function (personil) {
@@ -24,19 +26,39 @@ const Personil = function (personil) {
     this.skpp = personil.skpp;
     this.surat_kesehatan = personil.surat_kesehatan;
     this.sertifikat_id = personil.sertifikat_id;
+    this.sertifikat = personil.sertifikat;
+
+    // console.log(personil);
 };
 
-Personil.create = (newPersonil, result) => {
-    sql.query("INSERT INTO personil SET ?", newPersonil, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
+Personil.create = async (newPersonil, result) => {
+    const sertifikat = newPersonil.sertifikat;
+    for (var i in sertifikat) {
+        const x = sertifikat[i];
 
-        console.log("created personil: ", { id: res.insertId, ...newPersonil });
-        result(null, { id: res.insertId, ...newPersonil });
-    });
+        var header = "", value = "";
+        for (var a in x) {
+            const val = x[a];
+            header += a + ", ";
+            value += "'" + val + "', ";
+        }
+        value = value.substring(0, value.length - 2);
+        header = header.substring(0, header.length - 2);
+        try {
+            await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    // console.log(newPersonil)    
+    try {
+        delete newPersonil.sertifikat;
+        const execute = await query("INSERT INTO personil SET ?", newPersonil);
+        result(null, { id: execute.insertId, ...newPersonil });
+    } catch (error) {
+        result(error, null);
+    }
 };
 
 Personil.findById = (id, result) => {
@@ -59,23 +81,12 @@ Personil.findById = (id, result) => {
 };
 
 Personil.getAll = (param, result) => {
-    // for (var i in query) {
-    //     var str = query[i];
-    //     // var split = str.split(",");
-    //     if (typeof str != "string") {
-    //         for (var x in str) {
-    //             console.log(str[x]);
-    //         }
-    //     }
-    // }
-
     const length = Object.keys(param).length;
     var query = "SELECT * FROM personil";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
             var str = param[i];
-            // var split = str.split(",");
             if (typeof str != "string") {
                 query += "(";
                 for (var x in str) {
@@ -90,7 +101,7 @@ Personil.getAll = (param, result) => {
 
         query = query.substring(0, query.length - 5);
     }
-    console.log(query);
+
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -116,39 +127,49 @@ Personil.design = result => {
     });
 };
 
-Personil.updateById = (id, personil, result) => {
-    var str = "", obj = [], no = 1;
-    for (var i in personil) {
-        if (personil[i]) {
-            console.log('horee', personil[i])
-            str += i + " = ?, ";
-            obj.push(personil[i]);
+Personil.updateById = async (id, personil, result) => {
+
+    const sertifikat = personil.sertifikat;
+    for (var i in sertifikat) {
+        const x = sertifikat[i];
+
+        var header = "", value = "";
+        for (var a in x) {
+            const val = x[a];
+            header += a + ", ";
+            value += "'" + val + "', ";
         }
-        no++;
+        value = value.substring(0, value.length - 2);
+        header = header.substring(0, header.length - 2);
+
+        try {
+            await query("DELETE FROM sertifikat WHERE id = ?", x.id);
+            await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
+        } catch (error) {
+            console.log(error)
+        }
     }
-    obj.push(id);
-    str = str.substring(0, str.length - 2);
 
-    sql.query(
-        "UPDATE personil SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
+    try {
+        delete personil.sertifikat;
+
+        var str = "", obj = [], no = 1;
+        for (var i in personil) {
+            if (personil[i]) {
+                str += i + " = ?, ";
+                obj.push(personil[i]);
             }
-
-            if (res.affectedRows == 0) {
-                // not found Personil with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            // console.log("updated personil: ", { id: id, ...personil });
-            result(null, { id: id, ...personil });
+            no++;
         }
-    );
+        obj.push(id);
+        str = str.substring(0, str.length - 2);
+
+        await query("UPDATE personil SET " + str + " WHERE id = ?", obj);
+        result(null, { id: id, ...personil });
+    } catch (error) {
+        console.log(error)
+        result(error, null);
+    }
 };
 
 Personil.remove = (id, result) => {

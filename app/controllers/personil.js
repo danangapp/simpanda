@@ -30,6 +30,7 @@ exports.create = (req, res) => {
         skpp: req.body.skpp,
         surat_kesehatan: req.body.surat_kesehatan,
         sertifikat_id: req.body.sertifikat_id,
+        sertifikat: req.body.sertifikat,
     });
 
     Personil.create(personil, (err, data) => {

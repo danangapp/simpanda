@@ -11,11 +11,6 @@ const PemeriksaanKapal = function (pemeriksaankapal) {
     this.tanggal_awal = pemeriksaankapal.tanggal_awal;
     this.tanggal_akhir = pemeriksaankapal.tanggal_akhir;
     this.keterangan = pemeriksaankapal.keterangan;
-    this.date = pemeriksaankapal.date;
-    this.item = pemeriksaankapal.item;
-    this.action = pemeriksaankapal.action;
-    this.user_id = pemeriksaankapal.user_id;
-    this.remark = pemeriksaankapal.remark;
 };
 
 PemeriksaanKapal.create = async(newPemeriksaanKapal, result) => {
@@ -33,6 +28,7 @@ PemeriksaanKapal.create = async(newPemeriksaanKapal, result) => {
 		delete newPemeriksaanKapal.action;
 		delete newPemeriksaanKapal.user_id;
 		delete newPemeriksaanKapal.remark;
+
 		const res = await query("INSERT INTO pemeriksaan_kapal SET ?", newPemeriksaanKapal);
 		result(null, { id: res.insertId, ...newPemeriksaanKapal });
 	} catch (error) {

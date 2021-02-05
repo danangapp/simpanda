@@ -40,6 +40,7 @@ Sertifikat.create = async(newSertifikat, result) => {
 
 		delete newSertifikat.sertifikat;
 
+
 		const res = await query("INSERT INTO sertifikat SET ?", newSertifikat);
 		result(null, { id: res.insertId, ...newSertifikat });
 	} catch (error) {

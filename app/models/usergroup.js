@@ -18,15 +18,11 @@ const UserGroup = function (usergroup) {
     this.access_inspection_sarana = usergroup.access_inspection_sarana;
     this.access_inspection_pemeriksaan = usergroup.access_inspection_pemeriksaan;
     this.access_inspection_investigasi = usergroup.access_inspection_investigasi;
-    this.date = usergroup.date;
-    this.item = usergroup.item;
-    this.action = usergroup.action;
-    this.user_id = usergroup.user_id;
-    this.remark = usergroup.remark;
 };
 
 UserGroup.create = async(newUserGroup, result) => {
 	try {
+
 
 		const res = await query("INSERT INTO user_group SET ?", newUserGroup);
 		result(null, { id: res.insertId, ...newUserGroup });

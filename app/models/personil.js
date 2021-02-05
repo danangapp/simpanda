@@ -64,6 +64,7 @@ Personil.create = async(newPersonil, result) => {
 		delete newPersonil.action;
 		delete newPersonil.user_id;
 		delete newPersonil.remark;
+
 		const res = await query("INSERT INTO personil SET ?", newPersonil);
 		result(null, { id: res.insertId, ...newPersonil });
 	} catch (error) {

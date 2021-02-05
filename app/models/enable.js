@@ -5,15 +5,11 @@ const query = util.promisify(sql.query).bind(sql);
 // constructor
 const Enable = function (enable) {
     this.nama = enable.nama;
-    this.date = enable.date;
-    this.item = enable.item;
-    this.action = enable.action;
-    this.user_id = enable.user_id;
-    this.remark = enable.remark;
 };
 
 Enable.create = async(newEnable, result) => {
 	try {
+
 
 		const res = await query("INSERT INTO enable SET ?", newEnable);
 		result(null, { id: res.insertId, ...newEnable });

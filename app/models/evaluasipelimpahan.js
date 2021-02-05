@@ -19,11 +19,6 @@ const EvaluasiPelimpahan = function (evaluasipelimpahan) {
     this.dile_pendukung = evaluasipelimpahan.dile_pendukung;
     this.tanggal_sk = evaluasipelimpahan.tanggal_sk;
     this.file_sk_pelimpahan = evaluasipelimpahan.file_sk_pelimpahan;
-    this.date = evaluasipelimpahan.date;
-    this.item = evaluasipelimpahan.item;
-    this.action = evaluasipelimpahan.action;
-    this.user_id = evaluasipelimpahan.user_id;
-    this.remark = evaluasipelimpahan.remark;
 };
 
 EvaluasiPelimpahan.create = async(newEvaluasiPelimpahan, result) => {
@@ -41,6 +36,7 @@ EvaluasiPelimpahan.create = async(newEvaluasiPelimpahan, result) => {
 		delete newEvaluasiPelimpahan.action;
 		delete newEvaluasiPelimpahan.user_id;
 		delete newEvaluasiPelimpahan.remark;
+
 		const res = await query("INSERT INTO evaluasi_pelimpahan SET ?", newEvaluasiPelimpahan);
 		result(null, { id: res.insertId, ...newEvaluasiPelimpahan });
 	} catch (error) {

@@ -8,11 +8,6 @@ const SaranaBantuPemandu = function (saranabantupemandu) {
     this.cabang_id = saranabantupemandu.cabang_id;
     this.tanggal_pemeriksaan = saranabantupemandu.tanggal_pemeriksaan;
     this.pelaksana = saranabantupemandu.pelaksana;
-    this.date = saranabantupemandu.date;
-    this.item = saranabantupemandu.item;
-    this.action = saranabantupemandu.action;
-    this.user_id = saranabantupemandu.user_id;
-    this.remark = saranabantupemandu.remark;
 };
 
 SaranaBantuPemandu.create = async(newSaranaBantuPemandu, result) => {
@@ -30,6 +25,7 @@ SaranaBantuPemandu.create = async(newSaranaBantuPemandu, result) => {
 		delete newSaranaBantuPemandu.action;
 		delete newSaranaBantuPemandu.user_id;
 		delete newSaranaBantuPemandu.remark;
+
 		const res = await query("INSERT INTO sarana_bantu_pemandu SET ?", newSaranaBantuPemandu);
 		result(null, { id: res.insertId, ...newSaranaBantuPemandu });
 	} catch (error) {

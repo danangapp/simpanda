@@ -12,11 +12,6 @@ const AssetStasiunEquipment = function (assetstasiunequipment) {
     this.kondisi = assetstasiunequipment.kondisi;
     this.approval_status_id = assetstasiunequipment.approval_status_id;
     this.enable = assetstasiunequipment.enable;
-    this.date = assetstasiunequipment.date;
-    this.item = assetstasiunequipment.item;
-    this.action = assetstasiunequipment.action;
-    this.user_id = assetstasiunequipment.user_id;
-    this.remark = assetstasiunequipment.remark;
 };
 
 AssetStasiunEquipment.create = async(newAssetStasiunEquipment, result) => {
@@ -34,6 +29,7 @@ AssetStasiunEquipment.create = async(newAssetStasiunEquipment, result) => {
 		delete newAssetStasiunEquipment.action;
 		delete newAssetStasiunEquipment.user_id;
 		delete newAssetStasiunEquipment.remark;
+
 		const res = await query("INSERT INTO asset_stasiun_equipment SET ?", newAssetStasiunEquipment);
 		result(null, { id: res.insertId, ...newAssetStasiunEquipment });
 	} catch (error) {

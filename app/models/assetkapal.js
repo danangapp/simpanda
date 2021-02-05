@@ -86,6 +86,7 @@ AssetKapal.create = async(newAssetKapal, result) => {
 		delete newAssetKapal.action;
 		delete newAssetKapal.user_id;
 		delete newAssetKapal.remark;
+
 		const res = await query("INSERT INTO asset_kapal SET ?", newAssetKapal);
 		result(null, { id: res.insertId, ...newAssetKapal });
 	} catch (error) {

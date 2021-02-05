@@ -9,15 +9,11 @@ const ActivityLog = function (activitylog) {
     this.action = activitylog.action;
     this.user_id = activitylog.user_id;
     this.remark = activitylog.remark;
-    this.date = activitylog.date;
-    this.item = activitylog.item;
-    this.action = activitylog.action;
-    this.user_id = activitylog.user_id;
-    this.remark = activitylog.remark;
 };
 
 ActivityLog.create = async(newActivityLog, result) => {
 	try {
+
 
 		const res = await query("INSERT INTO activity_log SET ?", newActivityLog);
 		result(null, { id: res.insertId, ...newActivityLog });

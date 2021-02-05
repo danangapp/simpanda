@@ -12,15 +12,11 @@ const ArmadaSchedule = function (armadaschedule) {
     this.jam_pengoperasian = armadaschedule.jam_pengoperasian;
     this.reliabiliy = armadaschedule.reliabiliy;
     this.keterangan = armadaschedule.keterangan;
-    this.date = armadaschedule.date;
-    this.item = armadaschedule.item;
-    this.action = armadaschedule.action;
-    this.user_id = armadaschedule.user_id;
-    this.remark = armadaschedule.remark;
 };
 
 ArmadaSchedule.create = async(newArmadaSchedule, result) => {
 	try {
+
 
 		const res = await query("INSERT INTO armada_schedule SET ?", newArmadaSchedule);
 		result(null, { id: res.insertId, ...newArmadaSchedule });

@@ -15,11 +15,6 @@ const AssetRumahDinas = function (assetrumahdinas) {
     this.nilai = assetrumahdinas.nilai;
     this.catatan = assetrumahdinas.catatan;
     this.enable = assetrumahdinas.enable;
-    this.date = assetrumahdinas.date;
-    this.item = assetrumahdinas.item;
-    this.action = assetrumahdinas.action;
-    this.user_id = assetrumahdinas.user_id;
-    this.remark = assetrumahdinas.remark;
 };
 
 AssetRumahDinas.create = async(newAssetRumahDinas, result) => {
@@ -37,6 +32,7 @@ AssetRumahDinas.create = async(newAssetRumahDinas, result) => {
 		delete newAssetRumahDinas.action;
 		delete newAssetRumahDinas.user_id;
 		delete newAssetRumahDinas.remark;
+
 		const res = await query("INSERT INTO asset_rumah_dinas SET ?", newAssetRumahDinas);
 		result(null, { id: res.insertId, ...newAssetRumahDinas });
 	} catch (error) {

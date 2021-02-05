@@ -10,15 +10,11 @@ const PanduSchedule = function (panduschedule) {
     this.pandu_jaga_nama = panduschedule.pandu_jaga_nama;
     this.status_absen = panduschedule.status_absen;
     this.keterangan = panduschedule.keterangan;
-    this.date = panduschedule.date;
-    this.item = panduschedule.item;
-    this.action = panduschedule.action;
-    this.user_id = panduschedule.user_id;
-    this.remark = panduschedule.remark;
 };
 
 PanduSchedule.create = async(newPanduSchedule, result) => {
 	try {
+
 
 		const res = await query("INSERT INTO pandu_schedule SET ?", newPanduSchedule);
 		result(null, { id: res.insertId, ...newPanduSchedule });

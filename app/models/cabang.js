@@ -15,15 +15,11 @@ const Cabang = function (cabang) {
     this.port_code = cabang.port_code;
     this.autospk = cabang.autospk;
     this.kd_jenis_pelabuhan = cabang.kd_jenis_pelabuhan;
-    this.date = cabang.date;
-    this.item = cabang.item;
-    this.action = cabang.action;
-    this.user_id = cabang.user_id;
-    this.remark = cabang.remark;
 };
 
 Cabang.create = async(newCabang, result) => {
 	try {
+
 
 		const res = await query("INSERT INTO cabang SET ?", newCabang);
 		result(null, { id: res.insertId, ...newCabang });

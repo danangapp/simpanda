@@ -5,15 +5,11 @@ const query = util.promisify(sql.query).bind(sql);
 // constructor
 const TipePersonil = function (tipepersonil) {
     this.nama = tipepersonil.nama;
-    this.date = tipepersonil.date;
-    this.item = tipepersonil.item;
-    this.action = tipepersonil.action;
-    this.user_id = tipepersonil.user_id;
-    this.remark = tipepersonil.remark;
 };
 
 TipePersonil.create = async(newTipePersonil, result) => {
 	try {
+
 
 		const res = await query("INSERT INTO tipe_personil SET ?", newTipePersonil);
 		result(null, { id: res.insertId, ...newTipePersonil });

@@ -47,11 +47,6 @@ const InvestigasiInsiden = function (investigasiinsiden) {
     this.reviewed_tanggal = investigasiinsiden.reviewed_tanggal;
     this.approved_by = investigasiinsiden.approved_by;
     this.approved_tanggal = investigasiinsiden.approved_tanggal;
-    this.date = investigasiinsiden.date;
-    this.item = investigasiinsiden.item;
-    this.action = investigasiinsiden.action;
-    this.user_id = investigasiinsiden.user_id;
-    this.remark = investigasiinsiden.remark;
 };
 
 InvestigasiInsiden.create = async(newInvestigasiInsiden, result) => {
@@ -69,6 +64,7 @@ InvestigasiInsiden.create = async(newInvestigasiInsiden, result) => {
 		delete newInvestigasiInsiden.action;
 		delete newInvestigasiInsiden.user_id;
 		delete newInvestigasiInsiden.remark;
+
 		const res = await query("INSERT INTO investigasi_insiden SET ?", newInvestigasiInsiden);
 		result(null, { id: res.insertId, ...newInvestigasiInsiden });
 	} catch (error) {

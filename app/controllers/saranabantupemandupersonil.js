@@ -13,11 +13,6 @@ exports.create = (req, res) => {
         jabatan: req.body.jabatan,
         asset_kapal_id: req.body.asset_kapal_id,
         status_ijazah_id: req.body.status_ijazah_id,
-        date: req.body.date,
-        item: req.body.item,
-        action: req.body.action,
-        user_id: req.body.user_id,
-        remark: req.body.remark,
     });
 
     SaranaBantuPemanduPersonil.create(saranabantupemandupersonil, (err, data) => {

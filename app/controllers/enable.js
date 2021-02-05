@@ -9,11 +9,6 @@ exports.create = (req, res) => {
 
     const enable = new Enable({
         nama: req.body.nama,
-        date: req.body.date,
-        item: req.body.item,
-        action: req.body.action,
-        user_id: req.body.user_id,
-        remark: req.body.remark,
     });
 
     Enable.create(enable, (err, data) => {

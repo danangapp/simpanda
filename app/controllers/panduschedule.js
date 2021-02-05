@@ -14,11 +14,6 @@ exports.create = (req, res) => {
         pandu_jaga_nama: req.body.pandu_jaga_nama,
         status_absen: req.body.status_absen,
         keterangan: req.body.keterangan,
-        date: req.body.date,
-        item: req.body.item,
-        action: req.body.action,
-        user_id: req.body.user_id,
-        remark: req.body.remark,
     });
 
     PanduSchedule.create(panduschedule, (err, data) => {

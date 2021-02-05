@@ -12,11 +12,6 @@ exports.create = (req, res) => {
         cabang_id: req.body.cabang_id,
         tanggal_pemeriksaan: req.body.tanggal_pemeriksaan,
         pelaksana: req.body.pelaksana,
-        date: req.body.date,
-        item: req.body.item,
-        action: req.body.action,
-        user_id: req.body.user_id,
-        remark: req.body.remark,
     });
 
     SaranaBantuPemandu.create(saranabantupemandu, (err, data) => {

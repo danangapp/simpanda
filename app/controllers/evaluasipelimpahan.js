@@ -23,11 +23,6 @@ exports.create = (req, res) => {
         dile_pendukung: req.body.dile_pendukung,
         tanggal_sk: req.body.tanggal_sk,
         file_sk_pelimpahan: req.body.file_sk_pelimpahan,
-        date: req.body.date,
-        item: req.body.item,
-        action: req.body.action,
-        user_id: req.body.user_id,
-        remark: req.body.remark,
     });
 
     EvaluasiPelimpahan.create(evaluasipelimpahan, (err, data) => {

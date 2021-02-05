@@ -22,11 +22,6 @@ exports.create = (req, res) => {
         access_inspection_sarana: req.body.access_inspection_sarana,
         access_inspection_pemeriksaan: req.body.access_inspection_pemeriksaan,
         access_inspection_investigasi: req.body.access_inspection_investigasi,
-        date: req.body.date,
-        item: req.body.item,
-        action: req.body.action,
-        user_id: req.body.user_id,
-        remark: req.body.remark,
     });
 
     UserGroup.create(usergroup, (err, data) => {

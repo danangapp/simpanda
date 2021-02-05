@@ -19,11 +19,6 @@ exports.create = (req, res) => {
         nilai: req.body.nilai,
         catatan: req.body.catatan,
         enable: req.body.enable,
-        date: req.body.date,
-        item: req.body.item,
-        action: req.body.action,
-        user_id: req.body.user_id,
-        remark: req.body.remark,
     });
 
     AssetRumahDinas.create(assetrumahdinas, (err, data) => {

@@ -9,11 +9,6 @@ exports.create = (req, res) => {
 
     const statusabsen = new StatusAbsen({
         nama: req.body.nama,
-        date: req.body.date,
-        item: req.body.item,
-        action: req.body.action,
-        user_id: req.body.user_id,
-        remark: req.body.remark,
     });
 
     StatusAbsen.create(statusabsen, (err, data) => {

@@ -9,11 +9,6 @@ exports.create = (req, res) => {
 
     const approvalstatus = new ApprovalStatus({
         name: req.body.name,
-        date: req.body.date,
-        item: req.body.item,
-        action: req.body.action,
-        user_id: req.body.user_id,
-        remark: req.body.remark,
     });
 
     ApprovalStatus.create(approvalstatus, (err, data) => {

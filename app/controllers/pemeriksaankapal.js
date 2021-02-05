@@ -15,11 +15,6 @@ exports.create = (req, res) => {
         tanggal_awal: req.body.tanggal_awal,
         tanggal_akhir: req.body.tanggal_akhir,
         keterangan: req.body.keterangan,
-        date: req.body.date,
-        item: req.body.item,
-        action: req.body.action,
-        user_id: req.body.user_id,
-        remark: req.body.remark,
     });
 
     PemeriksaanKapal.create(pemeriksaankapal, (err, data) => {

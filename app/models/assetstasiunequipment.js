@@ -1,4 +1,6 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const AssetStasiunEquipment = function (assetstasiunequipment) {
@@ -12,16 +14,13 @@ const AssetStasiunEquipment = function (assetstasiunequipment) {
     this.enable = assetstasiunequipment.enable;
 };
 
-AssetStasiunEquipment.create = (newAssetStasiunEquipment, result) => {
-    sql.query("INSERT INTO asset_stasiun_equipment SET ?", newAssetStasiunEquipment, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newAssetStasiunEquipment });
-    });
+AssetStasiunEquipment.create = async(newAssetStasiunEquipment, result) => {
+	try {
+		const res = await query("INSERT INTO asset_stasiun_equipment SET ?", newAssetStasiunEquipment);
+		result(null, { id: res.insertId, ...newAssetStasiunEquipment });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 AssetStasiunEquipment.findById = (id, result) => {
@@ -87,37 +86,25 @@ AssetStasiunEquipment.design = result => {
     });
 };
 
-AssetStasiunEquipment.updateById = (id, assetstasiunequipment, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in assetstasiunequipment) {
-	    if (assetstasiunequipment[i]) {
-	        str += i + " = ?, ";
-	        obj.push(assetstasiunequipment[i]);
-	    }
-	    no++;
+AssetStasiunEquipment.updateById = async(id, assetstasiunequipment, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in assetstasiunequipment) {
+		    if (assetstasiunequipment[i]) {
+		        str += i + " = ?, ";
+		        obj.push(assetstasiunequipment[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE asset_stasiun_equipment SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE asset_stasiun_equipment SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found AssetStasiunEquipment with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...assetstasiunequipment });
-        }
-    );
 };
 
 AssetStasiunEquipment.remove = (id, result) => {

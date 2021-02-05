@@ -1,4 +1,6 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const SaranaBantuPemandu = function (saranabantupemandu) {
@@ -8,16 +10,13 @@ const SaranaBantuPemandu = function (saranabantupemandu) {
     this.pelaksana = saranabantupemandu.pelaksana;
 };
 
-SaranaBantuPemandu.create = (newSaranaBantuPemandu, result) => {
-    sql.query("INSERT INTO sarana_bantu_pemandu SET ?", newSaranaBantuPemandu, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newSaranaBantuPemandu });
-    });
+SaranaBantuPemandu.create = async(newSaranaBantuPemandu, result) => {
+	try {
+		const res = await query("INSERT INTO sarana_bantu_pemandu SET ?", newSaranaBantuPemandu);
+		result(null, { id: res.insertId, ...newSaranaBantuPemandu });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 SaranaBantuPemandu.findById = (id, result) => {
@@ -83,37 +82,25 @@ SaranaBantuPemandu.design = result => {
     });
 };
 
-SaranaBantuPemandu.updateById = (id, saranabantupemandu, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in saranabantupemandu) {
-	    if (saranabantupemandu[i]) {
-	        str += i + " = ?, ";
-	        obj.push(saranabantupemandu[i]);
-	    }
-	    no++;
+SaranaBantuPemandu.updateById = async(id, saranabantupemandu, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in saranabantupemandu) {
+		    if (saranabantupemandu[i]) {
+		        str += i + " = ?, ";
+		        obj.push(saranabantupemandu[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE sarana_bantu_pemandu SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE sarana_bantu_pemandu SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found SaranaBantuPemandu with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...saranabantupemandu });
-        }
-    );
 };
 
 SaranaBantuPemandu.remove = (id, result) => {

@@ -51,7 +51,7 @@ exports.create = (req, res) => {
         bolard_pull: req.body.bolard_pull,
         kecepatan: req.body.kecepatan,
         ship_particular: req.body.ship_particular,
-        sertifikat_id: req.body.sertifikat_id,
+        sertifikat: req.body.sertifikat,
     });
 
     AssetKapal.create(assetkapal, (err, data) => {

@@ -1,4 +1,6 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const TipeCert = function (tipecert) {
@@ -6,16 +8,13 @@ const TipeCert = function (tipecert) {
     this.remark = tipecert.remark;
 };
 
-TipeCert.create = (newTipeCert, result) => {
-    sql.query("INSERT INTO tipe_cert SET ?", newTipeCert, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newTipeCert });
-    });
+TipeCert.create = async(newTipeCert, result) => {
+	try {
+		const res = await query("INSERT INTO tipe_cert SET ?", newTipeCert);
+		result(null, { id: res.insertId, ...newTipeCert });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 TipeCert.findById = (id, result) => {
@@ -81,37 +80,25 @@ TipeCert.design = result => {
     });
 };
 
-TipeCert.updateById = (id, tipecert, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in tipecert) {
-	    if (tipecert[i]) {
-	        str += i + " = ?, ";
-	        obj.push(tipecert[i]);
-	    }
-	    no++;
+TipeCert.updateById = async(id, tipecert, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in tipecert) {
+		    if (tipecert[i]) {
+		        str += i + " = ?, ";
+		        obj.push(tipecert[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE tipe_cert SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE tipe_cert SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found TipeCert with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...tipecert });
-        }
-    );
 };
 
 TipeCert.remove = (id, result) => {

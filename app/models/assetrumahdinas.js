@@ -1,4 +1,6 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const AssetRumahDinas = function (assetrumahdinas) {
@@ -15,16 +17,13 @@ const AssetRumahDinas = function (assetrumahdinas) {
     this.enable = assetrumahdinas.enable;
 };
 
-AssetRumahDinas.create = (newAssetRumahDinas, result) => {
-    sql.query("INSERT INTO asset_rumah_dinas SET ?", newAssetRumahDinas, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newAssetRumahDinas });
-    });
+AssetRumahDinas.create = async(newAssetRumahDinas, result) => {
+	try {
+		const res = await query("INSERT INTO asset_rumah_dinas SET ?", newAssetRumahDinas);
+		result(null, { id: res.insertId, ...newAssetRumahDinas });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 AssetRumahDinas.findById = (id, result) => {
@@ -90,37 +89,25 @@ AssetRumahDinas.design = result => {
     });
 };
 
-AssetRumahDinas.updateById = (id, assetrumahdinas, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in assetrumahdinas) {
-	    if (assetrumahdinas[i]) {
-	        str += i + " = ?, ";
-	        obj.push(assetrumahdinas[i]);
-	    }
-	    no++;
+AssetRumahDinas.updateById = async(id, assetrumahdinas, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in assetrumahdinas) {
+		    if (assetrumahdinas[i]) {
+		        str += i + " = ?, ";
+		        obj.push(assetrumahdinas[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE asset_rumah_dinas SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE asset_rumah_dinas SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found AssetRumahDinas with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...assetrumahdinas });
-        }
-    );
 };
 
 AssetRumahDinas.remove = (id, result) => {

@@ -1,20 +1,19 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const Kondisi = function (kondisi) {
     this.nama = kondisi.nama;
 };
 
-Kondisi.create = (newKondisi, result) => {
-    sql.query("INSERT INTO kondisi SET ?", newKondisi, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newKondisi });
-    });
+Kondisi.create = async(newKondisi, result) => {
+	try {
+		const res = await query("INSERT INTO kondisi SET ?", newKondisi);
+		result(null, { id: res.insertId, ...newKondisi });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 Kondisi.findById = (id, result) => {
@@ -80,37 +79,25 @@ Kondisi.design = result => {
     });
 };
 
-Kondisi.updateById = (id, kondisi, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in kondisi) {
-	    if (kondisi[i]) {
-	        str += i + " = ?, ";
-	        obj.push(kondisi[i]);
-	    }
-	    no++;
+Kondisi.updateById = async(id, kondisi, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in kondisi) {
+		    if (kondisi[i]) {
+		        str += i + " = ?, ";
+		        obj.push(kondisi[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE kondisi SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE kondisi SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found Kondisi with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...kondisi });
-        }
-    );
 };
 
 Kondisi.remove = (id, result) => {

@@ -1,20 +1,19 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const StatusAbsen = function (statusabsen) {
     this.nama = statusabsen.nama;
 };
 
-StatusAbsen.create = (newStatusAbsen, result) => {
-    sql.query("INSERT INTO status_absen SET ?", newStatusAbsen, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newStatusAbsen });
-    });
+StatusAbsen.create = async(newStatusAbsen, result) => {
+	try {
+		const res = await query("INSERT INTO status_absen SET ?", newStatusAbsen);
+		result(null, { id: res.insertId, ...newStatusAbsen });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 StatusAbsen.findById = (id, result) => {
@@ -80,37 +79,25 @@ StatusAbsen.design = result => {
     });
 };
 
-StatusAbsen.updateById = (id, statusabsen, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in statusabsen) {
-	    if (statusabsen[i]) {
-	        str += i + " = ?, ";
-	        obj.push(statusabsen[i]);
-	    }
-	    no++;
+StatusAbsen.updateById = async(id, statusabsen, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in statusabsen) {
+		    if (statusabsen[i]) {
+		        str += i + " = ?, ";
+		        obj.push(statusabsen[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE status_absen SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE status_absen SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found StatusAbsen with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...statusabsen });
-        }
-    );
 };
 
 StatusAbsen.remove = (id, result) => {

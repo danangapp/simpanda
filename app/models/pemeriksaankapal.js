@@ -1,4 +1,6 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const PemeriksaanKapal = function (pemeriksaankapal) {
@@ -11,16 +13,13 @@ const PemeriksaanKapal = function (pemeriksaankapal) {
     this.keterangan = pemeriksaankapal.keterangan;
 };
 
-PemeriksaanKapal.create = (newPemeriksaanKapal, result) => {
-    sql.query("INSERT INTO pemeriksaan_kapal SET ?", newPemeriksaanKapal, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newPemeriksaanKapal });
-    });
+PemeriksaanKapal.create = async(newPemeriksaanKapal, result) => {
+	try {
+		const res = await query("INSERT INTO pemeriksaan_kapal SET ?", newPemeriksaanKapal);
+		result(null, { id: res.insertId, ...newPemeriksaanKapal });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 PemeriksaanKapal.findById = (id, result) => {
@@ -86,37 +85,25 @@ PemeriksaanKapal.design = result => {
     });
 };
 
-PemeriksaanKapal.updateById = (id, pemeriksaankapal, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in pemeriksaankapal) {
-	    if (pemeriksaankapal[i]) {
-	        str += i + " = ?, ";
-	        obj.push(pemeriksaankapal[i]);
-	    }
-	    no++;
+PemeriksaanKapal.updateById = async(id, pemeriksaankapal, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in pemeriksaankapal) {
+		    if (pemeriksaankapal[i]) {
+		        str += i + " = ?, ";
+		        obj.push(pemeriksaankapal[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE pemeriksaan_kapal SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE pemeriksaan_kapal SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found PemeriksaanKapal with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...pemeriksaankapal });
-        }
-    );
 };
 
 PemeriksaanKapal.remove = (id, result) => {

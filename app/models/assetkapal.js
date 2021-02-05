@@ -1,4 +1,6 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const AssetKapal = function (assetkapal) {
@@ -45,19 +47,32 @@ const AssetKapal = function (assetkapal) {
     this.bolard_pull = assetkapal.bolard_pull;
     this.kecepatan = assetkapal.kecepatan;
     this.ship_particular = assetkapal.ship_particular;
-    this.sertifikat_id = assetkapal.sertifikat_id;
+    this.sertifikat = assetkapal.sertifikat;
 };
 
-AssetKapal.create = (newAssetKapal, result) => {
-    sql.query("INSERT INTO asset_kapal SET ?", newAssetKapal, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
+AssetKapal.create = async(newAssetKapal, result) => {
+	try {
+		const sertifikat = newAssetKapal.sertifikat;
+		for (var i in sertifikat) {
+		    const x = sertifikat[i];
+		
+		    var header = "", value = "";
+		    for (var a in x) {
+		        const val = x[a];
+		        header += a + ", ";
+		        value += "'" + val + "', ";
+		    }
+		    value = value.substring(0, value.length - 2);
+		    header = header.substring(0, header.length - 2);
+			await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
+		}
 
-        result(null, { id: res.insertId, ...newAssetKapal });
-    });
+		delete newAssetKapal.sertifikat;
+		const res = await query("INSERT INTO asset_kapal SET ?", newAssetKapal);
+		result(null, { id: res.insertId, ...newAssetKapal });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 AssetKapal.findById = (id, result) => {
@@ -123,37 +138,42 @@ AssetKapal.design = result => {
     });
 };
 
-AssetKapal.updateById = (id, assetkapal, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in assetkapal) {
-	    if (assetkapal[i]) {
-	        str += i + " = ?, ";
-	        obj.push(assetkapal[i]);
-	    }
-	    no++;
+AssetKapal.updateById = async(id, assetkapal, result) => {
+	try {
+		const sertifikat = asset_kapal.sertifikat;
+		for (var i in sertifikat) {
+		    const x = sertifikat[i];
+		
+		    var header = "", value = "";
+		    for (var a in x) {
+		        const val = x[a];
+		        header += a + ", ";
+		        value += "'" + val + "', ";
+		    }
+		    value = value.substring(0, value.length - 2);
+		    header = header.substring(0, header.length - 2);
+		
+			await query("DELETE FROM sertifikat WHERE id = ?", x.id);
+			await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
+		}
+		delete asset_kapal.sertifikat;
+
+		var str = "", obj = [], no = 1;
+		for (var i in assetkapal) {
+		    if (assetkapal[i]) {
+		        str += i + " = ?, ";
+		        obj.push(assetkapal[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE asset_kapal SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE asset_kapal SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found AssetKapal with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...assetkapal });
-        }
-    );
 };
 
 AssetKapal.remove = (id, result) => {

@@ -1,20 +1,19 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const TipeAsset = function (tipeasset) {
     this.nama = tipeasset.nama;
 };
 
-TipeAsset.create = (newTipeAsset, result) => {
-    sql.query("INSERT INTO tipe_asset SET ?", newTipeAsset, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newTipeAsset });
-    });
+TipeAsset.create = async(newTipeAsset, result) => {
+	try {
+		const res = await query("INSERT INTO tipe_asset SET ?", newTipeAsset);
+		result(null, { id: res.insertId, ...newTipeAsset });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 TipeAsset.findById = (id, result) => {
@@ -80,37 +79,25 @@ TipeAsset.design = result => {
     });
 };
 
-TipeAsset.updateById = (id, tipeasset, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in tipeasset) {
-	    if (tipeasset[i]) {
-	        str += i + " = ?, ";
-	        obj.push(tipeasset[i]);
-	    }
-	    no++;
+TipeAsset.updateById = async(id, tipeasset, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in tipeasset) {
+		    if (tipeasset[i]) {
+		        str += i + " = ?, ";
+		        obj.push(tipeasset[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE tipe_asset SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE tipe_asset SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found TipeAsset with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...tipeasset });
-        }
-    );
 };
 
 TipeAsset.remove = (id, result) => {

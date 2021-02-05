@@ -1,20 +1,19 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const TipeStasiun = function (tipestasiun) {
     this.nama = tipestasiun.nama;
 };
 
-TipeStasiun.create = (newTipeStasiun, result) => {
-    sql.query("INSERT INTO tipe_stasiun SET ?", newTipeStasiun, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newTipeStasiun });
-    });
+TipeStasiun.create = async(newTipeStasiun, result) => {
+	try {
+		const res = await query("INSERT INTO tipe_stasiun SET ?", newTipeStasiun);
+		result(null, { id: res.insertId, ...newTipeStasiun });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 TipeStasiun.findById = (id, result) => {
@@ -80,37 +79,25 @@ TipeStasiun.design = result => {
     });
 };
 
-TipeStasiun.updateById = (id, tipestasiun, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in tipestasiun) {
-	    if (tipestasiun[i]) {
-	        str += i + " = ?, ";
-	        obj.push(tipestasiun[i]);
-	    }
-	    no++;
+TipeStasiun.updateById = async(id, tipestasiun, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in tipestasiun) {
+		    if (tipestasiun[i]) {
+		        str += i + " = ?, ";
+		        obj.push(tipestasiun[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE tipe_stasiun SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE tipe_stasiun SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found TipeStasiun with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...tipestasiun });
-        }
-    );
 };
 
 TipeStasiun.remove = (id, result) => {

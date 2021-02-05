@@ -1,20 +1,19 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const KondisiUmum = function (kondisiumum) {
     this.nama = kondisiumum.nama;
 };
 
-KondisiUmum.create = (newKondisiUmum, result) => {
-    sql.query("INSERT INTO kondisi_umum SET ?", newKondisiUmum, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newKondisiUmum });
-    });
+KondisiUmum.create = async(newKondisiUmum, result) => {
+	try {
+		const res = await query("INSERT INTO kondisi_umum SET ?", newKondisiUmum);
+		result(null, { id: res.insertId, ...newKondisiUmum });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 KondisiUmum.findById = (id, result) => {
@@ -80,37 +79,25 @@ KondisiUmum.design = result => {
     });
 };
 
-KondisiUmum.updateById = (id, kondisiumum, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in kondisiumum) {
-	    if (kondisiumum[i]) {
-	        str += i + " = ?, ";
-	        obj.push(kondisiumum[i]);
-	    }
-	    no++;
+KondisiUmum.updateById = async(id, kondisiumum, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in kondisiumum) {
+		    if (kondisiumum[i]) {
+		        str += i + " = ?, ";
+		        obj.push(kondisiumum[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE kondisi_umum SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE kondisi_umum SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found KondisiUmum with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...kondisiumum });
-        }
-    );
 };
 
 KondisiUmum.remove = (id, result) => {

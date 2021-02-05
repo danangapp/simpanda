@@ -1,4 +1,6 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const Cabang = function (cabang) {
@@ -15,16 +17,13 @@ const Cabang = function (cabang) {
     this.kd_jenis_pelabuhan = cabang.kd_jenis_pelabuhan;
 };
 
-Cabang.create = (newCabang, result) => {
-    sql.query("INSERT INTO cabang SET ?", newCabang, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newCabang });
-    });
+Cabang.create = async(newCabang, result) => {
+	try {
+		const res = await query("INSERT INTO cabang SET ?", newCabang);
+		result(null, { id: res.insertId, ...newCabang });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 Cabang.findById = (id, result) => {
@@ -90,37 +89,25 @@ Cabang.design = result => {
     });
 };
 
-Cabang.updateById = (id, cabang, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in cabang) {
-	    if (cabang[i]) {
-	        str += i + " = ?, ";
-	        obj.push(cabang[i]);
-	    }
-	    no++;
+Cabang.updateById = async(id, cabang, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in cabang) {
+		    if (cabang[i]) {
+		        str += i + " = ?, ";
+		        obj.push(cabang[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE cabang SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE cabang SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found Cabang with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...cabang });
-        }
-    );
 };
 
 Cabang.remove = (id, result) => {

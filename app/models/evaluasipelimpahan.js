@@ -1,4 +1,6 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const EvaluasiPelimpahan = function (evaluasipelimpahan) {
@@ -19,16 +21,13 @@ const EvaluasiPelimpahan = function (evaluasipelimpahan) {
     this.file_sk_pelimpahan = evaluasipelimpahan.file_sk_pelimpahan;
 };
 
-EvaluasiPelimpahan.create = (newEvaluasiPelimpahan, result) => {
-    sql.query("INSERT INTO evaluasi_pelimpahan SET ?", newEvaluasiPelimpahan, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newEvaluasiPelimpahan });
-    });
+EvaluasiPelimpahan.create = async(newEvaluasiPelimpahan, result) => {
+	try {
+		const res = await query("INSERT INTO evaluasi_pelimpahan SET ?", newEvaluasiPelimpahan);
+		result(null, { id: res.insertId, ...newEvaluasiPelimpahan });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 EvaluasiPelimpahan.findById = (id, result) => {
@@ -94,37 +93,25 @@ EvaluasiPelimpahan.design = result => {
     });
 };
 
-EvaluasiPelimpahan.updateById = (id, evaluasipelimpahan, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in evaluasipelimpahan) {
-	    if (evaluasipelimpahan[i]) {
-	        str += i + " = ?, ";
-	        obj.push(evaluasipelimpahan[i]);
-	    }
-	    no++;
+EvaluasiPelimpahan.updateById = async(id, evaluasipelimpahan, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in evaluasipelimpahan) {
+		    if (evaluasipelimpahan[i]) {
+		        str += i + " = ?, ";
+		        obj.push(evaluasipelimpahan[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE evaluasi_pelimpahan SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE evaluasi_pelimpahan SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found EvaluasiPelimpahan with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...evaluasipelimpahan });
-        }
-    );
 };
 
 EvaluasiPelimpahan.remove = (id, result) => {

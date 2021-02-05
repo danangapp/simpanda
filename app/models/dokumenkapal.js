@@ -1,20 +1,19 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const DokumenKapal = function (dokumenkapal) {
     this.nama = dokumenkapal.nama;
 };
 
-DokumenKapal.create = (newDokumenKapal, result) => {
-    sql.query("INSERT INTO dokumen_kapal SET ?", newDokumenKapal, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newDokumenKapal });
-    });
+DokumenKapal.create = async(newDokumenKapal, result) => {
+	try {
+		const res = await query("INSERT INTO dokumen_kapal SET ?", newDokumenKapal);
+		result(null, { id: res.insertId, ...newDokumenKapal });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 DokumenKapal.findById = (id, result) => {
@@ -80,37 +79,25 @@ DokumenKapal.design = result => {
     });
 };
 
-DokumenKapal.updateById = (id, dokumenkapal, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in dokumenkapal) {
-	    if (dokumenkapal[i]) {
-	        str += i + " = ?, ";
-	        obj.push(dokumenkapal[i]);
-	    }
-	    no++;
+DokumenKapal.updateById = async(id, dokumenkapal, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in dokumenkapal) {
+		    if (dokumenkapal[i]) {
+		        str += i + " = ?, ";
+		        obj.push(dokumenkapal[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE dokumen_kapal SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE dokumen_kapal SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found DokumenKapal with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...dokumenkapal });
-        }
-    );
 };
 
 DokumenKapal.remove = (id, result) => {

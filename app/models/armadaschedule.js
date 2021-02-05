@@ -1,4 +1,6 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const ArmadaSchedule = function (armadaschedule) {
@@ -12,16 +14,13 @@ const ArmadaSchedule = function (armadaschedule) {
     this.keterangan = armadaschedule.keterangan;
 };
 
-ArmadaSchedule.create = (newArmadaSchedule, result) => {
-    sql.query("INSERT INTO armada_schedule SET ?", newArmadaSchedule, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newArmadaSchedule });
-    });
+ArmadaSchedule.create = async(newArmadaSchedule, result) => {
+	try {
+		const res = await query("INSERT INTO armada_schedule SET ?", newArmadaSchedule);
+		result(null, { id: res.insertId, ...newArmadaSchedule });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 ArmadaSchedule.findById = (id, result) => {
@@ -87,37 +86,25 @@ ArmadaSchedule.design = result => {
     });
 };
 
-ArmadaSchedule.updateById = (id, armadaschedule, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in armadaschedule) {
-	    if (armadaschedule[i]) {
-	        str += i + " = ?, ";
-	        obj.push(armadaschedule[i]);
-	    }
-	    no++;
+ArmadaSchedule.updateById = async(id, armadaschedule, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in armadaschedule) {
+		    if (armadaschedule[i]) {
+		        str += i + " = ?, ";
+		        obj.push(armadaschedule[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE armada_schedule SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE armada_schedule SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found ArmadaSchedule with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...armadaschedule });
-        }
-    );
 };
 
 ArmadaSchedule.remove = (id, result) => {

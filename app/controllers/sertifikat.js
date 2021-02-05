@@ -17,7 +17,7 @@ exports.create = (req, res) => {
         tanggal_expire: req.body.tanggal_expire,
         reminder_date: req.body.reminder_date,
         sertifikat: req.body.sertifikat,
-        sertifikat_id: req.body.sertifikat_id,
+        sertifikat: req.body.sertifikat,
     });
 
     Sertifikat.create(sertifikat, (err, data) => {

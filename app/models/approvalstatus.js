@@ -1,20 +1,19 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const ApprovalStatus = function (approvalstatus) {
     this.name = approvalstatus.name;
 };
 
-ApprovalStatus.create = (newApprovalStatus, result) => {
-    sql.query("INSERT INTO approval_status SET ?", newApprovalStatus, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newApprovalStatus });
-    });
+ApprovalStatus.create = async(newApprovalStatus, result) => {
+	try {
+		const res = await query("INSERT INTO approval_status SET ?", newApprovalStatus);
+		result(null, { id: res.insertId, ...newApprovalStatus });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 ApprovalStatus.findById = (id, result) => {
@@ -80,37 +79,25 @@ ApprovalStatus.design = result => {
     });
 };
 
-ApprovalStatus.updateById = (id, approvalstatus, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in approvalstatus) {
-	    if (approvalstatus[i]) {
-	        str += i + " = ?, ";
-	        obj.push(approvalstatus[i]);
-	    }
-	    no++;
+ApprovalStatus.updateById = async(id, approvalstatus, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in approvalstatus) {
+		    if (approvalstatus[i]) {
+		        str += i + " = ?, ";
+		        obj.push(approvalstatus[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE approval_status SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE approval_status SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found ApprovalStatus with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...approvalstatus });
-        }
-    );
 };
 
 ApprovalStatus.remove = (id, result) => {

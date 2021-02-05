@@ -1,20 +1,19 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const StatusIjazah = function (statusijazah) {
     this.nama = statusijazah.nama;
 };
 
-StatusIjazah.create = (newStatusIjazah, result) => {
-    sql.query("INSERT INTO status_ijazah SET ?", newStatusIjazah, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newStatusIjazah });
-    });
+StatusIjazah.create = async(newStatusIjazah, result) => {
+	try {
+		const res = await query("INSERT INTO status_ijazah SET ?", newStatusIjazah);
+		result(null, { id: res.insertId, ...newStatusIjazah });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 StatusIjazah.findById = (id, result) => {
@@ -80,37 +79,25 @@ StatusIjazah.design = result => {
     });
 };
 
-StatusIjazah.updateById = (id, statusijazah, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in statusijazah) {
-	    if (statusijazah[i]) {
-	        str += i + " = ?, ";
-	        obj.push(statusijazah[i]);
-	    }
-	    no++;
+StatusIjazah.updateById = async(id, statusijazah, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in statusijazah) {
+		    if (statusijazah[i]) {
+		        str += i + " = ?, ";
+		        obj.push(statusijazah[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE status_ijazah SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE status_ijazah SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found StatusIjazah with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...statusijazah });
-        }
-    );
 };
 
 StatusIjazah.remove = (id, result) => {

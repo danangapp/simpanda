@@ -1,4 +1,6 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const ActivityLog = function (activitylog) {
@@ -9,16 +11,13 @@ const ActivityLog = function (activitylog) {
     this.remark = activitylog.remark;
 };
 
-ActivityLog.create = (newActivityLog, result) => {
-    sql.query("INSERT INTO activity_log SET ?", newActivityLog, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newActivityLog });
-    });
+ActivityLog.create = async(newActivityLog, result) => {
+	try {
+		const res = await query("INSERT INTO activity_log SET ?", newActivityLog);
+		result(null, { id: res.insertId, ...newActivityLog });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 ActivityLog.findById = (id, result) => {
@@ -84,37 +83,25 @@ ActivityLog.design = result => {
     });
 };
 
-ActivityLog.updateById = (id, activitylog, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in activitylog) {
-	    if (activitylog[i]) {
-	        str += i + " = ?, ";
-	        obj.push(activitylog[i]);
-	    }
-	    no++;
+ActivityLog.updateById = async(id, activitylog, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in activitylog) {
+		    if (activitylog[i]) {
+		        str += i + " = ?, ";
+		        obj.push(activitylog[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE activity_log SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE activity_log SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found ActivityLog with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...activitylog });
-        }
-    );
 };
 
 ActivityLog.remove = (id, result) => {

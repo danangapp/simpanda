@@ -1,20 +1,19 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const StatusInvestigasiInsiden = function (statusinvestigasiinsiden) {
     this.nama = statusinvestigasiinsiden.nama;
 };
 
-StatusInvestigasiInsiden.create = (newStatusInvestigasiInsiden, result) => {
-    sql.query("INSERT INTO status_investigasi_insiden SET ?", newStatusInvestigasiInsiden, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newStatusInvestigasiInsiden });
-    });
+StatusInvestigasiInsiden.create = async(newStatusInvestigasiInsiden, result) => {
+	try {
+		const res = await query("INSERT INTO status_investigasi_insiden SET ?", newStatusInvestigasiInsiden);
+		result(null, { id: res.insertId, ...newStatusInvestigasiInsiden });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 StatusInvestigasiInsiden.findById = (id, result) => {
@@ -80,37 +79,25 @@ StatusInvestigasiInsiden.design = result => {
     });
 };
 
-StatusInvestigasiInsiden.updateById = (id, statusinvestigasiinsiden, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in statusinvestigasiinsiden) {
-	    if (statusinvestigasiinsiden[i]) {
-	        str += i + " = ?, ";
-	        obj.push(statusinvestigasiinsiden[i]);
-	    }
-	    no++;
+StatusInvestigasiInsiden.updateById = async(id, statusinvestigasiinsiden, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in statusinvestigasiinsiden) {
+		    if (statusinvestigasiinsiden[i]) {
+		        str += i + " = ?, ";
+		        obj.push(statusinvestigasiinsiden[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE status_investigasi_insiden SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE status_investigasi_insiden SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found StatusInvestigasiInsiden with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...statusinvestigasiinsiden });
-        }
-    );
 };
 
 StatusInvestigasiInsiden.remove = (id, result) => {

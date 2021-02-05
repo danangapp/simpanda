@@ -1,4 +1,6 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const SaranaBantuPemanduPersonil = function (saranabantupemandupersonil) {
@@ -9,16 +11,13 @@ const SaranaBantuPemanduPersonil = function (saranabantupemandupersonil) {
     this.status_ijazah_id = saranabantupemandupersonil.status_ijazah_id;
 };
 
-SaranaBantuPemanduPersonil.create = (newSaranaBantuPemanduPersonil, result) => {
-    sql.query("INSERT INTO sarana_bantu_pemandu_personil SET ?", newSaranaBantuPemanduPersonil, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newSaranaBantuPemanduPersonil });
-    });
+SaranaBantuPemanduPersonil.create = async(newSaranaBantuPemanduPersonil, result) => {
+	try {
+		const res = await query("INSERT INTO sarana_bantu_pemandu_personil SET ?", newSaranaBantuPemanduPersonil);
+		result(null, { id: res.insertId, ...newSaranaBantuPemanduPersonil });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 SaranaBantuPemanduPersonil.findById = (id, result) => {
@@ -84,37 +83,25 @@ SaranaBantuPemanduPersonil.design = result => {
     });
 };
 
-SaranaBantuPemanduPersonil.updateById = (id, saranabantupemandupersonil, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in saranabantupemandupersonil) {
-	    if (saranabantupemandupersonil[i]) {
-	        str += i + " = ?, ";
-	        obj.push(saranabantupemandupersonil[i]);
-	    }
-	    no++;
+SaranaBantuPemanduPersonil.updateById = async(id, saranabantupemandupersonil, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in saranabantupemandupersonil) {
+		    if (saranabantupemandupersonil[i]) {
+		        str += i + " = ?, ";
+		        obj.push(saranabantupemandupersonil[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE sarana_bantu_pemandu_personil SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE sarana_bantu_pemandu_personil SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found SaranaBantuPemanduPersonil with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...saranabantupemandupersonil });
-        }
-    );
 };
 
 SaranaBantuPemanduPersonil.remove = (id, result) => {

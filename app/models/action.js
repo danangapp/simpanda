@@ -1,20 +1,19 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const Action = function (action) {
     this.nama = action.nama;
 };
 
-Action.create = (newAction, result) => {
-    sql.query("INSERT INTO action SET ?", newAction, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newAction });
-    });
+Action.create = async(newAction, result) => {
+	try {
+		const res = await query("INSERT INTO action SET ?", newAction);
+		result(null, { id: res.insertId, ...newAction });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 Action.findById = (id, result) => {
@@ -80,37 +79,25 @@ Action.design = result => {
     });
 };
 
-Action.updateById = (id, action, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in action) {
-	    if (action[i]) {
-	        str += i + " = ?, ";
-	        obj.push(action[i]);
-	    }
-	    no++;
+Action.updateById = async(id, action, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in action) {
+		    if (action[i]) {
+		        str += i + " = ?, ";
+		        obj.push(action[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE action SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE action SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found Action with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...action });
-        }
-    );
 };
 
 Action.remove = (id, result) => {

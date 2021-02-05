@@ -1,20 +1,19 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const Enable = function (enable) {
     this.nama = enable.nama;
 };
 
-Enable.create = (newEnable, result) => {
-    sql.query("INSERT INTO enable SET ?", newEnable, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newEnable });
-    });
+Enable.create = async(newEnable, result) => {
+	try {
+		const res = await query("INSERT INTO enable SET ?", newEnable);
+		result(null, { id: res.insertId, ...newEnable });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 Enable.findById = (id, result) => {
@@ -80,37 +79,25 @@ Enable.design = result => {
     });
 };
 
-Enable.updateById = (id, enable, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in enable) {
-	    if (enable[i]) {
-	        str += i + " = ?, ";
-	        obj.push(enable[i]);
-	    }
-	    no++;
+Enable.updateById = async(id, enable, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in enable) {
+		    if (enable[i]) {
+		        str += i + " = ?, ";
+		        obj.push(enable[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE enable SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE enable SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found Enable with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...enable });
-        }
-    );
 };
 
 Enable.remove = (id, result) => {

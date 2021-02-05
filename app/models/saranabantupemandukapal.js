@@ -1,4 +1,6 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const SaranaBantuPemanduKapal = function (saranabantupemandukapal) {
@@ -71,16 +73,13 @@ const SaranaBantuPemanduKapal = function (saranabantupemandukapal) {
     this.pemeriksaan_fisik_f4 = saranabantupemandukapal.pemeriksaan_fisik_f4;
 };
 
-SaranaBantuPemanduKapal.create = (newSaranaBantuPemanduKapal, result) => {
-    sql.query("INSERT INTO sarana_bantu_pemandu_kapal SET ?", newSaranaBantuPemanduKapal, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newSaranaBantuPemanduKapal });
-    });
+SaranaBantuPemanduKapal.create = async(newSaranaBantuPemanduKapal, result) => {
+	try {
+		const res = await query("INSERT INTO sarana_bantu_pemandu_kapal SET ?", newSaranaBantuPemanduKapal);
+		result(null, { id: res.insertId, ...newSaranaBantuPemanduKapal });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 SaranaBantuPemanduKapal.findById = (id, result) => {
@@ -146,37 +145,25 @@ SaranaBantuPemanduKapal.design = result => {
     });
 };
 
-SaranaBantuPemanduKapal.updateById = (id, saranabantupemandukapal, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in saranabantupemandukapal) {
-	    if (saranabantupemandukapal[i]) {
-	        str += i + " = ?, ";
-	        obj.push(saranabantupemandukapal[i]);
-	    }
-	    no++;
+SaranaBantuPemanduKapal.updateById = async(id, saranabantupemandukapal, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in saranabantupemandukapal) {
+		    if (saranabantupemandukapal[i]) {
+		        str += i + " = ?, ";
+		        obj.push(saranabantupemandukapal[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE sarana_bantu_pemandu_kapal SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE sarana_bantu_pemandu_kapal SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found SaranaBantuPemanduKapal with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...saranabantupemandukapal });
-        }
-    );
 };
 
 SaranaBantuPemanduKapal.remove = (id, result) => {

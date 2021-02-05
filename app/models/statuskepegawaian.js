@@ -1,20 +1,19 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const StatusKepegawaian = function (statuskepegawaian) {
     this.nama = statuskepegawaian.nama;
 };
 
-StatusKepegawaian.create = (newStatusKepegawaian, result) => {
-    sql.query("INSERT INTO status_kepegawaian SET ?", newStatusKepegawaian, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newStatusKepegawaian });
-    });
+StatusKepegawaian.create = async(newStatusKepegawaian, result) => {
+	try {
+		const res = await query("INSERT INTO status_kepegawaian SET ?", newStatusKepegawaian);
+		result(null, { id: res.insertId, ...newStatusKepegawaian });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 StatusKepegawaian.findById = (id, result) => {
@@ -80,37 +79,25 @@ StatusKepegawaian.design = result => {
     });
 };
 
-StatusKepegawaian.updateById = (id, statuskepegawaian, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in statuskepegawaian) {
-	    if (statuskepegawaian[i]) {
-	        str += i + " = ?, ";
-	        obj.push(statuskepegawaian[i]);
-	    }
-	    no++;
+StatusKepegawaian.updateById = async(id, statuskepegawaian, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in statuskepegawaian) {
+		    if (statuskepegawaian[i]) {
+		        str += i + " = ?, ";
+		        obj.push(statuskepegawaian[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE status_kepegawaian SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE status_kepegawaian SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found StatusKepegawaian with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...statuskepegawaian });
-        }
-    );
 };
 
 StatusKepegawaian.remove = (id, result) => {

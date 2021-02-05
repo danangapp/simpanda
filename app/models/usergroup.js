@@ -1,4 +1,6 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const UserGroup = function (usergroup) {
@@ -18,16 +20,13 @@ const UserGroup = function (usergroup) {
     this.access_inspection_investigasi = usergroup.access_inspection_investigasi;
 };
 
-UserGroup.create = (newUserGroup, result) => {
-    sql.query("INSERT INTO user_group SET ?", newUserGroup, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newUserGroup });
-    });
+UserGroup.create = async(newUserGroup, result) => {
+	try {
+		const res = await query("INSERT INTO user_group SET ?", newUserGroup);
+		result(null, { id: res.insertId, ...newUserGroup });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 UserGroup.findById = (id, result) => {
@@ -93,37 +92,25 @@ UserGroup.design = result => {
     });
 };
 
-UserGroup.updateById = (id, usergroup, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in usergroup) {
-	    if (usergroup[i]) {
-	        str += i + " = ?, ";
-	        obj.push(usergroup[i]);
-	    }
-	    no++;
+UserGroup.updateById = async(id, usergroup, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in usergroup) {
+		    if (usergroup[i]) {
+		        str += i + " = ?, ";
+		        obj.push(usergroup[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE user_group SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE user_group SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found UserGroup with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...usergroup });
-        }
-    );
 };
 
 UserGroup.remove = (id, result) => {

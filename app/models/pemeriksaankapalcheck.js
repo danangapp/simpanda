@@ -1,20 +1,19 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const PemeriksaanKapalCheck = function (pemeriksaankapalcheck) {
     this.question = pemeriksaankapalcheck.question;
 };
 
-PemeriksaanKapalCheck.create = (newPemeriksaanKapalCheck, result) => {
-    sql.query("INSERT INTO pemeriksaan_kapal_check SET ?", newPemeriksaanKapalCheck, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newPemeriksaanKapalCheck });
-    });
+PemeriksaanKapalCheck.create = async(newPemeriksaanKapalCheck, result) => {
+	try {
+		const res = await query("INSERT INTO pemeriksaan_kapal_check SET ?", newPemeriksaanKapalCheck);
+		result(null, { id: res.insertId, ...newPemeriksaanKapalCheck });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 PemeriksaanKapalCheck.findById = (id, result) => {
@@ -80,37 +79,25 @@ PemeriksaanKapalCheck.design = result => {
     });
 };
 
-PemeriksaanKapalCheck.updateById = (id, pemeriksaankapalcheck, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in pemeriksaankapalcheck) {
-	    if (pemeriksaankapalcheck[i]) {
-	        str += i + " = ?, ";
-	        obj.push(pemeriksaankapalcheck[i]);
-	    }
-	    no++;
+PemeriksaanKapalCheck.updateById = async(id, pemeriksaankapalcheck, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in pemeriksaankapalcheck) {
+		    if (pemeriksaankapalcheck[i]) {
+		        str += i + " = ?, ";
+		        obj.push(pemeriksaankapalcheck[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE pemeriksaan_kapal_check SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE pemeriksaan_kapal_check SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found PemeriksaanKapalCheck with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...pemeriksaankapalcheck });
-        }
-    );
 };
 
 PemeriksaanKapalCheck.remove = (id, result) => {

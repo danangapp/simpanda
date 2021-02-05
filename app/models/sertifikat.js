@@ -1,4 +1,6 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const Sertifikat = function (sertifikat) {
@@ -11,19 +13,32 @@ const Sertifikat = function (sertifikat) {
     this.tanggal_expire = sertifikat.tanggal_expire;
     this.reminder_date = sertifikat.reminder_date;
     this.sertifikat = sertifikat.sertifikat;
-    this.sertifikat_id = sertifikat.sertifikat_id;
+    this.sertifikat = sertifikat.sertifikat;
 };
 
-Sertifikat.create = (newSertifikat, result) => {
-    sql.query("INSERT INTO sertifikat SET ?", newSertifikat, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
+Sertifikat.create = async(newSertifikat, result) => {
+	try {
+		const sertifikat = newSertifikat.sertifikat;
+		for (var i in sertifikat) {
+		    const x = sertifikat[i];
+		
+		    var header = "", value = "";
+		    for (var a in x) {
+		        const val = x[a];
+		        header += a + ", ";
+		        value += "'" + val + "', ";
+		    }
+		    value = value.substring(0, value.length - 2);
+		    header = header.substring(0, header.length - 2);
+			await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
+		}
 
-        result(null, { id: res.insertId, ...newSertifikat });
-    });
+		delete newSertifikat.sertifikat;
+		const res = await query("INSERT INTO sertifikat SET ?", newSertifikat);
+		result(null, { id: res.insertId, ...newSertifikat });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 Sertifikat.findById = (id, result) => {
@@ -89,37 +104,42 @@ Sertifikat.design = result => {
     });
 };
 
-Sertifikat.updateById = (id, sertifikat, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in sertifikat) {
-	    if (sertifikat[i]) {
-	        str += i + " = ?, ";
-	        obj.push(sertifikat[i]);
-	    }
-	    no++;
+Sertifikat.updateById = async(id, sertifikat, result) => {
+	try {
+		const sertifikat = sertifikat.sertifikat;
+		for (var i in sertifikat) {
+		    const x = sertifikat[i];
+		
+		    var header = "", value = "";
+		    for (var a in x) {
+		        const val = x[a];
+		        header += a + ", ";
+		        value += "'" + val + "', ";
+		    }
+		    value = value.substring(0, value.length - 2);
+		    header = header.substring(0, header.length - 2);
+		
+			await query("DELETE FROM sertifikat WHERE id = ?", x.id);
+			await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
+		}
+		delete sertifikat.sertifikat;
+
+		var str = "", obj = [], no = 1;
+		for (var i in sertifikat) {
+		    if (sertifikat[i]) {
+		        str += i + " = ?, ";
+		        obj.push(sertifikat[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE sertifikat SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE sertifikat SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found Sertifikat with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...sertifikat });
-        }
-    );
 };
 
 Sertifikat.remove = (id, result) => {

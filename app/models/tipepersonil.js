@@ -1,20 +1,19 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const TipePersonil = function (tipepersonil) {
     this.nama = tipepersonil.nama;
 };
 
-TipePersonil.create = (newTipePersonil, result) => {
-    sql.query("INSERT INTO tipe_personil SET ?", newTipePersonil, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newTipePersonil });
-    });
+TipePersonil.create = async(newTipePersonil, result) => {
+	try {
+		const res = await query("INSERT INTO tipe_personil SET ?", newTipePersonil);
+		result(null, { id: res.insertId, ...newTipePersonil });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 TipePersonil.findById = (id, result) => {
@@ -80,37 +79,25 @@ TipePersonil.design = result => {
     });
 };
 
-TipePersonil.updateById = (id, tipepersonil, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in tipepersonil) {
-	    if (tipepersonil[i]) {
-	        str += i + " = ?, ";
-	        obj.push(tipepersonil[i]);
-	    }
-	    no++;
+TipePersonil.updateById = async(id, tipepersonil, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in tipepersonil) {
+		    if (tipepersonil[i]) {
+		        str += i + " = ?, ";
+		        obj.push(tipepersonil[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE tipe_personil SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE tipe_personil SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found TipePersonil with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...tipepersonil });
-        }
-    );
 };
 
 TipePersonil.remove = (id, result) => {

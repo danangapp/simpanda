@@ -1,20 +1,19 @@
 const sql = require("../config/db.js");
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const TipeSaranaPemanduKapal = function (tipesaranapemandukapal) {
     this.nama = tipesaranapemandukapal.nama;
 };
 
-TipeSaranaPemanduKapal.create = (newTipeSaranaPemanduKapal, result) => {
-    sql.query("INSERT INTO tipe_sarana_pemandu_kapal SET ?", newTipeSaranaPemanduKapal, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        result(null, { id: res.insertId, ...newTipeSaranaPemanduKapal });
-    });
+TipeSaranaPemanduKapal.create = async(newTipeSaranaPemanduKapal, result) => {
+	try {
+		const res = await query("INSERT INTO tipe_sarana_pemandu_kapal SET ?", newTipeSaranaPemanduKapal);
+		result(null, { id: res.insertId, ...newTipeSaranaPemanduKapal });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 TipeSaranaPemanduKapal.findById = (id, result) => {
@@ -80,37 +79,25 @@ TipeSaranaPemanduKapal.design = result => {
     });
 };
 
-TipeSaranaPemanduKapal.updateById = (id, tipesaranapemandukapal, result) => {
-	var str = "", obj = [], no = 1;
-	for (var i in tipesaranapemandukapal) {
-	    if (tipesaranapemandukapal[i]) {
-	        str += i + " = ?, ";
-	        obj.push(tipesaranapemandukapal[i]);
-	    }
-	    no++;
+TipeSaranaPemanduKapal.updateById = async(id, tipesaranapemandukapal, result) => {
+	try {
+
+		var str = "", obj = [], no = 1;
+		for (var i in tipesaranapemandukapal) {
+		    if (tipesaranapemandukapal[i]) {
+		        str += i + " = ?, ";
+		        obj.push(tipesaranapemandukapal[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
+
+		await query("UPDATE tipe_sarana_pemandu_kapal SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
 	}
-	obj.push(id);
-	str = str.substring(0, str.length - 2);
-
-    sql.query(
-        "UPDATE tipe_sarana_pemandu_kapal SET " + str + " WHERE id = ?",
-        obj,
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-
-            if (res.affectedRows == 0) {
-                // not found TipeSaranaPemanduKapal with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-
-            result(null, { id: id, ...tipesaranapemandukapal });
-        }
-    );
 };
 
 TipeSaranaPemanduKapal.remove = (id, result) => {

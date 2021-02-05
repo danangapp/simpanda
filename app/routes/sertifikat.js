@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a Sertifikat with id
     app.delete("/sertifikat/:id", sertifikat.delete);
 
-    // Create a new Sertifikat
-    app.delete("/sertifikat", sertifikat.deleteAll);
 };

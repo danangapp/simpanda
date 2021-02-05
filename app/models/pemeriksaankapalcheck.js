@@ -13,7 +13,6 @@ PemeriksaanKapalCheck.create = (newPemeriksaanKapalCheck, result) => {
             return;
         }
 
-        console.log("created pemeriksaankapalcheck: ", { id: res.insertId, ...newPemeriksaanKapalCheck });
         result(null, { id: res.insertId, ...newPemeriksaanKapalCheck });
     });
 };
@@ -27,7 +26,6 @@ PemeriksaanKapalCheck.findById = (id, result) => {
         }
 
         if (res.length) {
-            console.log("found pemeriksaankapalcheck: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -37,15 +35,35 @@ PemeriksaanKapalCheck.findById = (id, result) => {
     });
 };
 
-PemeriksaanKapalCheck.getAll = result => {
-    sql.query("SELECT * FROM pemeriksaan_kapal_check", (err, res) => {
+PemeriksaanKapalCheck.getAll = (param, result) => {
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM pemeriksaan_kapal_check";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                query += "(";
+                for (var x in str) {
+                    query += i + " ='" + str[x] + "' or ";
+                }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
+            } else {
+                query += i + " ='" + param[i] + "' and ";
+            }
+        }
+
+        query = query.substring(0, query.length - 5);
+    }
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("pemeriksaankapalcheck: ", res);
         result(null, res);
     });
 };
@@ -58,7 +76,6 @@ PemeriksaanKapalCheck.design = result => {
             return;
         }
 
-        console.log("pemeriksaankapalcheck: ", res);
         result(null, res);
     });
 };
@@ -110,20 +127,6 @@ PemeriksaanKapalCheck.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted pemeriksaankapalcheck with id: ", id);
-        result(null, res);
-    });
-};
-
-PemeriksaanKapalCheck.removeAll = result => {
-    sql.query("DELETE FROM pemeriksaan_kapal_check", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log(`deleted ${res.affectedRows} pemeriksaankapalcheck`);
         result(null, res);
     });
 };

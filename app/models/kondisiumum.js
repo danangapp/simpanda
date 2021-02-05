@@ -13,7 +13,6 @@ KondisiUmum.create = (newKondisiUmum, result) => {
             return;
         }
 
-        console.log("created kondisiumum: ", { id: res.insertId, ...newKondisiUmum });
         result(null, { id: res.insertId, ...newKondisiUmum });
     });
 };
@@ -27,7 +26,6 @@ KondisiUmum.findById = (id, result) => {
         }
 
         if (res.length) {
-            console.log("found kondisiumum: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -37,15 +35,35 @@ KondisiUmum.findById = (id, result) => {
     });
 };
 
-KondisiUmum.getAll = result => {
-    sql.query("SELECT * FROM kondisi_umum", (err, res) => {
+KondisiUmum.getAll = (param, result) => {
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM kondisi_umum";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                query += "(";
+                for (var x in str) {
+                    query += i + " ='" + str[x] + "' or ";
+                }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
+            } else {
+                query += i + " ='" + param[i] + "' and ";
+            }
+        }
+
+        query = query.substring(0, query.length - 5);
+    }
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("kondisiumum: ", res);
         result(null, res);
     });
 };
@@ -58,7 +76,6 @@ KondisiUmum.design = result => {
             return;
         }
 
-        console.log("kondisiumum: ", res);
         result(null, res);
     });
 };
@@ -110,20 +127,6 @@ KondisiUmum.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted kondisiumum with id: ", id);
-        result(null, res);
-    });
-};
-
-KondisiUmum.removeAll = result => {
-    sql.query("DELETE FROM kondisi_umum", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log(`deleted ${res.affectedRows} kondisiumum`);
         result(null, res);
     });
 };

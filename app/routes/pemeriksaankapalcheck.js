@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a PemeriksaanKapalCheck with id
     app.delete("/pemeriksaankapalcheck/:id", pemeriksaankapalcheck.delete);
 
-    // Create a new PemeriksaanKapalCheck
-    app.delete("/pemeriksaankapalcheck", pemeriksaankapalcheck.deleteAll);
 };

@@ -13,7 +13,6 @@ Role.create = (newRole, result) => {
             return;
         }
 
-        console.log("created role: ", { id: res.insertId, ...newRole });
         result(null, { id: res.insertId, ...newRole });
     });
 };
@@ -27,7 +26,6 @@ Role.findById = (id, result) => {
         }
 
         if (res.length) {
-            console.log("found role: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -37,15 +35,35 @@ Role.findById = (id, result) => {
     });
 };
 
-Role.getAll = result => {
-    sql.query("SELECT * FROM role", (err, res) => {
+Role.getAll = (param, result) => {
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM role";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                query += "(";
+                for (var x in str) {
+                    query += i + " ='" + str[x] + "' or ";
+                }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
+            } else {
+                query += i + " ='" + param[i] + "' and ";
+            }
+        }
+
+        query = query.substring(0, query.length - 5);
+    }
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("role: ", res);
         result(null, res);
     });
 };
@@ -58,7 +76,6 @@ Role.design = result => {
             return;
         }
 
-        console.log("role: ", res);
         result(null, res);
     });
 };
@@ -110,20 +127,6 @@ Role.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted role with id: ", id);
-        result(null, res);
-    });
-};
-
-Role.removeAll = result => {
-    sql.query("DELETE FROM role", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log(`deleted ${res.affectedRows} role`);
         result(null, res);
     });
 };

@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a AssetRumahDinas with id
     app.delete("/assetrumahdinas/:id", assetrumahdinas.delete);
 
-    // Create a new AssetRumahDinas
-    app.delete("/assetrumahdinas", assetrumahdinas.deleteAll);
 };

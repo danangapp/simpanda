@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a DokumenKapal with id
     app.delete("/dokumenkapal/:id", dokumenkapal.delete);
 
-    // Create a new DokumenKapal
-    app.delete("/dokumenkapal", dokumenkapal.deleteAll);
 };

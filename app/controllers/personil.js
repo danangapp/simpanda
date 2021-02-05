@@ -44,16 +44,6 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    // const query = req.query;
-    // for (var i in query) {
-    //     var str = query[i];
-    //     // var split = str.split(",");
-    //     if (typeof str != "string") {
-    //         for (var x in str) {
-    //             console.log(str[x]);
-    //         }
-    //     }
-    // }
     Personil.getAll(req.query, (err, data) => {
         if (err)
             res.status(500).send({
@@ -99,7 +89,6 @@ exports.update = (req, res) => {
         });
     }
 
-    console.log(req.body);
 
     Personil.updateById(
         req.params.id,
@@ -136,13 +125,3 @@ exports.delete = (req, res) => {
     });
 };
 
-exports.deleteAll = (req, res) => {
-    Personil.removeAll((err, data) => {
-        if (err)
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while removing all personilnames."
-            });
-        else res.send({ message: `All Personils were deleted successfully!` });
-    });
-};

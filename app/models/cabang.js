@@ -23,7 +23,6 @@ Cabang.create = (newCabang, result) => {
             return;
         }
 
-        console.log("created cabang: ", { id: res.insertId, ...newCabang });
         result(null, { id: res.insertId, ...newCabang });
     });
 };
@@ -37,7 +36,6 @@ Cabang.findById = (id, result) => {
         }
 
         if (res.length) {
-            console.log("found cabang: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -47,15 +45,35 @@ Cabang.findById = (id, result) => {
     });
 };
 
-Cabang.getAll = result => {
-    sql.query("SELECT * FROM cabang", (err, res) => {
+Cabang.getAll = (param, result) => {
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM cabang";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                query += "(";
+                for (var x in str) {
+                    query += i + " ='" + str[x] + "' or ";
+                }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
+            } else {
+                query += i + " ='" + param[i] + "' and ";
+            }
+        }
+
+        query = query.substring(0, query.length - 5);
+    }
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("cabang: ", res);
         result(null, res);
     });
 };
@@ -68,7 +86,6 @@ Cabang.design = result => {
             return;
         }
 
-        console.log("cabang: ", res);
         result(null, res);
     });
 };
@@ -120,20 +137,6 @@ Cabang.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted cabang with id: ", id);
-        result(null, res);
-    });
-};
-
-Cabang.removeAll = result => {
-    sql.query("DELETE FROM cabang", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log(`deleted ${res.affectedRows} cabang`);
         result(null, res);
     });
 };

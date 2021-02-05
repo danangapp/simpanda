@@ -15,6 +15,7 @@ exports.create = (req, res) => {
         nilai_perolehan: req.body.nilai_perolehan,
         kondisi: req.body.kondisi,
         approval_status_id: req.body.approval_status_id,
+        enable: req.body.enable,
     });
 
     AssetStasiunEquipment.create(assetstasiunequipment, (err, data) => {
@@ -28,7 +29,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    AssetStasiunEquipment.getAll((err, data) => {
+    AssetStasiunEquipment.getAll(req.query, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
@@ -73,7 +74,6 @@ exports.update = (req, res) => {
         });
     }
 
-    console.log(req.body);
 
     AssetStasiunEquipment.updateById(
         req.params.id,
@@ -110,13 +110,3 @@ exports.delete = (req, res) => {
     });
 };
 
-exports.deleteAll = (req, res) => {
-    AssetStasiunEquipment.removeAll((err, data) => {
-        if (err)
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while removing all assetstasiunequipmentnames."
-            });
-        else res.send({ message: `All AssetStasiunEquipments were deleted successfully!` });
-    });
-};

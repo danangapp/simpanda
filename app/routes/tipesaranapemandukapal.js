@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a TipeSaranaPemanduKapal with id
     app.delete("/tipesaranapemandukapal/:id", tipesaranapemandukapal.delete);
 
-    // Create a new TipeSaranaPemanduKapal
-    app.delete("/tipesaranapemandukapal", tipesaranapemandukapal.deleteAll);
 };

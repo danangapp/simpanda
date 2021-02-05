@@ -13,7 +13,6 @@ Enable.create = (newEnable, result) => {
             return;
         }
 
-        console.log("created enable: ", { id: res.insertId, ...newEnable });
         result(null, { id: res.insertId, ...newEnable });
     });
 };
@@ -27,7 +26,6 @@ Enable.findById = (id, result) => {
         }
 
         if (res.length) {
-            console.log("found enable: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -37,15 +35,35 @@ Enable.findById = (id, result) => {
     });
 };
 
-Enable.getAll = result => {
-    sql.query("SELECT * FROM enable", (err, res) => {
+Enable.getAll = (param, result) => {
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM enable";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                query += "(";
+                for (var x in str) {
+                    query += i + " ='" + str[x] + "' or ";
+                }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
+            } else {
+                query += i + " ='" + param[i] + "' and ";
+            }
+        }
+
+        query = query.substring(0, query.length - 5);
+    }
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("enable: ", res);
         result(null, res);
     });
 };
@@ -58,7 +76,6 @@ Enable.design = result => {
             return;
         }
 
-        console.log("enable: ", res);
         result(null, res);
     });
 };
@@ -110,20 +127,6 @@ Enable.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted enable with id: ", id);
-        result(null, res);
-    });
-};
-
-Enable.removeAll = result => {
-    sql.query("DELETE FROM enable", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log(`deleted ${res.affectedRows} enable`);
         result(null, res);
     });
 };

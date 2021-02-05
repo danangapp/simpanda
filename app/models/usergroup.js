@@ -26,7 +26,6 @@ UserGroup.create = (newUserGroup, result) => {
             return;
         }
 
-        console.log("created usergroup: ", { id: res.insertId, ...newUserGroup });
         result(null, { id: res.insertId, ...newUserGroup });
     });
 };
@@ -40,7 +39,6 @@ UserGroup.findById = (id, result) => {
         }
 
         if (res.length) {
-            console.log("found usergroup: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -50,15 +48,35 @@ UserGroup.findById = (id, result) => {
     });
 };
 
-UserGroup.getAll = result => {
-    sql.query("SELECT * FROM user_group", (err, res) => {
+UserGroup.getAll = (param, result) => {
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM user_group";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                query += "(";
+                for (var x in str) {
+                    query += i + " ='" + str[x] + "' or ";
+                }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
+            } else {
+                query += i + " ='" + param[i] + "' and ";
+            }
+        }
+
+        query = query.substring(0, query.length - 5);
+    }
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("usergroup: ", res);
         result(null, res);
     });
 };
@@ -71,7 +89,6 @@ UserGroup.design = result => {
             return;
         }
 
-        console.log("usergroup: ", res);
         result(null, res);
     });
 };
@@ -123,20 +140,6 @@ UserGroup.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted usergroup with id: ", id);
-        result(null, res);
-    });
-};
-
-UserGroup.removeAll = result => {
-    sql.query("DELETE FROM user_group", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log(`deleted ${res.affectedRows} usergroup`);
         result(null, res);
     });
 };

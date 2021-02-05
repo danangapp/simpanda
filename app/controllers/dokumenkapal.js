@@ -22,7 +22,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    DokumenKapal.getAll((err, data) => {
+    DokumenKapal.getAll(req.query, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
@@ -67,7 +67,6 @@ exports.update = (req, res) => {
         });
     }
 
-    console.log(req.body);
 
     DokumenKapal.updateById(
         req.params.id,
@@ -104,13 +103,3 @@ exports.delete = (req, res) => {
     });
 };
 
-exports.deleteAll = (req, res) => {
-    DokumenKapal.removeAll((err, data) => {
-        if (err)
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while removing all dokumenkapalnames."
-            });
-        else res.send({ message: `All DokumenKapals were deleted successfully!` });
-    });
-};

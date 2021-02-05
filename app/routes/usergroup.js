@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a UserGroup with id
     app.delete("/usergroup/:id", usergroup.delete);
 
-    // Create a new UserGroup
-    app.delete("/usergroup", usergroup.deleteAll);
 };

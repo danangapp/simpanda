@@ -26,7 +26,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    ActivityLog.getAll((err, data) => {
+    ActivityLog.getAll(req.query, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
@@ -71,7 +71,6 @@ exports.update = (req, res) => {
         });
     }
 
-    console.log(req.body);
 
     ActivityLog.updateById(
         req.params.id,
@@ -108,13 +107,3 @@ exports.delete = (req, res) => {
     });
 };
 
-exports.deleteAll = (req, res) => {
-    ActivityLog.removeAll((err, data) => {
-        if (err)
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while removing all activitylognames."
-            });
-        else res.send({ message: `All ActivityLogs were deleted successfully!` });
-    });
-};

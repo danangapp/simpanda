@@ -22,7 +22,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    StatusAbsen.getAll((err, data) => {
+    StatusAbsen.getAll(req.query, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
@@ -67,7 +67,6 @@ exports.update = (req, res) => {
         });
     }
 
-    console.log(req.body);
 
     StatusAbsen.updateById(
         req.params.id,
@@ -104,13 +103,3 @@ exports.delete = (req, res) => {
     });
 };
 
-exports.deleteAll = (req, res) => {
-    StatusAbsen.removeAll((err, data) => {
-        if (err)
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while removing all statusabsennames."
-            });
-        else res.send({ message: `All StatusAbsens were deleted successfully!` });
-    });
-};

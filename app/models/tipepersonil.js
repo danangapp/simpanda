@@ -13,7 +13,6 @@ TipePersonil.create = (newTipePersonil, result) => {
             return;
         }
 
-        console.log("created tipepersonil: ", { id: res.insertId, ...newTipePersonil });
         result(null, { id: res.insertId, ...newTipePersonil });
     });
 };
@@ -27,7 +26,6 @@ TipePersonil.findById = (id, result) => {
         }
 
         if (res.length) {
-            console.log("found tipepersonil: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -37,15 +35,35 @@ TipePersonil.findById = (id, result) => {
     });
 };
 
-TipePersonil.getAll = result => {
-    sql.query("SELECT * FROM tipe_personil", (err, res) => {
+TipePersonil.getAll = (param, result) => {
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM tipe_personil";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                query += "(";
+                for (var x in str) {
+                    query += i + " ='" + str[x] + "' or ";
+                }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
+            } else {
+                query += i + " ='" + param[i] + "' and ";
+            }
+        }
+
+        query = query.substring(0, query.length - 5);
+    }
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("tipepersonil: ", res);
         result(null, res);
     });
 };
@@ -58,7 +76,6 @@ TipePersonil.design = result => {
             return;
         }
 
-        console.log("tipepersonil: ", res);
         result(null, res);
     });
 };
@@ -110,20 +127,6 @@ TipePersonil.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted tipepersonil with id: ", id);
-        result(null, res);
-    });
-};
-
-TipePersonil.removeAll = result => {
-    sql.query("DELETE FROM tipe_personil", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log(`deleted ${res.affectedRows} tipepersonil`);
         result(null, res);
     });
 };

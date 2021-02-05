@@ -20,7 +20,6 @@ ArmadaSchedule.create = (newArmadaSchedule, result) => {
             return;
         }
 
-        console.log("created armadaschedule: ", { id: res.insertId, ...newArmadaSchedule });
         result(null, { id: res.insertId, ...newArmadaSchedule });
     });
 };
@@ -34,7 +33,6 @@ ArmadaSchedule.findById = (id, result) => {
         }
 
         if (res.length) {
-            console.log("found armadaschedule: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -44,15 +42,35 @@ ArmadaSchedule.findById = (id, result) => {
     });
 };
 
-ArmadaSchedule.getAll = result => {
-    sql.query("SELECT * FROM armada_schedule", (err, res) => {
+ArmadaSchedule.getAll = (param, result) => {
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM armada_schedule";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                query += "(";
+                for (var x in str) {
+                    query += i + " ='" + str[x] + "' or ";
+                }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
+            } else {
+                query += i + " ='" + param[i] + "' and ";
+            }
+        }
+
+        query = query.substring(0, query.length - 5);
+    }
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("armadaschedule: ", res);
         result(null, res);
     });
 };
@@ -65,7 +83,6 @@ ArmadaSchedule.design = result => {
             return;
         }
 
-        console.log("armadaschedule: ", res);
         result(null, res);
     });
 };
@@ -117,20 +134,6 @@ ArmadaSchedule.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted armadaschedule with id: ", id);
-        result(null, res);
-    });
-};
-
-ArmadaSchedule.removeAll = result => {
-    sql.query("DELETE FROM armada_schedule", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log(`deleted ${res.affectedRows} armadaschedule`);
         result(null, res);
     });
 };

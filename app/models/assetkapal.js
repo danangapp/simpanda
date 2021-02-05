@@ -56,7 +56,6 @@ AssetKapal.create = (newAssetKapal, result) => {
             return;
         }
 
-        console.log("created assetkapal: ", { id: res.insertId, ...newAssetKapal });
         result(null, { id: res.insertId, ...newAssetKapal });
     });
 };
@@ -70,7 +69,6 @@ AssetKapal.findById = (id, result) => {
         }
 
         if (res.length) {
-            console.log("found assetkapal: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -80,15 +78,35 @@ AssetKapal.findById = (id, result) => {
     });
 };
 
-AssetKapal.getAll = result => {
-    sql.query("SELECT * FROM asset_kapal", (err, res) => {
+AssetKapal.getAll = (param, result) => {
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM asset_kapal";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                query += "(";
+                for (var x in str) {
+                    query += i + " ='" + str[x] + "' or ";
+                }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
+            } else {
+                query += i + " ='" + param[i] + "' and ";
+            }
+        }
+
+        query = query.substring(0, query.length - 5);
+    }
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("assetkapal: ", res);
         result(null, res);
     });
 };
@@ -101,7 +119,6 @@ AssetKapal.design = result => {
             return;
         }
 
-        console.log("assetkapal: ", res);
         result(null, res);
     });
 };
@@ -153,20 +170,6 @@ AssetKapal.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted assetkapal with id: ", id);
-        result(null, res);
-    });
-};
-
-AssetKapal.removeAll = result => {
-    sql.query("DELETE FROM asset_kapal", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log(`deleted ${res.affectedRows} assetkapal`);
         result(null, res);
     });
 };

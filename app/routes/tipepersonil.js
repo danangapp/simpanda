@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a TipePersonil with id
     app.delete("/tipepersonil/:id", tipepersonil.delete);
 
-    // Create a new TipePersonil
-    app.delete("/tipepersonil", tipepersonil.deleteAll);
 };

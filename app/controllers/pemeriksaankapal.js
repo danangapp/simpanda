@@ -28,7 +28,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    PemeriksaanKapal.getAll((err, data) => {
+    PemeriksaanKapal.getAll(req.query, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
@@ -73,7 +73,6 @@ exports.update = (req, res) => {
         });
     }
 
-    console.log(req.body);
 
     PemeriksaanKapal.updateById(
         req.params.id,
@@ -110,13 +109,3 @@ exports.delete = (req, res) => {
     });
 };
 
-exports.deleteAll = (req, res) => {
-    PemeriksaanKapal.removeAll((err, data) => {
-        if (err)
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while removing all pemeriksaankapalnames."
-            });
-        else res.send({ message: `All PemeriksaanKapals were deleted successfully!` });
-    });
-};

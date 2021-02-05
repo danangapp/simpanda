@@ -13,7 +13,6 @@ Action.create = (newAction, result) => {
             return;
         }
 
-        console.log("created action: ", { id: res.insertId, ...newAction });
         result(null, { id: res.insertId, ...newAction });
     });
 };
@@ -27,7 +26,6 @@ Action.findById = (id, result) => {
         }
 
         if (res.length) {
-            console.log("found action: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -37,15 +35,35 @@ Action.findById = (id, result) => {
     });
 };
 
-Action.getAll = result => {
-    sql.query("SELECT * FROM action", (err, res) => {
+Action.getAll = (param, result) => {
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM action";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                query += "(";
+                for (var x in str) {
+                    query += i + " ='" + str[x] + "' or ";
+                }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
+            } else {
+                query += i + " ='" + param[i] + "' and ";
+            }
+        }
+
+        query = query.substring(0, query.length - 5);
+    }
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("action: ", res);
         result(null, res);
     });
 };
@@ -58,7 +76,6 @@ Action.design = result => {
             return;
         }
 
-        console.log("action: ", res);
         result(null, res);
     });
 };
@@ -110,20 +127,6 @@ Action.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted action with id: ", id);
-        result(null, res);
-    });
-};
-
-Action.removeAll = result => {
-    sql.query("DELETE FROM action", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log(`deleted ${res.affectedRows} action`);
         result(null, res);
     });
 };

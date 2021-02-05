@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a ActivityLog with id
     app.delete("/activitylog/:id", activitylog.delete);
 
-    // Create a new ActivityLog
-    app.delete("/activitylog", activitylog.deleteAll);
 };

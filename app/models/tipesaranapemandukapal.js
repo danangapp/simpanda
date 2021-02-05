@@ -13,7 +13,6 @@ TipeSaranaPemanduKapal.create = (newTipeSaranaPemanduKapal, result) => {
             return;
         }
 
-        console.log("created tipesaranapemandukapal: ", { id: res.insertId, ...newTipeSaranaPemanduKapal });
         result(null, { id: res.insertId, ...newTipeSaranaPemanduKapal });
     });
 };
@@ -27,7 +26,6 @@ TipeSaranaPemanduKapal.findById = (id, result) => {
         }
 
         if (res.length) {
-            console.log("found tipesaranapemandukapal: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -37,15 +35,35 @@ TipeSaranaPemanduKapal.findById = (id, result) => {
     });
 };
 
-TipeSaranaPemanduKapal.getAll = result => {
-    sql.query("SELECT * FROM tipe_sarana_pemandu_kapal", (err, res) => {
+TipeSaranaPemanduKapal.getAll = (param, result) => {
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM tipe_sarana_pemandu_kapal";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                query += "(";
+                for (var x in str) {
+                    query += i + " ='" + str[x] + "' or ";
+                }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
+            } else {
+                query += i + " ='" + param[i] + "' and ";
+            }
+        }
+
+        query = query.substring(0, query.length - 5);
+    }
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("tipesaranapemandukapal: ", res);
         result(null, res);
     });
 };
@@ -58,7 +76,6 @@ TipeSaranaPemanduKapal.design = result => {
             return;
         }
 
-        console.log("tipesaranapemandukapal: ", res);
         result(null, res);
     });
 };
@@ -110,20 +127,6 @@ TipeSaranaPemanduKapal.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted tipesaranapemandukapal with id: ", id);
-        result(null, res);
-    });
-};
-
-TipeSaranaPemanduKapal.removeAll = result => {
-    sql.query("DELETE FROM tipe_sarana_pemandu_kapal", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log(`deleted ${res.affectedRows} tipesaranapemandukapal`);
         result(null, res);
     });
 };

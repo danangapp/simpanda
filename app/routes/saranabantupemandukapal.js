@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a SaranaBantuPemanduKapal with id
     app.delete("/saranabantupemandukapal/:id", saranabantupemandukapal.delete);
 
-    // Create a new SaranaBantuPemanduKapal
-    app.delete("/saranabantupemandukapal", saranabantupemandukapal.deleteAll);
 };

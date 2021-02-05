@@ -65,7 +65,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    AssetKapal.getAll((err, data) => {
+    AssetKapal.getAll(req.query, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
@@ -110,7 +110,6 @@ exports.update = (req, res) => {
         });
     }
 
-    console.log(req.body);
 
     AssetKapal.updateById(
         req.params.id,
@@ -147,13 +146,3 @@ exports.delete = (req, res) => {
     });
 };
 
-exports.deleteAll = (req, res) => {
-    AssetKapal.removeAll((err, data) => {
-        if (err)
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while removing all assetkapalnames."
-            });
-        else res.send({ message: `All AssetKapals were deleted successfully!` });
-    });
-};

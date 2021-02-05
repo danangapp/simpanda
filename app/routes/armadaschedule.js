@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a ArmadaSchedule with id
     app.delete("/armadaschedule/:id", armadaschedule.delete);
 
-    // Create a new ArmadaSchedule
-    app.delete("/armadaschedule", armadaschedule.deleteAll);
 };

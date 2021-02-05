@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a AssetStasiunEquipment with id
     app.delete("/assetstasiunequipment/:id", assetstasiunequipment.delete);
 
-    // Create a new AssetStasiunEquipment
-    app.delete("/assetstasiunequipment", assetstasiunequipment.deleteAll);
 };

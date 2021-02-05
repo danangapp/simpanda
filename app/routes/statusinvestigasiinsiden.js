@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a StatusInvestigasiInsiden with id
     app.delete("/statusinvestigasiinsiden/:id", statusinvestigasiinsiden.delete);
 
-    // Create a new StatusInvestigasiInsiden
-    app.delete("/statusinvestigasiinsiden", statusinvestigasiinsiden.deleteAll);
 };

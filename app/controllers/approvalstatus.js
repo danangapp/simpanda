@@ -22,7 +22,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    ApprovalStatus.getAll((err, data) => {
+    ApprovalStatus.getAll(req.query, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
@@ -67,7 +67,6 @@ exports.update = (req, res) => {
         });
     }
 
-    console.log(req.body);
 
     ApprovalStatus.updateById(
         req.params.id,
@@ -104,13 +103,3 @@ exports.delete = (req, res) => {
     });
 };
 
-exports.deleteAll = (req, res) => {
-    ApprovalStatus.removeAll((err, data) => {
-        if (err)
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while removing all approvalstatusnames."
-            });
-        else res.send({ message: `All ApprovalStatuss were deleted successfully!` });
-    });
-};

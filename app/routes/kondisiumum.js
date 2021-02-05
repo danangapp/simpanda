@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a KondisiUmum with id
     app.delete("/kondisiumum/:id", kondisiumum.delete);
 
-    // Create a new KondisiUmum
-    app.delete("/kondisiumum", kondisiumum.deleteAll);
 };

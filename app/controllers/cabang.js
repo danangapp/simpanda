@@ -32,7 +32,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    Cabang.getAll((err, data) => {
+    Cabang.getAll(req.query, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
@@ -77,7 +77,6 @@ exports.update = (req, res) => {
         });
     }
 
-    console.log(req.body);
 
     Cabang.updateById(
         req.params.id,
@@ -114,13 +113,3 @@ exports.delete = (req, res) => {
     });
 };
 
-exports.deleteAll = (req, res) => {
-    Cabang.removeAll((err, data) => {
-        if (err)
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while removing all cabangnames."
-            });
-        else res.send({ message: `All Cabangs were deleted successfully!` });
-    });
-};

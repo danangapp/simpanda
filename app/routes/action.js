@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a Action with id
     app.delete("/action/:id", action.delete);
 
-    // Create a new Action
-    app.delete("/action", action.deleteAll);
 };

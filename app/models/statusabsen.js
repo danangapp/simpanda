@@ -13,7 +13,6 @@ StatusAbsen.create = (newStatusAbsen, result) => {
             return;
         }
 
-        console.log("created statusabsen: ", { id: res.insertId, ...newStatusAbsen });
         result(null, { id: res.insertId, ...newStatusAbsen });
     });
 };
@@ -27,7 +26,6 @@ StatusAbsen.findById = (id, result) => {
         }
 
         if (res.length) {
-            console.log("found statusabsen: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -37,15 +35,35 @@ StatusAbsen.findById = (id, result) => {
     });
 };
 
-StatusAbsen.getAll = result => {
-    sql.query("SELECT * FROM status_absen", (err, res) => {
+StatusAbsen.getAll = (param, result) => {
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM status_absen";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                query += "(";
+                for (var x in str) {
+                    query += i + " ='" + str[x] + "' or ";
+                }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
+            } else {
+                query += i + " ='" + param[i] + "' and ";
+            }
+        }
+
+        query = query.substring(0, query.length - 5);
+    }
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("statusabsen: ", res);
         result(null, res);
     });
 };
@@ -58,7 +76,6 @@ StatusAbsen.design = result => {
             return;
         }
 
-        console.log("statusabsen: ", res);
         result(null, res);
     });
 };
@@ -110,20 +127,6 @@ StatusAbsen.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted statusabsen with id: ", id);
-        result(null, res);
-    });
-};
-
-StatusAbsen.removeAll = result => {
-    sql.query("DELETE FROM status_absen", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log(`deleted ${res.affectedRows} statusabsen`);
         result(null, res);
     });
 };

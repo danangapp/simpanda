@@ -18,6 +18,7 @@ exports.create = (req, res) => {
         tanggal: req.body.tanggal,
         nilai: req.body.nilai,
         catatan: req.body.catatan,
+        enable: req.body.enable,
     });
 
     AssetRumahDinas.create(assetrumahdinas, (err, data) => {
@@ -31,7 +32,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    AssetRumahDinas.getAll((err, data) => {
+    AssetRumahDinas.getAll(req.query, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
@@ -76,7 +77,6 @@ exports.update = (req, res) => {
         });
     }
 
-    console.log(req.body);
 
     AssetRumahDinas.updateById(
         req.params.id,
@@ -113,13 +113,3 @@ exports.delete = (req, res) => {
     });
 };
 
-exports.deleteAll = (req, res) => {
-    AssetRumahDinas.removeAll((err, data) => {
-        if (err)
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while removing all assetrumahdinasnames."
-            });
-        else res.send({ message: `All AssetRumahDinass were deleted successfully!` });
-    });
-};

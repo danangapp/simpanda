@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a TipeAsset with id
     app.delete("/tipeasset/:id", tipeasset.delete);
 
-    // Create a new TipeAsset
-    app.delete("/tipeasset", tipeasset.deleteAll);
 };

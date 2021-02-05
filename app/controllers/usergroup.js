@@ -35,7 +35,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    UserGroup.getAll((err, data) => {
+    UserGroup.getAll(req.query, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
@@ -80,7 +80,6 @@ exports.update = (req, res) => {
         });
     }
 
-    console.log(req.body);
 
     UserGroup.updateById(
         req.params.id,
@@ -117,13 +116,3 @@ exports.delete = (req, res) => {
     });
 };
 
-exports.deleteAll = (req, res) => {
-    UserGroup.removeAll((err, data) => {
-        if (err)
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while removing all usergroupnames."
-            });
-        else res.send({ message: `All UserGroups were deleted successfully!` });
-    });
-};

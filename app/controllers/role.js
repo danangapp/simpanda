@@ -22,7 +22,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    Role.getAll((err, data) => {
+    Role.getAll(req.query, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
@@ -67,7 +67,6 @@ exports.update = (req, res) => {
         });
     }
 
-    console.log(req.body);
 
     Role.updateById(
         req.params.id,
@@ -104,13 +103,3 @@ exports.delete = (req, res) => {
     });
 };
 
-exports.deleteAll = (req, res) => {
-    Role.removeAll((err, data) => {
-        if (err)
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while removing all rolenames."
-            });
-        else res.send({ message: `All Roles were deleted successfully!` });
-    });
-};

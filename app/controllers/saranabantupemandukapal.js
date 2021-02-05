@@ -88,7 +88,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    SaranaBantuPemanduKapal.getAll((err, data) => {
+    SaranaBantuPemanduKapal.getAll(req.query, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
@@ -133,7 +133,6 @@ exports.update = (req, res) => {
         });
     }
 
-    console.log(req.body);
 
     SaranaBantuPemanduKapal.updateById(
         req.params.id,
@@ -170,13 +169,3 @@ exports.delete = (req, res) => {
     });
 };
 
-exports.deleteAll = (req, res) => {
-    SaranaBantuPemanduKapal.removeAll((err, data) => {
-        if (err)
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while removing all saranabantupemandukapalnames."
-            });
-        else res.send({ message: `All SaranaBantuPemanduKapals were deleted successfully!` });
-    });
-};

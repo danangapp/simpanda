@@ -13,7 +13,6 @@ StatusIjazah.create = (newStatusIjazah, result) => {
             return;
         }
 
-        console.log("created statusijazah: ", { id: res.insertId, ...newStatusIjazah });
         result(null, { id: res.insertId, ...newStatusIjazah });
     });
 };
@@ -27,7 +26,6 @@ StatusIjazah.findById = (id, result) => {
         }
 
         if (res.length) {
-            console.log("found statusijazah: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -37,15 +35,35 @@ StatusIjazah.findById = (id, result) => {
     });
 };
 
-StatusIjazah.getAll = result => {
-    sql.query("SELECT * FROM status_ijazah", (err, res) => {
+StatusIjazah.getAll = (param, result) => {
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM status_ijazah";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                query += "(";
+                for (var x in str) {
+                    query += i + " ='" + str[x] + "' or ";
+                }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
+            } else {
+                query += i + " ='" + param[i] + "' and ";
+            }
+        }
+
+        query = query.substring(0, query.length - 5);
+    }
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("statusijazah: ", res);
         result(null, res);
     });
 };
@@ -58,7 +76,6 @@ StatusIjazah.design = result => {
             return;
         }
 
-        console.log("statusijazah: ", res);
         result(null, res);
     });
 };
@@ -110,20 +127,6 @@ StatusIjazah.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted statusijazah with id: ", id);
-        result(null, res);
-    });
-};
-
-StatusIjazah.removeAll = result => {
-    sql.query("DELETE FROM status_ijazah", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log(`deleted ${res.affectedRows} statusijazah`);
         result(null, res);
     });
 };

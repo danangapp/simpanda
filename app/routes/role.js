@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a Role with id
     app.delete("/role/:id", role.delete);
 
-    // Create a new Role
-    app.delete("/role", role.deleteAll);
 };

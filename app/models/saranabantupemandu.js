@@ -16,7 +16,6 @@ SaranaBantuPemandu.create = (newSaranaBantuPemandu, result) => {
             return;
         }
 
-        console.log("created saranabantupemandu: ", { id: res.insertId, ...newSaranaBantuPemandu });
         result(null, { id: res.insertId, ...newSaranaBantuPemandu });
     });
 };
@@ -30,7 +29,6 @@ SaranaBantuPemandu.findById = (id, result) => {
         }
 
         if (res.length) {
-            console.log("found saranabantupemandu: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -40,15 +38,35 @@ SaranaBantuPemandu.findById = (id, result) => {
     });
 };
 
-SaranaBantuPemandu.getAll = result => {
-    sql.query("SELECT * FROM sarana_bantu_pemandu", (err, res) => {
+SaranaBantuPemandu.getAll = (param, result) => {
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM sarana_bantu_pemandu";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                query += "(";
+                for (var x in str) {
+                    query += i + " ='" + str[x] + "' or ";
+                }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
+            } else {
+                query += i + " ='" + param[i] + "' and ";
+            }
+        }
+
+        query = query.substring(0, query.length - 5);
+    }
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("saranabantupemandu: ", res);
         result(null, res);
     });
 };
@@ -61,7 +79,6 @@ SaranaBantuPemandu.design = result => {
             return;
         }
 
-        console.log("saranabantupemandu: ", res);
         result(null, res);
     });
 };
@@ -113,20 +130,6 @@ SaranaBantuPemandu.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted saranabantupemandu with id: ", id);
-        result(null, res);
-    });
-};
-
-SaranaBantuPemandu.removeAll = result => {
-    sql.query("DELETE FROM sarana_bantu_pemandu", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log(`deleted ${res.affectedRows} saranabantupemandu`);
         result(null, res);
     });
 };

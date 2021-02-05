@@ -13,7 +13,6 @@ TipeAsset.create = (newTipeAsset, result) => {
             return;
         }
 
-        console.log("created tipeasset: ", { id: res.insertId, ...newTipeAsset });
         result(null, { id: res.insertId, ...newTipeAsset });
     });
 };
@@ -27,7 +26,6 @@ TipeAsset.findById = (id, result) => {
         }
 
         if (res.length) {
-            console.log("found tipeasset: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -37,15 +35,35 @@ TipeAsset.findById = (id, result) => {
     });
 };
 
-TipeAsset.getAll = result => {
-    sql.query("SELECT * FROM tipe_asset", (err, res) => {
+TipeAsset.getAll = (param, result) => {
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM tipe_asset";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                query += "(";
+                for (var x in str) {
+                    query += i + " ='" + str[x] + "' or ";
+                }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
+            } else {
+                query += i + " ='" + param[i] + "' and ";
+            }
+        }
+
+        query = query.substring(0, query.length - 5);
+    }
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("tipeasset: ", res);
         result(null, res);
     });
 };
@@ -58,7 +76,6 @@ TipeAsset.design = result => {
             return;
         }
 
-        console.log("tipeasset: ", res);
         result(null, res);
     });
 };
@@ -110,20 +127,6 @@ TipeAsset.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted tipeasset with id: ", id);
-        result(null, res);
-    });
-};
-
-TipeAsset.removeAll = result => {
-    sql.query("DELETE FROM tipe_asset", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log(`deleted ${res.affectedRows} tipeasset`);
         result(null, res);
     });
 };

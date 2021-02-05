@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a TipeCert with id
     app.delete("/tipecert/:id", tipecert.delete);
 
-    // Create a new TipeCert
-    app.delete("/tipecert", tipecert.deleteAll);
 };

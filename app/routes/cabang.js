@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a Cabang with id
     app.delete("/cabang/:id", cabang.delete);
 
-    // Create a new Cabang
-    app.delete("/cabang", cabang.deleteAll);
 };

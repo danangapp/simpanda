@@ -79,7 +79,6 @@ SaranaBantuPemanduKapal.create = (newSaranaBantuPemanduKapal, result) => {
             return;
         }
 
-        console.log("created saranabantupemandukapal: ", { id: res.insertId, ...newSaranaBantuPemanduKapal });
         result(null, { id: res.insertId, ...newSaranaBantuPemanduKapal });
     });
 };
@@ -93,7 +92,6 @@ SaranaBantuPemanduKapal.findById = (id, result) => {
         }
 
         if (res.length) {
-            console.log("found saranabantupemandukapal: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -103,15 +101,35 @@ SaranaBantuPemanduKapal.findById = (id, result) => {
     });
 };
 
-SaranaBantuPemanduKapal.getAll = result => {
-    sql.query("SELECT * FROM sarana_bantu_pemandu_kapal", (err, res) => {
+SaranaBantuPemanduKapal.getAll = (param, result) => {
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM sarana_bantu_pemandu_kapal";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                query += "(";
+                for (var x in str) {
+                    query += i + " ='" + str[x] + "' or ";
+                }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
+            } else {
+                query += i + " ='" + param[i] + "' and ";
+            }
+        }
+
+        query = query.substring(0, query.length - 5);
+    }
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("saranabantupemandukapal: ", res);
         result(null, res);
     });
 };
@@ -124,7 +142,6 @@ SaranaBantuPemanduKapal.design = result => {
             return;
         }
 
-        console.log("saranabantupemandukapal: ", res);
         result(null, res);
     });
 };
@@ -176,20 +193,6 @@ SaranaBantuPemanduKapal.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted saranabantupemandukapal with id: ", id);
-        result(null, res);
-    });
-};
-
-SaranaBantuPemanduKapal.removeAll = result => {
-    sql.query("DELETE FROM sarana_bantu_pemandu_kapal", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log(`deleted ${res.affectedRows} saranabantupemandukapal`);
         result(null, res);
     });
 };

@@ -13,7 +13,6 @@ StatusEvaluasiPelimpahan.create = (newStatusEvaluasiPelimpahan, result) => {
             return;
         }
 
-        console.log("created statusevaluasipelimpahan: ", { id: res.insertId, ...newStatusEvaluasiPelimpahan });
         result(null, { id: res.insertId, ...newStatusEvaluasiPelimpahan });
     });
 };
@@ -27,7 +26,6 @@ StatusEvaluasiPelimpahan.findById = (id, result) => {
         }
 
         if (res.length) {
-            console.log("found statusevaluasipelimpahan: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -37,15 +35,35 @@ StatusEvaluasiPelimpahan.findById = (id, result) => {
     });
 };
 
-StatusEvaluasiPelimpahan.getAll = result => {
-    sql.query("SELECT * FROM status_evaluasi_pelimpahan", (err, res) => {
+StatusEvaluasiPelimpahan.getAll = (param, result) => {
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM status_evaluasi_pelimpahan";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                query += "(";
+                for (var x in str) {
+                    query += i + " ='" + str[x] + "' or ";
+                }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
+            } else {
+                query += i + " ='" + param[i] + "' and ";
+            }
+        }
+
+        query = query.substring(0, query.length - 5);
+    }
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("statusevaluasipelimpahan: ", res);
         result(null, res);
     });
 };
@@ -58,7 +76,6 @@ StatusEvaluasiPelimpahan.design = result => {
             return;
         }
 
-        console.log("statusevaluasipelimpahan: ", res);
         result(null, res);
     });
 };
@@ -110,20 +127,6 @@ StatusEvaluasiPelimpahan.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted statusevaluasipelimpahan with id: ", id);
-        result(null, res);
-    });
-};
-
-StatusEvaluasiPelimpahan.removeAll = result => {
-    sql.query("DELETE FROM status_evaluasi_pelimpahan", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log(`deleted ${res.affectedRows} statusevaluasipelimpahan`);
         result(null, res);
     });
 };

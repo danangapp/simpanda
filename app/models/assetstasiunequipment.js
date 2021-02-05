@@ -9,6 +9,7 @@ const AssetStasiunEquipment = function (assetstasiunequipment) {
     this.nilai_perolehan = assetstasiunequipment.nilai_perolehan;
     this.kondisi = assetstasiunequipment.kondisi;
     this.approval_status_id = assetstasiunequipment.approval_status_id;
+    this.enable = assetstasiunequipment.enable;
 };
 
 AssetStasiunEquipment.create = (newAssetStasiunEquipment, result) => {
@@ -19,7 +20,6 @@ AssetStasiunEquipment.create = (newAssetStasiunEquipment, result) => {
             return;
         }
 
-        console.log("created assetstasiunequipment: ", { id: res.insertId, ...newAssetStasiunEquipment });
         result(null, { id: res.insertId, ...newAssetStasiunEquipment });
     });
 };
@@ -33,7 +33,6 @@ AssetStasiunEquipment.findById = (id, result) => {
         }
 
         if (res.length) {
-            console.log("found assetstasiunequipment: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -43,15 +42,35 @@ AssetStasiunEquipment.findById = (id, result) => {
     });
 };
 
-AssetStasiunEquipment.getAll = result => {
-    sql.query("SELECT * FROM asset_stasiun_equipment", (err, res) => {
+AssetStasiunEquipment.getAll = (param, result) => {
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM asset_stasiun_equipment";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                query += "(";
+                for (var x in str) {
+                    query += i + " ='" + str[x] + "' or ";
+                }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
+            } else {
+                query += i + " ='" + param[i] + "' and ";
+            }
+        }
+
+        query = query.substring(0, query.length - 5);
+    }
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("assetstasiunequipment: ", res);
         result(null, res);
     });
 };
@@ -64,7 +83,6 @@ AssetStasiunEquipment.design = result => {
             return;
         }
 
-        console.log("assetstasiunequipment: ", res);
         result(null, res);
     });
 };
@@ -116,20 +134,6 @@ AssetStasiunEquipment.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted assetstasiunequipment with id: ", id);
-        result(null, res);
-    });
-};
-
-AssetStasiunEquipment.removeAll = result => {
-    sql.query("DELETE FROM asset_stasiun_equipment", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log(`deleted ${res.affectedRows} assetstasiunequipment`);
         result(null, res);
     });
 };

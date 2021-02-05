@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a PanduSchedule with id
     app.delete("/panduschedule/:id", panduschedule.delete);
 
-    // Create a new PanduSchedule
-    app.delete("/panduschedule", panduschedule.deleteAll);
 };

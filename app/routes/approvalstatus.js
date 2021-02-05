@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a ApprovalStatus with id
     app.delete("/approvalstatus/:id", approvalstatus.delete);
 
-    // Create a new ApprovalStatus
-    app.delete("/approvalstatus", approvalstatus.deleteAll);
 };

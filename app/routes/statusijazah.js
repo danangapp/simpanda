@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a StatusIjazah with id
     app.delete("/statusijazah/:id", statusijazah.delete);
 
-    // Create a new StatusIjazah
-    app.delete("/statusijazah", statusijazah.deleteAll);
 };

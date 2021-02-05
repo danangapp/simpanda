@@ -205,4 +205,3 @@ Personil.removeAll = result => {
 };
 
 module.exports = Personil;
-

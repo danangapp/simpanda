@@ -13,7 +13,6 @@ ApprovalStatus.create = (newApprovalStatus, result) => {
             return;
         }
 
-        console.log("created approvalstatus: ", { id: res.insertId, ...newApprovalStatus });
         result(null, { id: res.insertId, ...newApprovalStatus });
     });
 };
@@ -27,7 +26,6 @@ ApprovalStatus.findById = (id, result) => {
         }
 
         if (res.length) {
-            console.log("found approvalstatus: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -37,15 +35,35 @@ ApprovalStatus.findById = (id, result) => {
     });
 };
 
-ApprovalStatus.getAll = result => {
-    sql.query("SELECT * FROM approval_status", (err, res) => {
+ApprovalStatus.getAll = (param, result) => {
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM approval_status";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                query += "(";
+                for (var x in str) {
+                    query += i + " ='" + str[x] + "' or ";
+                }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
+            } else {
+                query += i + " ='" + param[i] + "' and ";
+            }
+        }
+
+        query = query.substring(0, query.length - 5);
+    }
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("approvalstatus: ", res);
         result(null, res);
     });
 };
@@ -58,7 +76,6 @@ ApprovalStatus.design = result => {
             return;
         }
 
-        console.log("approvalstatus: ", res);
         result(null, res);
     });
 };
@@ -110,20 +127,6 @@ ApprovalStatus.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted approvalstatus with id: ", id);
-        result(null, res);
-    });
-};
-
-ApprovalStatus.removeAll = result => {
-    sql.query("DELETE FROM approval_status", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log(`deleted ${res.affectedRows} approvalstatus`);
         result(null, res);
     });
 };

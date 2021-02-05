@@ -17,7 +17,6 @@ User.create = (newUser, result) => {
             return;
         }
 
-        console.log("created user: ", { id: res.insertId, ...newUser });
         result(null, { id: res.insertId, ...newUser });
     });
 };
@@ -31,7 +30,6 @@ User.findById = (id, result) => {
         }
 
         if (res.length) {
-            console.log("found user: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -41,15 +39,35 @@ User.findById = (id, result) => {
     });
 };
 
-User.getAll = result => {
-    sql.query("SELECT * FROM user", (err, res) => {
+User.getAll = (param, result) => {
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM user";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                query += "(";
+                for (var x in str) {
+                    query += i + " ='" + str[x] + "' or ";
+                }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
+            } else {
+                query += i + " ='" + param[i] + "' and ";
+            }
+        }
+
+        query = query.substring(0, query.length - 5);
+    }
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("user: ", res);
         result(null, res);
     });
 };
@@ -62,7 +80,6 @@ User.design = result => {
             return;
         }
 
-        console.log("user: ", res);
         result(null, res);
     });
 };
@@ -114,20 +131,6 @@ User.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted user with id: ", id);
-        result(null, res);
-    });
-};
-
-User.removeAll = result => {
-    sql.query("DELETE FROM user", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log(`deleted ${res.affectedRows} user`);
         result(null, res);
     });
 };

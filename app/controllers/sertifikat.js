@@ -17,6 +17,7 @@ exports.create = (req, res) => {
         tanggal_expire: req.body.tanggal_expire,
         reminder_date: req.body.reminder_date,
         sertifikat: req.body.sertifikat,
+        sertifikat_id: req.body.sertifikat_id,
     });
 
     Sertifikat.create(sertifikat, (err, data) => {
@@ -30,7 +31,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    Sertifikat.getAll((err, data) => {
+    Sertifikat.getAll(req.query, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
@@ -75,7 +76,6 @@ exports.update = (req, res) => {
         });
     }
 
-    console.log(req.body);
 
     Sertifikat.updateById(
         req.params.id,
@@ -112,13 +112,3 @@ exports.delete = (req, res) => {
     });
 };
 
-exports.deleteAll = (req, res) => {
-    Sertifikat.removeAll((err, data) => {
-        if (err)
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while removing all sertifikatnames."
-            });
-        else res.send({ message: `All Sertifikats were deleted successfully!` });
-    });
-};

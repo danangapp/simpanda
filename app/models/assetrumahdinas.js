@@ -12,6 +12,7 @@ const AssetRumahDinas = function (assetrumahdinas) {
     this.tanggal = assetrumahdinas.tanggal;
     this.nilai = assetrumahdinas.nilai;
     this.catatan = assetrumahdinas.catatan;
+    this.enable = assetrumahdinas.enable;
 };
 
 AssetRumahDinas.create = (newAssetRumahDinas, result) => {
@@ -22,7 +23,6 @@ AssetRumahDinas.create = (newAssetRumahDinas, result) => {
             return;
         }
 
-        console.log("created assetrumahdinas: ", { id: res.insertId, ...newAssetRumahDinas });
         result(null, { id: res.insertId, ...newAssetRumahDinas });
     });
 };
@@ -36,7 +36,6 @@ AssetRumahDinas.findById = (id, result) => {
         }
 
         if (res.length) {
-            console.log("found assetrumahdinas: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -46,15 +45,35 @@ AssetRumahDinas.findById = (id, result) => {
     });
 };
 
-AssetRumahDinas.getAll = result => {
-    sql.query("SELECT * FROM asset_rumah_dinas", (err, res) => {
+AssetRumahDinas.getAll = (param, result) => {
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM asset_rumah_dinas";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                query += "(";
+                for (var x in str) {
+                    query += i + " ='" + str[x] + "' or ";
+                }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
+            } else {
+                query += i + " ='" + param[i] + "' and ";
+            }
+        }
+
+        query = query.substring(0, query.length - 5);
+    }
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("assetrumahdinas: ", res);
         result(null, res);
     });
 };
@@ -67,7 +86,6 @@ AssetRumahDinas.design = result => {
             return;
         }
 
-        console.log("assetrumahdinas: ", res);
         result(null, res);
     });
 };
@@ -119,20 +137,6 @@ AssetRumahDinas.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted assetrumahdinas with id: ", id);
-        result(null, res);
-    });
-};
-
-AssetRumahDinas.removeAll = result => {
-    sql.query("DELETE FROM asset_rumah_dinas", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log(`deleted ${res.affectedRows} assetrumahdinas`);
         result(null, res);
     });
 };

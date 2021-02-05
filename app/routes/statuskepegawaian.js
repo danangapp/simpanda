@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a StatusKepegawaian with id
     app.delete("/statuskepegawaian/:id", statuskepegawaian.delete);
 
-    // Create a new StatusKepegawaian
-    app.delete("/statuskepegawaian", statuskepegawaian.deleteAll);
 };

@@ -13,7 +13,6 @@ Kondisi.create = (newKondisi, result) => {
             return;
         }
 
-        console.log("created kondisi: ", { id: res.insertId, ...newKondisi });
         result(null, { id: res.insertId, ...newKondisi });
     });
 };
@@ -27,7 +26,6 @@ Kondisi.findById = (id, result) => {
         }
 
         if (res.length) {
-            console.log("found kondisi: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -37,15 +35,35 @@ Kondisi.findById = (id, result) => {
     });
 };
 
-Kondisi.getAll = result => {
-    sql.query("SELECT * FROM kondisi", (err, res) => {
+Kondisi.getAll = (param, result) => {
+    const length = Object.keys(param).length;
+    var query = "SELECT * FROM kondisi";
+    if (length > 0) {
+        query += " WHERE ";
+        for (var i in param) {
+            var str = param[i];
+            // var split = str.split(",");
+            if (typeof str != "string") {
+                query += "(";
+                for (var x in str) {
+                    query += i + " ='" + str[x] + "' or ";
+                }
+                query = query.substring(0, query.length - 4);
+                query += ") and ";
+            } else {
+                query += i + " ='" + param[i] + "' and ";
+            }
+        }
+
+        query = query.substring(0, query.length - 5);
+    }
+    sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log("kondisi: ", res);
         result(null, res);
     });
 };
@@ -58,7 +76,6 @@ Kondisi.design = result => {
             return;
         }
 
-        console.log("kondisi: ", res);
         result(null, res);
     });
 };
@@ -110,20 +127,6 @@ Kondisi.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted kondisi with id: ", id);
-        result(null, res);
-    });
-};
-
-Kondisi.removeAll = result => {
-    sql.query("DELETE FROM kondisi", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log(`deleted ${res.affectedRows} kondisi`);
         result(null, res);
     });
 };

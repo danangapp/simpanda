@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a Enable with id
     app.delete("/enable/:id", enable.delete);
 
-    // Create a new Enable
-    app.delete("/enable", enable.deleteAll);
 };

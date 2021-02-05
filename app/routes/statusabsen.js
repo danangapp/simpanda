@@ -19,6 +19,4 @@ module.exports = app => {
     // Delete a StatusAbsen with id
     app.delete("/statusabsen/:id", statusabsen.delete);
 
-    // Create a new StatusAbsen
-    app.delete("/statusabsen", statusabsen.deleteAll);
 };

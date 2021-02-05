@@ -23,7 +23,6 @@ const EvaluasiPelimpahan = function (evaluasipelimpahan) {
 
 EvaluasiPelimpahan.create = async(newEvaluasiPelimpahan, result) => {
 	try {
-
 		var obj = new Object();
 		obj.date = newEvaluasiPelimpahan.date;
 		obj.item = newEvaluasiPelimpahan.item;
@@ -109,7 +108,6 @@ EvaluasiPelimpahan.design = result => {
 
 EvaluasiPelimpahan.updateById = async(id, evaluasipelimpahan, result) => {
 	try {
-
 		var obj = new Object();
 		obj.date = EvaluasiPelimpahan.date;
 		obj.item = EvaluasiPelimpahan.item;

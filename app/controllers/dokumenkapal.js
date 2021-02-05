@@ -11,6 +11,13 @@ exports.create = (req, res) => {
         nama: req.body.nama,
     });
 
+	var used = {};
+	for (var i in dokumen_kapal) {
+	    if (!dokumen_kapal[i]) {
+	        delete dokumen_kapal[i];
+	    }
+	}
+
     DokumenKapal.create(dokumenkapal, (err, data) => {
         if (err)
             res.status(500).send({

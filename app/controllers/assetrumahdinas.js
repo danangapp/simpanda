@@ -21,6 +21,13 @@ exports.create = (req, res) => {
         enable: req.body.enable,
     });
 
+	var used = {};
+	for (var i in asset_rumah_dinas) {
+	    if (!asset_rumah_dinas[i]) {
+	        delete asset_rumah_dinas[i];
+	    }
+	}
+
     AssetRumahDinas.create(assetrumahdinas, (err, data) => {
         if (err)
             res.status(500).send({

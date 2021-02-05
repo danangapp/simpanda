@@ -59,6 +59,13 @@ exports.create = (req, res) => {
         remark: req.body.remark,
     });
 
+	var used = {};
+	for (var i in asset_kapal) {
+	    if (!asset_kapal[i]) {
+	        delete asset_kapal[i];
+	    }
+	}
+
     AssetKapal.create(assetkapal, (err, data) => {
         if (err)
             res.status(500).send({

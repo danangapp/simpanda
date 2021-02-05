@@ -10,7 +10,6 @@ const Role = function (role) {
 Role.create = async(newRole, result) => {
 	try {
 
-
 		const res = await query("INSERT INTO role SET ?", newRole);
 		result(null, { id: res.insertId, ...newRole });
 	} catch (error) {
@@ -83,7 +82,6 @@ Role.design = result => {
 
 Role.updateById = async(id, role, result) => {
 	try {
-
 
 
 		var str = "", obj = [], no = 1;

@@ -10,7 +10,6 @@ const Action = function (action) {
 Action.create = async(newAction, result) => {
 	try {
 
-
 		const res = await query("INSERT INTO action SET ?", newAction);
 		result(null, { id: res.insertId, ...newAction });
 	} catch (error) {
@@ -83,7 +82,6 @@ Action.design = result => {
 
 Action.updateById = async(id, action, result) => {
 	try {
-
 
 
 		var str = "", obj = [], no = 1;

@@ -11,6 +11,13 @@ exports.create = (req, res) => {
         name: req.body.name,
     });
 
+	var used = {};
+	for (var i in approval_status) {
+	    if (!approval_status[i]) {
+	        delete approval_status[i];
+	    }
+	}
+
     ApprovalStatus.create(approvalstatus, (err, data) => {
         if (err)
             res.status(500).send({

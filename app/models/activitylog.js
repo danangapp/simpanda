@@ -14,7 +14,6 @@ const ActivityLog = function (activitylog) {
 ActivityLog.create = async(newActivityLog, result) => {
 	try {
 
-
 		const res = await query("INSERT INTO activity_log SET ?", newActivityLog);
 		result(null, { id: res.insertId, ...newActivityLog });
 	} catch (error) {
@@ -87,7 +86,6 @@ ActivityLog.design = result => {
 
 ActivityLog.updateById = async(id, activitylog, result) => {
 	try {
-
 
 
 		var str = "", obj = [], no = 1;

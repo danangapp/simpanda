@@ -12,6 +12,13 @@ exports.create = (req, res) => {
         remark: req.body.remark,
     });
 
+	var used = {};
+	for (var i in tipe_cert) {
+	    if (!tipe_cert[i]) {
+	        delete tipe_cert[i];
+	    }
+	}
+
     TipeCert.create(tipecert, (err, data) => {
         if (err)
             res.status(500).send({

@@ -10,7 +10,6 @@ const TipeAsset = function (tipeasset) {
 TipeAsset.create = async(newTipeAsset, result) => {
 	try {
 
-
 		const res = await query("INSERT INTO tipe_asset SET ?", newTipeAsset);
 		result(null, { id: res.insertId, ...newTipeAsset });
 	} catch (error) {
@@ -83,7 +82,6 @@ TipeAsset.design = result => {
 
 TipeAsset.updateById = async(id, tipeasset, result) => {
 	try {
-
 
 
 		var str = "", obj = [], no = 1;

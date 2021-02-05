@@ -23,7 +23,6 @@ const UserGroup = function (usergroup) {
 UserGroup.create = async(newUserGroup, result) => {
 	try {
 
-
 		const res = await query("INSERT INTO user_group SET ?", newUserGroup);
 		result(null, { id: res.insertId, ...newUserGroup });
 	} catch (error) {
@@ -96,7 +95,6 @@ UserGroup.design = result => {
 
 UserGroup.updateById = async(id, usergroup, result) => {
 	try {
-
 
 
 		var str = "", obj = [], no = 1;

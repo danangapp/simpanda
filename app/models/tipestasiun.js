@@ -10,7 +10,6 @@ const TipeStasiun = function (tipestasiun) {
 TipeStasiun.create = async(newTipeStasiun, result) => {
 	try {
 
-
 		const res = await query("INSERT INTO tipe_stasiun SET ?", newTipeStasiun);
 		result(null, { id: res.insertId, ...newTipeStasiun });
 	} catch (error) {
@@ -83,7 +82,6 @@ TipeStasiun.design = result => {
 
 TipeStasiun.updateById = async(id, tipestasiun, result) => {
 	try {
-
 
 
 		var str = "", obj = [], no = 1;

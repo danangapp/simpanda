@@ -16,6 +16,13 @@ exports.create = (req, res) => {
         keterangan: req.body.keterangan,
     });
 
+	var used = {};
+	for (var i in pandu_schedule) {
+	    if (!pandu_schedule[i]) {
+	        delete pandu_schedule[i];
+	    }
+	}
+
     PanduSchedule.create(panduschedule, (err, data) => {
         if (err)
             res.status(500).send({

@@ -10,7 +10,6 @@ const DokumenKapal = function (dokumenkapal) {
 DokumenKapal.create = async(newDokumenKapal, result) => {
 	try {
 
-
 		const res = await query("INSERT INTO dokumen_kapal SET ?", newDokumenKapal);
 		result(null, { id: res.insertId, ...newDokumenKapal });
 	} catch (error) {
@@ -83,7 +82,6 @@ DokumenKapal.design = result => {
 
 DokumenKapal.updateById = async(id, dokumenkapal, result) => {
 	try {
-
 
 
 		var str = "", obj = [], no = 1;

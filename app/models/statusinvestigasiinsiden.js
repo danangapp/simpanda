@@ -10,7 +10,6 @@ const StatusInvestigasiInsiden = function (statusinvestigasiinsiden) {
 StatusInvestigasiInsiden.create = async(newStatusInvestigasiInsiden, result) => {
 	try {
 
-
 		const res = await query("INSERT INTO status_investigasi_insiden SET ?", newStatusInvestigasiInsiden);
 		result(null, { id: res.insertId, ...newStatusInvestigasiInsiden });
 	} catch (error) {
@@ -83,7 +82,6 @@ StatusInvestigasiInsiden.design = result => {
 
 StatusInvestigasiInsiden.updateById = async(id, statusinvestigasiinsiden, result) => {
 	try {
-
 
 
 		var str = "", obj = [], no = 1;

@@ -17,6 +17,13 @@ exports.create = (req, res) => {
         keterangan: req.body.keterangan,
     });
 
+	var used = {};
+	for (var i in pemeriksaan_kapal) {
+	    if (!pemeriksaan_kapal[i]) {
+	        delete pemeriksaan_kapal[i];
+	    }
+	}
+
     PemeriksaanKapal.create(pemeriksaankapal, (err, data) => {
         if (err)
             res.status(500).send({

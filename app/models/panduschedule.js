@@ -15,7 +15,6 @@ const PanduSchedule = function (panduschedule) {
 PanduSchedule.create = async(newPanduSchedule, result) => {
 	try {
 
-
 		const res = await query("INSERT INTO pandu_schedule SET ?", newPanduSchedule);
 		result(null, { id: res.insertId, ...newPanduSchedule });
 	} catch (error) {
@@ -88,7 +87,6 @@ PanduSchedule.design = result => {
 
 PanduSchedule.updateById = async(id, panduschedule, result) => {
 	try {
-
 
 
 		var str = "", obj = [], no = 1;

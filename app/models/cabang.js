@@ -20,7 +20,6 @@ const Cabang = function (cabang) {
 Cabang.create = async(newCabang, result) => {
 	try {
 
-
 		const res = await query("INSERT INTO cabang SET ?", newCabang);
 		result(null, { id: res.insertId, ...newCabang });
 	} catch (error) {
@@ -93,7 +92,6 @@ Cabang.design = result => {
 
 Cabang.updateById = async(id, cabang, result) => {
 	try {
-
 
 
 		var str = "", obj = [], no = 1;

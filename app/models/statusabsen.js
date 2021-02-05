@@ -10,7 +10,6 @@ const StatusAbsen = function (statusabsen) {
 StatusAbsen.create = async(newStatusAbsen, result) => {
 	try {
 
-
 		const res = await query("INSERT INTO status_absen SET ?", newStatusAbsen);
 		result(null, { id: res.insertId, ...newStatusAbsen });
 	} catch (error) {
@@ -83,7 +82,6 @@ StatusAbsen.design = result => {
 
 StatusAbsen.updateById = async(id, statusabsen, result) => {
 	try {
-
 
 
 		var str = "", obj = [], no = 1;

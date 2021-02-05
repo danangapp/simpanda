@@ -18,6 +18,13 @@ exports.create = (req, res) => {
         keterangan: req.body.keterangan,
     });
 
+	var used = {};
+	for (var i in armada_schedule) {
+	    if (!armada_schedule[i]) {
+	        delete armada_schedule[i];
+	    }
+	}
+
     ArmadaSchedule.create(armadaschedule, (err, data) => {
         if (err)
             res.status(500).send({

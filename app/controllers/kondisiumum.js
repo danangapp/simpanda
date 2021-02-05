@@ -11,6 +11,13 @@ exports.create = (req, res) => {
         nama: req.body.nama,
     });
 
+	var used = {};
+	for (var i in kondisi_umum) {
+	    if (!kondisi_umum[i]) {
+	        delete kondisi_umum[i];
+	    }
+	}
+
     KondisiUmum.create(kondisiumum, (err, data) => {
         if (err)
             res.status(500).send({

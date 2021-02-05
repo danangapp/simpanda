@@ -10,7 +10,6 @@ const Kondisi = function (kondisi) {
 Kondisi.create = async(newKondisi, result) => {
 	try {
 
-
 		const res = await query("INSERT INTO kondisi SET ?", newKondisi);
 		result(null, { id: res.insertId, ...newKondisi });
 	} catch (error) {
@@ -83,7 +82,6 @@ Kondisi.design = result => {
 
 Kondisi.updateById = async(id, kondisi, result) => {
 	try {
-
 
 
 		var str = "", obj = [], no = 1;

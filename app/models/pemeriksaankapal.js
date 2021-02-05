@@ -15,7 +15,6 @@ const PemeriksaanKapal = function (pemeriksaankapal) {
 
 PemeriksaanKapal.create = async(newPemeriksaanKapal, result) => {
 	try {
-
 		var obj = new Object();
 		obj.date = newPemeriksaanKapal.date;
 		obj.item = newPemeriksaanKapal.item;
@@ -101,7 +100,6 @@ PemeriksaanKapal.design = result => {
 
 PemeriksaanKapal.updateById = async(id, pemeriksaankapal, result) => {
 	try {
-
 		var obj = new Object();
 		obj.date = PemeriksaanKapal.date;
 		obj.item = PemeriksaanKapal.item;

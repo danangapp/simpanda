@@ -18,6 +18,13 @@ exports.create = (req, res) => {
         enable: req.body.enable,
     });
 
+	var used = {};
+	for (var i in asset_stasiun_equipment) {
+	    if (!asset_stasiun_equipment[i]) {
+	        delete asset_stasiun_equipment[i];
+	    }
+	}
+
     AssetStasiunEquipment.create(assetstasiunequipment, (err, data) => {
         if (err)
             res.status(500).send({

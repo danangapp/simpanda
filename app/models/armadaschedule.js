@@ -17,7 +17,6 @@ const ArmadaSchedule = function (armadaschedule) {
 ArmadaSchedule.create = async(newArmadaSchedule, result) => {
 	try {
 
-
 		const res = await query("INSERT INTO armada_schedule SET ?", newArmadaSchedule);
 		result(null, { id: res.insertId, ...newArmadaSchedule });
 	} catch (error) {
@@ -90,7 +89,6 @@ ArmadaSchedule.design = result => {
 
 ArmadaSchedule.updateById = async(id, armadaschedule, result) => {
 	try {
-
 
 
 		var str = "", obj = [], no = 1;

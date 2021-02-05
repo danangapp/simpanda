@@ -37,6 +37,13 @@ exports.create = (req, res) => {
         remark: req.body.remark,
     });
 
+	var used = {};
+	for (var i in personil) {
+	    if (!personil[i]) {
+	        delete personil[i];
+	    }
+	}
+
     Personil.create(personil, (err, data) => {
         if (err)
             res.status(500).send({

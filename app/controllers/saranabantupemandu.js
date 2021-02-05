@@ -14,6 +14,13 @@ exports.create = (req, res) => {
         pelaksana: req.body.pelaksana,
     });
 
+	var used = {};
+	for (var i in sarana_bantu_pemandu) {
+	    if (!sarana_bantu_pemandu[i]) {
+	        delete sarana_bantu_pemandu[i];
+	    }
+	}
+
     SaranaBantuPemandu.create(saranabantupemandu, (err, data) => {
         if (err)
             res.status(500).send({

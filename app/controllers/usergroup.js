@@ -24,6 +24,13 @@ exports.create = (req, res) => {
         access_inspection_investigasi: req.body.access_inspection_investigasi,
     });
 
+	var used = {};
+	for (var i in user_group) {
+	    if (!user_group[i]) {
+	        delete user_group[i];
+	    }
+	}
+
     UserGroup.create(usergroup, (err, data) => {
         if (err)
             res.status(500).send({

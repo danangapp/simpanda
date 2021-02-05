@@ -11,6 +11,13 @@ exports.create = (req, res) => {
         nama: req.body.nama,
     });
 
+	var used = {};
+	for (var i in tipe_sarana_pemandu_kapal) {
+	    if (!tipe_sarana_pemandu_kapal[i]) {
+	        delete tipe_sarana_pemandu_kapal[i];
+	    }
+	}
+
     TipeSaranaPemanduKapal.create(tipesaranapemandukapal, (err, data) => {
         if (err)
             res.status(500).send({

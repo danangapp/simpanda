@@ -51,7 +51,6 @@ const InvestigasiInsiden = function (investigasiinsiden) {
 
 InvestigasiInsiden.create = async(newInvestigasiInsiden, result) => {
 	try {
-
 		var obj = new Object();
 		obj.date = newInvestigasiInsiden.date;
 		obj.item = newInvestigasiInsiden.item;
@@ -137,7 +136,6 @@ InvestigasiInsiden.design = result => {
 
 InvestigasiInsiden.updateById = async(id, investigasiinsiden, result) => {
 	try {
-
 		var obj = new Object();
 		obj.date = InvestigasiInsiden.date;
 		obj.item = InvestigasiInsiden.item;

@@ -10,7 +10,6 @@ const ApprovalStatus = function (approvalstatus) {
 ApprovalStatus.create = async(newApprovalStatus, result) => {
 	try {
 
-
 		const res = await query("INSERT INTO approval_status SET ?", newApprovalStatus);
 		result(null, { id: res.insertId, ...newApprovalStatus });
 	} catch (error) {
@@ -83,7 +82,6 @@ ApprovalStatus.design = result => {
 
 ApprovalStatus.updateById = async(id, approvalstatus, result) => {
 	try {
-
 
 
 		var str = "", obj = [], no = 1;

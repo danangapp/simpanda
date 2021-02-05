@@ -19,7 +19,6 @@ const AssetRumahDinas = function (assetrumahdinas) {
 
 AssetRumahDinas.create = async(newAssetRumahDinas, result) => {
 	try {
-
 		var obj = new Object();
 		obj.date = newAssetRumahDinas.date;
 		obj.item = newAssetRumahDinas.item;
@@ -105,7 +104,6 @@ AssetRumahDinas.design = result => {
 
 AssetRumahDinas.updateById = async(id, assetrumahdinas, result) => {
 	try {
-
 		var obj = new Object();
 		obj.date = AssetRumahDinas.date;
 		obj.item = AssetRumahDinas.item;

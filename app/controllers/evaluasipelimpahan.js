@@ -25,6 +25,13 @@ exports.create = (req, res) => {
         file_sk_pelimpahan: req.body.file_sk_pelimpahan,
     });
 
+	var used = {};
+	for (var i in evaluasi_pelimpahan) {
+	    if (!evaluasi_pelimpahan[i]) {
+	        delete evaluasi_pelimpahan[i];
+	    }
+	}
+
     EvaluasiPelimpahan.create(evaluasipelimpahan, (err, data) => {
         if (err)
             res.status(500).send({

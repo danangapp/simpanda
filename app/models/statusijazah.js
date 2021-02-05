@@ -10,7 +10,6 @@ const StatusIjazah = function (statusijazah) {
 StatusIjazah.create = async(newStatusIjazah, result) => {
 	try {
 
-
 		const res = await query("INSERT INTO status_ijazah SET ?", newStatusIjazah);
 		result(null, { id: res.insertId, ...newStatusIjazah });
 	} catch (error) {
@@ -83,7 +82,6 @@ StatusIjazah.design = result => {
 
 StatusIjazah.updateById = async(id, statusijazah, result) => {
 	try {
-
 
 
 		var str = "", obj = [], no = 1;

@@ -11,6 +11,13 @@ exports.create = (req, res) => {
         nama: req.body.nama,
     });
 
+	var used = {};
+	for (var i in enable) {
+	    if (!enable[i]) {
+	        delete enable[i];
+	    }
+	}
+
     Enable.create(enable, (err, data) => {
         if (err)
             res.status(500).send({

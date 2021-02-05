@@ -12,7 +12,6 @@ const SaranaBantuPemandu = function (saranabantupemandu) {
 
 SaranaBantuPemandu.create = async(newSaranaBantuPemandu, result) => {
 	try {
-
 		var obj = new Object();
 		obj.date = newSaranaBantuPemandu.date;
 		obj.item = newSaranaBantuPemandu.item;
@@ -98,7 +97,6 @@ SaranaBantuPemandu.design = result => {
 
 SaranaBantuPemandu.updateById = async(id, saranabantupemandu, result) => {
 	try {
-
 		var obj = new Object();
 		obj.date = SaranaBantuPemandu.date;
 		obj.item = SaranaBantuPemandu.item;

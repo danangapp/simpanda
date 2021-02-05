@@ -10,7 +10,6 @@ const StatusKepegawaian = function (statuskepegawaian) {
 StatusKepegawaian.create = async(newStatusKepegawaian, result) => {
 	try {
 
-
 		const res = await query("INSERT INTO status_kepegawaian SET ?", newStatusKepegawaian);
 		result(null, { id: res.insertId, ...newStatusKepegawaian });
 	} catch (error) {
@@ -83,7 +82,6 @@ StatusKepegawaian.design = result => {
 
 StatusKepegawaian.updateById = async(id, statuskepegawaian, result) => {
 	try {
-
 
 
 		var str = "", obj = [], no = 1;

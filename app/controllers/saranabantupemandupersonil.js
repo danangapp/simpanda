@@ -15,6 +15,13 @@ exports.create = (req, res) => {
         status_ijazah_id: req.body.status_ijazah_id,
     });
 
+	var used = {};
+	for (var i in sarana_bantu_pemandu_personil) {
+	    if (!sarana_bantu_pemandu_personil[i]) {
+	        delete sarana_bantu_pemandu_personil[i];
+	    }
+	}
+
     SaranaBantuPemanduPersonil.create(saranabantupemandupersonil, (err, data) => {
         if (err)
             res.status(500).send({

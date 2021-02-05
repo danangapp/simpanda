@@ -15,6 +15,13 @@ exports.create = (req, res) => {
         remark: req.body.remark,
     });
 
+	var used = {};
+	for (var i in activity_log) {
+	    if (!activity_log[i]) {
+	        delete activity_log[i];
+	    }
+	}
+
     ActivityLog.create(activitylog, (err, data) => {
         if (err)
             res.status(500).send({

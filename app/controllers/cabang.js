@@ -21,6 +21,13 @@ exports.create = (req, res) => {
         kd_jenis_pelabuhan: req.body.kd_jenis_pelabuhan,
     });
 
+	var used = {};
+	for (var i in cabang) {
+	    if (!cabang[i]) {
+	        delete cabang[i];
+	    }
+	}
+
     Cabang.create(cabang, (err, data) => {
         if (err)
             res.status(500).send({

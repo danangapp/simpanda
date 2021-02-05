@@ -15,6 +15,13 @@ exports.create = (req, res) => {
         role_id: req.body.role_id,
     });
 
+	var used = {};
+	for (var i in user) {
+	    if (!user[i]) {
+	        delete user[i];
+	    }
+	}
+
     User.create(user, (err, data) => {
         if (err)
             res.status(500).send({

@@ -11,6 +11,13 @@ exports.create = (req, res) => {
         nama: req.body.nama,
     });
 
+	var used = {};
+	for (var i in action) {
+	    if (!action[i]) {
+	        delete action[i];
+	    }
+	}
+
     Action.create(action, (err, data) => {
         if (err)
             res.status(500).send({

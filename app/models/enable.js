@@ -10,7 +10,6 @@ const Enable = function (enable) {
 Enable.create = async(newEnable, result) => {
 	try {
 
-
 		const res = await query("INSERT INTO enable SET ?", newEnable);
 		result(null, { id: res.insertId, ...newEnable });
 	} catch (error) {
@@ -83,7 +82,6 @@ Enable.design = result => {
 
 Enable.updateById = async(id, enable, result) => {
 	try {
-
 
 
 		var str = "", obj = [], no = 1;

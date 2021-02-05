@@ -11,6 +11,13 @@ exports.create = (req, res) => {
         nama: req.body.nama,
     });
 
+	var used = {};
+	for (var i in status_absen) {
+	    if (!status_absen[i]) {
+	        delete status_absen[i];
+	    }
+	}
+
     StatusAbsen.create(statusabsen, (err, data) => {
         if (err)
             res.status(500).send({

@@ -53,6 +53,13 @@ exports.create = (req, res) => {
         approved_tanggal: req.body.approved_tanggal,
     });
 
+	var used = {};
+	for (var i in investigasi_insiden) {
+	    if (!investigasi_insiden[i]) {
+	        delete investigasi_insiden[i];
+	    }
+	}
+
     InvestigasiInsiden.create(investigasiinsiden, (err, data) => {
         if (err)
             res.status(500).send({

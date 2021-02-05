@@ -77,6 +77,13 @@ exports.create = (req, res) => {
         pemeriksaan_fisik_f4: req.body.pemeriksaan_fisik_f4,
     });
 
+	var used = {};
+	for (var i in sarana_bantu_pemandu_kapal) {
+	    if (!sarana_bantu_pemandu_kapal[i]) {
+	        delete sarana_bantu_pemandu_kapal[i];
+	    }
+	}
+
     SaranaBantuPemanduKapal.create(saranabantupemandukapal, (err, data) => {
         if (err)
             res.status(500).send({

@@ -11,6 +11,13 @@ exports.create = (req, res) => {
         nama: req.body.nama,
     });
 
+	var used = {};
+	for (var i in tipe_asset) {
+	    if (!tipe_asset[i]) {
+	        delete tipe_asset[i];
+	    }
+	}
+
     TipeAsset.create(tipeasset, (err, data) => {
         if (err)
             res.status(500).send({

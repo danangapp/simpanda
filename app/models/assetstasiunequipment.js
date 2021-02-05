@@ -16,7 +16,6 @@ const AssetStasiunEquipment = function (assetstasiunequipment) {
 
 AssetStasiunEquipment.create = async(newAssetStasiunEquipment, result) => {
 	try {
-
 		var obj = new Object();
 		obj.date = newAssetStasiunEquipment.date;
 		obj.item = newAssetStasiunEquipment.item;
@@ -102,7 +101,6 @@ AssetStasiunEquipment.design = result => {
 
 AssetStasiunEquipment.updateById = async(id, assetstasiunequipment, result) => {
 	try {
-
 		var obj = new Object();
 		obj.date = AssetStasiunEquipment.date;
 		obj.item = AssetStasiunEquipment.item;

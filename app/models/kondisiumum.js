@@ -10,7 +10,6 @@ const KondisiUmum = function (kondisiumum) {
 KondisiUmum.create = async(newKondisiUmum, result) => {
 	try {
 
-
 		const res = await query("INSERT INTO kondisi_umum SET ?", newKondisiUmum);
 		result(null, { id: res.insertId, ...newKondisiUmum });
 	} catch (error) {
@@ -83,7 +82,6 @@ KondisiUmum.design = result => {
 
 KondisiUmum.updateById = async(id, kondisiumum, result) => {
 	try {
-
 
 
 		var str = "", obj = [], no = 1;

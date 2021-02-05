@@ -76,7 +76,6 @@ const SaranaBantuPemanduKapal = function (saranabantupemandukapal) {
 SaranaBantuPemanduKapal.create = async(newSaranaBantuPemanduKapal, result) => {
 	try {
 
-
 		const res = await query("INSERT INTO sarana_bantu_pemandu_kapal SET ?", newSaranaBantuPemanduKapal);
 		result(null, { id: res.insertId, ...newSaranaBantuPemanduKapal });
 	} catch (error) {
@@ -149,7 +148,6 @@ SaranaBantuPemanduKapal.design = result => {
 
 SaranaBantuPemanduKapal.updateById = async(id, saranabantupemandukapal, result) => {
 	try {
-
 
 
 		var str = "", obj = [], no = 1;

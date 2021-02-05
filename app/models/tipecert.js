@@ -11,7 +11,6 @@ const TipeCert = function (tipecert) {
 TipeCert.create = async(newTipeCert, result) => {
 	try {
 
-
 		const res = await query("INSERT INTO tipe_cert SET ?", newTipeCert);
 		result(null, { id: res.insertId, ...newTipeCert });
 	} catch (error) {
@@ -84,7 +83,6 @@ TipeCert.design = result => {
 
 TipeCert.updateById = async(id, tipecert, result) => {
 	try {
-
 
 
 		var str = "", obj = [], no = 1;

@@ -102,7 +102,7 @@ ActivityLog.updateById = async(id, activitylog, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE activity_log SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...personil });
+		result(null, { id: id, ...activity_log });
 	} catch (error) {
 	    result(error, null);
 	}

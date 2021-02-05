@@ -98,7 +98,7 @@ KondisiUmum.updateById = async(id, kondisiumum, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE kondisi_umum SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...personil });
+		result(null, { id: id, ...kondisi_umum });
 	} catch (error) {
 	    result(error, null);
 	}

@@ -98,7 +98,7 @@ TipePersonil.updateById = async(id, tipepersonil, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE tipe_personil SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...personil });
+		result(null, { id: id, ...tipe_personil });
 	} catch (error) {
 	    result(error, null);
 	}

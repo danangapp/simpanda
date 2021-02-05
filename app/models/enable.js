@@ -98,7 +98,7 @@ Enable.updateById = async(id, enable, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE enable SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...personil });
+		result(null, { id: id, ...enable });
 	} catch (error) {
 	    result(error, null);
 	}

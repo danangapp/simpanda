@@ -98,7 +98,7 @@ Action.updateById = async(id, action, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE action SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...personil });
+		result(null, { id: id, ...action });
 	} catch (error) {
 	    result(error, null);
 	}

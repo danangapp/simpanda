@@ -98,7 +98,7 @@ PemeriksaanKapalCheck.updateById = async(id, pemeriksaankapalcheck, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE pemeriksaan_kapal_check SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...personil });
+		result(null, { id: id, ...pemeriksaan_kapal_check });
 	} catch (error) {
 	    result(error, null);
 	}

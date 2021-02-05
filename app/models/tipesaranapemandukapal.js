@@ -98,7 +98,7 @@ TipeSaranaPemanduKapal.updateById = async(id, tipesaranapemandukapal, result) =>
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE tipe_sarana_pemandu_kapal SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...personil });
+		result(null, { id: id, ...tipe_sarana_pemandu_kapal });
 	} catch (error) {
 	    result(error, null);
 	}

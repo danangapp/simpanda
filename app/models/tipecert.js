@@ -99,7 +99,7 @@ TipeCert.updateById = async(id, tipecert, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE tipe_cert SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...personil });
+		result(null, { id: id, ...tipe_cert });
 	} catch (error) {
 	    result(error, null);
 	}

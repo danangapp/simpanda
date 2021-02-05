@@ -111,7 +111,7 @@ UserGroup.updateById = async(id, usergroup, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE user_group SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...personil });
+		result(null, { id: id, ...user_group });
 	} catch (error) {
 	    result(error, null);
 	}

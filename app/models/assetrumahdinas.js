@@ -132,7 +132,7 @@ AssetRumahDinas.updateById = async(id, assetrumahdinas, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE asset_rumah_dinas SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...personil });
+		result(null, { id: id, ...asset_rumah_dinas });
 	} catch (error) {
 	    result(error, null);
 	}

@@ -98,7 +98,7 @@ StatusAbsen.updateById = async(id, statusabsen, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE status_absen SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...personil });
+		result(null, { id: id, ...status_absen });
 	} catch (error) {
 	    result(error, null);
 	}

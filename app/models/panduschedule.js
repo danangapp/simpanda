@@ -103,7 +103,7 @@ PanduSchedule.updateById = async(id, panduschedule, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE pandu_schedule SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...personil });
+		result(null, { id: id, ...pandu_schedule });
 	} catch (error) {
 	    result(error, null);
 	}

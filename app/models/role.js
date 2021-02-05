@@ -98,7 +98,7 @@ Role.updateById = async(id, role, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE role SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...personil });
+		result(null, { id: id, ...role });
 	} catch (error) {
 	    result(error, null);
 	}

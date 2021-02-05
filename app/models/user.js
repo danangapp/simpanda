@@ -102,7 +102,7 @@ User.updateById = async(id, user, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE user SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...personil });
+		result(null, { id: id, ...user });
 	} catch (error) {
 	    result(error, null);
 	}

@@ -98,7 +98,7 @@ ApprovalStatus.updateById = async(id, approvalstatus, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE approval_status SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...personil });
+		result(null, { id: id, ...approval_status });
 	} catch (error) {
 	    result(error, null);
 	}

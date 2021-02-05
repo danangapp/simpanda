@@ -8,10 +8,28 @@ const SaranaBantuPemandu = function (saranabantupemandu) {
     this.cabang_id = saranabantupemandu.cabang_id;
     this.tanggal_pemeriksaan = saranabantupemandu.tanggal_pemeriksaan;
     this.pelaksana = saranabantupemandu.pelaksana;
+    this.date = saranabantupemandu.date;
+    this.item = saranabantupemandu.item;
+    this.action = saranabantupemandu.action;
+    this.user_id = saranabantupemandu.user_id;
+    this.remark = saranabantupemandu.remark;
 };
 
 SaranaBantuPemandu.create = async(newSaranaBantuPemandu, result) => {
 	try {
+
+		var obj = new Object();
+		obj.date = newSaranaBantuPemandu.date;
+		obj.item = newSaranaBantuPemandu.item;
+		obj.action = newSaranaBantuPemandu.action;
+		obj.user_id = newSaranaBantuPemandu.user_id;
+		obj.remark = newSaranaBantuPemandu.remark;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete newSaranaBantuPemandu.date;
+		delete newSaranaBantuPemandu.item;
+		delete newSaranaBantuPemandu.action;
+		delete newSaranaBantuPemandu.user_id;
+		delete newSaranaBantuPemandu.remark;
 		const res = await query("INSERT INTO sarana_bantu_pemandu SET ?", newSaranaBantuPemandu);
 		result(null, { id: res.insertId, ...newSaranaBantuPemandu });
 	} catch (error) {
@@ -84,6 +102,20 @@ SaranaBantuPemandu.design = result => {
 
 SaranaBantuPemandu.updateById = async(id, saranabantupemandu, result) => {
 	try {
+
+		var obj = new Object();
+		obj.date = SaranaBantuPemandu.date;
+		obj.item = SaranaBantuPemandu.item;
+		obj.action = SaranaBantuPemandu.action;
+		obj.user_id = SaranaBantuPemandu.user_id;
+		obj.remark = SaranaBantuPemandu.remark;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete SaranaBantuPemandu.date;
+		delete SaranaBantuPemandu.item;
+		delete SaranaBantuPemandu.action;
+		delete SaranaBantuPemandu.user_id;
+		delete SaranaBantuPemandu.remark;
+
 
 		var str = "", obj = [], no = 1;
 		for (var i in saranabantupemandu) {

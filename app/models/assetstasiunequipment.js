@@ -12,10 +12,28 @@ const AssetStasiunEquipment = function (assetstasiunequipment) {
     this.kondisi = assetstasiunequipment.kondisi;
     this.approval_status_id = assetstasiunequipment.approval_status_id;
     this.enable = assetstasiunequipment.enable;
+    this.date = assetstasiunequipment.date;
+    this.item = assetstasiunequipment.item;
+    this.action = assetstasiunequipment.action;
+    this.user_id = assetstasiunequipment.user_id;
+    this.remark = assetstasiunequipment.remark;
 };
 
 AssetStasiunEquipment.create = async(newAssetStasiunEquipment, result) => {
 	try {
+
+		var obj = new Object();
+		obj.date = newAssetStasiunEquipment.date;
+		obj.item = newAssetStasiunEquipment.item;
+		obj.action = newAssetStasiunEquipment.action;
+		obj.user_id = newAssetStasiunEquipment.user_id;
+		obj.remark = newAssetStasiunEquipment.remark;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete newAssetStasiunEquipment.date;
+		delete newAssetStasiunEquipment.item;
+		delete newAssetStasiunEquipment.action;
+		delete newAssetStasiunEquipment.user_id;
+		delete newAssetStasiunEquipment.remark;
 		const res = await query("INSERT INTO asset_stasiun_equipment SET ?", newAssetStasiunEquipment);
 		result(null, { id: res.insertId, ...newAssetStasiunEquipment });
 	} catch (error) {
@@ -88,6 +106,20 @@ AssetStasiunEquipment.design = result => {
 
 AssetStasiunEquipment.updateById = async(id, assetstasiunequipment, result) => {
 	try {
+
+		var obj = new Object();
+		obj.date = AssetStasiunEquipment.date;
+		obj.item = AssetStasiunEquipment.item;
+		obj.action = AssetStasiunEquipment.action;
+		obj.user_id = AssetStasiunEquipment.user_id;
+		obj.remark = AssetStasiunEquipment.remark;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete AssetStasiunEquipment.date;
+		delete AssetStasiunEquipment.item;
+		delete AssetStasiunEquipment.action;
+		delete AssetStasiunEquipment.user_id;
+		delete AssetStasiunEquipment.remark;
+
 
 		var str = "", obj = [], no = 1;
 		for (var i in assetstasiunequipment) {

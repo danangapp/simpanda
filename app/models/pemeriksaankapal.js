@@ -11,10 +11,28 @@ const PemeriksaanKapal = function (pemeriksaankapal) {
     this.tanggal_awal = pemeriksaankapal.tanggal_awal;
     this.tanggal_akhir = pemeriksaankapal.tanggal_akhir;
     this.keterangan = pemeriksaankapal.keterangan;
+    this.date = pemeriksaankapal.date;
+    this.item = pemeriksaankapal.item;
+    this.action = pemeriksaankapal.action;
+    this.user_id = pemeriksaankapal.user_id;
+    this.remark = pemeriksaankapal.remark;
 };
 
 PemeriksaanKapal.create = async(newPemeriksaanKapal, result) => {
 	try {
+
+		var obj = new Object();
+		obj.date = newPemeriksaanKapal.date;
+		obj.item = newPemeriksaanKapal.item;
+		obj.action = newPemeriksaanKapal.action;
+		obj.user_id = newPemeriksaanKapal.user_id;
+		obj.remark = newPemeriksaanKapal.remark;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete newPemeriksaanKapal.date;
+		delete newPemeriksaanKapal.item;
+		delete newPemeriksaanKapal.action;
+		delete newPemeriksaanKapal.user_id;
+		delete newPemeriksaanKapal.remark;
 		const res = await query("INSERT INTO pemeriksaan_kapal SET ?", newPemeriksaanKapal);
 		result(null, { id: res.insertId, ...newPemeriksaanKapal });
 	} catch (error) {
@@ -87,6 +105,20 @@ PemeriksaanKapal.design = result => {
 
 PemeriksaanKapal.updateById = async(id, pemeriksaankapal, result) => {
 	try {
+
+		var obj = new Object();
+		obj.date = PemeriksaanKapal.date;
+		obj.item = PemeriksaanKapal.item;
+		obj.action = PemeriksaanKapal.action;
+		obj.user_id = PemeriksaanKapal.user_id;
+		obj.remark = PemeriksaanKapal.remark;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete PemeriksaanKapal.date;
+		delete PemeriksaanKapal.item;
+		delete PemeriksaanKapal.action;
+		delete PemeriksaanKapal.user_id;
+		delete PemeriksaanKapal.remark;
+
 
 		var str = "", obj = [], no = 1;
 		for (var i in pemeriksaankapal) {

@@ -5,10 +5,16 @@ const query = util.promisify(sql.query).bind(sql);
 // constructor
 const StatusEvaluasiPelimpahan = function (statusevaluasipelimpahan) {
     this.nama = statusevaluasipelimpahan.nama;
+    this.date = statusevaluasipelimpahan.date;
+    this.item = statusevaluasipelimpahan.item;
+    this.action = statusevaluasipelimpahan.action;
+    this.user_id = statusevaluasipelimpahan.user_id;
+    this.remark = statusevaluasipelimpahan.remark;
 };
 
 StatusEvaluasiPelimpahan.create = async(newStatusEvaluasiPelimpahan, result) => {
 	try {
+
 		const res = await query("INSERT INTO status_evaluasi_pelimpahan SET ?", newStatusEvaluasiPelimpahan);
 		result(null, { id: res.insertId, ...newStatusEvaluasiPelimpahan });
 	} catch (error) {
@@ -81,6 +87,8 @@ StatusEvaluasiPelimpahan.design = result => {
 
 StatusEvaluasiPelimpahan.updateById = async(id, statusevaluasipelimpahan, result) => {
 	try {
+
+
 
 		var str = "", obj = [], no = 1;
 		for (var i in statusevaluasipelimpahan) {

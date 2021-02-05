@@ -19,6 +19,11 @@ exports.create = (req, res) => {
         port_code: req.body.port_code,
         autospk: req.body.autospk,
         kd_jenis_pelabuhan: req.body.kd_jenis_pelabuhan,
+        date: req.body.date,
+        item: req.body.item,
+        action: req.body.action,
+        user_id: req.body.user_id,
+        remark: req.body.remark,
     });
 
     Cabang.create(cabang, (err, data) => {

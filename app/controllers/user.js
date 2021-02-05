@@ -13,6 +13,11 @@ exports.create = (req, res) => {
         password: req.body.password,
         user_group_id: req.body.user_group_id,
         role_id: req.body.role_id,
+        date: req.body.date,
+        item: req.body.item,
+        action: req.body.action,
+        user_id: req.body.user_id,
+        remark: req.body.remark,
     });
 
     User.create(user, (err, data) => {

@@ -10,6 +10,11 @@ exports.create = (req, res) => {
     const tipecert = new TipeCert({
         nama: req.body.nama,
         remark: req.body.remark,
+        date: req.body.date,
+        item: req.body.item,
+        action: req.body.action,
+        user_id: req.body.user_id,
+        remark: req.body.remark,
     });
 
     TipeCert.create(tipecert, (err, data) => {

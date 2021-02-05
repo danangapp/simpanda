@@ -19,10 +19,28 @@ const EvaluasiPelimpahan = function (evaluasipelimpahan) {
     this.dile_pendukung = evaluasipelimpahan.dile_pendukung;
     this.tanggal_sk = evaluasipelimpahan.tanggal_sk;
     this.file_sk_pelimpahan = evaluasipelimpahan.file_sk_pelimpahan;
+    this.date = evaluasipelimpahan.date;
+    this.item = evaluasipelimpahan.item;
+    this.action = evaluasipelimpahan.action;
+    this.user_id = evaluasipelimpahan.user_id;
+    this.remark = evaluasipelimpahan.remark;
 };
 
 EvaluasiPelimpahan.create = async(newEvaluasiPelimpahan, result) => {
 	try {
+
+		var obj = new Object();
+		obj.date = newEvaluasiPelimpahan.date;
+		obj.item = newEvaluasiPelimpahan.item;
+		obj.action = newEvaluasiPelimpahan.action;
+		obj.user_id = newEvaluasiPelimpahan.user_id;
+		obj.remark = newEvaluasiPelimpahan.remark;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete newEvaluasiPelimpahan.date;
+		delete newEvaluasiPelimpahan.item;
+		delete newEvaluasiPelimpahan.action;
+		delete newEvaluasiPelimpahan.user_id;
+		delete newEvaluasiPelimpahan.remark;
 		const res = await query("INSERT INTO evaluasi_pelimpahan SET ?", newEvaluasiPelimpahan);
 		result(null, { id: res.insertId, ...newEvaluasiPelimpahan });
 	} catch (error) {
@@ -95,6 +113,20 @@ EvaluasiPelimpahan.design = result => {
 
 EvaluasiPelimpahan.updateById = async(id, evaluasipelimpahan, result) => {
 	try {
+
+		var obj = new Object();
+		obj.date = EvaluasiPelimpahan.date;
+		obj.item = EvaluasiPelimpahan.item;
+		obj.action = EvaluasiPelimpahan.action;
+		obj.user_id = EvaluasiPelimpahan.user_id;
+		obj.remark = EvaluasiPelimpahan.remark;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete EvaluasiPelimpahan.date;
+		delete EvaluasiPelimpahan.item;
+		delete EvaluasiPelimpahan.action;
+		delete EvaluasiPelimpahan.user_id;
+		delete EvaluasiPelimpahan.remark;
+
 
 		var str = "", obj = [], no = 1;
 		for (var i in evaluasipelimpahan) {

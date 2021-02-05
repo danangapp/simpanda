@@ -16,6 +16,11 @@ exports.create = (req, res) => {
         jam_pengoperasian: req.body.jam_pengoperasian,
         reliabiliy: req.body.reliabiliy,
         keterangan: req.body.keterangan,
+        date: req.body.date,
+        item: req.body.item,
+        action: req.body.action,
+        user_id: req.body.user_id,
+        remark: req.body.remark,
     });
 
     ArmadaSchedule.create(armadaschedule, (err, data) => {

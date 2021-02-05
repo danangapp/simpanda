@@ -14,6 +14,11 @@ const Sertifikat = function (sertifikat) {
     this.reminder_date = sertifikat.reminder_date;
     this.sertifikat = sertifikat.sertifikat;
     this.sertifikat = sertifikat.sertifikat;
+    this.date = sertifikat.date;
+    this.item = sertifikat.item;
+    this.action = sertifikat.action;
+    this.user_id = sertifikat.user_id;
+    this.remark = sertifikat.remark;
 };
 
 Sertifikat.create = async(newSertifikat, result) => {
@@ -34,6 +39,7 @@ Sertifikat.create = async(newSertifikat, result) => {
 		}
 
 		delete newSertifikat.sertifikat;
+
 		const res = await query("INSERT INTO sertifikat SET ?", newSertifikat);
 		result(null, { id: res.insertId, ...newSertifikat });
 	} catch (error) {
@@ -123,6 +129,8 @@ Sertifikat.updateById = async(id, sertifikat, result) => {
 			await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
 		}
 		delete sertifikat.sertifikat;
+
+
 
 		var str = "", obj = [], no = 1;
 		for (var i in sertifikat) {

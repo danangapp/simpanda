@@ -5,10 +5,16 @@ const query = util.promisify(sql.query).bind(sql);
 // constructor
 const Role = function (role) {
     this.nama = role.nama;
+    this.date = role.date;
+    this.item = role.item;
+    this.action = role.action;
+    this.user_id = role.user_id;
+    this.remark = role.remark;
 };
 
 Role.create = async(newRole, result) => {
 	try {
+
 		const res = await query("INSERT INTO role SET ?", newRole);
 		result(null, { id: res.insertId, ...newRole });
 	} catch (error) {
@@ -81,6 +87,8 @@ Role.design = result => {
 
 Role.updateById = async(id, role, result) => {
 	try {
+
+
 
 		var str = "", obj = [], no = 1;
 		for (var i in role) {

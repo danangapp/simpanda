@@ -75,6 +75,11 @@ exports.create = (req, res) => {
         pemeriksaan_fisik_f2: req.body.pemeriksaan_fisik_f2,
         pemeriksaan_fisik_f3: req.body.pemeriksaan_fisik_f3,
         pemeriksaan_fisik_f4: req.body.pemeriksaan_fisik_f4,
+        date: req.body.date,
+        item: req.body.item,
+        action: req.body.action,
+        user_id: req.body.user_id,
+        remark: req.body.remark,
     });
 
     SaranaBantuPemanduKapal.create(saranabantupemandukapal, (err, data) => {

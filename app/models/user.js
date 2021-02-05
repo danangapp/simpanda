@@ -9,10 +9,16 @@ const User = function (user) {
     this.password = user.password;
     this.user_group_id = user.user_group_id;
     this.role_id = user.role_id;
+    this.date = user.date;
+    this.item = user.item;
+    this.action = user.action;
+    this.user_id = user.user_id;
+    this.remark = user.remark;
 };
 
 User.create = async(newUser, result) => {
 	try {
+
 		const res = await query("INSERT INTO user SET ?", newUser);
 		result(null, { id: res.insertId, ...newUser });
 	} catch (error) {
@@ -85,6 +91,8 @@ User.design = result => {
 
 User.updateById = async(id, user, result) => {
 	try {
+
+
 
 		var str = "", obj = [], no = 1;
 		for (var i in user) {

@@ -15,10 +15,28 @@ const AssetRumahDinas = function (assetrumahdinas) {
     this.nilai = assetrumahdinas.nilai;
     this.catatan = assetrumahdinas.catatan;
     this.enable = assetrumahdinas.enable;
+    this.date = assetrumahdinas.date;
+    this.item = assetrumahdinas.item;
+    this.action = assetrumahdinas.action;
+    this.user_id = assetrumahdinas.user_id;
+    this.remark = assetrumahdinas.remark;
 };
 
 AssetRumahDinas.create = async(newAssetRumahDinas, result) => {
 	try {
+
+		var obj = new Object();
+		obj.date = newAssetRumahDinas.date;
+		obj.item = newAssetRumahDinas.item;
+		obj.action = newAssetRumahDinas.action;
+		obj.user_id = newAssetRumahDinas.user_id;
+		obj.remark = newAssetRumahDinas.remark;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete newAssetRumahDinas.date;
+		delete newAssetRumahDinas.item;
+		delete newAssetRumahDinas.action;
+		delete newAssetRumahDinas.user_id;
+		delete newAssetRumahDinas.remark;
 		const res = await query("INSERT INTO asset_rumah_dinas SET ?", newAssetRumahDinas);
 		result(null, { id: res.insertId, ...newAssetRumahDinas });
 	} catch (error) {
@@ -91,6 +109,20 @@ AssetRumahDinas.design = result => {
 
 AssetRumahDinas.updateById = async(id, assetrumahdinas, result) => {
 	try {
+
+		var obj = new Object();
+		obj.date = AssetRumahDinas.date;
+		obj.item = AssetRumahDinas.item;
+		obj.action = AssetRumahDinas.action;
+		obj.user_id = AssetRumahDinas.user_id;
+		obj.remark = AssetRumahDinas.remark;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete AssetRumahDinas.date;
+		delete AssetRumahDinas.item;
+		delete AssetRumahDinas.action;
+		delete AssetRumahDinas.user_id;
+		delete AssetRumahDinas.remark;
+
 
 		var str = "", obj = [], no = 1;
 		for (var i in assetrumahdinas) {

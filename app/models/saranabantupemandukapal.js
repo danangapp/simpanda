@@ -71,10 +71,16 @@ const SaranaBantuPemanduKapal = function (saranabantupemandukapal) {
     this.pemeriksaan_fisik_f2 = saranabantupemandukapal.pemeriksaan_fisik_f2;
     this.pemeriksaan_fisik_f3 = saranabantupemandukapal.pemeriksaan_fisik_f3;
     this.pemeriksaan_fisik_f4 = saranabantupemandukapal.pemeriksaan_fisik_f4;
+    this.date = saranabantupemandukapal.date;
+    this.item = saranabantupemandukapal.item;
+    this.action = saranabantupemandukapal.action;
+    this.user_id = saranabantupemandukapal.user_id;
+    this.remark = saranabantupemandukapal.remark;
 };
 
 SaranaBantuPemanduKapal.create = async(newSaranaBantuPemanduKapal, result) => {
 	try {
+
 		const res = await query("INSERT INTO sarana_bantu_pemandu_kapal SET ?", newSaranaBantuPemanduKapal);
 		result(null, { id: res.insertId, ...newSaranaBantuPemanduKapal });
 	} catch (error) {
@@ -147,6 +153,8 @@ SaranaBantuPemanduKapal.design = result => {
 
 SaranaBantuPemanduKapal.updateById = async(id, saranabantupemandukapal, result) => {
 	try {
+
+
 
 		var str = "", obj = [], no = 1;
 		for (var i in saranabantupemandukapal) {

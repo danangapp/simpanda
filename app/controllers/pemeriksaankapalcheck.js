@@ -9,6 +9,11 @@ exports.create = (req, res) => {
 
     const pemeriksaankapalcheck = new PemeriksaanKapalCheck({
         question: req.body.question,
+        date: req.body.date,
+        item: req.body.item,
+        action: req.body.action,
+        user_id: req.body.user_id,
+        remark: req.body.remark,
     });
 
     PemeriksaanKapalCheck.create(pemeriksaankapalcheck, (err, data) => {

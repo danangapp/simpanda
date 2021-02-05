@@ -51,6 +51,11 @@ exports.create = (req, res) => {
         reviewed_tanggal: req.body.reviewed_tanggal,
         approved_by: req.body.approved_by,
         approved_tanggal: req.body.approved_tanggal,
+        date: req.body.date,
+        item: req.body.item,
+        action: req.body.action,
+        user_id: req.body.user_id,
+        remark: req.body.remark,
     });
 
     InvestigasiInsiden.create(investigasiinsiden, (err, data) => {

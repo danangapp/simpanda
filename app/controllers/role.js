@@ -9,6 +9,11 @@ exports.create = (req, res) => {
 
     const role = new Role({
         nama: req.body.nama,
+        date: req.body.date,
+        item: req.body.item,
+        action: req.body.action,
+        user_id: req.body.user_id,
+        remark: req.body.remark,
     });
 
     Role.create(role, (err, data) => {

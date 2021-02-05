@@ -5,10 +5,16 @@ const query = util.promisify(sql.query).bind(sql);
 // constructor
 const ApprovalStatus = function (approvalstatus) {
     this.name = approvalstatus.name;
+    this.date = approvalstatus.date;
+    this.item = approvalstatus.item;
+    this.action = approvalstatus.action;
+    this.user_id = approvalstatus.user_id;
+    this.remark = approvalstatus.remark;
 };
 
 ApprovalStatus.create = async(newApprovalStatus, result) => {
 	try {
+
 		const res = await query("INSERT INTO approval_status SET ?", newApprovalStatus);
 		result(null, { id: res.insertId, ...newApprovalStatus });
 	} catch (error) {
@@ -81,6 +87,8 @@ ApprovalStatus.design = result => {
 
 ApprovalStatus.updateById = async(id, approvalstatus, result) => {
 	try {
+
+
 
 		var str = "", obj = [], no = 1;
 		for (var i in approvalstatus) {

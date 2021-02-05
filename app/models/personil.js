@@ -26,6 +26,11 @@ const Personil = function (personil) {
     this.skpp = personil.skpp;
     this.surat_kesehatan = personil.surat_kesehatan;
     this.sertifikat = personil.sertifikat;
+    this.date = personil.date;
+    this.item = personil.item;
+    this.action = personil.action;
+    this.user_id = personil.user_id;
+    this.remark = personil.remark;
 };
 
 Personil.create = async(newPersonil, result) => {
@@ -46,6 +51,19 @@ Personil.create = async(newPersonil, result) => {
 		}
 
 		delete newPersonil.sertifikat;
+
+		var obj = new Object();
+		obj.date = newPersonil.date;
+		obj.item = newPersonil.item;
+		obj.action = newPersonil.action;
+		obj.user_id = newPersonil.user_id;
+		obj.remark = newPersonil.remark;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete newPersonil.date;
+		delete newPersonil.item;
+		delete newPersonil.action;
+		delete newPersonil.user_id;
+		delete newPersonil.remark;
 		const res = await query("INSERT INTO personil SET ?", newPersonil);
 		result(null, { id: res.insertId, ...newPersonil });
 	} catch (error) {
@@ -135,6 +153,20 @@ Personil.updateById = async(id, personil, result) => {
 			await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
 		}
 		delete personil.sertifikat;
+
+		var obj = new Object();
+		obj.date = Personil.date;
+		obj.item = Personil.item;
+		obj.action = Personil.action;
+		obj.user_id = Personil.user_id;
+		obj.remark = Personil.remark;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete Personil.date;
+		delete Personil.item;
+		delete Personil.action;
+		delete Personil.user_id;
+		delete Personil.remark;
+
 
 		var str = "", obj = [], no = 1;
 		for (var i in personil) {

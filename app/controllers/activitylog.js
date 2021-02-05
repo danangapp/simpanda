@@ -13,6 +13,11 @@ exports.create = (req, res) => {
         action: req.body.action,
         user_id: req.body.user_id,
         remark: req.body.remark,
+        date: req.body.date,
+        item: req.body.item,
+        action: req.body.action,
+        user_id: req.body.user_id,
+        remark: req.body.remark,
     });
 
     ActivityLog.create(activitylog, (err, data) => {

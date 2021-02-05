@@ -16,6 +16,11 @@ exports.create = (req, res) => {
         kondisi: req.body.kondisi,
         approval_status_id: req.body.approval_status_id,
         enable: req.body.enable,
+        date: req.body.date,
+        item: req.body.item,
+        action: req.body.action,
+        user_id: req.body.user_id,
+        remark: req.body.remark,
     });
 
     AssetStasiunEquipment.create(assetstasiunequipment, (err, data) => {

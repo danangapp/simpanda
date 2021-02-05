@@ -6,10 +6,16 @@ const query = util.promisify(sql.query).bind(sql);
 const TipeCert = function (tipecert) {
     this.nama = tipecert.nama;
     this.remark = tipecert.remark;
+    this.date = tipecert.date;
+    this.item = tipecert.item;
+    this.action = tipecert.action;
+    this.user_id = tipecert.user_id;
+    this.remark = tipecert.remark;
 };
 
 TipeCert.create = async(newTipeCert, result) => {
 	try {
+
 		const res = await query("INSERT INTO tipe_cert SET ?", newTipeCert);
 		result(null, { id: res.insertId, ...newTipeCert });
 	} catch (error) {
@@ -82,6 +88,8 @@ TipeCert.design = result => {
 
 TipeCert.updateById = async(id, tipecert, result) => {
 	try {
+
+
 
 		var str = "", obj = [], no = 1;
 		for (var i in tipecert) {

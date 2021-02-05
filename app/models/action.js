@@ -5,10 +5,16 @@ const query = util.promisify(sql.query).bind(sql);
 // constructor
 const Action = function (action) {
     this.nama = action.nama;
+    this.date = action.date;
+    this.item = action.item;
+    this.action = action.action;
+    this.user_id = action.user_id;
+    this.remark = action.remark;
 };
 
 Action.create = async(newAction, result) => {
 	try {
+
 		const res = await query("INSERT INTO action SET ?", newAction);
 		result(null, { id: res.insertId, ...newAction });
 	} catch (error) {
@@ -81,6 +87,8 @@ Action.design = result => {
 
 Action.updateById = async(id, action, result) => {
 	try {
+
+
 
 		var str = "", obj = [], no = 1;
 		for (var i in action) {

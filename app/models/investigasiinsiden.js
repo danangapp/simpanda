@@ -47,10 +47,28 @@ const InvestigasiInsiden = function (investigasiinsiden) {
     this.reviewed_tanggal = investigasiinsiden.reviewed_tanggal;
     this.approved_by = investigasiinsiden.approved_by;
     this.approved_tanggal = investigasiinsiden.approved_tanggal;
+    this.date = investigasiinsiden.date;
+    this.item = investigasiinsiden.item;
+    this.action = investigasiinsiden.action;
+    this.user_id = investigasiinsiden.user_id;
+    this.remark = investigasiinsiden.remark;
 };
 
 InvestigasiInsiden.create = async(newInvestigasiInsiden, result) => {
 	try {
+
+		var obj = new Object();
+		obj.date = newInvestigasiInsiden.date;
+		obj.item = newInvestigasiInsiden.item;
+		obj.action = newInvestigasiInsiden.action;
+		obj.user_id = newInvestigasiInsiden.user_id;
+		obj.remark = newInvestigasiInsiden.remark;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete newInvestigasiInsiden.date;
+		delete newInvestigasiInsiden.item;
+		delete newInvestigasiInsiden.action;
+		delete newInvestigasiInsiden.user_id;
+		delete newInvestigasiInsiden.remark;
 		const res = await query("INSERT INTO investigasi_insiden SET ?", newInvestigasiInsiden);
 		result(null, { id: res.insertId, ...newInvestigasiInsiden });
 	} catch (error) {
@@ -123,6 +141,20 @@ InvestigasiInsiden.design = result => {
 
 InvestigasiInsiden.updateById = async(id, investigasiinsiden, result) => {
 	try {
+
+		var obj = new Object();
+		obj.date = InvestigasiInsiden.date;
+		obj.item = InvestigasiInsiden.item;
+		obj.action = InvestigasiInsiden.action;
+		obj.user_id = InvestigasiInsiden.user_id;
+		obj.remark = InvestigasiInsiden.remark;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete InvestigasiInsiden.date;
+		delete InvestigasiInsiden.item;
+		delete InvestigasiInsiden.action;
+		delete InvestigasiInsiden.user_id;
+		delete InvestigasiInsiden.remark;
+
 
 		var str = "", obj = [], no = 1;
 		for (var i in investigasiinsiden) {

@@ -18,6 +18,11 @@ exports.create = (req, res) => {
         reminder_date: req.body.reminder_date,
         sertifikat: req.body.sertifikat,
         sertifikat: req.body.sertifikat,
+        date: req.body.date,
+        item: req.body.item,
+        action: req.body.action,
+        user_id: req.body.user_id,
+        remark: req.body.remark,
     });
 
     Sertifikat.create(sertifikat, (err, data) => {

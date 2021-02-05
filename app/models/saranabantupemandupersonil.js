@@ -9,10 +9,16 @@ const SaranaBantuPemanduPersonil = function (saranabantupemandupersonil) {
     this.jabatan = saranabantupemandupersonil.jabatan;
     this.asset_kapal_id = saranabantupemandupersonil.asset_kapal_id;
     this.status_ijazah_id = saranabantupemandupersonil.status_ijazah_id;
+    this.date = saranabantupemandupersonil.date;
+    this.item = saranabantupemandupersonil.item;
+    this.action = saranabantupemandupersonil.action;
+    this.user_id = saranabantupemandupersonil.user_id;
+    this.remark = saranabantupemandupersonil.remark;
 };
 
 SaranaBantuPemanduPersonil.create = async(newSaranaBantuPemanduPersonil, result) => {
 	try {
+
 		const res = await query("INSERT INTO sarana_bantu_pemandu_personil SET ?", newSaranaBantuPemanduPersonil);
 		result(null, { id: res.insertId, ...newSaranaBantuPemanduPersonil });
 	} catch (error) {
@@ -85,6 +91,8 @@ SaranaBantuPemanduPersonil.design = result => {
 
 SaranaBantuPemanduPersonil.updateById = async(id, saranabantupemandupersonil, result) => {
 	try {
+
+
 
 		var str = "", obj = [], no = 1;
 		for (var i in saranabantupemandupersonil) {

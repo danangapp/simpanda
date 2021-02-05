@@ -48,6 +48,11 @@ const AssetKapal = function (assetkapal) {
     this.kecepatan = assetkapal.kecepatan;
     this.ship_particular = assetkapal.ship_particular;
     this.sertifikat = assetkapal.sertifikat;
+    this.date = assetkapal.date;
+    this.item = assetkapal.item;
+    this.action = assetkapal.action;
+    this.user_id = assetkapal.user_id;
+    this.remark = assetkapal.remark;
 };
 
 AssetKapal.create = async(newAssetKapal, result) => {
@@ -68,6 +73,19 @@ AssetKapal.create = async(newAssetKapal, result) => {
 		}
 
 		delete newAssetKapal.sertifikat;
+
+		var obj = new Object();
+		obj.date = newAssetKapal.date;
+		obj.item = newAssetKapal.item;
+		obj.action = newAssetKapal.action;
+		obj.user_id = newAssetKapal.user_id;
+		obj.remark = newAssetKapal.remark;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete newAssetKapal.date;
+		delete newAssetKapal.item;
+		delete newAssetKapal.action;
+		delete newAssetKapal.user_id;
+		delete newAssetKapal.remark;
 		const res = await query("INSERT INTO asset_kapal SET ?", newAssetKapal);
 		result(null, { id: res.insertId, ...newAssetKapal });
 	} catch (error) {
@@ -157,6 +175,20 @@ AssetKapal.updateById = async(id, assetkapal, result) => {
 			await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
 		}
 		delete asset_kapal.sertifikat;
+
+		var obj = new Object();
+		obj.date = AssetKapal.date;
+		obj.item = AssetKapal.item;
+		obj.action = AssetKapal.action;
+		obj.user_id = AssetKapal.user_id;
+		obj.remark = AssetKapal.remark;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete AssetKapal.date;
+		delete AssetKapal.item;
+		delete AssetKapal.action;
+		delete AssetKapal.user_id;
+		delete AssetKapal.remark;
+
 
 		var str = "", obj = [], no = 1;
 		for (var i in assetkapal) {

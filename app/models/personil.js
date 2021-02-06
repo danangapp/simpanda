@@ -31,7 +31,6 @@ const Personil = function (personil) {
     this.action = personil.action;
     this.user_id = personil.user_id;
     this.remark = personil.remark;
-    this.koneksi = personil.koneksi;
 };
 
 Personil.create = async (newPersonil, result) => {
@@ -59,14 +58,12 @@ Personil.create = async (newPersonil, result) => {
         obj.action = newPersonil.action;
         obj.user_id = newPersonil.user_id;
         obj.remark = newPersonil.remark;
-        obj.koneksi = newPersonil.koneksi;
         await query("INSERT INTO activity_log SET ?", obj);
         delete newPersonil.date;
         delete newPersonil.item;
         delete newPersonil.action;
         delete newPersonil.user_id;
         delete newPersonil.remark;
-        delete newPersonil.koneksi;
 
         const res = await query("INSERT INTO personil SET ?", newPersonil);
         result(null, { id: res.insertId, ...newPersonil });
@@ -95,7 +92,7 @@ Personil.findById = (id, result) => {
 
 Personil.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.* , a1.nama as tipe_personil, a2.nama as approval_status, a3.nama as ena, a4.nama_asset as asset_kapal, a5.nama as status_kepegawaian FROM personil a LEFT JOIN tipe_personil a1 ON a.tipe_personil_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id  LEFT JOIN asset_kapal a4 ON a.asset_kapal_id = a4.id  LEFT JOIN status_kepegawaian a5 ON a.status_kepegawaian_id = a5.id ";
+    var query = "SELECT a.* , a1.nama as tipe_personil, a2.nama as approval_status, a3.nama as enable, a4.nama_asset as asset_kapal, a5.nama as status_kepegawaian FROM personil a LEFT JOIN tipe_personil a1 ON a.tipe_personil_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id  LEFT JOIN asset_kapal a4 ON a.asset_kapal_id = a4.id  LEFT JOIN status_kepegawaian a5 ON a.status_kepegawaian_id = a5.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -104,12 +101,12 @@ Personil.getAll = (param, result) => {
             if (typeof str != "string") {
                 query += "(";
                 for (var x in str) {
-                    query += "a." + i + " ='" + str[x] + "' or ";
+                    query += i + " ='" + str[x] + "' or ";
                 }
                 query = query.substring(0, query.length - 4);
                 query += ") and ";
             } else {
-                query += "a." + i + " ='" + param[i] + "' and ";
+                query += i + " ='" + param[i] + "' and ";
             }
         }
 
@@ -164,27 +161,19 @@ Personil.updateById = async (id, personil, result) => {
         obj.action = Personil.action;
         obj.user_id = Personil.user_id;
         obj.remark = Personil.remark;
-        obj.koneksi = Personil.koneksi;
         await query("INSERT INTO activity_log SET ?", obj);
         delete Personil.date;
         delete Personil.item;
         delete Personil.action;
         delete Personil.user_id;
         delete Personil.remark;
-        delete Personil.koneksi;
 
 
         var str = "", obj = [], no = 1;
         for (var i in personil) {
             if (personil[i]) {
                 str += i + " = ?, ";
-                if (i == "tanggal_mulai" || i == "tanggal_selesai" || i == "tanggal_lahir") {
-                    var mydate = new Date(personil[i]);
-                    personil[i] = mydate.toLocaleDateString();
-                }
-                // console.log(mydate.toLocaleDateString());
                 obj.push(personil[i]);
-                // console.log(personil[i])
             }
             no++;
         }

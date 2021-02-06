@@ -55,7 +55,7 @@ PemeriksaanKapal.findById = (id, result) => {
 
 PemeriksaanKapal.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT * FROM pemeriksaan_kapal";
+    var query = "SELECT a.* , a1.nama as approval_status, a2.nama_asset as asset_kapal, a3.nama as kondisi FROM pemeriksaan_kapal a LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN asset_kapal a2 ON a.asset_kapal_id = a2.id  LEFT JOIN kondisi a3 ON a.kondisi_id = a3.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -126,7 +126,7 @@ PemeriksaanKapal.updateById = async(id, pemeriksaankapal, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE pemeriksaan_kapal SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...pemeriksaan_kapal });
+		result(null, { id: id, ...pemeriksaankapal });
 	} catch (error) {
 	    result(error, null);
 	}

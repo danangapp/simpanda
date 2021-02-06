@@ -37,7 +37,7 @@ StatusEvaluasiPelimpahan.findById = (id, result) => {
 
 StatusEvaluasiPelimpahan.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT * FROM status_evaluasi_pelimpahan";
+    var query = "SELECT a.*  FROM status_evaluasi_pelimpahan a";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -96,7 +96,7 @@ StatusEvaluasiPelimpahan.updateById = async(id, statusevaluasipelimpahan, result
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE status_evaluasi_pelimpahan SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...status_evaluasi_pelimpahan });
+		result(null, { id: id, ...statusevaluasipelimpahan });
 	} catch (error) {
 	    result(error, null);
 	}

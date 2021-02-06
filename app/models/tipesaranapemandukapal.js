@@ -37,7 +37,7 @@ TipeSaranaPemanduKapal.findById = (id, result) => {
 
 TipeSaranaPemanduKapal.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT * FROM tipe_sarana_pemandu_kapal";
+    var query = "SELECT a.*  FROM tipe_sarana_pemandu_kapal a";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -96,7 +96,7 @@ TipeSaranaPemanduKapal.updateById = async(id, tipesaranapemandukapal, result) =>
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE tipe_sarana_pemandu_kapal SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...tipe_sarana_pemandu_kapal });
+		result(null, { id: id, ...tipesaranapemandukapal });
 	} catch (error) {
 	    result(error, null);
 	}

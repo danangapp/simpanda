@@ -59,7 +59,7 @@ AssetRumahDinas.findById = (id, result) => {
 
 AssetRumahDinas.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT * FROM asset_rumah_dinas";
+    var query = "SELECT a.* , a1.nama as approval_status, a2.nama as enable FROM asset_rumah_dinas a LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -130,7 +130,7 @@ AssetRumahDinas.updateById = async(id, assetrumahdinas, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE asset_rumah_dinas SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...asset_rumah_dinas });
+		result(null, { id: id, ...assetrumahdinas });
 	} catch (error) {
 	    result(error, null);
 	}

@@ -56,7 +56,7 @@ AssetStasiunEquipment.findById = (id, result) => {
 
 AssetStasiunEquipment.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT * FROM asset_stasiun_equipment";
+    var query = "SELECT a.* , a1.nama as tipe_stasiun, a2.nama as approval_status, a3.nama as enable FROM asset_stasiun_equipment a LEFT JOIN tipe_stasiun a1 ON a.tipe_stasiun_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -127,7 +127,7 @@ AssetStasiunEquipment.updateById = async(id, assetstasiunequipment, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE asset_stasiun_equipment SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...asset_stasiun_equipment });
+		result(null, { id: id, ...assetstasiunequipment });
 	} catch (error) {
 	    result(error, null);
 	}

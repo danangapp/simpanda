@@ -52,7 +52,7 @@ SaranaBantuPemandu.findById = (id, result) => {
 
 SaranaBantuPemandu.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT * FROM sarana_bantu_pemandu";
+    var query = "SELECT a.* , a1.nama as approval_status, a2.nama as cabang FROM sarana_bantu_pemandu a LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN cabang a2 ON a.cabang_id = a2.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -123,7 +123,7 @@ SaranaBantuPemandu.updateById = async(id, saranabantupemandu, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE sarana_bantu_pemandu SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...sarana_bantu_pemandu });
+		result(null, { id: id, ...saranabantupemandu });
 	} catch (error) {
 	    result(error, null);
 	}

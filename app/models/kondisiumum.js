@@ -37,7 +37,7 @@ KondisiUmum.findById = (id, result) => {
 
 KondisiUmum.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT * FROM kondisi_umum";
+    var query = "SELECT a.*  FROM kondisi_umum a";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -96,7 +96,7 @@ KondisiUmum.updateById = async(id, kondisiumum, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE kondisi_umum SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...kondisi_umum });
+		result(null, { id: id, ...kondisiumum });
 	} catch (error) {
 	    result(error, null);
 	}

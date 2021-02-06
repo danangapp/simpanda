@@ -50,7 +50,7 @@ UserGroup.findById = (id, result) => {
 
 UserGroup.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT * FROM user_group";
+    var query = "SELECT a.* , a1.nama as cabang FROM user_group a LEFT JOIN cabang a1 ON a.cabang_id = a1.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -109,7 +109,7 @@ UserGroup.updateById = async(id, usergroup, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE user_group SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...user_group });
+		result(null, { id: id, ...usergroup });
 	} catch (error) {
 	    result(error, null);
 	}

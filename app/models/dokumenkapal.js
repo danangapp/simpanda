@@ -37,7 +37,7 @@ DokumenKapal.findById = (id, result) => {
 
 DokumenKapal.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT * FROM dokumen_kapal";
+    var query = "SELECT a.*  FROM dokumen_kapal a";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -96,7 +96,7 @@ DokumenKapal.updateById = async(id, dokumenkapal, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE dokumen_kapal SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...dokumen_kapal });
+		result(null, { id: id, ...dokumenkapal });
 	} catch (error) {
 	    result(error, null);
 	}

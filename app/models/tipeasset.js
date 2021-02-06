@@ -37,7 +37,7 @@ TipeAsset.findById = (id, result) => {
 
 TipeAsset.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT * FROM tipe_asset";
+    var query = "SELECT a.*  FROM tipe_asset a";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -96,7 +96,7 @@ TipeAsset.updateById = async(id, tipeasset, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE tipe_asset SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...tipe_asset });
+		result(null, { id: id, ...tipeasset });
 	} catch (error) {
 	    result(error, null);
 	}

@@ -37,7 +37,7 @@ PemeriksaanKapalCheck.findById = (id, result) => {
 
 PemeriksaanKapalCheck.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT * FROM pemeriksaan_kapal_check";
+    var query = "SELECT a.*  FROM pemeriksaan_kapal_check a";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -96,7 +96,7 @@ PemeriksaanKapalCheck.updateById = async(id, pemeriksaankapalcheck, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE pemeriksaan_kapal_check SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...pemeriksaan_kapal_check });
+		result(null, { id: id, ...pemeriksaankapalcheck });
 	} catch (error) {
 	    result(error, null);
 	}

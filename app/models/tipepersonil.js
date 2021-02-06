@@ -37,7 +37,7 @@ TipePersonil.findById = (id, result) => {
 
 TipePersonil.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT * FROM tipe_personil";
+    var query = "SELECT a.*  FROM tipe_personil a";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -96,7 +96,7 @@ TipePersonil.updateById = async(id, tipepersonil, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE tipe_personil SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...tipe_personil });
+		result(null, { id: id, ...tipepersonil });
 	} catch (error) {
 	    result(error, null);
 	}

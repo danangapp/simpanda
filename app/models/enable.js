@@ -37,7 +37,7 @@ Enable.findById = (id, result) => {
 
 Enable.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT * FROM enable";
+    var query = "SELECT a.*  FROM enable a";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

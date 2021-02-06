@@ -41,7 +41,7 @@ ActivityLog.findById = (id, result) => {
 
 ActivityLog.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT * FROM activity_log";
+    var query = "SELECT a.* , a1.nama as user FROM activity_log a LEFT JOIN user a1 ON a.user_id = a1.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -100,7 +100,7 @@ ActivityLog.updateById = async(id, activitylog, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE activity_log SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...activity_log });
+		result(null, { id: id, ...activitylog });
 	} catch (error) {
 	    result(error, null);
 	}

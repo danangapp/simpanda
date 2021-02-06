@@ -38,7 +38,7 @@ TipeCert.findById = (id, result) => {
 
 TipeCert.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT * FROM tipe_cert";
+    var query = "SELECT a.*  FROM tipe_cert a";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -97,7 +97,7 @@ TipeCert.updateById = async(id, tipecert, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE tipe_cert SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...tipe_cert });
+		result(null, { id: id, ...tipecert });
 	} catch (error) {
 	    result(error, null);
 	}

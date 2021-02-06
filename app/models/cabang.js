@@ -47,7 +47,7 @@ Cabang.findById = (id, result) => {
 
 Cabang.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT * FROM cabang";
+    var query = "SELECT a.* , a1.nama as org FROM cabang a LEFT JOIN org a1 ON a.org_id = a1.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

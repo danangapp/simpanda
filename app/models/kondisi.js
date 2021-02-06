@@ -37,7 +37,7 @@ Kondisi.findById = (id, result) => {
 
 Kondisi.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT * FROM kondisi";
+    var query = "SELECT a.*  FROM kondisi a";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

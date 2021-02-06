@@ -37,7 +37,7 @@ StatusIjazah.findById = (id, result) => {
 
 StatusIjazah.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT * FROM status_ijazah";
+    var query = "SELECT a.*  FROM status_ijazah a";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -96,7 +96,7 @@ StatusIjazah.updateById = async(id, statusijazah, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE status_ijazah SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...status_ijazah });
+		result(null, { id: id, ...statusijazah });
 	} catch (error) {
 	    result(error, null);
 	}

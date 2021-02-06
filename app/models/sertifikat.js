@@ -68,7 +68,7 @@ Sertifikat.findById = (id, result) => {
 
 Sertifikat.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT * FROM sertifikat";
+    var query = "SELECT a.* , a1.nama as tipe_cert, a2.nama as personil FROM sertifikat a LEFT JOIN tipe_cert a1 ON a.tipe_cert_id = a1.id  LEFT JOIN personil a2 ON a.personil_id = a2.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

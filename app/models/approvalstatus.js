@@ -4,7 +4,7 @@ const query = util.promisify(sql.query).bind(sql);
 
 // constructor
 const ApprovalStatus = function (approvalstatus) {
-    this.name = approvalstatus.name;
+    this.nama = approvalstatus.nama;
 };
 
 ApprovalStatus.create = async(newApprovalStatus, result) => {
@@ -37,7 +37,7 @@ ApprovalStatus.findById = (id, result) => {
 
 ApprovalStatus.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT * FROM approval_status";
+    var query = "SELECT a.*  FROM approval_status a";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -96,7 +96,7 @@ ApprovalStatus.updateById = async(id, approvalstatus, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE approval_status SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...approval_status });
+		result(null, { id: id, ...approvalstatus });
 	} catch (error) {
 	    result(error, null);
 	}

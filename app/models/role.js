@@ -37,7 +37,7 @@ Role.findById = (id, result) => {
 
 Role.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT * FROM role";
+    var query = "SELECT a.*  FROM role a";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

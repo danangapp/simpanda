@@ -37,7 +37,7 @@ StatusAbsen.findById = (id, result) => {
 
 StatusAbsen.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT * FROM status_absen";
+    var query = "SELECT a.*  FROM status_absen a";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -96,7 +96,7 @@ StatusAbsen.updateById = async(id, statusabsen, result) => {
 		str = str.substring(0, str.length - 2);
 
 		await query("UPDATE status_absen SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...status_absen });
+		result(null, { id: id, ...statusabsen });
 	} catch (error) {
 	    result(error, null);
 	}

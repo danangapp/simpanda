@@ -8,7 +8,7 @@ exports.create = (req, res) => {
     }
 
     const approvalstatus = new ApprovalStatus({
-        name: req.body.name,
+        nama: req.body.nama,
     });
 
 	var used = {};

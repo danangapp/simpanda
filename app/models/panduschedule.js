@@ -42,7 +42,7 @@ PanduSchedule.findById = (id, result) => {
 
 PanduSchedule.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.* , a1.nama as cabang, a2.nama as pandu_jaga FROM pandu_schedule a LEFT JOIN cabang a1 ON a.cabang_id = a1.id  LEFT JOIN pandu_jaga a2 ON a.pandu_jaga_id = a2.id ";
+    var query = "SELECT a.* , a1.nama as cabang FROM pandu_schedule a LEFT JOIN cabang a1 ON a.cabang_id = a1.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

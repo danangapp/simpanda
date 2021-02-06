@@ -22,12 +22,14 @@ AssetStasiunEquipment.create = async(newAssetStasiunEquipment, result) => {
 		obj.action = newAssetStasiunEquipment.action;
 		obj.user_id = newAssetStasiunEquipment.user_id;
 		obj.remark = newAssetStasiunEquipment.remark;
+		obj.koneksi = newAssetStasiunEquipment.koneksi;
 		await query("INSERT INTO activity_log SET ?", obj);
 		delete newAssetStasiunEquipment.date;
 		delete newAssetStasiunEquipment.item;
 		delete newAssetStasiunEquipment.action;
 		delete newAssetStasiunEquipment.user_id;
 		delete newAssetStasiunEquipment.remark;
+		delete newAssetStasiunEquipment.koneksi;
 
 		const res = await query("INSERT INTO asset_stasiun_equipment SET ?", newAssetStasiunEquipment);
 		result(null, { id: res.insertId, ...newAssetStasiunEquipment });
@@ -107,12 +109,14 @@ AssetStasiunEquipment.updateById = async(id, assetstasiunequipment, result) => {
 		obj.action = AssetStasiunEquipment.action;
 		obj.user_id = AssetStasiunEquipment.user_id;
 		obj.remark = AssetStasiunEquipment.remark;
+		obj.koneksi = AssetStasiunEquipment.koneksi;
 		await query("INSERT INTO activity_log SET ?", obj);
 		delete AssetStasiunEquipment.date;
 		delete AssetStasiunEquipment.item;
 		delete AssetStasiunEquipment.action;
 		delete AssetStasiunEquipment.user_id;
 		delete AssetStasiunEquipment.remark;
+		delete AssetStasiunEquipment.koneksi;
 
 
 		var str = "", obj = [], no = 1;

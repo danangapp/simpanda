@@ -9,6 +9,7 @@ const ActivityLog = function (activitylog) {
     this.action = activitylog.action;
     this.user_id = activitylog.user_id;
     this.remark = activitylog.remark;
+    this.koneksi = activitylog.koneksi;
 };
 
 ActivityLog.create = async(newActivityLog, result) => {

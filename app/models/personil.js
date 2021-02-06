@@ -31,6 +31,7 @@ const Personil = function (personil) {
     this.action = personil.action;
     this.user_id = personil.user_id;
     this.remark = personil.remark;
+    this.koneksi = personil.koneksi;
 };
 
 Personil.create = async(newPersonil, result) => {
@@ -58,12 +59,14 @@ Personil.create = async(newPersonil, result) => {
 		obj.action = newPersonil.action;
 		obj.user_id = newPersonil.user_id;
 		obj.remark = newPersonil.remark;
+		obj.koneksi = newPersonil.koneksi;
 		await query("INSERT INTO activity_log SET ?", obj);
 		delete newPersonil.date;
 		delete newPersonil.item;
 		delete newPersonil.action;
 		delete newPersonil.user_id;
 		delete newPersonil.remark;
+		delete newPersonil.koneksi;
 
 		const res = await query("INSERT INTO personil SET ?", newPersonil);
 		result(null, { id: res.insertId, ...newPersonil });
@@ -161,12 +164,14 @@ Personil.updateById = async(id, personil, result) => {
 		obj.action = Personil.action;
 		obj.user_id = Personil.user_id;
 		obj.remark = Personil.remark;
+		obj.koneksi = Personil.koneksi;
 		await query("INSERT INTO activity_log SET ?", obj);
 		delete Personil.date;
 		delete Personil.item;
 		delete Personil.action;
 		delete Personil.user_id;
 		delete Personil.remark;
+		delete Personil.koneksi;
 
 
 		var str = "", obj = [], no = 1;

@@ -23,6 +23,7 @@ exports.create = (req, res) => {
         action: req.body.action,
         user_id: req.body.user_id,
         remark: req.body.remark,
+        koneksi: req.body.koneksi,
     });
 
 	var used = {};

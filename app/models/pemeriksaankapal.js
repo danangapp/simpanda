@@ -21,12 +21,14 @@ PemeriksaanKapal.create = async(newPemeriksaanKapal, result) => {
 		obj.action = newPemeriksaanKapal.action;
 		obj.user_id = newPemeriksaanKapal.user_id;
 		obj.remark = newPemeriksaanKapal.remark;
+		obj.koneksi = newPemeriksaanKapal.koneksi;
 		await query("INSERT INTO activity_log SET ?", obj);
 		delete newPemeriksaanKapal.date;
 		delete newPemeriksaanKapal.item;
 		delete newPemeriksaanKapal.action;
 		delete newPemeriksaanKapal.user_id;
 		delete newPemeriksaanKapal.remark;
+		delete newPemeriksaanKapal.koneksi;
 
 		const res = await query("INSERT INTO pemeriksaan_kapal SET ?", newPemeriksaanKapal);
 		result(null, { id: res.insertId, ...newPemeriksaanKapal });
@@ -106,12 +108,14 @@ PemeriksaanKapal.updateById = async(id, pemeriksaankapal, result) => {
 		obj.action = PemeriksaanKapal.action;
 		obj.user_id = PemeriksaanKapal.user_id;
 		obj.remark = PemeriksaanKapal.remark;
+		obj.koneksi = PemeriksaanKapal.koneksi;
 		await query("INSERT INTO activity_log SET ?", obj);
 		delete PemeriksaanKapal.date;
 		delete PemeriksaanKapal.item;
 		delete PemeriksaanKapal.action;
 		delete PemeriksaanKapal.user_id;
 		delete PemeriksaanKapal.remark;
+		delete PemeriksaanKapal.koneksi;
 
 
 		var str = "", obj = [], no = 1;

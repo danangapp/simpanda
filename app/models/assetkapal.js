@@ -53,6 +53,7 @@ const AssetKapal = function (assetkapal) {
     this.action = assetkapal.action;
     this.user_id = assetkapal.user_id;
     this.remark = assetkapal.remark;
+    this.koneksi = assetkapal.koneksi;
 };
 
 AssetKapal.create = async(newAssetKapal, result) => {
@@ -80,12 +81,14 @@ AssetKapal.create = async(newAssetKapal, result) => {
 		obj.action = newAssetKapal.action;
 		obj.user_id = newAssetKapal.user_id;
 		obj.remark = newAssetKapal.remark;
+		obj.koneksi = newAssetKapal.koneksi;
 		await query("INSERT INTO activity_log SET ?", obj);
 		delete newAssetKapal.date;
 		delete newAssetKapal.item;
 		delete newAssetKapal.action;
 		delete newAssetKapal.user_id;
 		delete newAssetKapal.remark;
+		delete newAssetKapal.koneksi;
 
 		const res = await query("INSERT INTO asset_kapal SET ?", newAssetKapal);
 		result(null, { id: res.insertId, ...newAssetKapal });
@@ -183,12 +186,14 @@ AssetKapal.updateById = async(id, assetkapal, result) => {
 		obj.action = AssetKapal.action;
 		obj.user_id = AssetKapal.user_id;
 		obj.remark = AssetKapal.remark;
+		obj.koneksi = AssetKapal.koneksi;
 		await query("INSERT INTO activity_log SET ?", obj);
 		delete AssetKapal.date;
 		delete AssetKapal.item;
 		delete AssetKapal.action;
 		delete AssetKapal.user_id;
 		delete AssetKapal.remark;
+		delete AssetKapal.koneksi;
 
 
 		var str = "", obj = [], no = 1;

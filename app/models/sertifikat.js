@@ -19,6 +19,7 @@ const Sertifikat = function (sertifikat) {
     this.action = sertifikat.action;
     this.user_id = sertifikat.user_id;
     this.remark = sertifikat.remark;
+    this.koneksi = sertifikat.koneksi;
 };
 
 Sertifikat.create = async(newSertifikat, result) => {

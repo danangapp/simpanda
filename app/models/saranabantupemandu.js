@@ -18,12 +18,14 @@ SaranaBantuPemandu.create = async(newSaranaBantuPemandu, result) => {
 		obj.action = newSaranaBantuPemandu.action;
 		obj.user_id = newSaranaBantuPemandu.user_id;
 		obj.remark = newSaranaBantuPemandu.remark;
+		obj.koneksi = newSaranaBantuPemandu.koneksi;
 		await query("INSERT INTO activity_log SET ?", obj);
 		delete newSaranaBantuPemandu.date;
 		delete newSaranaBantuPemandu.item;
 		delete newSaranaBantuPemandu.action;
 		delete newSaranaBantuPemandu.user_id;
 		delete newSaranaBantuPemandu.remark;
+		delete newSaranaBantuPemandu.koneksi;
 
 		const res = await query("INSERT INTO sarana_bantu_pemandu SET ?", newSaranaBantuPemandu);
 		result(null, { id: res.insertId, ...newSaranaBantuPemandu });
@@ -103,12 +105,14 @@ SaranaBantuPemandu.updateById = async(id, saranabantupemandu, result) => {
 		obj.action = SaranaBantuPemandu.action;
 		obj.user_id = SaranaBantuPemandu.user_id;
 		obj.remark = SaranaBantuPemandu.remark;
+		obj.koneksi = SaranaBantuPemandu.koneksi;
 		await query("INSERT INTO activity_log SET ?", obj);
 		delete SaranaBantuPemandu.date;
 		delete SaranaBantuPemandu.item;
 		delete SaranaBantuPemandu.action;
 		delete SaranaBantuPemandu.user_id;
 		delete SaranaBantuPemandu.remark;
+		delete SaranaBantuPemandu.koneksi;
 
 
 		var str = "", obj = [], no = 1;

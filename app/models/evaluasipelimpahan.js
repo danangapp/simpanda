@@ -29,12 +29,14 @@ EvaluasiPelimpahan.create = async(newEvaluasiPelimpahan, result) => {
 		obj.action = newEvaluasiPelimpahan.action;
 		obj.user_id = newEvaluasiPelimpahan.user_id;
 		obj.remark = newEvaluasiPelimpahan.remark;
+		obj.koneksi = newEvaluasiPelimpahan.koneksi;
 		await query("INSERT INTO activity_log SET ?", obj);
 		delete newEvaluasiPelimpahan.date;
 		delete newEvaluasiPelimpahan.item;
 		delete newEvaluasiPelimpahan.action;
 		delete newEvaluasiPelimpahan.user_id;
 		delete newEvaluasiPelimpahan.remark;
+		delete newEvaluasiPelimpahan.koneksi;
 
 		const res = await query("INSERT INTO evaluasi_pelimpahan SET ?", newEvaluasiPelimpahan);
 		result(null, { id: res.insertId, ...newEvaluasiPelimpahan });
@@ -114,12 +116,14 @@ EvaluasiPelimpahan.updateById = async(id, evaluasipelimpahan, result) => {
 		obj.action = EvaluasiPelimpahan.action;
 		obj.user_id = EvaluasiPelimpahan.user_id;
 		obj.remark = EvaluasiPelimpahan.remark;
+		obj.koneksi = EvaluasiPelimpahan.koneksi;
 		await query("INSERT INTO activity_log SET ?", obj);
 		delete EvaluasiPelimpahan.date;
 		delete EvaluasiPelimpahan.item;
 		delete EvaluasiPelimpahan.action;
 		delete EvaluasiPelimpahan.user_id;
 		delete EvaluasiPelimpahan.remark;
+		delete EvaluasiPelimpahan.koneksi;
 
 
 		var str = "", obj = [], no = 1;

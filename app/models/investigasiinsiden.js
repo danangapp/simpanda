@@ -57,12 +57,14 @@ InvestigasiInsiden.create = async(newInvestigasiInsiden, result) => {
 		obj.action = newInvestigasiInsiden.action;
 		obj.user_id = newInvestigasiInsiden.user_id;
 		obj.remark = newInvestigasiInsiden.remark;
+		obj.koneksi = newInvestigasiInsiden.koneksi;
 		await query("INSERT INTO activity_log SET ?", obj);
 		delete newInvestigasiInsiden.date;
 		delete newInvestigasiInsiden.item;
 		delete newInvestigasiInsiden.action;
 		delete newInvestigasiInsiden.user_id;
 		delete newInvestigasiInsiden.remark;
+		delete newInvestigasiInsiden.koneksi;
 
 		const res = await query("INSERT INTO investigasi_insiden SET ?", newInvestigasiInsiden);
 		result(null, { id: res.insertId, ...newInvestigasiInsiden });
@@ -142,12 +144,14 @@ InvestigasiInsiden.updateById = async(id, investigasiinsiden, result) => {
 		obj.action = InvestigasiInsiden.action;
 		obj.user_id = InvestigasiInsiden.user_id;
 		obj.remark = InvestigasiInsiden.remark;
+		obj.koneksi = InvestigasiInsiden.koneksi;
 		await query("INSERT INTO activity_log SET ?", obj);
 		delete InvestigasiInsiden.date;
 		delete InvestigasiInsiden.item;
 		delete InvestigasiInsiden.action;
 		delete InvestigasiInsiden.user_id;
 		delete InvestigasiInsiden.remark;
+		delete InvestigasiInsiden.koneksi;
 
 
 		var str = "", obj = [], no = 1;

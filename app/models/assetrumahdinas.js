@@ -25,12 +25,14 @@ AssetRumahDinas.create = async(newAssetRumahDinas, result) => {
 		obj.action = newAssetRumahDinas.action;
 		obj.user_id = newAssetRumahDinas.user_id;
 		obj.remark = newAssetRumahDinas.remark;
+		obj.koneksi = newAssetRumahDinas.koneksi;
 		await query("INSERT INTO activity_log SET ?", obj);
 		delete newAssetRumahDinas.date;
 		delete newAssetRumahDinas.item;
 		delete newAssetRumahDinas.action;
 		delete newAssetRumahDinas.user_id;
 		delete newAssetRumahDinas.remark;
+		delete newAssetRumahDinas.koneksi;
 
 		const res = await query("INSERT INTO asset_rumah_dinas SET ?", newAssetRumahDinas);
 		result(null, { id: res.insertId, ...newAssetRumahDinas });
@@ -110,12 +112,14 @@ AssetRumahDinas.updateById = async(id, assetrumahdinas, result) => {
 		obj.action = AssetRumahDinas.action;
 		obj.user_id = AssetRumahDinas.user_id;
 		obj.remark = AssetRumahDinas.remark;
+		obj.koneksi = AssetRumahDinas.koneksi;
 		await query("INSERT INTO activity_log SET ?", obj);
 		delete AssetRumahDinas.date;
 		delete AssetRumahDinas.item;
 		delete AssetRumahDinas.action;
 		delete AssetRumahDinas.user_id;
 		delete AssetRumahDinas.remark;
+		delete AssetRumahDinas.koneksi;
 
 
 		var str = "", obj = [], no = 1;

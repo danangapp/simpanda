@@ -44,7 +44,7 @@ ArmadaSchedule.findById = (id, result) => {
 
 ArmadaSchedule.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.* , a1.nama as armada FROM armada_schedule a LEFT JOIN armada a1 ON a.armada_id = a1.id ";
+    var query = "SELECT a.*  FROM armada_schedule a";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

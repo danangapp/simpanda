@@ -33,43 +33,43 @@ const Personil = function (personil) {
     this.remark = personil.remark;
 };
 
-Personil.create = async (newPersonil, result) => {
-    try {
-        const sertifikat = newPersonil.sertifikat;
-        for (var i in sertifikat) {
-            const x = sertifikat[i];
+Personil.create = async(newPersonil, result) => {
+	try {
+		const sertifikat = newPersonil.sertifikat;
+		for (var i in sertifikat) {
+		    const x = sertifikat[i];
+		
+		    var header = "", value = "";
+		    for (var a in x) {
+		        const val = x[a];
+		        header += a + ", ";
+		        value += "'" + val + "', ";
+		    }
+		    value = value.substring(0, value.length - 2);
+		    header = header.substring(0, header.length - 2);
+			await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
+		}
 
-            var header = "", value = "";
-            for (var a in x) {
-                const val = x[a];
-                header += a + ", ";
-                value += "'" + val + "', ";
-            }
-            value = value.substring(0, value.length - 2);
-            header = header.substring(0, header.length - 2);
-            await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
-        }
+		delete newPersonil.sertifikat;
 
-        delete newPersonil.sertifikat;
+		var obj = new Object();
+		obj.date = newPersonil.date;
+		obj.item = newPersonil.item;
+		obj.action = newPersonil.action;
+		obj.user_id = newPersonil.user_id;
+		obj.remark = newPersonil.remark;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete newPersonil.date;
+		delete newPersonil.item;
+		delete newPersonil.action;
+		delete newPersonil.user_id;
+		delete newPersonil.remark;
 
-        var obj = new Object();
-        obj.date = newPersonil.date;
-        obj.item = newPersonil.item;
-        obj.action = newPersonil.action;
-        obj.user_id = newPersonil.user_id;
-        obj.remark = newPersonil.remark;
-        await query("INSERT INTO activity_log SET ?", obj);
-        delete newPersonil.date;
-        delete newPersonil.item;
-        delete newPersonil.action;
-        delete newPersonil.user_id;
-        delete newPersonil.remark;
-
-        const res = await query("INSERT INTO personil SET ?", newPersonil);
-        result(null, { id: res.insertId, ...newPersonil });
-    } catch (error) {
-        result(error, null);
-    }
+		const res = await query("INSERT INTO personil SET ?", newPersonil);
+		result(null, { id: res.insertId, ...newPersonil });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 Personil.findById = (id, result) => {
@@ -92,7 +92,7 @@ Personil.findById = (id, result) => {
 
 Personil.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.* , a1.nama as tipe_personil, a2.nama as approval_status, a3.nama_asset as asset_kapal, a4.nama as status_kepegawaian FROM personil a LEFT JOIN tipe_personil a1 ON a.tipe_personil_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN asset_kapal a3 ON a.asset_kapal_id = a3.id  LEFT JOIN status_kepegawaian a4 ON a.status_kepegawaian_id = a4.id ";
+    var query = "SELECT a.* , a1.nama as tipe_personil, a2.nama as approval_status, a3.nama as ena, a4.nama_asset as asset_kapal, a5.nama as status_kepegawaian FROM personil a LEFT JOIN tipe_personil a1 ON a.tipe_personil_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id  LEFT JOIN asset_kapal a4 ON a.asset_kapal_id = a4.id  LEFT JOIN status_kepegawaian a5 ON a.status_kepegawaian_id = a5.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -112,7 +112,6 @@ Personil.getAll = (param, result) => {
 
         query = query.substring(0, query.length - 5);
     }
-    console.log(query);
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -136,56 +135,56 @@ Personil.design = result => {
     });
 };
 
-Personil.updateById = async (id, personil, result) => {
-    try {
-        const sertifikat = personil.sertifikat;
-        for (var i in sertifikat) {
-            const x = sertifikat[i];
+Personil.updateById = async(id, personil, result) => {
+	try {
+		const sertifikat = personil.sertifikat;
+		for (var i in sertifikat) {
+		    const x = sertifikat[i];
+		
+		    var header = "", value = "";
+		    for (var a in x) {
+		        const val = x[a];
+		        header += a + ", ";
+		        value += "'" + val + "', ";
+		    }
+		    value = value.substring(0, value.length - 2);
+		    header = header.substring(0, header.length - 2);
+		
+			await query("DELETE FROM sertifikat WHERE id = ?", x.id);
+			await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
+		}
+		delete personil.sertifikat;
 
-            var header = "", value = "";
-            for (var a in x) {
-                const val = x[a];
-                header += a + ", ";
-                value += "'" + val + "', ";
-            }
-            value = value.substring(0, value.length - 2);
-            header = header.substring(0, header.length - 2);
-
-            await query("DELETE FROM sertifikat WHERE id = ?", x.id);
-            await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
-        }
-        delete personil.sertifikat;
-
-        var obj = new Object();
-        obj.date = Personil.date;
-        obj.item = Personil.item;
-        obj.action = Personil.action;
-        obj.user_id = Personil.user_id;
-        obj.remark = Personil.remark;
-        await query("INSERT INTO activity_log SET ?", obj);
-        delete Personil.date;
-        delete Personil.item;
-        delete Personil.action;
-        delete Personil.user_id;
-        delete Personil.remark;
+		var obj = new Object();
+		obj.date = Personil.date;
+		obj.item = Personil.item;
+		obj.action = Personil.action;
+		obj.user_id = Personil.user_id;
+		obj.remark = Personil.remark;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete Personil.date;
+		delete Personil.item;
+		delete Personil.action;
+		delete Personil.user_id;
+		delete Personil.remark;
 
 
-        var str = "", obj = [], no = 1;
-        for (var i in personil) {
-            if (personil[i]) {
-                str += i + " = ?, ";
-                obj.push(personil[i]);
-            }
-            no++;
-        }
-        obj.push(id);
-        str = str.substring(0, str.length - 2);
+		var str = "", obj = [], no = 1;
+		for (var i in personil) {
+		    if (personil[i]) {
+		        str += i + " = ?, ";
+		        obj.push(personil[i]);
+		    }
+		    no++;
+		}
+		obj.push(id);
+		str = str.substring(0, str.length - 2);
 
-        await query("UPDATE personil SET " + str + " WHERE id = ?", obj);
-        result(null, { id: id, ...personil });
-    } catch (error) {
-        result(error, null);
-    }
+		await query("UPDATE personil SET " + str + " WHERE id = ?", obj);
+		result(null, { id: id, ...personil });
+	} catch (error) {
+	    result(error, null);
+	}
 };
 
 Personil.remove = (id, result) => {

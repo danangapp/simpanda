@@ -77,12 +77,12 @@ Sertifikat.getAll = (param, result) => {
             if (typeof str != "string") {
                 query += "(";
                 for (var x in str) {
-                    query += i + " ='" + str[x] + "' or ";
+                    query += "a." + i + " ='" + str[x] + "' or ";
                 }
                 query = query.substring(0, query.length - 4);
                 query += ") and ";
             } else {
-                query += i + " ='" + param[i] + "' and ";
+                query += "a." + i + " ='" + param[i] + "' and ";
             }
         }
 

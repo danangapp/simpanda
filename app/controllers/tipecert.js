@@ -13,9 +13,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in tipe_cert) {
-	    if (!tipe_cert[i]) {
-	        delete tipe_cert[i];
+	for (var i in tipecert) {
+	    if (!tipecert[i]) {
+	        delete tipecert[i];
 	    }
 	}
 

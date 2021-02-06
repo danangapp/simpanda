@@ -15,9 +15,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in sarana_bantu_pemandu) {
-	    if (!sarana_bantu_pemandu[i]) {
-	        delete sarana_bantu_pemandu[i];
+	for (var i in saranabantupemandu) {
+	    if (!saranabantupemandu[i]) {
+	        delete saranabantupemandu[i];
 	    }
 	}
 

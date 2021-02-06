@@ -12,9 +12,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in tipe_sarana_pemandu_kapal) {
-	    if (!tipe_sarana_pemandu_kapal[i]) {
-	        delete tipe_sarana_pemandu_kapal[i];
+	for (var i in tipesaranapemandukapal) {
+	    if (!tipesaranapemandukapal[i]) {
+	        delete tipesaranapemandukapal[i];
 	    }
 	}
 

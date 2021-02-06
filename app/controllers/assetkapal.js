@@ -60,9 +60,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in asset_kapal) {
-	    if (!asset_kapal[i]) {
-	        delete asset_kapal[i];
+	for (var i in assetkapal) {
+	    if (!assetkapal[i]) {
+	        delete assetkapal[i];
 	    }
 	}
 

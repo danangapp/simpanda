@@ -12,9 +12,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in tipe_stasiun) {
-	    if (!tipe_stasiun[i]) {
-	        delete tipe_stasiun[i];
+	for (var i in tipestasiun) {
+	    if (!tipestasiun[i]) {
+	        delete tipestasiun[i];
 	    }
 	}
 

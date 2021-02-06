@@ -18,9 +18,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in pemeriksaan_kapal) {
-	    if (!pemeriksaan_kapal[i]) {
-	        delete pemeriksaan_kapal[i];
+	for (var i in pemeriksaankapal) {
+	    if (!pemeriksaankapal[i]) {
+	        delete pemeriksaankapal[i];
 	    }
 	}
 

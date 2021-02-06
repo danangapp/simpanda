@@ -17,9 +17,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in pandu_schedule) {
-	    if (!pandu_schedule[i]) {
-	        delete pandu_schedule[i];
+	for (var i in panduschedule) {
+	    if (!panduschedule[i]) {
+	        delete panduschedule[i];
 	    }
 	}
 

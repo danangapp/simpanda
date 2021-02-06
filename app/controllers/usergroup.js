@@ -25,9 +25,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in user_group) {
-	    if (!user_group[i]) {
-	        delete user_group[i];
+	for (var i in usergroup) {
+	    if (!usergroup[i]) {
+	        delete usergroup[i];
 	    }
 	}
 

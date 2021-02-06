@@ -12,9 +12,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in tipe_personil) {
-	    if (!tipe_personil[i]) {
-	        delete tipe_personil[i];
+	for (var i in tipepersonil) {
+	    if (!tipepersonil[i]) {
+	        delete tipepersonil[i];
 	    }
 	}
 

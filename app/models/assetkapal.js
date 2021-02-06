@@ -114,7 +114,7 @@ AssetKapal.findById = (id, result) => {
 
 AssetKapal.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.* , a1.nama as tipe_asset, a2.nama as approval_status FROM asset_kapal a LEFT JOIN tipe_asset a1 ON a.tipe_asset_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id ";
+    var query = "SELECT a.* , a1.nama as tipe_asset, a2.nama as ena, a3.nama as approval_status FROM asset_kapal a LEFT JOIN tipe_asset a1 ON a.tipe_asset_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN approval_status a3 ON a.approval_status_id = a3.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -123,12 +123,12 @@ AssetKapal.getAll = (param, result) => {
             if (typeof str != "string") {
                 query += "(";
                 for (var x in str) {
-                    query += i + " ='" + str[x] + "' or ";
+                    query += "a." + i + " ='" + str[x] + "' or ";
                 }
                 query = query.substring(0, query.length - 4);
                 query += ") and ";
             } else {
-                query += i + " ='" + param[i] + "' and ";
+                query += "a." + i + " ='" + param[i] + "' and ";
             }
         }
 

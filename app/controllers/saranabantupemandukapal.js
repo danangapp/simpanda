@@ -78,9 +78,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in sarana_bantu_pemandu_kapal) {
-	    if (!sarana_bantu_pemandu_kapal[i]) {
-	        delete sarana_bantu_pemandu_kapal[i];
+	for (var i in saranabantupemandukapal) {
+	    if (!saranabantupemandukapal[i]) {
+	        delete saranabantupemandukapal[i];
 	    }
 	}
 

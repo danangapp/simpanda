@@ -12,9 +12,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in status_absen) {
-	    if (!status_absen[i]) {
-	        delete status_absen[i];
+	for (var i in statusabsen) {
+	    if (!statusabsen[i]) {
+	        delete statusabsen[i];
 	    }
 	}
 

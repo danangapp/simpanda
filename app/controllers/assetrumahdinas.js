@@ -22,9 +22,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in asset_rumah_dinas) {
-	    if (!asset_rumah_dinas[i]) {
-	        delete asset_rumah_dinas[i];
+	for (var i in assetrumahdinas) {
+	    if (!assetrumahdinas[i]) {
+	        delete assetrumahdinas[i];
 	    }
 	}
 

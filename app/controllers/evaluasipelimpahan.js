@@ -26,9 +26,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in evaluasi_pelimpahan) {
-	    if (!evaluasi_pelimpahan[i]) {
-	        delete evaluasi_pelimpahan[i];
+	for (var i in evaluasipelimpahan) {
+	    if (!evaluasipelimpahan[i]) {
+	        delete evaluasipelimpahan[i];
 	    }
 	}
 

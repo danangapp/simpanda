@@ -12,9 +12,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in kondisi_umum) {
-	    if (!kondisi_umum[i]) {
-	        delete kondisi_umum[i];
+	for (var i in kondisiumum) {
+	    if (!kondisiumum[i]) {
+	        delete kondisiumum[i];
 	    }
 	}
 

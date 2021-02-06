@@ -12,9 +12,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in pemeriksaan_kapal_check) {
-	    if (!pemeriksaan_kapal_check[i]) {
-	        delete pemeriksaan_kapal_check[i];
+	for (var i in pemeriksaankapalcheck) {
+	    if (!pemeriksaankapalcheck[i]) {
+	        delete pemeriksaankapalcheck[i];
 	    }
 	}
 

@@ -12,9 +12,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in status_evaluasi_pelimpahan) {
-	    if (!status_evaluasi_pelimpahan[i]) {
-	        delete status_evaluasi_pelimpahan[i];
+	for (var i in statusevaluasipelimpahan) {
+	    if (!statusevaluasipelimpahan[i]) {
+	        delete statusevaluasipelimpahan[i];
 	    }
 	}
 

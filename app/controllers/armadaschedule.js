@@ -19,9 +19,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in armada_schedule) {
-	    if (!armada_schedule[i]) {
-	        delete armada_schedule[i];
+	for (var i in armadaschedule) {
+	    if (!armadaschedule[i]) {
+	        delete armadaschedule[i];
 	    }
 	}
 

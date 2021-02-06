@@ -56,7 +56,7 @@ AssetStasiunEquipment.findById = (id, result) => {
 
 AssetStasiunEquipment.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.* , a1.nama as tipe_stasiun, a2.nama as approval_status FROM asset_stasiun_equipment a LEFT JOIN tipe_stasiun a1 ON a.tipe_stasiun_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id ";
+    var query = "SELECT a.* , a1.nama as tipe_stasiun, a2.nama as approval_status, a3.nama as ena FROM asset_stasiun_equipment a LEFT JOIN tipe_stasiun a1 ON a.tipe_stasiun_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -65,12 +65,12 @@ AssetStasiunEquipment.getAll = (param, result) => {
             if (typeof str != "string") {
                 query += "(";
                 for (var x in str) {
-                    query += i + " ='" + str[x] + "' or ";
+                    query += "a." + i + " ='" + str[x] + "' or ";
                 }
                 query = query.substring(0, query.length - 4);
                 query += ") and ";
             } else {
-                query += i + " ='" + param[i] + "' and ";
+                query += "a." + i + " ='" + param[i] + "' and ";
             }
         }
 

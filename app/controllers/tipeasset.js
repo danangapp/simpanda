@@ -12,9 +12,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in tipe_asset) {
-	    if (!tipe_asset[i]) {
-	        delete tipe_asset[i];
+	for (var i in tipeasset) {
+	    if (!tipeasset[i]) {
+	        delete tipeasset[i];
 	    }
 	}
 

@@ -12,9 +12,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in approval_status) {
-	    if (!approval_status[i]) {
-	        delete approval_status[i];
+	for (var i in approvalstatus) {
+	    if (!approvalstatus[i]) {
+	        delete approvalstatus[i];
 	    }
 	}
 

@@ -19,9 +19,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in asset_stasiun_equipment) {
-	    if (!asset_stasiun_equipment[i]) {
-	        delete asset_stasiun_equipment[i];
+	for (var i in assetstasiunequipment) {
+	    if (!assetstasiunequipment[i]) {
+	        delete assetstasiunequipment[i];
 	    }
 	}
 

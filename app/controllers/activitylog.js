@@ -16,9 +16,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in activity_log) {
-	    if (!activity_log[i]) {
-	        delete activity_log[i];
+	for (var i in activitylog) {
+	    if (!activitylog[i]) {
+	        delete activitylog[i];
 	    }
 	}
 

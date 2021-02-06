@@ -12,9 +12,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in dokumen_kapal) {
-	    if (!dokumen_kapal[i]) {
-	        delete dokumen_kapal[i];
+	for (var i in dokumenkapal) {
+	    if (!dokumenkapal[i]) {
+	        delete dokumenkapal[i];
 	    }
 	}
 

@@ -54,9 +54,9 @@ exports.create = (req, res) => {
     });
 
 	var used = {};
-	for (var i in investigasi_insiden) {
-	    if (!investigasi_insiden[i]) {
-	        delete investigasi_insiden[i];
+	for (var i in investigasiinsiden) {
+	    if (!investigasiinsiden[i]) {
+	        delete investigasiinsiden[i];
 	    }
 	}
 

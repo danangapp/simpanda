@@ -162,7 +162,7 @@ AssetKapal.design = result => {
 
 AssetKapal.updateById = async(id, assetkapal, result) => {
 	try {
-		const sertifikat = asset_kapal.sertifikat;
+		const sertifikat = assetkapal.sertifikat;
 		for (var i in sertifikat) {
 		    const x = sertifikat[i];
 		
@@ -178,7 +178,7 @@ AssetKapal.updateById = async(id, assetkapal, result) => {
 			await query("DELETE FROM sertifikat WHERE id = ?", x.id);
 			await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
 		}
-		delete asset_kapal.sertifikat;
+		delete assetkapal.sertifikat;
 
 		var obj = new Object();
 		obj.date = AssetKapal.date;

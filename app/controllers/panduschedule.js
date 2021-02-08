@@ -14,6 +14,8 @@ exports.create = (req, res) => {
         pandu_jaga_nama: req.body.pandu_jaga_nama,
         status_absen: req.body.status_absen,
         keterangan: req.body.keterangan,
+        approval_status_id: req.body.approval_status_id,
+        enable: req.body.enable,
     });
 
 	var used = {};

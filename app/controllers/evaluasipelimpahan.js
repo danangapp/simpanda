@@ -10,6 +10,7 @@ exports.create = (req, res) => {
 
     const evaluasipelimpahan = new EvaluasiPelimpahan({
         approval_status_id: req.body.approval_status_id,
+        enable: req.body.enable,
         cabang_id: req.body.cabang_id,
         bup: req.body.bup,
         izin_bup: req.body.izin_bup,

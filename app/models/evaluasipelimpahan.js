@@ -5,6 +5,7 @@ const query = util.promisify(sql.query).bind(sql);
 // constructor
 const EvaluasiPelimpahan = function (evaluasipelimpahan) {
     this.approval_status_id = evaluasipelimpahan.approval_status_id;
+    this.enable = evaluasipelimpahan.enable;
     this.cabang_id = evaluasipelimpahan.cabang_id;
     this.bup = evaluasipelimpahan.bup;
     this.izin_bup = evaluasipelimpahan.izin_bup;
@@ -65,7 +66,7 @@ EvaluasiPelimpahan.findById = (id, result) => {
 
 EvaluasiPelimpahan.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.* , a1.nama as approval_status, a2.nama as cabang FROM evaluasi_pelimpahan a LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN cabang a2 ON a.cabang_id = a2.id ";
+    var query = "SELECT a.* , a1.nama as approval_status, a2.nama as ena, a3.nama as cabang FROM evaluasi_pelimpahan a LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN cabang a3 ON a.cabang_id = a3.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

@@ -10,6 +10,7 @@ exports.create = (req, res) => {
 
     const investigasiinsiden = new InvestigasiInsiden({
         approval_status_id: req.body.approval_status_id,
+        enable: req.body.enable,
         no_report: req.body.no_report,
         unit_terkait: req.body.unit_terkait,
         judul_report: req.body.judul_report,

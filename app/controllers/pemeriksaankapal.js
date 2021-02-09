@@ -10,11 +10,12 @@ exports.create = (req, res) => {
 
     const pemeriksaankapal = new PemeriksaanKapal({
         approval_status_id: req.body.approval_status_id,
+        enable: req.body.enable,
         asset_kapal_id: req.body.asset_kapal_id,
         cabang: req.body.cabang,
         kondisi_id: req.body.kondisi_id,
-        tanggal_awal: req.body.tanggal_awal,
-        tanggal_akhir: req.body.tanggal_akhir,
+        tanggal_awal: f.toDate(req.body.tanggal_awal),
+        tanggal_akhir: f.toDate(req.body.tanggal_akhir),
         keterangan: req.body.keterangan,
     });
 
@@ -81,6 +82,8 @@ exports.update = (req, res) => {
         });
     }
 
+	req.body.tanggal_awal = f.toDate(req.body.tanggal_awal);
+	req.body.tanggal_akhir = f.toDate(req.body.tanggal_akhir);
 
     PemeriksaanKapal.updateById(
         req.params.id,

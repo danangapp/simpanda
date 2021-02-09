@@ -1,5 +1,5 @@
 var moment = require('moment');
-
+moment.updateLocale(moment.locale(), { invalidDate: null })
 module.exports = {
     toDate: function (str) {
         var dateString = str;

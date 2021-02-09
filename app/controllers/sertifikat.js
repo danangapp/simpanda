@@ -19,7 +19,7 @@ exports.create = (req, res) => {
         reminder_date: f.toDate(req.body.reminder_date),
         sertifikat: req.body.sertifikat,
         sertifikat: req.body.sertifikat,
-        date: req.body.date,
+        date: f.toDate(req.body.date),
         item: req.body.item,
         action: req.body.action,
         user_id: req.body.user_id,
@@ -93,6 +93,7 @@ exports.update = (req, res) => {
 	req.body.tanggal_keluar_sertifikat = f.toDate(req.body.tanggal_keluar_sertifikat);
 	req.body.tanggal_expire = f.toDate(req.body.tanggal_expire);
 	req.body.reminder_date = f.toDate(req.body.reminder_date);
+	req.body.date = f.toDate(req.body.date);
 
     Sertifikat.updateById(
         req.params.id,

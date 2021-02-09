@@ -1,6 +1,7 @@
 const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
+const f = require('../controllers/function');
 
 // constructor
 const AssetRumahDinas = function (assetrumahdinas) {
@@ -17,22 +18,27 @@ const AssetRumahDinas = function (assetrumahdinas) {
     this.enable = assetrumahdinas.enable;
 };
 
+const insertToActivity = async (objects, koneksi = 1) => {
+		var obj = new Object();
+		obj.date = f.toDate(objects.date);
+		obj.item = 'assetrumahdinas';
+		obj.action = objects.approval_status_id;
+		obj.user_id = objects.user_id;
+		obj.remark = objects.remark;
+		obj.koneksi = koneksi;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete objects.date;
+		delete objects.item;
+		delete objects.action;
+		delete objects.user_id;
+		delete objects.remark;
+		delete objects.koneksi;
+		return objects
+};
+
 AssetRumahDinas.create = async(newAssetRumahDinas, result) => {
 	try {
-		var obj = new Object();
-		obj.date = newAssetRumahDinas.date;
-		obj.item = newAssetRumahDinas.item;
-		obj.action = newAssetRumahDinas.action;
-		obj.user_id = newAssetRumahDinas.user_id;
-		obj.remark = newAssetRumahDinas.remark;
-		obj.koneksi = newAssetRumahDinas.koneksi;
-		await query("INSERT INTO activity_log SET ?", obj);
-		delete newAssetRumahDinas.date;
-		delete newAssetRumahDinas.item;
-		delete newAssetRumahDinas.action;
-		delete newAssetRumahDinas.user_id;
-		delete newAssetRumahDinas.remark;
-		delete newAssetRumahDinas.koneksi;
+		newAssetRumahDinas = await insertToActivity(newAssetRumahDinas);
 
 		const res = await query("INSERT INTO asset_rumah_dinas SET ?", newAssetRumahDinas);
 		result(null, { id: res.insertId, ...newAssetRumahDinas });
@@ -106,20 +112,7 @@ AssetRumahDinas.design = result => {
 
 AssetRumahDinas.updateById = async(id, assetrumahdinas, result) => {
 	try {
-		var obj = new Object();
-		obj.date = AssetRumahDinas.date;
-		obj.item = AssetRumahDinas.item;
-		obj.action = AssetRumahDinas.action;
-		obj.user_id = AssetRumahDinas.user_id;
-		obj.remark = AssetRumahDinas.remark;
-		obj.koneksi = AssetRumahDinas.koneksi;
-		await query("INSERT INTO activity_log SET ?", obj);
-		delete AssetRumahDinas.date;
-		delete AssetRumahDinas.item;
-		delete AssetRumahDinas.action;
-		delete AssetRumahDinas.user_id;
-		delete AssetRumahDinas.remark;
-		delete AssetRumahDinas.koneksi;
+		assetrumahdinas = await insertToActivity(assetrumahdinas);
 
 
 		var str = "", obj = [], no = 1;

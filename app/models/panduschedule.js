@@ -1,6 +1,7 @@
 const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
+const f = require('../controllers/function');
 
 // constructor
 const PanduSchedule = function (panduschedule) {
@@ -14,22 +15,27 @@ const PanduSchedule = function (panduschedule) {
     this.enable = panduschedule.enable;
 };
 
+const insertToActivity = async (objects, koneksi = 1) => {
+		var obj = new Object();
+		obj.date = f.toDate(objects.date);
+		obj.item = 'panduschedule';
+		obj.action = objects.approval_status_id;
+		obj.user_id = objects.user_id;
+		obj.remark = objects.remark;
+		obj.koneksi = koneksi;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete objects.date;
+		delete objects.item;
+		delete objects.action;
+		delete objects.user_id;
+		delete objects.remark;
+		delete objects.koneksi;
+		return objects
+};
+
 PanduSchedule.create = async(newPanduSchedule, result) => {
 	try {
-		var obj = new Object();
-		obj.date = newPanduSchedule.date;
-		obj.item = newPanduSchedule.item;
-		obj.action = newPanduSchedule.action;
-		obj.user_id = newPanduSchedule.user_id;
-		obj.remark = newPanduSchedule.remark;
-		obj.koneksi = newPanduSchedule.koneksi;
-		await query("INSERT INTO activity_log SET ?", obj);
-		delete newPanduSchedule.date;
-		delete newPanduSchedule.item;
-		delete newPanduSchedule.action;
-		delete newPanduSchedule.user_id;
-		delete newPanduSchedule.remark;
-		delete newPanduSchedule.koneksi;
+		newPanduSchedule = await insertToActivity(newPanduSchedule);
 
 		const res = await query("INSERT INTO pandu_schedule SET ?", newPanduSchedule);
 		result(null, { id: res.insertId, ...newPanduSchedule });
@@ -103,20 +109,7 @@ PanduSchedule.design = result => {
 
 PanduSchedule.updateById = async(id, panduschedule, result) => {
 	try {
-		var obj = new Object();
-		obj.date = PanduSchedule.date;
-		obj.item = PanduSchedule.item;
-		obj.action = PanduSchedule.action;
-		obj.user_id = PanduSchedule.user_id;
-		obj.remark = PanduSchedule.remark;
-		obj.koneksi = PanduSchedule.koneksi;
-		await query("INSERT INTO activity_log SET ?", obj);
-		delete PanduSchedule.date;
-		delete PanduSchedule.item;
-		delete PanduSchedule.action;
-		delete PanduSchedule.user_id;
-		delete PanduSchedule.remark;
-		delete PanduSchedule.koneksi;
+		panduschedule = await insertToActivity(panduschedule);
 
 
 		var str = "", obj = [], no = 1;

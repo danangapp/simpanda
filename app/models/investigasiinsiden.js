@@ -1,6 +1,7 @@
 const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
+const f = require('../controllers/function');
 
 // constructor
 const InvestigasiInsiden = function (investigasiinsiden) {
@@ -50,22 +51,27 @@ const InvestigasiInsiden = function (investigasiinsiden) {
     this.approved_tanggal = investigasiinsiden.approved_tanggal;
 };
 
+const insertToActivity = async (objects, koneksi = 1) => {
+		var obj = new Object();
+		obj.date = f.toDate(objects.date);
+		obj.item = 'investigasiinsiden';
+		obj.action = objects.approval_status_id;
+		obj.user_id = objects.user_id;
+		obj.remark = objects.remark;
+		obj.koneksi = koneksi;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete objects.date;
+		delete objects.item;
+		delete objects.action;
+		delete objects.user_id;
+		delete objects.remark;
+		delete objects.koneksi;
+		return objects
+};
+
 InvestigasiInsiden.create = async(newInvestigasiInsiden, result) => {
 	try {
-		var obj = new Object();
-		obj.date = newInvestigasiInsiden.date;
-		obj.item = newInvestigasiInsiden.item;
-		obj.action = newInvestigasiInsiden.action;
-		obj.user_id = newInvestigasiInsiden.user_id;
-		obj.remark = newInvestigasiInsiden.remark;
-		obj.koneksi = newInvestigasiInsiden.koneksi;
-		await query("INSERT INTO activity_log SET ?", obj);
-		delete newInvestigasiInsiden.date;
-		delete newInvestigasiInsiden.item;
-		delete newInvestigasiInsiden.action;
-		delete newInvestigasiInsiden.user_id;
-		delete newInvestigasiInsiden.remark;
-		delete newInvestigasiInsiden.koneksi;
+		newInvestigasiInsiden = await insertToActivity(newInvestigasiInsiden);
 
 		const res = await query("INSERT INTO investigasi_insiden SET ?", newInvestigasiInsiden);
 		result(null, { id: res.insertId, ...newInvestigasiInsiden });
@@ -139,20 +145,7 @@ InvestigasiInsiden.design = result => {
 
 InvestigasiInsiden.updateById = async(id, investigasiinsiden, result) => {
 	try {
-		var obj = new Object();
-		obj.date = InvestigasiInsiden.date;
-		obj.item = InvestigasiInsiden.item;
-		obj.action = InvestigasiInsiden.action;
-		obj.user_id = InvestigasiInsiden.user_id;
-		obj.remark = InvestigasiInsiden.remark;
-		obj.koneksi = InvestigasiInsiden.koneksi;
-		await query("INSERT INTO activity_log SET ?", obj);
-		delete InvestigasiInsiden.date;
-		delete InvestigasiInsiden.item;
-		delete InvestigasiInsiden.action;
-		delete InvestigasiInsiden.user_id;
-		delete InvestigasiInsiden.remark;
-		delete InvestigasiInsiden.koneksi;
+		investigasiinsiden = await insertToActivity(investigasiinsiden);
 
 
 		var str = "", obj = [], no = 1;

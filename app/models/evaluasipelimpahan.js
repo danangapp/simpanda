@@ -1,6 +1,7 @@
 const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
+const f = require('../controllers/function');
 
 // constructor
 const EvaluasiPelimpahan = function (evaluasipelimpahan) {
@@ -22,22 +23,27 @@ const EvaluasiPelimpahan = function (evaluasipelimpahan) {
     this.file_sk_pelimpahan = evaluasipelimpahan.file_sk_pelimpahan;
 };
 
+const insertToActivity = async (objects, koneksi = 1) => {
+		var obj = new Object();
+		obj.date = f.toDate(objects.date);
+		obj.item = 'evaluasipelimpahan';
+		obj.action = objects.approval_status_id;
+		obj.user_id = objects.user_id;
+		obj.remark = objects.remark;
+		obj.koneksi = koneksi;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete objects.date;
+		delete objects.item;
+		delete objects.action;
+		delete objects.user_id;
+		delete objects.remark;
+		delete objects.koneksi;
+		return objects
+};
+
 EvaluasiPelimpahan.create = async(newEvaluasiPelimpahan, result) => {
 	try {
-		var obj = new Object();
-		obj.date = newEvaluasiPelimpahan.date;
-		obj.item = newEvaluasiPelimpahan.item;
-		obj.action = newEvaluasiPelimpahan.action;
-		obj.user_id = newEvaluasiPelimpahan.user_id;
-		obj.remark = newEvaluasiPelimpahan.remark;
-		obj.koneksi = newEvaluasiPelimpahan.koneksi;
-		await query("INSERT INTO activity_log SET ?", obj);
-		delete newEvaluasiPelimpahan.date;
-		delete newEvaluasiPelimpahan.item;
-		delete newEvaluasiPelimpahan.action;
-		delete newEvaluasiPelimpahan.user_id;
-		delete newEvaluasiPelimpahan.remark;
-		delete newEvaluasiPelimpahan.koneksi;
+		newEvaluasiPelimpahan = await insertToActivity(newEvaluasiPelimpahan);
 
 		const res = await query("INSERT INTO evaluasi_pelimpahan SET ?", newEvaluasiPelimpahan);
 		result(null, { id: res.insertId, ...newEvaluasiPelimpahan });
@@ -111,20 +117,7 @@ EvaluasiPelimpahan.design = result => {
 
 EvaluasiPelimpahan.updateById = async(id, evaluasipelimpahan, result) => {
 	try {
-		var obj = new Object();
-		obj.date = EvaluasiPelimpahan.date;
-		obj.item = EvaluasiPelimpahan.item;
-		obj.action = EvaluasiPelimpahan.action;
-		obj.user_id = EvaluasiPelimpahan.user_id;
-		obj.remark = EvaluasiPelimpahan.remark;
-		obj.koneksi = EvaluasiPelimpahan.koneksi;
-		await query("INSERT INTO activity_log SET ?", obj);
-		delete EvaluasiPelimpahan.date;
-		delete EvaluasiPelimpahan.item;
-		delete EvaluasiPelimpahan.action;
-		delete EvaluasiPelimpahan.user_id;
-		delete EvaluasiPelimpahan.remark;
-		delete EvaluasiPelimpahan.koneksi;
+		evaluasipelimpahan = await insertToActivity(evaluasipelimpahan);
 
 
 		var str = "", obj = [], no = 1;

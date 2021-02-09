@@ -1,6 +1,7 @@
 const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
+const f = require('../controllers/function');
 
 // constructor
 const AssetStasiunEquipment = function (assetstasiunequipment) {
@@ -14,22 +15,27 @@ const AssetStasiunEquipment = function (assetstasiunequipment) {
     this.enable = assetstasiunequipment.enable;
 };
 
+const insertToActivity = async (objects, koneksi = 1) => {
+		var obj = new Object();
+		obj.date = f.toDate(objects.date);
+		obj.item = 'assetstasiunequipment';
+		obj.action = objects.approval_status_id;
+		obj.user_id = objects.user_id;
+		obj.remark = objects.remark;
+		obj.koneksi = koneksi;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete objects.date;
+		delete objects.item;
+		delete objects.action;
+		delete objects.user_id;
+		delete objects.remark;
+		delete objects.koneksi;
+		return objects
+};
+
 AssetStasiunEquipment.create = async(newAssetStasiunEquipment, result) => {
 	try {
-		var obj = new Object();
-		obj.date = newAssetStasiunEquipment.date;
-		obj.item = newAssetStasiunEquipment.item;
-		obj.action = newAssetStasiunEquipment.action;
-		obj.user_id = newAssetStasiunEquipment.user_id;
-		obj.remark = newAssetStasiunEquipment.remark;
-		obj.koneksi = newAssetStasiunEquipment.koneksi;
-		await query("INSERT INTO activity_log SET ?", obj);
-		delete newAssetStasiunEquipment.date;
-		delete newAssetStasiunEquipment.item;
-		delete newAssetStasiunEquipment.action;
-		delete newAssetStasiunEquipment.user_id;
-		delete newAssetStasiunEquipment.remark;
-		delete newAssetStasiunEquipment.koneksi;
+		newAssetStasiunEquipment = await insertToActivity(newAssetStasiunEquipment);
 
 		const res = await query("INSERT INTO asset_stasiun_equipment SET ?", newAssetStasiunEquipment);
 		result(null, { id: res.insertId, ...newAssetStasiunEquipment });
@@ -103,20 +109,7 @@ AssetStasiunEquipment.design = result => {
 
 AssetStasiunEquipment.updateById = async(id, assetstasiunequipment, result) => {
 	try {
-		var obj = new Object();
-		obj.date = AssetStasiunEquipment.date;
-		obj.item = AssetStasiunEquipment.item;
-		obj.action = AssetStasiunEquipment.action;
-		obj.user_id = AssetStasiunEquipment.user_id;
-		obj.remark = AssetStasiunEquipment.remark;
-		obj.koneksi = AssetStasiunEquipment.koneksi;
-		await query("INSERT INTO activity_log SET ?", obj);
-		delete AssetStasiunEquipment.date;
-		delete AssetStasiunEquipment.item;
-		delete AssetStasiunEquipment.action;
-		delete AssetStasiunEquipment.user_id;
-		delete AssetStasiunEquipment.remark;
-		delete AssetStasiunEquipment.koneksi;
+		assetstasiunequipment = await insertToActivity(assetstasiunequipment);
 
 
 		var str = "", obj = [], no = 1;

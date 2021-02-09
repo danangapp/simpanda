@@ -1,6 +1,7 @@
 const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
+const f = require('../controllers/function');
 
 // constructor
 const AssetKapal = function (assetkapal) {
@@ -56,6 +57,24 @@ const AssetKapal = function (assetkapal) {
     this.koneksi = assetkapal.koneksi;
 };
 
+const insertToActivity = async (objects, koneksi = 1) => {
+		var obj = new Object();
+		obj.date = f.toDate(objects.date);
+		obj.item = 'assetkapal';
+		obj.action = objects.approval_status_id;
+		obj.user_id = objects.user_id;
+		obj.remark = objects.remark;
+		obj.koneksi = koneksi;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete objects.date;
+		delete objects.item;
+		delete objects.action;
+		delete objects.user_id;
+		delete objects.remark;
+		delete objects.koneksi;
+		return objects
+};
+
 AssetKapal.create = async(newAssetKapal, result) => {
 	try {
 		const sertifikat = newAssetKapal.sertifikat;
@@ -74,21 +93,7 @@ AssetKapal.create = async(newAssetKapal, result) => {
 		}
 
 		delete newAssetKapal.sertifikat;
-
-		var obj = new Object();
-		obj.date = newAssetKapal.date;
-		obj.item = newAssetKapal.item;
-		obj.action = newAssetKapal.action;
-		obj.user_id = newAssetKapal.user_id;
-		obj.remark = newAssetKapal.remark;
-		obj.koneksi = newAssetKapal.koneksi;
-		await query("INSERT INTO activity_log SET ?", obj);
-		delete newAssetKapal.date;
-		delete newAssetKapal.item;
-		delete newAssetKapal.action;
-		delete newAssetKapal.user_id;
-		delete newAssetKapal.remark;
-		delete newAssetKapal.koneksi;
+		newAssetKapal = await insertToActivity(newAssetKapal);
 
 		const res = await query("INSERT INTO asset_kapal SET ?", newAssetKapal);
 		result(null, { id: res.insertId, ...newAssetKapal });
@@ -179,21 +184,7 @@ AssetKapal.updateById = async(id, assetkapal, result) => {
 			await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
 		}
 		delete assetkapal.sertifikat;
-
-		var obj = new Object();
-		obj.date = AssetKapal.date;
-		obj.item = AssetKapal.item;
-		obj.action = AssetKapal.action;
-		obj.user_id = AssetKapal.user_id;
-		obj.remark = AssetKapal.remark;
-		obj.koneksi = AssetKapal.koneksi;
-		await query("INSERT INTO activity_log SET ?", obj);
-		delete AssetKapal.date;
-		delete AssetKapal.item;
-		delete AssetKapal.action;
-		delete AssetKapal.user_id;
-		delete AssetKapal.remark;
-		delete AssetKapal.koneksi;
+		assetkapal = await insertToActivity(assetkapal);
 
 
 		var str = "", obj = [], no = 1;

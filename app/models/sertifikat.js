@@ -1,6 +1,7 @@
 const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
+const f = require('../controllers/function');
 
 // constructor
 const Sertifikat = function (sertifikat) {
@@ -40,7 +41,6 @@ Sertifikat.create = async(newSertifikat, result) => {
 		}
 
 		delete newSertifikat.sertifikat;
-
 
 		const res = await query("INSERT INTO sertifikat SET ?", newSertifikat);
 		result(null, { id: res.insertId, ...newSertifikat });
@@ -131,7 +131,6 @@ Sertifikat.updateById = async(id, sertifikat, result) => {
 			await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
 		}
 		delete sertifikat.sertifikat;
-
 
 
 		var str = "", obj = [], no = 1;

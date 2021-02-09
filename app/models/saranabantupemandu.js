@@ -1,6 +1,7 @@
 const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
+const f = require('../controllers/function');
 
 // constructor
 const SaranaBantuPemandu = function (saranabantupemandu) {
@@ -10,22 +11,27 @@ const SaranaBantuPemandu = function (saranabantupemandu) {
     this.pelaksana = saranabantupemandu.pelaksana;
 };
 
+const insertToActivity = async (objects, koneksi = 1) => {
+		var obj = new Object();
+		obj.date = f.toDate(objects.date);
+		obj.item = 'saranabantupemandu';
+		obj.action = objects.approval_status_id;
+		obj.user_id = objects.user_id;
+		obj.remark = objects.remark;
+		obj.koneksi = koneksi;
+		await query("INSERT INTO activity_log SET ?", obj);
+		delete objects.date;
+		delete objects.item;
+		delete objects.action;
+		delete objects.user_id;
+		delete objects.remark;
+		delete objects.koneksi;
+		return objects
+};
+
 SaranaBantuPemandu.create = async(newSaranaBantuPemandu, result) => {
 	try {
-		var obj = new Object();
-		obj.date = newSaranaBantuPemandu.date;
-		obj.item = newSaranaBantuPemandu.item;
-		obj.action = newSaranaBantuPemandu.action;
-		obj.user_id = newSaranaBantuPemandu.user_id;
-		obj.remark = newSaranaBantuPemandu.remark;
-		obj.koneksi = newSaranaBantuPemandu.koneksi;
-		await query("INSERT INTO activity_log SET ?", obj);
-		delete newSaranaBantuPemandu.date;
-		delete newSaranaBantuPemandu.item;
-		delete newSaranaBantuPemandu.action;
-		delete newSaranaBantuPemandu.user_id;
-		delete newSaranaBantuPemandu.remark;
-		delete newSaranaBantuPemandu.koneksi;
+		newSaranaBantuPemandu = await insertToActivity(newSaranaBantuPemandu);
 
 		const res = await query("INSERT INTO sarana_bantu_pemandu SET ?", newSaranaBantuPemandu);
 		result(null, { id: res.insertId, ...newSaranaBantuPemandu });
@@ -99,20 +105,7 @@ SaranaBantuPemandu.design = result => {
 
 SaranaBantuPemandu.updateById = async(id, saranabantupemandu, result) => {
 	try {
-		var obj = new Object();
-		obj.date = SaranaBantuPemandu.date;
-		obj.item = SaranaBantuPemandu.item;
-		obj.action = SaranaBantuPemandu.action;
-		obj.user_id = SaranaBantuPemandu.user_id;
-		obj.remark = SaranaBantuPemandu.remark;
-		obj.koneksi = SaranaBantuPemandu.koneksi;
-		await query("INSERT INTO activity_log SET ?", obj);
-		delete SaranaBantuPemandu.date;
-		delete SaranaBantuPemandu.item;
-		delete SaranaBantuPemandu.action;
-		delete SaranaBantuPemandu.user_id;
-		delete SaranaBantuPemandu.remark;
-		delete SaranaBantuPemandu.koneksi;
+		saranabantupemandu = await insertToActivity(saranabantupemandu);
 
 
 		var str = "", obj = [], no = 1;

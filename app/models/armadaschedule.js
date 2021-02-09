@@ -2,6 +2,7 @@ const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
 const f = require('../controllers/function');
+var objek = new Object();
 
 // constructor
 const ArmadaSchedule = function (armadaschedule) {
@@ -17,7 +18,6 @@ const ArmadaSchedule = function (armadaschedule) {
 
 ArmadaSchedule.create = async(newArmadaSchedule, result) => {
 	try {
-
 		const res = await query("INSERT INTO armada_schedule SET ?", newArmadaSchedule);
 		result(null, { id: res.insertId, ...newArmadaSchedule });
 	} catch (error) {
@@ -91,7 +91,6 @@ ArmadaSchedule.design = result => {
 ArmadaSchedule.updateById = async(id, armadaschedule, result) => {
 	try {
 
-
 		var str = "", obj = [], no = 1;
 		for (var i in armadaschedule) {
 		    if (armadaschedule[i]) {
@@ -103,6 +102,7 @@ ArmadaSchedule.updateById = async(id, armadaschedule, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
+		await query("INSERT INTO activity_log SET ?", objek);
 		await query("UPDATE armada_schedule SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...armadaschedule });
 	} catch (error) {

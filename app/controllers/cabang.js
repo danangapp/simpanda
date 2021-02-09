@@ -8,7 +8,7 @@ exports.create = (req, res) => {
         });
     }
 
-    const cabang = new Cabang({
+    var cabang = {
         nama: req.body.nama,
         almt_cabang: req.body.almt_cabang,
         cabang_cms: req.body.cabang_cms,
@@ -20,7 +20,7 @@ exports.create = (req, res) => {
         port_code: req.body.port_code,
         autospk: req.body.autospk,
         kd_jenis_pelabuhan: req.body.kd_jenis_pelabuhan,
-    });
+    };
 
 	var used = {};
 	for (var i in cabang) {
@@ -88,7 +88,7 @@ exports.update = (req, res) => {
 
     Cabang.updateById(
         req.params.id,
-        new Cabang(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

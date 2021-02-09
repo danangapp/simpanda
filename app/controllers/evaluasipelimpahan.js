@@ -8,7 +8,7 @@ exports.create = (req, res) => {
         });
     }
 
-    const evaluasipelimpahan = new EvaluasiPelimpahan({
+    var evaluasipelimpahan = {
         approval_status_id: req.body.approval_status_id,
         enable: req.body.enable,
         cabang_id: req.body.cabang_id,
@@ -25,7 +25,13 @@ exports.create = (req, res) => {
         dile_pendukung: req.body.dile_pendukung,
         tanggal_sk: f.toDate(req.body.tanggal_sk),
         file_sk_pelimpahan: req.body.file_sk_pelimpahan,
-    });
+        date: f.toDate(req.body.date),
+        item: req.body.item,
+        action: req.body.action,
+        user_id: req.body.user_id,
+        remark: req.body.remark,
+        koneksi: req.body.koneksi,
+    };
 
 	var used = {};
 	for (var i in evaluasipelimpahan) {
@@ -94,7 +100,7 @@ exports.update = (req, res) => {
 
     EvaluasiPelimpahan.updateById(
         req.params.id,
-        new EvaluasiPelimpahan(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

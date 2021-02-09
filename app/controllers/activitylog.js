@@ -8,14 +8,14 @@ exports.create = (req, res) => {
         });
     }
 
-    const activitylog = new ActivityLog({
-        date: req.body.date,
+    var activitylog = {
+        date: f.toDate(req.body.date),
         item: req.body.item,
         action: req.body.action,
         user_id: req.body.user_id,
         remark: req.body.remark,
         koneksi: req.body.koneksi,
-    });
+    };
 
 	var used = {};
 	for (var i in activitylog) {
@@ -80,10 +80,11 @@ exports.update = (req, res) => {
         });
     }
 
+	req.body.date = f.toDate(req.body.date);
 
     ActivityLog.updateById(
         req.params.id,
-        new ActivityLog(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

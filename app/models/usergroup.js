@@ -2,6 +2,7 @@ const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
 const f = require('../controllers/function');
+var objek = new Object();
 
 // constructor
 const UserGroup = function (usergroup) {
@@ -23,7 +24,6 @@ const UserGroup = function (usergroup) {
 
 UserGroup.create = async(newUserGroup, result) => {
 	try {
-
 		const res = await query("INSERT INTO user_group SET ?", newUserGroup);
 		result(null, { id: res.insertId, ...newUserGroup });
 	} catch (error) {
@@ -97,7 +97,6 @@ UserGroup.design = result => {
 UserGroup.updateById = async(id, usergroup, result) => {
 	try {
 
-
 		var str = "", obj = [], no = 1;
 		for (var i in usergroup) {
 		    if (usergroup[i]) {
@@ -109,6 +108,7 @@ UserGroup.updateById = async(id, usergroup, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
+		await query("INSERT INTO activity_log SET ?", objek);
 		await query("UPDATE user_group SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...usergroup });
 	} catch (error) {

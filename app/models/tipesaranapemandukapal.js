@@ -2,6 +2,7 @@ const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
 const f = require('../controllers/function');
+var objek = new Object();
 
 // constructor
 const TipeSaranaPemanduKapal = function (tipesaranapemandukapal) {
@@ -10,7 +11,6 @@ const TipeSaranaPemanduKapal = function (tipesaranapemandukapal) {
 
 TipeSaranaPemanduKapal.create = async(newTipeSaranaPemanduKapal, result) => {
 	try {
-
 		const res = await query("INSERT INTO tipe_sarana_pemandu_kapal SET ?", newTipeSaranaPemanduKapal);
 		result(null, { id: res.insertId, ...newTipeSaranaPemanduKapal });
 	} catch (error) {
@@ -84,7 +84,6 @@ TipeSaranaPemanduKapal.design = result => {
 TipeSaranaPemanduKapal.updateById = async(id, tipesaranapemandukapal, result) => {
 	try {
 
-
 		var str = "", obj = [], no = 1;
 		for (var i in tipesaranapemandukapal) {
 		    if (tipesaranapemandukapal[i]) {
@@ -96,6 +95,7 @@ TipeSaranaPemanduKapal.updateById = async(id, tipesaranapemandukapal, result) =>
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
+		await query("INSERT INTO activity_log SET ?", objek);
 		await query("UPDATE tipe_sarana_pemandu_kapal SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...tipesaranapemandukapal });
 	} catch (error) {

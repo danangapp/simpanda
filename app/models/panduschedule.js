@@ -2,6 +2,7 @@ const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
 const f = require('../controllers/function');
+var objek = new Object();
 
 // constructor
 const PanduSchedule = function (panduschedule) {
@@ -15,15 +16,13 @@ const PanduSchedule = function (panduschedule) {
     this.enable = panduschedule.enable;
 };
 
-const insertToActivity = async (objects, koneksi = 1) => {
-		var obj = new Object();
-		obj.date = f.toDate(objects.date);
-		obj.item = 'panduschedule';
-		obj.action = objects.approval_status_id;
-		obj.user_id = objects.user_id;
-		obj.remark = objects.remark;
-		obj.koneksi = koneksi;
-		await query("INSERT INTO activity_log SET ?", obj);
+const setActivity = (objects, koneksi = 1) => {
+		objek.date = f.toDate(objects.date);
+		objek.item = 'panduschedule';
+		objek.action = objects.approval_status_id;
+		objek.user_id = objects.user_id;
+		objek.remark = objects.remark;
+		objek.koneksi = koneksi;
 		delete objects.date;
 		delete objects.item;
 		delete objects.action;
@@ -35,9 +34,10 @@ const insertToActivity = async (objects, koneksi = 1) => {
 
 PanduSchedule.create = async(newPanduSchedule, result) => {
 	try {
-		newPanduSchedule = await insertToActivity(newPanduSchedule);
-
+		newPanduSchedule = setActivity(newPanduSchedule);
 		const res = await query("INSERT INTO pandu_schedule SET ?", newPanduSchedule);
+		objek.koneksi = res.insertId;
+		await query("INSERT INTO activity_log SET ?", objek);
 		result(null, { id: res.insertId, ...newPanduSchedule });
 	} catch (error) {
 	    result(error, null);
@@ -109,8 +109,7 @@ PanduSchedule.design = result => {
 
 PanduSchedule.updateById = async(id, panduschedule, result) => {
 	try {
-		panduschedule = await insertToActivity(panduschedule);
-
+		panduschedule = await setActivity(panduschedule, id);
 
 		var str = "", obj = [], no = 1;
 		for (var i in panduschedule) {
@@ -123,6 +122,7 @@ PanduSchedule.updateById = async(id, panduschedule, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
+		await query("INSERT INTO activity_log SET ?", objek);
 		await query("UPDATE pandu_schedule SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...panduschedule });
 	} catch (error) {

@@ -8,7 +8,7 @@ exports.create = (req, res) => {
         });
     }
 
-    const usergroup = new UserGroup({
+    var usergroup = {
         nama: req.body.nama,
         keterangan: req.body.keterangan,
         cabang_id: req.body.cabang_id,
@@ -23,7 +23,7 @@ exports.create = (req, res) => {
         access_inspection_sarana: req.body.access_inspection_sarana,
         access_inspection_pemeriksaan: req.body.access_inspection_pemeriksaan,
         access_inspection_investigasi: req.body.access_inspection_investigasi,
-    });
+    };
 
 	var used = {};
 	for (var i in usergroup) {
@@ -91,7 +91,7 @@ exports.update = (req, res) => {
 
     UserGroup.updateById(
         req.params.id,
-        new UserGroup(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

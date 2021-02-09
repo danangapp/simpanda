@@ -8,9 +8,9 @@ exports.create = (req, res) => {
         });
     }
 
-    const statusinvestigasiinsiden = new StatusInvestigasiInsiden({
+    var statusinvestigasiinsiden = {
         nama: req.body.nama,
-    });
+    };
 
 	var used = {};
 	for (var i in statusinvestigasiinsiden) {
@@ -78,7 +78,7 @@ exports.update = (req, res) => {
 
     StatusInvestigasiInsiden.updateById(
         req.params.id,
-        new StatusInvestigasiInsiden(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

@@ -8,7 +8,7 @@ exports.create = (req, res) => {
         });
     }
 
-    const armadaschedule = new ArmadaSchedule({
+    var armadaschedule = {
         date: f.toDate(req.body.date),
         cabang: req.body.cabang,
         kategori_armada: req.body.kategori_armada,
@@ -17,7 +17,7 @@ exports.create = (req, res) => {
         jam_pengoperasian: req.body.jam_pengoperasian,
         reliabiliy: req.body.reliabiliy,
         keterangan: req.body.keterangan,
-    });
+    };
 
 	var used = {};
 	for (var i in armadaschedule) {
@@ -86,7 +86,7 @@ exports.update = (req, res) => {
 
     ArmadaSchedule.updateById(
         req.params.id,
-        new ArmadaSchedule(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

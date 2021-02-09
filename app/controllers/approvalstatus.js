@@ -8,9 +8,9 @@ exports.create = (req, res) => {
         });
     }
 
-    const approvalstatus = new ApprovalStatus({
+    var approvalstatus = {
         nama: req.body.nama,
-    });
+    };
 
 	var used = {};
 	for (var i in approvalstatus) {
@@ -78,7 +78,7 @@ exports.update = (req, res) => {
 
     ApprovalStatus.updateById(
         req.params.id,
-        new ApprovalStatus(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

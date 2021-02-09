@@ -8,9 +8,9 @@ exports.create = (req, res) => {
         });
     }
 
-    const tipesaranapemandukapal = new TipeSaranaPemanduKapal({
+    var tipesaranapemandukapal = {
         nama: req.body.nama,
-    });
+    };
 
 	var used = {};
 	for (var i in tipesaranapemandukapal) {
@@ -78,7 +78,7 @@ exports.update = (req, res) => {
 
     TipeSaranaPemanduKapal.updateById(
         req.params.id,
-        new TipeSaranaPemanduKapal(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

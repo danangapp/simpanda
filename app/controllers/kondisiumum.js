@@ -8,9 +8,9 @@ exports.create = (req, res) => {
         });
     }
 
-    const kondisiumum = new KondisiUmum({
+    var kondisiumum = {
         nama: req.body.nama,
-    });
+    };
 
 	var used = {};
 	for (var i in kondisiumum) {
@@ -78,7 +78,7 @@ exports.update = (req, res) => {
 
     KondisiUmum.updateById(
         req.params.id,
-        new KondisiUmum(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

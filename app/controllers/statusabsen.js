@@ -8,9 +8,9 @@ exports.create = (req, res) => {
         });
     }
 
-    const statusabsen = new StatusAbsen({
+    var statusabsen = {
         nama: req.body.nama,
-    });
+    };
 
 	var used = {};
 	for (var i in statusabsen) {
@@ -78,7 +78,7 @@ exports.update = (req, res) => {
 
     StatusAbsen.updateById(
         req.params.id,
-        new StatusAbsen(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

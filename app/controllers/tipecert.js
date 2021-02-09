@@ -8,10 +8,10 @@ exports.create = (req, res) => {
         });
     }
 
-    const tipecert = new TipeCert({
+    var tipecert = {
         nama: req.body.nama,
         remark: req.body.remark,
-    });
+    };
 
 	var used = {};
 	for (var i in tipecert) {
@@ -79,7 +79,7 @@ exports.update = (req, res) => {
 
     TipeCert.updateById(
         req.params.id,
-        new TipeCert(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

@@ -2,6 +2,7 @@ const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
 const f = require('../controllers/function');
+var objek = new Object();
 
 // constructor
 const Cabang = function (cabang) {
@@ -20,7 +21,6 @@ const Cabang = function (cabang) {
 
 Cabang.create = async(newCabang, result) => {
 	try {
-
 		const res = await query("INSERT INTO cabang SET ?", newCabang);
 		result(null, { id: res.insertId, ...newCabang });
 	} catch (error) {
@@ -94,7 +94,6 @@ Cabang.design = result => {
 Cabang.updateById = async(id, cabang, result) => {
 	try {
 
-
 		var str = "", obj = [], no = 1;
 		for (var i in cabang) {
 		    if (cabang[i]) {
@@ -106,6 +105,7 @@ Cabang.updateById = async(id, cabang, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
+		await query("INSERT INTO activity_log SET ?", objek);
 		await query("UPDATE cabang SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...cabang });
 	} catch (error) {

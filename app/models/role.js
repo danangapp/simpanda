@@ -2,6 +2,7 @@ const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
 const f = require('../controllers/function');
+var objek = new Object();
 
 // constructor
 const Role = function (role) {
@@ -10,7 +11,6 @@ const Role = function (role) {
 
 Role.create = async(newRole, result) => {
 	try {
-
 		const res = await query("INSERT INTO role SET ?", newRole);
 		result(null, { id: res.insertId, ...newRole });
 	} catch (error) {
@@ -84,7 +84,6 @@ Role.design = result => {
 Role.updateById = async(id, role, result) => {
 	try {
 
-
 		var str = "", obj = [], no = 1;
 		for (var i in role) {
 		    if (role[i]) {
@@ -96,6 +95,7 @@ Role.updateById = async(id, role, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
+		await query("INSERT INTO activity_log SET ?", objek);
 		await query("UPDATE role SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...role });
 	} catch (error) {

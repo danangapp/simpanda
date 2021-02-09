@@ -8,9 +8,9 @@ exports.create = (req, res) => {
         });
     }
 
-    const action = new Action({
+    var action = {
         nama: req.body.nama,
-    });
+    };
 
 	var used = {};
 	for (var i in action) {
@@ -78,7 +78,7 @@ exports.update = (req, res) => {
 
     Action.updateById(
         req.params.id,
-        new Action(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

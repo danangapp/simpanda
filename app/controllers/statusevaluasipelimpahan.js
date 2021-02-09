@@ -8,9 +8,9 @@ exports.create = (req, res) => {
         });
     }
 
-    const statusevaluasipelimpahan = new StatusEvaluasiPelimpahan({
+    var statusevaluasipelimpahan = {
         nama: req.body.nama,
-    });
+    };
 
 	var used = {};
 	for (var i in statusevaluasipelimpahan) {
@@ -78,7 +78,7 @@ exports.update = (req, res) => {
 
     StatusEvaluasiPelimpahan.updateById(
         req.params.id,
-        new StatusEvaluasiPelimpahan(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

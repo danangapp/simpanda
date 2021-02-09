@@ -2,6 +2,7 @@ const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
 const f = require('../controllers/function');
+var objek = new Object();
 
 // constructor
 const ApprovalStatus = function (approvalstatus) {
@@ -10,7 +11,6 @@ const ApprovalStatus = function (approvalstatus) {
 
 ApprovalStatus.create = async(newApprovalStatus, result) => {
 	try {
-
 		const res = await query("INSERT INTO approval_status SET ?", newApprovalStatus);
 		result(null, { id: res.insertId, ...newApprovalStatus });
 	} catch (error) {
@@ -84,7 +84,6 @@ ApprovalStatus.design = result => {
 ApprovalStatus.updateById = async(id, approvalstatus, result) => {
 	try {
 
-
 		var str = "", obj = [], no = 1;
 		for (var i in approvalstatus) {
 		    if (approvalstatus[i]) {
@@ -96,6 +95,7 @@ ApprovalStatus.updateById = async(id, approvalstatus, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
+		await query("INSERT INTO activity_log SET ?", objek);
 		await query("UPDATE approval_status SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...approvalstatus });
 	} catch (error) {

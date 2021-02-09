@@ -8,9 +8,9 @@ exports.create = (req, res) => {
         });
     }
 
-    const role = new Role({
+    var role = {
         nama: req.body.nama,
-    });
+    };
 
 	var used = {};
 	for (var i in role) {
@@ -78,7 +78,7 @@ exports.update = (req, res) => {
 
     Role.updateById(
         req.params.id,
-        new Role(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

@@ -8,9 +8,9 @@ exports.create = (req, res) => {
         });
     }
 
-    const kondisi = new Kondisi({
+    var kondisi = {
         nama: req.body.nama,
-    });
+    };
 
 	var used = {};
 	for (var i in kondisi) {
@@ -78,7 +78,7 @@ exports.update = (req, res) => {
 
     Kondisi.updateById(
         req.params.id,
-        new Kondisi(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

@@ -8,9 +8,9 @@ exports.create = (req, res) => {
         });
     }
 
-    const statusijazah = new StatusIjazah({
+    var statusijazah = {
         nama: req.body.nama,
-    });
+    };
 
 	var used = {};
 	for (var i in statusijazah) {
@@ -78,7 +78,7 @@ exports.update = (req, res) => {
 
     StatusIjazah.updateById(
         req.params.id,
-        new StatusIjazah(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

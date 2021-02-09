@@ -8,7 +8,7 @@ exports.create = (req, res) => {
         });
     }
 
-    const pemeriksaankapal = new PemeriksaanKapal({
+    var pemeriksaankapal = {
         approval_status_id: req.body.approval_status_id,
         enable: req.body.enable,
         asset_kapal_id: req.body.asset_kapal_id,
@@ -17,7 +17,13 @@ exports.create = (req, res) => {
         tanggal_awal: f.toDate(req.body.tanggal_awal),
         tanggal_akhir: f.toDate(req.body.tanggal_akhir),
         keterangan: req.body.keterangan,
-    });
+        date: f.toDate(req.body.date),
+        item: req.body.item,
+        action: req.body.action,
+        user_id: req.body.user_id,
+        remark: req.body.remark,
+        koneksi: req.body.koneksi,
+    };
 
 	var used = {};
 	for (var i in pemeriksaankapal) {
@@ -87,7 +93,7 @@ exports.update = (req, res) => {
 
     PemeriksaanKapal.updateById(
         req.params.id,
-        new PemeriksaanKapal(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

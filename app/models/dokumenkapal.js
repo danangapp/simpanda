@@ -2,6 +2,7 @@ const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
 const f = require('../controllers/function');
+var objek = new Object();
 
 // constructor
 const DokumenKapal = function (dokumenkapal) {
@@ -10,7 +11,6 @@ const DokumenKapal = function (dokumenkapal) {
 
 DokumenKapal.create = async(newDokumenKapal, result) => {
 	try {
-
 		const res = await query("INSERT INTO dokumen_kapal SET ?", newDokumenKapal);
 		result(null, { id: res.insertId, ...newDokumenKapal });
 	} catch (error) {
@@ -84,7 +84,6 @@ DokumenKapal.design = result => {
 DokumenKapal.updateById = async(id, dokumenkapal, result) => {
 	try {
 
-
 		var str = "", obj = [], no = 1;
 		for (var i in dokumenkapal) {
 		    if (dokumenkapal[i]) {
@@ -96,6 +95,7 @@ DokumenKapal.updateById = async(id, dokumenkapal, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
+		await query("INSERT INTO activity_log SET ?", objek);
 		await query("UPDATE dokumen_kapal SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...dokumenkapal });
 	} catch (error) {

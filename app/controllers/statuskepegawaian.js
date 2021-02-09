@@ -8,9 +8,9 @@ exports.create = (req, res) => {
         });
     }
 
-    const statuskepegawaian = new StatusKepegawaian({
+    var statuskepegawaian = {
         nama: req.body.nama,
-    });
+    };
 
 	var used = {};
 	for (var i in statuskepegawaian) {
@@ -78,7 +78,7 @@ exports.update = (req, res) => {
 
     StatusKepegawaian.updateById(
         req.params.id,
-        new StatusKepegawaian(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

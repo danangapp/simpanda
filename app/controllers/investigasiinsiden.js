@@ -8,7 +8,7 @@ exports.create = (req, res) => {
         });
     }
 
-    const investigasiinsiden = new InvestigasiInsiden({
+    var investigasiinsiden = {
         approval_status_id: req.body.approval_status_id,
         enable: req.body.enable,
         no_report: req.body.no_report,
@@ -53,7 +53,13 @@ exports.create = (req, res) => {
         reviewed_tanggal: f.toDate(req.body.reviewed_tanggal),
         approved_by: req.body.approved_by,
         approved_tanggal: f.toDate(req.body.approved_tanggal),
-    });
+        date: f.toDate(req.body.date),
+        item: req.body.item,
+        action: req.body.action,
+        user_id: req.body.user_id,
+        remark: req.body.remark,
+        koneksi: req.body.koneksi,
+    };
 
 	var used = {};
 	for (var i in investigasiinsiden) {
@@ -124,7 +130,7 @@ exports.update = (req, res) => {
 
     InvestigasiInsiden.updateById(
         req.params.id,
-        new InvestigasiInsiden(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

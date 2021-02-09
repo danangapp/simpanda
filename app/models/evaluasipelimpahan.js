@@ -2,6 +2,7 @@ const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
 const f = require('../controllers/function');
+var objek = new Object();
 
 // constructor
 const EvaluasiPelimpahan = function (evaluasipelimpahan) {
@@ -23,15 +24,13 @@ const EvaluasiPelimpahan = function (evaluasipelimpahan) {
     this.file_sk_pelimpahan = evaluasipelimpahan.file_sk_pelimpahan;
 };
 
-const insertToActivity = async (objects, koneksi = 1) => {
-		var obj = new Object();
-		obj.date = f.toDate(objects.date);
-		obj.item = 'evaluasipelimpahan';
-		obj.action = objects.approval_status_id;
-		obj.user_id = objects.user_id;
-		obj.remark = objects.remark;
-		obj.koneksi = koneksi;
-		await query("INSERT INTO activity_log SET ?", obj);
+const setActivity = (objects, koneksi = 1) => {
+		objek.date = f.toDate(objects.date);
+		objek.item = 'evaluasipelimpahan';
+		objek.action = objects.approval_status_id;
+		objek.user_id = objects.user_id;
+		objek.remark = objects.remark;
+		objek.koneksi = koneksi;
 		delete objects.date;
 		delete objects.item;
 		delete objects.action;
@@ -43,9 +42,10 @@ const insertToActivity = async (objects, koneksi = 1) => {
 
 EvaluasiPelimpahan.create = async(newEvaluasiPelimpahan, result) => {
 	try {
-		newEvaluasiPelimpahan = await insertToActivity(newEvaluasiPelimpahan);
-
+		newEvaluasiPelimpahan = setActivity(newEvaluasiPelimpahan);
 		const res = await query("INSERT INTO evaluasi_pelimpahan SET ?", newEvaluasiPelimpahan);
+		objek.koneksi = res.insertId;
+		await query("INSERT INTO activity_log SET ?", objek);
 		result(null, { id: res.insertId, ...newEvaluasiPelimpahan });
 	} catch (error) {
 	    result(error, null);
@@ -117,8 +117,7 @@ EvaluasiPelimpahan.design = result => {
 
 EvaluasiPelimpahan.updateById = async(id, evaluasipelimpahan, result) => {
 	try {
-		evaluasipelimpahan = await insertToActivity(evaluasipelimpahan);
-
+		evaluasipelimpahan = await setActivity(evaluasipelimpahan, id);
 
 		var str = "", obj = [], no = 1;
 		for (var i in evaluasipelimpahan) {
@@ -131,6 +130,7 @@ EvaluasiPelimpahan.updateById = async(id, evaluasipelimpahan, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
+		await query("INSERT INTO activity_log SET ?", objek);
 		await query("UPDATE evaluasi_pelimpahan SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...evaluasipelimpahan });
 	} catch (error) {

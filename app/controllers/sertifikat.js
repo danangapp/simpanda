@@ -8,7 +8,7 @@ exports.create = (req, res) => {
         });
     }
 
-    const sertifikat = new Sertifikat({
+    var sertifikat = {
         tipe_cert_id: req.body.tipe_cert_id,
         personil_id: req.body.personil_id,
         no_sertifikat: req.body.no_sertifikat,
@@ -19,13 +19,7 @@ exports.create = (req, res) => {
         reminder_date: f.toDate(req.body.reminder_date),
         sertifikat: req.body.sertifikat,
         sertifikat: req.body.sertifikat,
-        date: f.toDate(req.body.date),
-        item: req.body.item,
-        action: req.body.action,
-        user_id: req.body.user_id,
-        remark: req.body.remark,
-        koneksi: req.body.koneksi,
-    });
+    };
 
 	var used = {};
 	for (var i in sertifikat) {
@@ -97,7 +91,7 @@ exports.update = (req, res) => {
 
     Sertifikat.updateById(
         req.params.id,
-        new Sertifikat(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

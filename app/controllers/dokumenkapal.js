@@ -8,9 +8,9 @@ exports.create = (req, res) => {
         });
     }
 
-    const dokumenkapal = new DokumenKapal({
+    var dokumenkapal = {
         nama: req.body.nama,
-    });
+    };
 
 	var used = {};
 	for (var i in dokumenkapal) {
@@ -78,7 +78,7 @@ exports.update = (req, res) => {
 
     DokumenKapal.updateById(
         req.params.id,
-        new DokumenKapal(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

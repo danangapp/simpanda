@@ -8,7 +8,7 @@ exports.create = (req, res) => {
         });
     }
 
-    const assetkapal = new AssetKapal({
+    var assetkapal = {
         simop_kd_fas: req.body.simop_kd_fas,
         kepemilikan_kapal: req.body.kepemilikan_kapal,
         simop_status_milik: req.body.simop_status_milik,
@@ -59,7 +59,7 @@ exports.create = (req, res) => {
         user_id: req.body.user_id,
         remark: req.body.remark,
         koneksi: req.body.koneksi,
-    });
+    };
 
 	var used = {};
 	for (var i in assetkapal) {
@@ -128,7 +128,7 @@ exports.update = (req, res) => {
 
     AssetKapal.updateById(
         req.params.id,
-        new AssetKapal(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

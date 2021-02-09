@@ -2,6 +2,7 @@ const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
 const f = require('../controllers/function');
+var objek = new Object();
 
 // constructor
 const StatusAbsen = function (statusabsen) {
@@ -10,7 +11,6 @@ const StatusAbsen = function (statusabsen) {
 
 StatusAbsen.create = async(newStatusAbsen, result) => {
 	try {
-
 		const res = await query("INSERT INTO status_absen SET ?", newStatusAbsen);
 		result(null, { id: res.insertId, ...newStatusAbsen });
 	} catch (error) {
@@ -84,7 +84,6 @@ StatusAbsen.design = result => {
 StatusAbsen.updateById = async(id, statusabsen, result) => {
 	try {
 
-
 		var str = "", obj = [], no = 1;
 		for (var i in statusabsen) {
 		    if (statusabsen[i]) {
@@ -96,6 +95,7 @@ StatusAbsen.updateById = async(id, statusabsen, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
+		await query("INSERT INTO activity_log SET ?", objek);
 		await query("UPDATE status_absen SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...statusabsen });
 	} catch (error) {

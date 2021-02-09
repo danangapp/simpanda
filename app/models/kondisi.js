@@ -2,6 +2,7 @@ const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
 const f = require('../controllers/function');
+var objek = new Object();
 
 // constructor
 const Kondisi = function (kondisi) {
@@ -10,7 +11,6 @@ const Kondisi = function (kondisi) {
 
 Kondisi.create = async(newKondisi, result) => {
 	try {
-
 		const res = await query("INSERT INTO kondisi SET ?", newKondisi);
 		result(null, { id: res.insertId, ...newKondisi });
 	} catch (error) {
@@ -84,7 +84,6 @@ Kondisi.design = result => {
 Kondisi.updateById = async(id, kondisi, result) => {
 	try {
 
-
 		var str = "", obj = [], no = 1;
 		for (var i in kondisi) {
 		    if (kondisi[i]) {
@@ -96,6 +95,7 @@ Kondisi.updateById = async(id, kondisi, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
+		await query("INSERT INTO activity_log SET ?", objek);
 		await query("UPDATE kondisi SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...kondisi });
 	} catch (error) {

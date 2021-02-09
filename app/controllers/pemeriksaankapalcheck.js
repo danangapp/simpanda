@@ -8,9 +8,9 @@ exports.create = (req, res) => {
         });
     }
 
-    const pemeriksaankapalcheck = new PemeriksaanKapalCheck({
+    var pemeriksaankapalcheck = {
         question: req.body.question,
-    });
+    };
 
 	var used = {};
 	for (var i in pemeriksaankapalcheck) {
@@ -78,7 +78,7 @@ exports.update = (req, res) => {
 
     PemeriksaanKapalCheck.updateById(
         req.params.id,
-        new PemeriksaanKapalCheck(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

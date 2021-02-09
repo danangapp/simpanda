@@ -8,7 +8,7 @@ exports.create = (req, res) => {
         });
     }
 
-    const panduschedule = new PanduSchedule({
+    var panduschedule = {
         date: f.toDate(req.body.date),
         cabang_id: req.body.cabang_id,
         pandu_jaga_id: req.body.pandu_jaga_id,
@@ -17,7 +17,13 @@ exports.create = (req, res) => {
         keterangan: req.body.keterangan,
         approval_status_id: req.body.approval_status_id,
         enable: req.body.enable,
-    });
+        date: f.toDate(req.body.date),
+        item: req.body.item,
+        action: req.body.action,
+        user_id: req.body.user_id,
+        remark: req.body.remark,
+        koneksi: req.body.koneksi,
+    };
 
 	var used = {};
 	for (var i in panduschedule) {
@@ -86,7 +92,7 @@ exports.update = (req, res) => {
 
     PanduSchedule.updateById(
         req.params.id,
-        new PanduSchedule(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

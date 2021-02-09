@@ -8,7 +8,7 @@ exports.create = (req, res) => {
         });
     }
 
-    const assetrumahdinas = new AssetRumahDinas({
+    var assetrumahdinas = {
         nama_assets: req.body.nama_assets,
         satuan: req.body.satuan,
         tahun_perolehan: req.body.tahun_perolehan,
@@ -20,7 +20,13 @@ exports.create = (req, res) => {
         nilai: req.body.nilai,
         catatan: req.body.catatan,
         enable: req.body.enable,
-    });
+        date: f.toDate(req.body.date),
+        item: req.body.item,
+        action: req.body.action,
+        user_id: req.body.user_id,
+        remark: req.body.remark,
+        koneksi: req.body.koneksi,
+    };
 
 	var used = {};
 	for (var i in assetrumahdinas) {
@@ -89,7 +95,7 @@ exports.update = (req, res) => {
 
     AssetRumahDinas.updateById(
         req.params.id,
-        new AssetRumahDinas(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

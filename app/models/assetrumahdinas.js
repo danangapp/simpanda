@@ -2,6 +2,7 @@ const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
 const f = require('../controllers/function');
+var objek = new Object();
 
 // constructor
 const AssetRumahDinas = function (assetrumahdinas) {
@@ -18,15 +19,13 @@ const AssetRumahDinas = function (assetrumahdinas) {
     this.enable = assetrumahdinas.enable;
 };
 
-const insertToActivity = async (objects, koneksi = 1) => {
-		var obj = new Object();
-		obj.date = f.toDate(objects.date);
-		obj.item = 'assetrumahdinas';
-		obj.action = objects.approval_status_id;
-		obj.user_id = objects.user_id;
-		obj.remark = objects.remark;
-		obj.koneksi = koneksi;
-		await query("INSERT INTO activity_log SET ?", obj);
+const setActivity = (objects, koneksi = 1) => {
+		objek.date = f.toDate(objects.date);
+		objek.item = 'assetrumahdinas';
+		objek.action = objects.approval_status_id;
+		objek.user_id = objects.user_id;
+		objek.remark = objects.remark;
+		objek.koneksi = koneksi;
 		delete objects.date;
 		delete objects.item;
 		delete objects.action;
@@ -38,9 +37,10 @@ const insertToActivity = async (objects, koneksi = 1) => {
 
 AssetRumahDinas.create = async(newAssetRumahDinas, result) => {
 	try {
-		newAssetRumahDinas = await insertToActivity(newAssetRumahDinas);
-
+		newAssetRumahDinas = setActivity(newAssetRumahDinas);
 		const res = await query("INSERT INTO asset_rumah_dinas SET ?", newAssetRumahDinas);
+		objek.koneksi = res.insertId;
+		await query("INSERT INTO activity_log SET ?", objek);
 		result(null, { id: res.insertId, ...newAssetRumahDinas });
 	} catch (error) {
 	    result(error, null);
@@ -112,8 +112,7 @@ AssetRumahDinas.design = result => {
 
 AssetRumahDinas.updateById = async(id, assetrumahdinas, result) => {
 	try {
-		assetrumahdinas = await insertToActivity(assetrumahdinas);
-
+		assetrumahdinas = await setActivity(assetrumahdinas, id);
 
 		var str = "", obj = [], no = 1;
 		for (var i in assetrumahdinas) {
@@ -126,6 +125,7 @@ AssetRumahDinas.updateById = async(id, assetrumahdinas, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
+		await query("INSERT INTO activity_log SET ?", objek);
 		await query("UPDATE asset_rumah_dinas SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...assetrumahdinas });
 	} catch (error) {

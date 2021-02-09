@@ -8,7 +8,7 @@ exports.create = (req, res) => {
         });
     }
 
-    const saranabantupemandukapal = new SaranaBantuPemanduKapal({
+    var saranabantupemandukapal = {
         sarana_bantu_pemandu_id: req.body.sarana_bantu_pemandu_id,
         tipe_sarana_pemandu_kapal_id: req.body.tipe_sarana_pemandu_kapal_id,
         dokumen_kapal_q1: req.body.dokumen_kapal_q1,
@@ -76,7 +76,7 @@ exports.create = (req, res) => {
         pemeriksaan_fisik_f2: req.body.pemeriksaan_fisik_f2,
         pemeriksaan_fisik_f3: req.body.pemeriksaan_fisik_f3,
         pemeriksaan_fisik_f4: req.body.pemeriksaan_fisik_f4,
-    });
+    };
 
 	var used = {};
 	for (var i in saranabantupemandukapal) {
@@ -144,7 +144,7 @@ exports.update = (req, res) => {
 
     SaranaBantuPemanduKapal.updateById(
         req.params.id,
-        new SaranaBantuPemanduKapal(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

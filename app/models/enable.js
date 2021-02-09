@@ -2,6 +2,7 @@ const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
 const f = require('../controllers/function');
+var objek = new Object();
 
 // constructor
 const Enable = function (enable) {
@@ -10,7 +11,6 @@ const Enable = function (enable) {
 
 Enable.create = async(newEnable, result) => {
 	try {
-
 		const res = await query("INSERT INTO enable SET ?", newEnable);
 		result(null, { id: res.insertId, ...newEnable });
 	} catch (error) {
@@ -84,7 +84,6 @@ Enable.design = result => {
 Enable.updateById = async(id, enable, result) => {
 	try {
 
-
 		var str = "", obj = [], no = 1;
 		for (var i in enable) {
 		    if (enable[i]) {
@@ -96,6 +95,7 @@ Enable.updateById = async(id, enable, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
+		await query("INSERT INTO activity_log SET ?", objek);
 		await query("UPDATE enable SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...enable });
 	} catch (error) {

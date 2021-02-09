@@ -2,6 +2,7 @@ const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
 const f = require('../controllers/function');
+var objek = new Object();
 
 // constructor
 const SaranaBantuPemandu = function (saranabantupemandu) {
@@ -11,15 +12,13 @@ const SaranaBantuPemandu = function (saranabantupemandu) {
     this.pelaksana = saranabantupemandu.pelaksana;
 };
 
-const insertToActivity = async (objects, koneksi = 1) => {
-		var obj = new Object();
-		obj.date = f.toDate(objects.date);
-		obj.item = 'saranabantupemandu';
-		obj.action = objects.approval_status_id;
-		obj.user_id = objects.user_id;
-		obj.remark = objects.remark;
-		obj.koneksi = koneksi;
-		await query("INSERT INTO activity_log SET ?", obj);
+const setActivity = (objects, koneksi = 1) => {
+		objek.date = f.toDate(objects.date);
+		objek.item = 'saranabantupemandu';
+		objek.action = objects.approval_status_id;
+		objek.user_id = objects.user_id;
+		objek.remark = objects.remark;
+		objek.koneksi = koneksi;
 		delete objects.date;
 		delete objects.item;
 		delete objects.action;
@@ -31,9 +30,10 @@ const insertToActivity = async (objects, koneksi = 1) => {
 
 SaranaBantuPemandu.create = async(newSaranaBantuPemandu, result) => {
 	try {
-		newSaranaBantuPemandu = await insertToActivity(newSaranaBantuPemandu);
-
+		newSaranaBantuPemandu = setActivity(newSaranaBantuPemandu);
 		const res = await query("INSERT INTO sarana_bantu_pemandu SET ?", newSaranaBantuPemandu);
+		objek.koneksi = res.insertId;
+		await query("INSERT INTO activity_log SET ?", objek);
 		result(null, { id: res.insertId, ...newSaranaBantuPemandu });
 	} catch (error) {
 	    result(error, null);
@@ -105,8 +105,7 @@ SaranaBantuPemandu.design = result => {
 
 SaranaBantuPemandu.updateById = async(id, saranabantupemandu, result) => {
 	try {
-		saranabantupemandu = await insertToActivity(saranabantupemandu);
-
+		saranabantupemandu = await setActivity(saranabantupemandu, id);
 
 		var str = "", obj = [], no = 1;
 		for (var i in saranabantupemandu) {
@@ -119,6 +118,7 @@ SaranaBantuPemandu.updateById = async(id, saranabantupemandu, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
+		await query("INSERT INTO activity_log SET ?", objek);
 		await query("UPDATE sarana_bantu_pemandu SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...saranabantupemandu });
 	} catch (error) {

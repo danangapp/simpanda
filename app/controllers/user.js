@@ -8,13 +8,13 @@ exports.create = (req, res) => {
         });
     }
 
-    const user = new User({
+    var user = {
         username: req.body.username,
         nama: req.body.nama,
         password: req.body.password,
         user_group_id: req.body.user_group_id,
         role_id: req.body.role_id,
-    });
+    };
 
 	var used = {};
 	for (var i in user) {
@@ -82,7 +82,7 @@ exports.update = (req, res) => {
 
     User.updateById(
         req.params.id,
-        new User(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

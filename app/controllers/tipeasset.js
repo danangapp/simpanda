@@ -8,9 +8,9 @@ exports.create = (req, res) => {
         });
     }
 
-    const tipeasset = new TipeAsset({
+    var tipeasset = {
         nama: req.body.nama,
-    });
+    };
 
 	var used = {};
 	for (var i in tipeasset) {
@@ -78,7 +78,7 @@ exports.update = (req, res) => {
 
     TipeAsset.updateById(
         req.params.id,
-        new TipeAsset(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

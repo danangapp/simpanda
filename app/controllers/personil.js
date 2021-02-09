@@ -8,7 +8,7 @@ exports.create = (req, res) => {
         });
     }
 
-    const personil = new Personil({
+    var personil = {
         tipe_personil_id: req.body.tipe_personil_id,
         approval_status_id: req.body.approval_status_id,
         simop_kd_pers_pandu: req.body.simop_kd_pers_pandu,
@@ -37,7 +37,7 @@ exports.create = (req, res) => {
         user_id: req.body.user_id,
         remark: req.body.remark,
         koneksi: req.body.koneksi,
-    });
+    };
 
 	var used = {};
 	for (var i in personil) {
@@ -109,7 +109,7 @@ exports.update = (req, res) => {
 
     Personil.updateById(
         req.params.id,
-        new Personil(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

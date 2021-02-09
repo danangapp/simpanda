@@ -8,9 +8,9 @@ exports.create = (req, res) => {
         });
     }
 
-    const tipepersonil = new TipePersonil({
+    var tipepersonil = {
         nama: req.body.nama,
-    });
+    };
 
 	var used = {};
 	for (var i in tipepersonil) {
@@ -78,7 +78,7 @@ exports.update = (req, res) => {
 
     TipePersonil.updateById(
         req.params.id,
-        new TipePersonil(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

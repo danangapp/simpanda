@@ -8,9 +8,9 @@ exports.create = (req, res) => {
         });
     }
 
-    const enable = new Enable({
+    var enable = {
         nama: req.body.nama,
-    });
+    };
 
 	var used = {};
 	for (var i in enable) {
@@ -78,7 +78,7 @@ exports.update = (req, res) => {
 
     Enable.updateById(
         req.params.id,
-        new Enable(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

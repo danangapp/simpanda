@@ -8,9 +8,9 @@ exports.create = (req, res) => {
         });
     }
 
-    const tipestasiun = new TipeStasiun({
+    var tipestasiun = {
         nama: req.body.nama,
-    });
+    };
 
 	var used = {};
 	for (var i in tipestasiun) {
@@ -78,7 +78,7 @@ exports.update = (req, res) => {
 
     TipeStasiun.updateById(
         req.params.id,
-        new TipeStasiun(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

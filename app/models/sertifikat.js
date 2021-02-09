@@ -2,6 +2,7 @@ const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
 const f = require('../controllers/function');
+var objek = new Object();
 
 // constructor
 const Sertifikat = function (sertifikat) {
@@ -41,7 +42,6 @@ Sertifikat.create = async(newSertifikat, result) => {
 		}
 
 		delete newSertifikat.sertifikat;
-
 		const res = await query("INSERT INTO sertifikat SET ?", newSertifikat);
 		result(null, { id: res.insertId, ...newSertifikat });
 	} catch (error) {
@@ -132,7 +132,6 @@ Sertifikat.updateById = async(id, sertifikat, result) => {
 		}
 		delete sertifikat.sertifikat;
 
-
 		var str = "", obj = [], no = 1;
 		for (var i in sertifikat) {
 		    if (sertifikat[i]) {
@@ -144,6 +143,7 @@ Sertifikat.updateById = async(id, sertifikat, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
+		await query("INSERT INTO activity_log SET ?", objek);
 		await query("UPDATE sertifikat SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...sertifikat });
 	} catch (error) {

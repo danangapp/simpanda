@@ -2,6 +2,7 @@ const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
 const f = require('../controllers/function');
+var objek = new Object();
 
 // constructor
 const Action = function (action) {
@@ -10,7 +11,6 @@ const Action = function (action) {
 
 Action.create = async(newAction, result) => {
 	try {
-
 		const res = await query("INSERT INTO action SET ?", newAction);
 		result(null, { id: res.insertId, ...newAction });
 	} catch (error) {
@@ -84,7 +84,6 @@ Action.design = result => {
 Action.updateById = async(id, action, result) => {
 	try {
 
-
 		var str = "", obj = [], no = 1;
 		for (var i in action) {
 		    if (action[i]) {
@@ -96,6 +95,7 @@ Action.updateById = async(id, action, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
+		await query("INSERT INTO activity_log SET ?", objek);
 		await query("UPDATE action SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...action });
 	} catch (error) {

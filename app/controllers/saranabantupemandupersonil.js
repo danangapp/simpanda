@@ -8,13 +8,13 @@ exports.create = (req, res) => {
         });
     }
 
-    const saranabantupemandupersonil = new SaranaBantuPemanduPersonil({
+    var saranabantupemandupersonil = {
         sarana_bantu_pemandu_id: req.body.sarana_bantu_pemandu_id,
         nama: req.body.nama,
         jabatan: req.body.jabatan,
         asset_kapal_id: req.body.asset_kapal_id,
         status_ijazah_id: req.body.status_ijazah_id,
-    });
+    };
 
 	var used = {};
 	for (var i in saranabantupemandupersonil) {
@@ -82,7 +82,7 @@ exports.update = (req, res) => {
 
     SaranaBantuPemanduPersonil.updateById(
         req.params.id,
-        new SaranaBantuPemanduPersonil(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

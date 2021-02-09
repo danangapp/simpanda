@@ -8,7 +8,7 @@ exports.create = (req, res) => {
         });
     }
 
-    const assetstasiunequipment = new AssetStasiunEquipment({
+    var assetstasiunequipment = {
         nomor_asset: req.body.nomor_asset,
         tipe_stasiun_id: req.body.tipe_stasiun_id,
         nama: req.body.nama,
@@ -17,7 +17,13 @@ exports.create = (req, res) => {
         kondisi: req.body.kondisi,
         approval_status_id: req.body.approval_status_id,
         enable: req.body.enable,
-    });
+        date: f.toDate(req.body.date),
+        item: req.body.item,
+        action: req.body.action,
+        user_id: req.body.user_id,
+        remark: req.body.remark,
+        koneksi: req.body.koneksi,
+    };
 
 	var used = {};
 	for (var i in assetstasiunequipment) {
@@ -85,7 +91,7 @@ exports.update = (req, res) => {
 
     AssetStasiunEquipment.updateById(
         req.params.id,
-        new AssetStasiunEquipment(req.body),
+        req.body,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

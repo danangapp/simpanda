@@ -31,7 +31,7 @@ exports.create = (req, res) => {
         skpp: req.body.skpp,
         surat_kesehatan: req.body.surat_kesehatan,
         sertifikat: req.body.sertifikat,
-        date: f.toDate(req.body.date),
+        date: req.body.date,
         item: req.body.item,
         action: req.body.action,
         user_id: req.body.user_id,
@@ -105,7 +105,6 @@ exports.update = (req, res) => {
 	req.body.tanggal_lahir = f.toDate(req.body.tanggal_lahir);
 	req.body.tanggal_mulai = f.toDate(req.body.tanggal_mulai);
 	req.body.tanggal_selesai = f.toDate(req.body.tanggal_selesai);
-	req.body.date = f.toDate(req.body.date);
 
     Personil.updateById(
         req.params.id,

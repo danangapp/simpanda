@@ -53,7 +53,7 @@ exports.create = (req, res) => {
         kecepatan: req.body.kecepatan,
         ship_particular: req.body.ship_particular,
         sertifikat: req.body.sertifikat,
-        date: f.toDate(req.body.date),
+        date: req.body.date,
         item: req.body.item,
         action: req.body.action,
         user_id: req.body.user_id,
@@ -124,7 +124,6 @@ exports.update = (req, res) => {
         });
     }
 
-	req.body.date = f.toDate(req.body.date);
 
     AssetKapal.updateById(
         req.params.id,

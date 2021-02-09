@@ -1,4 +1,5 @@
 const InvestigasiInsiden = require("../models/investigasiinsiden.js");
+const f = require('../controllers/function');
 
 exports.create = (req, res) => {
     if (!req.body) {
@@ -46,11 +47,11 @@ exports.create = (req, res) => {
         jabatan: req.body.jabatan,
         status_investigasi_insiden_id: req.body.status_investigasi_insiden_id,
         prepard_by: req.body.prepard_by,
-        prepard_tanggal: req.body.prepard_tanggal,
+        prepard_tanggal: f.toDate(req.body.prepard_tanggal),
         reviewed_by: req.body.reviewed_by,
-        reviewed_tanggal: req.body.reviewed_tanggal,
+        reviewed_tanggal: f.toDate(req.body.reviewed_tanggal),
         approved_by: req.body.approved_by,
-        approved_tanggal: req.body.approved_tanggal,
+        approved_tanggal: f.toDate(req.body.approved_tanggal),
     });
 
 	var used = {};
@@ -116,6 +117,9 @@ exports.update = (req, res) => {
         });
     }
 
+	req.body.prepard_tanggal = f.toDate(req.body.prepard_tanggal);
+	req.body.reviewed_tanggal = f.toDate(req.body.reviewed_tanggal);
+	req.body.approved_tanggal = f.toDate(req.body.approved_tanggal);
 
     InvestigasiInsiden.updateById(
         req.params.id,

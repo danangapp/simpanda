@@ -1,4 +1,5 @@
 const SaranaBantuPemandu = require("../models/saranabantupemandu.js");
+const f = require('../controllers/function');
 
 exports.create = (req, res) => {
     if (!req.body) {
@@ -10,7 +11,7 @@ exports.create = (req, res) => {
     const saranabantupemandu = new SaranaBantuPemandu({
         approval_status_id: req.body.approval_status_id,
         cabang_id: req.body.cabang_id,
-        tanggal_pemeriksaan: req.body.tanggal_pemeriksaan,
+        tanggal_pemeriksaan: f.toDate(req.body.tanggal_pemeriksaan),
         pelaksana: req.body.pelaksana,
     });
 
@@ -77,6 +78,7 @@ exports.update = (req, res) => {
         });
     }
 
+	req.body.tanggal_pemeriksaan = f.toDate(req.body.tanggal_pemeriksaan);
 
     SaranaBantuPemandu.updateById(
         req.params.id,

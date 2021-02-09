@@ -1,4 +1,5 @@
 const KondisiUmum = require("../models/kondisiumum.js");
+const f = require('../controllers/function');
 
 exports.create = (req, res) => {
     if (!req.body) {

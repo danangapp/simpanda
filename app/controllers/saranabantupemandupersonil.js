@@ -1,4 +1,5 @@
 const SaranaBantuPemanduPersonil = require("../models/saranabantupemandupersonil.js");
+const f = require('../controllers/function');
 
 exports.create = (req, res) => {
     if (!req.body) {

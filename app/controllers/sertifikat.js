@@ -1,4 +1,5 @@
 const Sertifikat = require("../models/sertifikat.js");
+const f = require('../controllers/function');
 
 exports.create = (req, res) => {
     if (!req.body) {
@@ -13,9 +14,9 @@ exports.create = (req, res) => {
         no_sertifikat: req.body.no_sertifikat,
         issuer: req.body.issuer,
         tempat_keluar_sertifikat: req.body.tempat_keluar_sertifikat,
-        tanggal_keluar_sertifikat: req.body.tanggal_keluar_sertifikat,
-        tanggal_expire: req.body.tanggal_expire,
-        reminder_date: req.body.reminder_date,
+        tanggal_keluar_sertifikat: f.toDate(req.body.tanggal_keluar_sertifikat),
+        tanggal_expire: f.toDate(req.body.tanggal_expire),
+        reminder_date: f.toDate(req.body.reminder_date),
         sertifikat: req.body.sertifikat,
         sertifikat: req.body.sertifikat,
         date: req.body.date,
@@ -89,6 +90,9 @@ exports.update = (req, res) => {
         });
     }
 
+	req.body.tanggal_keluar_sertifikat = f.toDate(req.body.tanggal_keluar_sertifikat);
+	req.body.tanggal_expire = f.toDate(req.body.tanggal_expire);
+	req.body.reminder_date = f.toDate(req.body.reminder_date);
 
     Sertifikat.updateById(
         req.params.id,

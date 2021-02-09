@@ -1,4 +1,5 @@
 const PemeriksaanKapalCheck = require("../models/pemeriksaankapalcheck.js");
+const f = require('../controllers/function');
 
 exports.create = (req, res) => {
     if (!req.body) {

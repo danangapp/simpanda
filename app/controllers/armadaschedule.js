@@ -1,4 +1,5 @@
 const ArmadaSchedule = require("../models/armadaschedule.js");
+const f = require('../controllers/function');
 
 exports.create = (req, res) => {
     if (!req.body) {
@@ -8,7 +9,7 @@ exports.create = (req, res) => {
     }
 
     const armadaschedule = new ArmadaSchedule({
-        date: req.body.date,
+        date: f.toDate(req.body.date),
         cabang: req.body.cabang,
         kategori_armada: req.body.kategori_armada,
         armada_id: req.body.armada_id,
@@ -81,6 +82,7 @@ exports.update = (req, res) => {
         });
     }
 
+	req.body.date = f.toDate(req.body.date);
 
     ArmadaSchedule.updateById(
         req.params.id,

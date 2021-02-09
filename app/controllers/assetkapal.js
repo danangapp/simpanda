@@ -1,4 +1,5 @@
 const AssetKapal = require("../models/assetkapal.js");
+const f = require('../controllers/function');
 
 exports.create = (req, res) => {
     if (!req.body) {

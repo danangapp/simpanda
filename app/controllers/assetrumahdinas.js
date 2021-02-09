@@ -1,4 +1,5 @@
 const AssetRumahDinas = require("../models/assetrumahdinas.js");
+const f = require('../controllers/function');
 
 exports.create = (req, res) => {
     if (!req.body) {
@@ -15,7 +16,7 @@ exports.create = (req, res) => {
         wilayah: req.body.wilayah,
         nilai_buku: req.body.nilai_buku,
         approval_status_id: req.body.approval_status_id,
-        tanggal: req.body.tanggal,
+        tanggal: f.toDate(req.body.tanggal),
         nilai: req.body.nilai,
         catatan: req.body.catatan,
         enable: req.body.enable,
@@ -84,6 +85,7 @@ exports.update = (req, res) => {
         });
     }
 
+	req.body.tanggal = f.toDate(req.body.tanggal);
 
     AssetRumahDinas.updateById(
         req.params.id,

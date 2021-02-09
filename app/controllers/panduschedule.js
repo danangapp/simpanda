@@ -1,4 +1,5 @@
 const PanduSchedule = require("../models/panduschedule.js");
+const f = require('../controllers/function');
 
 exports.create = (req, res) => {
     if (!req.body) {
@@ -8,7 +9,7 @@ exports.create = (req, res) => {
     }
 
     const panduschedule = new PanduSchedule({
-        date: req.body.date,
+        date: f.toDate(req.body.date),
         cabang_id: req.body.cabang_id,
         pandu_jaga_id: req.body.pandu_jaga_id,
         pandu_jaga_nama: req.body.pandu_jaga_nama,
@@ -81,6 +82,7 @@ exports.update = (req, res) => {
         });
     }
 
+	req.body.date = f.toDate(req.body.date);
 
     PanduSchedule.updateById(
         req.params.id,

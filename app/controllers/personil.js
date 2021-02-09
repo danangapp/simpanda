@@ -1,4 +1,5 @@
 const Personil = require("../models/personil.js");
+const f = require('../controllers/function');
 
 exports.create = (req, res) => {
     if (!req.body) {
@@ -17,15 +18,15 @@ exports.create = (req, res) => {
         nama: req.body.nama,
         kelas: req.body.kelas,
         tempat_lahir: req.body.tempat_lahir,
-        tanggal_lahir: req.body.tanggal_lahir,
+        tanggal_lahir: f.toDate(req.body.tanggal_lahir),
         nipp: req.body.nipp,
         jabatan: req.body.jabatan,
         status_kepegawaian_id: req.body.status_kepegawaian_id,
         cv: req.body.cv,
         tempat_tugas: req.body.tempat_tugas,
         nomor_sk: req.body.nomor_sk,
-        tanggal_mulai: req.body.tanggal_mulai,
-        tanggal_selesai: req.body.tanggal_selesai,
+        tanggal_mulai: f.toDate(req.body.tanggal_mulai),
+        tanggal_selesai: f.toDate(req.body.tanggal_selesai),
         sk: req.body.sk,
         skpp: req.body.skpp,
         surat_kesehatan: req.body.surat_kesehatan,
@@ -101,6 +102,9 @@ exports.update = (req, res) => {
         });
     }
 
+	req.body.tanggal_lahir = f.toDate(req.body.tanggal_lahir);
+	req.body.tanggal_mulai = f.toDate(req.body.tanggal_mulai);
+	req.body.tanggal_selesai = f.toDate(req.body.tanggal_selesai);
 
     Personil.updateById(
         req.params.id,

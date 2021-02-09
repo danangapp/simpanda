@@ -1,4 +1,5 @@
 const StatusAbsen = require("../models/statusabsen.js");
+const f = require('../controllers/function');
 
 exports.create = (req, res) => {
     if (!req.body) {

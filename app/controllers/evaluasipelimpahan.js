@@ -1,4 +1,5 @@
 const EvaluasiPelimpahan = require("../models/evaluasipelimpahan.js");
+const f = require('../controllers/function');
 
 exports.create = (req, res) => {
     if (!req.body) {
@@ -21,7 +22,7 @@ exports.create = (req, res) => {
         tarif_jasa_pandu_tunda: req.body.tarif_jasa_pandu_tunda,
         data_dukung: req.body.data_dukung,
         dile_pendukung: req.body.dile_pendukung,
-        tanggal_sk: req.body.tanggal_sk,
+        tanggal_sk: f.toDate(req.body.tanggal_sk),
         file_sk_pelimpahan: req.body.file_sk_pelimpahan,
     });
 
@@ -88,6 +89,7 @@ exports.update = (req, res) => {
         });
     }
 
+	req.body.tanggal_sk = f.toDate(req.body.tanggal_sk);
 
     EvaluasiPelimpahan.updateById(
         req.params.id,

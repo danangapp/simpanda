@@ -1,4 +1,5 @@
 const Kondisi = require("../models/kondisi.js");
+const f = require('../controllers/function');
 
 exports.create = (req, res) => {
     if (!req.body) {

@@ -9,7 +9,7 @@ const PemeriksaanKapal = function (pemeriksaankapal) {
     this.approval_status_id = pemeriksaankapal.approval_status_id;
     this.enable = pemeriksaankapal.enable;
     this.asset_kapal_id = pemeriksaankapal.asset_kapal_id;
-    this.cabang = pemeriksaankapal.cabang;
+    this.cabang_id = pemeriksaankapal.cabang_id;
     this.kondisi_id = pemeriksaankapal.kondisi_id;
     this.tanggal_awal = pemeriksaankapal.tanggal_awal;
     this.tanggal_akhir = pemeriksaankapal.tanggal_akhir;
@@ -35,7 +35,16 @@ const setActivity = (objects, koneksi = 1) => {
 PemeriksaanKapal.create = async(newPemeriksaanKapal, result) => {
 	try {
 		newPemeriksaanKapal = setActivity(newPemeriksaanKapal);
-		const res = await query("INSERT INTO pemeriksaan_kapal SET ?", newPemeriksaanKapal);
+
+		var check = newPemeriksaanKapal.check;
+		for (var i in check) {
+		    const kondisi_id = check[i].kondisi_id;
+		    const tanggal_awal = f.toDate(check[i].tanggal_awal);
+		    const tanggal_akhir = f.toDate(check[i].tanggal_akhir);
+		    const keterangan = check[i].keterangan;
+		    res = await query("INSERT INTO pemeriksaan_kapal (asset_kapal_id, cabang_id, kondisi_id, tanggal_awal, tanggal_akhir, keterangan) VALUES (1, 1, " + kondisi_id + ", '" + tanggal_awal + "', '" + tanggal_akhir + "', '" + keterangan + "')");
+		}
+
 		objek.koneksi = res.insertId;
 		await query("INSERT INTO activity_log SET ?", objek);
 		result(null, { id: res.insertId, ...newPemeriksaanKapal });
@@ -64,7 +73,7 @@ PemeriksaanKapal.findById = (id, result) => {
 
 PemeriksaanKapal.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.* , a1.nama as approval_status, a2.nama as ena, a3.nama_asset as asset_kapal, a4.nama as kondisi FROM pemeriksaan_kapal a LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN asset_kapal a3 ON a.asset_kapal_id = a3.id  LEFT JOIN kondisi a4 ON a.kondisi_id = a4.id ";
+    var query = "SELECT a.* , a1.nama as approval_status, a2.nama as ena, a3.nama_asset as asset_kapal, a4.nama as cabang, a5.nama as kondisi FROM pemeriksaan_kapal a LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN asset_kapal a3 ON a.asset_kapal_id = a3.id  LEFT JOIN cabang a4 ON a.cabang_id = a4.id  LEFT JOIN kondisi a5 ON a.kondisi_id = a5.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

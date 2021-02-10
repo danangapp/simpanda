@@ -12,7 +12,7 @@ exports.create = (req, res) => {
         approval_status_id: req.body.approval_status_id,
         enable: req.body.enable,
         asset_kapal_id: req.body.asset_kapal_id,
-        cabang: req.body.cabang,
+        cabang_id: req.body.cabang_id,
         kondisi_id: req.body.kondisi_id,
         tanggal_awal: f.toDate(req.body.tanggal_awal),
         tanggal_akhir: f.toDate(req.body.tanggal_akhir),
@@ -23,6 +23,7 @@ exports.create = (req, res) => {
         user_id: req.body.user_id,
         remark: req.body.remark,
         koneksi: req.body.koneksi,
+        check: req.body.check,
     };
 
 	var used = {};

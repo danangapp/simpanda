@@ -13,7 +13,7 @@ exports.create = (req, res) => {
         kepemilikan_kapal: req.body.kepemilikan_kapal,
         simop_status_milik: req.body.simop_status_milik,
         simop_kd_agen: req.body.simop_kd_agen,
-        tipe_asset_id: req.body.tipe_asset_id,
+        jenis_kapal: req.body.jenis_kapal,
         nama_asset: req.body.nama_asset,
         horse_power: req.body.horse_power,
         tahun_perolehan: req.body.tahun_perolehan,

@@ -10,7 +10,7 @@ const AssetKapal = function (assetkapal) {
     this.kepemilikan_kapal = assetkapal.kepemilikan_kapal;
     this.simop_status_milik = assetkapal.simop_status_milik;
     this.simop_kd_agen = assetkapal.simop_kd_agen;
-    this.tipe_asset_id = assetkapal.tipe_asset_id;
+    this.jenis_kapal = assetkapal.jenis_kapal;
     this.nama_asset = assetkapal.nama_asset;
     this.horse_power = assetkapal.horse_power;
     this.tahun_perolehan = assetkapal.tahun_perolehan;
@@ -122,7 +122,7 @@ AssetKapal.findById = (id, result) => {
 
 AssetKapal.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.* , a1.nama as tipe_asset, a2.nama as ena, a3.nama as approval_status FROM asset_kapal a LEFT JOIN tipe_asset a1 ON a.tipe_asset_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN approval_status a3 ON a.approval_status_id = a3.id ";
+    var query = "SELECT a.* , a1.nama as tipe_asset, a2.nama as ena, a3.nama as approval_status FROM asset_kapal a LEFT JOIN tipe_asset a1 ON a.jenis_kapal = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN approval_status a3 ON a.approval_status_id = a3.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

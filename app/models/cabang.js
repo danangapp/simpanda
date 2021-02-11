@@ -13,7 +13,7 @@ const Cabang = function (cabang) {
     this.nm_cabang_3digit = cabang.nm_cabang_3digit;
     this.kd_account_cabang = cabang.kd_account_cabang;
     this.kd_cabang_jai_puspel = cabang.kd_cabang_jai_puspel;
-    this.org_id = cabang.org_id;
+    this.orgid = cabang.orgid;
     this.port_code = cabang.port_code;
     this.autospk = cabang.autospk;
     this.kd_jenis_pelabuhan = cabang.kd_jenis_pelabuhan;
@@ -48,7 +48,7 @@ Cabang.findById = (id, result) => {
 
 Cabang.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.* , a1.nama as org FROM cabang a LEFT JOIN org a1 ON a.org_id = a1.id ";
+    var query = "SELECT a.*  FROM cabang a";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

@@ -16,7 +16,7 @@ exports.create = (req, res) => {
         nm_cabang_3digit: req.body.nm_cabang_3digit,
         kd_account_cabang: req.body.kd_account_cabang,
         kd_cabang_jai_puspel: req.body.kd_cabang_jai_puspel,
-        org_id: req.body.org_id,
+        orgid: req.body.orgid,
         port_code: req.body.port_code,
         autospk: req.body.autospk,
         kd_jenis_pelabuhan: req.body.kd_jenis_pelabuhan,

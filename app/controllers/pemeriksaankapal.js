@@ -13,10 +13,6 @@ exports.create = (req, res) => {
         enable: req.body.enable,
         asset_kapal_id: req.body.asset_kapal_id,
         cabang_id: req.body.cabang_id,
-        kondisi_id: req.body.kondisi_id,
-        tanggal_awal: f.toDate(req.body.tanggal_awal),
-        tanggal_akhir: f.toDate(req.body.tanggal_akhir),
-        keterangan: req.body.keterangan,
         date: f.toDate(req.body.date),
         item: req.body.item,
         action: req.body.action,
@@ -89,8 +85,6 @@ exports.update = (req, res) => {
         });
     }
 
-	req.body.tanggal_awal = f.toDate(req.body.tanggal_awal);
-	req.body.tanggal_akhir = f.toDate(req.body.tanggal_akhir);
 
     PemeriksaanKapal.updateById(
         req.params.id,

@@ -10,10 +10,6 @@ const PemeriksaanKapal = function (pemeriksaankapal) {
     this.enable = pemeriksaankapal.enable;
     this.asset_kapal_id = pemeriksaankapal.asset_kapal_id;
     this.cabang_id = pemeriksaankapal.cabang_id;
-    this.kondisi_id = pemeriksaankapal.kondisi_id;
-    this.tanggal_awal = pemeriksaankapal.tanggal_awal;
-    this.tanggal_akhir = pemeriksaankapal.tanggal_akhir;
-    this.keterangan = pemeriksaankapal.keterangan;
 };
 
 const setActivity = (objects, koneksi = 1) => {
@@ -73,7 +69,7 @@ PemeriksaanKapal.findById = (id, result) => {
 
 PemeriksaanKapal.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.* , a1.nama as approval_status, a2.nama as ena, a3.nama_asset as asset_kapal, a4.nama as cabang, a5.nama as kondisi FROM pemeriksaan_kapal a LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN asset_kapal a3 ON a.asset_kapal_id = a3.id  LEFT JOIN cabang a4 ON a.cabang_id = a4.id  LEFT JOIN kondisi a5 ON a.kondisi_id = a5.id ";
+    var query = "SELECT a.* , a1.nama as approval_status, a2.nama as ena, a3.nama_asset as asset_kapal, a4.nama as cabang FROM pemeriksaan_kapal a LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN asset_kapal a3 ON a.asset_kapal_id = a3.id  LEFT JOIN cabang a4 ON a.cabang_id = a4.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

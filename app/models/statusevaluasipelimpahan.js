@@ -19,7 +19,7 @@ StatusEvaluasiPelimpahan.create = async(newStatusEvaluasiPelimpahan, result) => 
 };
 
 StatusEvaluasiPelimpahan.findById = (id, result) => {
-    sql.query(`SELECT * FROM status_evaluasi_pelimpahan WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.*  FROM status_evaluasi_pelimpahan a  WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -38,7 +38,7 @@ StatusEvaluasiPelimpahan.findById = (id, result) => {
 
 StatusEvaluasiPelimpahan.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.*  FROM status_evaluasi_pelimpahan a";
+    var query = "SELECT a.*  FROM status_evaluasi_pelimpahan a ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

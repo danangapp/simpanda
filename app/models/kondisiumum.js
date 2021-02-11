@@ -19,7 +19,7 @@ KondisiUmum.create = async(newKondisiUmum, result) => {
 };
 
 KondisiUmum.findById = (id, result) => {
-    sql.query(`SELECT * FROM kondisi_umum WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.*  FROM kondisi_umum a  WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -38,7 +38,7 @@ KondisiUmum.findById = (id, result) => {
 
 KondisiUmum.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.*  FROM kondisi_umum a";
+    var query = "SELECT a.*  FROM kondisi_umum a ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

@@ -19,7 +19,7 @@ Action.create = async(newAction, result) => {
 };
 
 Action.findById = (id, result) => {
-    sql.query(`SELECT * FROM action WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.*  FROM action a  WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -38,7 +38,7 @@ Action.findById = (id, result) => {
 
 Action.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.*  FROM action a";
+    var query = "SELECT a.*  FROM action a ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

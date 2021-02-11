@@ -20,7 +20,7 @@ TipeCert.create = async(newTipeCert, result) => {
 };
 
 TipeCert.findById = (id, result) => {
-    sql.query(`SELECT * FROM tipe_cert WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.*  FROM tipe_cert a  WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -39,7 +39,7 @@ TipeCert.findById = (id, result) => {
 
 TipeCert.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.*  FROM tipe_cert a";
+    var query = "SELECT a.*  FROM tipe_cert a ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

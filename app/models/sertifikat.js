@@ -50,7 +50,7 @@ Sertifikat.create = async(newSertifikat, result) => {
 };
 
 Sertifikat.findById = (id, result) => {
-    sql.query(`SELECT * FROM sertifikat WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* , a1.nama as tipe_cert, a2.nama as personil FROM sertifikat a  LEFT JOIN tipe_cert a1 ON a.tipe_cert_id = a1.id  LEFT JOIN personil a2 ON a.personil_id = a2.id  WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -69,7 +69,7 @@ Sertifikat.findById = (id, result) => {
 
 Sertifikat.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.* , a1.nama as tipe_cert, a2.nama as personil FROM sertifikat a LEFT JOIN tipe_cert a1 ON a.tipe_cert_id = a1.id  LEFT JOIN personil a2 ON a.personil_id = a2.id ";
+    var query = "SELECT a.* , a1.nama as tipe_cert, a2.nama as personil FROM sertifikat a  LEFT JOIN tipe_cert a1 ON a.tipe_cert_id = a1.id  LEFT JOIN personil a2 ON a.personil_id = a2.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

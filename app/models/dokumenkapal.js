@@ -19,7 +19,7 @@ DokumenKapal.create = async(newDokumenKapal, result) => {
 };
 
 DokumenKapal.findById = (id, result) => {
-    sql.query(`SELECT * FROM dokumen_kapal WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.*  FROM dokumen_kapal a  WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -38,7 +38,7 @@ DokumenKapal.findById = (id, result) => {
 
 DokumenKapal.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.*  FROM dokumen_kapal a";
+    var query = "SELECT a.*  FROM dokumen_kapal a ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

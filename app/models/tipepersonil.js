@@ -19,7 +19,7 @@ TipePersonil.create = async(newTipePersonil, result) => {
 };
 
 TipePersonil.findById = (id, result) => {
-    sql.query(`SELECT * FROM tipe_personil WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.*  FROM tipe_personil a  WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -38,7 +38,7 @@ TipePersonil.findById = (id, result) => {
 
 TipePersonil.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.*  FROM tipe_personil a";
+    var query = "SELECT a.*  FROM tipe_personil a ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

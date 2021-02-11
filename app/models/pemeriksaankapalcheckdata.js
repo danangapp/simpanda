@@ -24,7 +24,7 @@ PemeriksaanKapalCheckData.create = async(newPemeriksaanKapalCheckData, result) =
 };
 
 PemeriksaanKapalCheckData.findById = (id, result) => {
-    sql.query(`SELECT * FROM pemeriksaan_kapal_check_data WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* , a1.nama as kondisi, a2.nama as pemeriksaan_kapal, a3.nama as pemeriksaan_kapal_check FROM pemeriksaan_kapal_check_data a  LEFT JOIN kondisi a1 ON a.kondisi_id = a1.id  LEFT JOIN pemeriksaan_kapal a2 ON a.pemeriksaan_kapal_id = a2.id  LEFT JOIN pemeriksaan_kapal_check a3 ON a.pemeriksaan_kapal_check_id = a3.id  WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -43,7 +43,7 @@ PemeriksaanKapalCheckData.findById = (id, result) => {
 
 PemeriksaanKapalCheckData.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.* , a1.nama as kondisi, a2.nama as pemeriksaan_kapal, a3.nama as pemeriksaan_kapal_check FROM pemeriksaan_kapal_check_data a LEFT JOIN kondisi a1 ON a.kondisi_id = a1.id  LEFT JOIN pemeriksaan_kapal a2 ON a.pemeriksaan_kapal_id = a2.id  LEFT JOIN pemeriksaan_kapal_check a3 ON a.pemeriksaan_kapal_check_id = a3.id ";
+    var query = "SELECT a.* , a1.nama as kondisi, a2.nama as pemeriksaan_kapal, a3.nama as pemeriksaan_kapal_check FROM pemeriksaan_kapal_check_data a  LEFT JOIN kondisi a1 ON a.kondisi_id = a1.id  LEFT JOIN pemeriksaan_kapal a2 ON a.pemeriksaan_kapal_id = a2.id  LEFT JOIN pemeriksaan_kapal_check a3 ON a.pemeriksaan_kapal_check_id = a3.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

@@ -43,7 +43,7 @@ SaranaBantuPemandu.create = async(newSaranaBantuPemandu, result) => {
 };
 
 SaranaBantuPemandu.findById = (id, result) => {
-    sql.query(`SELECT * FROM sarana_bantu_pemandu WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* , a1.nama as approval_status, a2.nama as cabang FROM sarana_bantu_pemandu a  LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN cabang a2 ON a.cabang_id = a2.id  WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -62,7 +62,7 @@ SaranaBantuPemandu.findById = (id, result) => {
 
 SaranaBantuPemandu.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.* , a1.nama as approval_status, a2.nama as cabang FROM sarana_bantu_pemandu a LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN cabang a2 ON a.cabang_id = a2.id ";
+    var query = "SELECT a.* , a1.nama as approval_status, a2.nama as cabang FROM sarana_bantu_pemandu a  LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN cabang a2 ON a.cabang_id = a2.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

@@ -19,7 +19,7 @@ ApprovalStatus.create = async(newApprovalStatus, result) => {
 };
 
 ApprovalStatus.findById = (id, result) => {
-    sql.query(`SELECT * FROM approval_status WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.*  FROM approval_status a  WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -38,7 +38,7 @@ ApprovalStatus.findById = (id, result) => {
 
 ApprovalStatus.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.*  FROM approval_status a";
+    var query = "SELECT a.*  FROM approval_status a ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

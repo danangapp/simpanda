@@ -19,7 +19,7 @@ StatusAbsen.create = async(newStatusAbsen, result) => {
 };
 
 StatusAbsen.findById = (id, result) => {
-    sql.query(`SELECT * FROM status_absen WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.*  FROM status_absen a  WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -38,7 +38,7 @@ StatusAbsen.findById = (id, result) => {
 
 StatusAbsen.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.*  FROM status_absen a";
+    var query = "SELECT a.*  FROM status_absen a ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

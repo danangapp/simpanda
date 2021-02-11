@@ -13,48 +13,48 @@ const PemeriksaanKapal = function (pemeriksaankapal) {
 };
 
 const setActivity = (objects, koneksi = 1) => {
-		objek.date = f.toDate(objects.date);
-		objek.item = 'pemeriksaankapal';
-		objek.action = objects.approval_status_id;
-		objek.user_id = objects.user_id;
-		objek.remark = objects.remark;
-		objek.koneksi = koneksi;
-		delete objects.date;
-		delete objects.item;
-		delete objects.action;
-		delete objects.user_id;
-		delete objects.remark;
-		delete objects.koneksi;
-		return objects
+    objek.date = f.toDate(objects.date);
+    objek.item = 'pemeriksaankapal';
+    objek.action = objects.approval_status_id;
+    objek.user_id = objects.user_id;
+    objek.remark = objects.remark;
+    objek.koneksi = koneksi;
+    delete objects.date;
+    delete objects.item;
+    delete objects.action;
+    delete objects.user_id;
+    delete objects.remark;
+    delete objects.koneksi;
+    return objects
 };
 
-PemeriksaanKapal.create = async(newPemeriksaanKapal, result) => {
-	try {
-		newPemeriksaanKapal = setActivity(newPemeriksaanKapal);
-		var check = newPemeriksaanKapal.check;
-		delete newPemeriksaanKapal.check;
-		const res = await query("INSERT INTO pemeriksaan_kapal SET ?", newPemeriksaanKapal);
-		for (var i in check) {
-		    const pemeriksaan_kapal_check_id = check[i].pemeriksaan_kapal_check_id;
-		    const kondisi_id = check[i].kondisi_id;
-		    const tanggal_awal = f.toDate(check[i].tanggal_awal);
-		    const tanggal_akhir = f.toDate(check[i].tanggal_akhir);
-		    const keterangan = check[i].keterangan;
-		    await query("INSERT INTO pemeriksaan_kapal_check_data (pemeriksaan_kapal_check_id, kondisi_id, tanggal_awal, tanggal_akhir, keterangan, pemeriksaan_kapal_id) VALUES (" + pemeriksaan_kapal_check_id + ", " + kondisi_id + ", '" + tanggal_awal + "', '" + tanggal_akhir + "', '" + keterangan + "', '" + res.insertId + "')");
-		}
+PemeriksaanKapal.create = async (newPemeriksaanKapal, result) => {
+    try {
+        newPemeriksaanKapal = setActivity(newPemeriksaanKapal);
+        var check = newPemeriksaanKapal.check;
+        delete newPemeriksaanKapal.check;
+        const res = await query("INSERT INTO pemeriksaan_kapal SET ?", newPemeriksaanKapal);
+        for (var i in check) {
+            const pemeriksaan_kapal_check_id = check[i].pemeriksaan_kapal_check_id;
+            const kondisi_id = check[i].kondisi_id;
+            const tanggal_awal = f.toDate(check[i].tanggal_awal);
+            const tanggal_akhir = f.toDate(check[i].tanggal_akhir);
+            const keterangan = check[i].keterangan;
+            await query("INSERT INTO pemeriksaan_kapal_check_data (pemeriksaan_kapal_check_id, kondisi_id, tanggal_awal, tanggal_akhir, keterangan, pemeriksaan_kapal_id) VALUES (" + pemeriksaan_kapal_check_id + ", " + kondisi_id + ", '" + tanggal_awal + "', '" + tanggal_akhir + "', '" + keterangan + "', '" + res.insertId + "')");
+        }
 
-		objek.koneksi = res.insertId;
-		if (objek.action != null) {
-			await query("INSERT INTO activity_log SET ?", objek);
-		}
-		result(null, { id: res.insertId, ...newPemeriksaanKapal });
-	} catch (error) {
-	    result(error, null);
-	}
+        objek.koneksi = res.insertId;
+        if (objek.action != null) {
+            await query("INSERT INTO activity_log SET ?", objek);
+        }
+        result(null, { id: res.insertId, ...newPemeriksaanKapal });
+    } catch (error) {
+        result(error, null);
+    }
 };
 
 PemeriksaanKapal.findById = (id, result) => {
-    sql.query(`SELECT * FROM pemeriksaan_kapal WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* , a1.nama as approval_status, a2.nama as ena, a3.nama_asset as asset_kapal, a4.nama as cabang FROM pemeriksaan_kapal a  LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN asset_kapal a3 ON a.asset_kapal_id = a3.id  LEFT JOIN cabang a4 ON a.cabang_id = a4.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -73,7 +73,8 @@ PemeriksaanKapal.findById = (id, result) => {
 
 PemeriksaanKapal.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.* , a1.nama as approval_status, a2.nama as ena, a3.nama_asset as asset_kapal, a4.nama as cabang FROM pemeriksaan_kapal a LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN asset_kapal a3 ON a.asset_kapal_id = a3.id  LEFT JOIN cabang a4 ON a.cabang_id = a4.id ";
+    var query = "SELECT a.* , a1.nama as approval_status, a2.nama as ena, a3.nama_asset as asset_kapal, a4.nama as cabang FROM pemeriksaan_kapal a  LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN asset_kapal a3 ON a.asset_kapal_id = a3.id  LEFT JOIN cabang a4 ON a.cabang_id = a4.id ";
+    console.log(query);
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -116,40 +117,40 @@ PemeriksaanKapal.design = result => {
     });
 };
 
-PemeriksaanKapal.updateById = async(id, pemeriksaankapal, result) => {
-	try {
-		pemeriksaankapal = await setActivity(pemeriksaankapal, id);
+PemeriksaanKapal.updateById = async (id, pemeriksaankapal, result) => {
+    try {
+        pemeriksaankapal = await setActivity(pemeriksaankapal, id);
 
-		var check = pemeriksaankapal.check;
-		for (var i in check) {
-		    const pemeriksaan_kapal_check_id = check[i].pemeriksaan_kapal_check_id;
-		    const kondisi_id = check[i].kondisi_id;
-		    const tanggal_awal = f.toDate(check[i].tanggal_awal);
-		    const tanggal_akhir = f.toDate(check[i].tanggal_akhir);
-		    const keterangan = check[i].keterangan;
-		    await query("UPDATE pemeriksaan_kapal_check_data SET pemeriksaan_kapal_check_id='" + pemeriksaan_kapal_check_id + "', kondisi_id='" + kondisi_id + "', tanggal_awal='" + tanggal_awal + "', tanggal_akhir='" + tanggal_akhir + "', keterangan='" + keterangan + "' WHERE kondisi_id='" + kondisi_id + "' AND pemeriksaan_kapal_id='" + id + "'");
-		}
-		delete pemeriksaankapal.check;
+        var check = pemeriksaankapal.check;
+        for (var i in check) {
+            const pemeriksaan_kapal_check_id = check[i].pemeriksaan_kapal_check_id;
+            const kondisi_id = check[i].kondisi_id;
+            const tanggal_awal = f.toDate(check[i].tanggal_awal);
+            const tanggal_akhir = f.toDate(check[i].tanggal_akhir);
+            const keterangan = check[i].keterangan;
+            await query("UPDATE pemeriksaan_kapal_check_data SET pemeriksaan_kapal_check_id='" + pemeriksaan_kapal_check_id + "', kondisi_id='" + kondisi_id + "', tanggal_awal='" + tanggal_awal + "', tanggal_akhir='" + tanggal_akhir + "', keterangan='" + keterangan + "' WHERE kondisi_id='" + kondisi_id + "' AND pemeriksaan_kapal_id='" + id + "'");
+        }
+        delete pemeriksaankapal.check;
 
-		var str = "", obj = [], no = 1;
-		for (var i in pemeriksaankapal) {
-		    if (pemeriksaankapal[i]) {
-		        str += i + " = ?, ";
-		        obj.push(pemeriksaankapal[i]);
-		    }
-		    no++;
-		}
-		obj.push(id);
-		str = str.substring(0, str.length - 2);
+        var str = "", obj = [], no = 1;
+        for (var i in pemeriksaankapal) {
+            if (pemeriksaankapal[i]) {
+                str += i + " = ?, ";
+                obj.push(pemeriksaankapal[i]);
+            }
+            no++;
+        }
+        obj.push(id);
+        str = str.substring(0, str.length - 2);
 
-		if (objek.action != null) {
-			await query("INSERT INTO activity_log SET ?", objek);
-		}
-		await query("UPDATE pemeriksaan_kapal SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...pemeriksaankapal });
-	} catch (error) {
-	    result(error, null);
-	}
+        if (objek.action != null) {
+            await query("INSERT INTO activity_log SET ?", objek);
+        }
+        await query("UPDATE pemeriksaan_kapal SET " + str + " WHERE id = ?", obj);
+        result(null, { id: id, ...pemeriksaankapal });
+    } catch (error) {
+        result(error, null);
+    }
 };
 
 PemeriksaanKapal.remove = (id, result) => {

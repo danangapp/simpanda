@@ -19,7 +19,7 @@ TipeAsset.create = async(newTipeAsset, result) => {
 };
 
 TipeAsset.findById = (id, result) => {
-    sql.query(`SELECT * FROM tipe_asset WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.*  FROM tipe_asset a  WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -38,7 +38,7 @@ TipeAsset.findById = (id, result) => {
 
 TipeAsset.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.*  FROM tipe_asset a";
+    var query = "SELECT a.*  FROM tipe_asset a ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

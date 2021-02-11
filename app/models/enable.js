@@ -19,7 +19,7 @@ Enable.create = async(newEnable, result) => {
 };
 
 Enable.findById = (id, result) => {
-    sql.query(`SELECT * FROM enable WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.*  FROM enable a  WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -38,7 +38,7 @@ Enable.findById = (id, result) => {
 
 Enable.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.*  FROM enable a";
+    var query = "SELECT a.*  FROM enable a ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

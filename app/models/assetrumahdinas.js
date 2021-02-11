@@ -50,7 +50,7 @@ AssetRumahDinas.create = async(newAssetRumahDinas, result) => {
 };
 
 AssetRumahDinas.findById = (id, result) => {
-    sql.query(`SELECT * FROM asset_rumah_dinas WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* , a1.nama as approval_status, a2.nama as ena FROM asset_rumah_dinas a  LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -69,7 +69,7 @@ AssetRumahDinas.findById = (id, result) => {
 
 AssetRumahDinas.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.* , a1.nama as approval_status, a2.nama as ena FROM asset_rumah_dinas a LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id ";
+    var query = "SELECT a.* , a1.nama as approval_status, a2.nama as ena FROM asset_rumah_dinas a  LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

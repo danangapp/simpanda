@@ -55,7 +55,7 @@ EvaluasiPelimpahan.create = async(newEvaluasiPelimpahan, result) => {
 };
 
 EvaluasiPelimpahan.findById = (id, result) => {
-    sql.query(`SELECT * FROM evaluasi_pelimpahan WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* , a1.nama as approval_status, a2.nama as ena, a3.nama as cabang FROM evaluasi_pelimpahan a  LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN cabang a3 ON a.cabang_id = a3.id  WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -74,7 +74,7 @@ EvaluasiPelimpahan.findById = (id, result) => {
 
 EvaluasiPelimpahan.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.* , a1.nama as approval_status, a2.nama as ena, a3.nama as cabang FROM evaluasi_pelimpahan a LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN cabang a3 ON a.cabang_id = a3.id ";
+    var query = "SELECT a.* , a1.nama as approval_status, a2.nama as ena, a3.nama as cabang FROM evaluasi_pelimpahan a  LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN cabang a3 ON a.cabang_id = a3.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

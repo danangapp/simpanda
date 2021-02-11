@@ -19,7 +19,7 @@ StatusKepegawaian.create = async(newStatusKepegawaian, result) => {
 };
 
 StatusKepegawaian.findById = (id, result) => {
-    sql.query(`SELECT * FROM status_kepegawaian WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.*  FROM status_kepegawaian a  WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -38,7 +38,7 @@ StatusKepegawaian.findById = (id, result) => {
 
 StatusKepegawaian.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.*  FROM status_kepegawaian a";
+    var query = "SELECT a.*  FROM status_kepegawaian a ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

@@ -19,7 +19,7 @@ PemeriksaanKapalCheck.create = async(newPemeriksaanKapalCheck, result) => {
 };
 
 PemeriksaanKapalCheck.findById = (id, result) => {
-    sql.query(`SELECT * FROM pemeriksaan_kapal_check WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.*  FROM pemeriksaan_kapal_check a  WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -38,7 +38,7 @@ PemeriksaanKapalCheck.findById = (id, result) => {
 
 PemeriksaanKapalCheck.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.*  FROM pemeriksaan_kapal_check a";
+    var query = "SELECT a.*  FROM pemeriksaan_kapal_check a ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

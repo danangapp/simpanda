@@ -47,7 +47,7 @@ PanduSchedule.create = async(newPanduSchedule, result) => {
 };
 
 PanduSchedule.findById = (id, result) => {
-    sql.query(`SELECT * FROM pandu_schedule WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* , a1.nama as cabang, a2.nama as approval_status, a3.nama as ena FROM pandu_schedule a  LEFT JOIN cabang a1 ON a.cabang_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id  WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -66,7 +66,7 @@ PanduSchedule.findById = (id, result) => {
 
 PanduSchedule.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.* , a1.nama as cabang, a2.nama as approval_status, a3.nama as ena FROM pandu_schedule a LEFT JOIN cabang a1 ON a.cabang_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id ";
+    var query = "SELECT a.* , a1.nama as cabang, a2.nama as approval_status, a3.nama as ena FROM pandu_schedule a  LEFT JOIN cabang a1 ON a.cabang_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

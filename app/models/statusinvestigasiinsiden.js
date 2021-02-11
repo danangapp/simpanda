@@ -19,7 +19,7 @@ StatusInvestigasiInsiden.create = async(newStatusInvestigasiInsiden, result) => 
 };
 
 StatusInvestigasiInsiden.findById = (id, result) => {
-    sql.query(`SELECT * FROM status_investigasi_insiden WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.*  FROM status_investigasi_insiden a  WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -38,7 +38,7 @@ StatusInvestigasiInsiden.findById = (id, result) => {
 
 StatusInvestigasiInsiden.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.*  FROM status_investigasi_insiden a";
+    var query = "SELECT a.*  FROM status_investigasi_insiden a ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

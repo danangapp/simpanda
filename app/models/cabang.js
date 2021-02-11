@@ -29,7 +29,7 @@ Cabang.create = async(newCabang, result) => {
 };
 
 Cabang.findById = (id, result) => {
-    sql.query(`SELECT * FROM cabang WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.*  FROM cabang a  WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -48,7 +48,7 @@ Cabang.findById = (id, result) => {
 
 Cabang.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.*  FROM cabang a";
+    var query = "SELECT a.*  FROM cabang a ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {

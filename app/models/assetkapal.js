@@ -95,7 +95,9 @@ AssetKapal.create = async(newAssetKapal, result) => {
 		newAssetKapal = setActivity(newAssetKapal);
 		const res = await query("INSERT INTO asset_kapal SET ?", newAssetKapal);
 		objek.koneksi = res.insertId;
-		await query("INSERT INTO activity_log SET ?", objek);
+		if (objek.action != null) {
+			await query("INSERT INTO activity_log SET ?", objek);
+		}
 		result(null, { id: res.insertId, ...newAssetKapal });
 	} catch (error) {
 	    result(error, null);
@@ -197,7 +199,9 @@ AssetKapal.updateById = async(id, assetkapal, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
-		await query("INSERT INTO activity_log SET ?", objek);
+		if (objek.action != null) {
+			await query("INSERT INTO activity_log SET ?", objek);
+		}
 		await query("UPDATE asset_kapal SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...assetkapal });
 	} catch (error) {

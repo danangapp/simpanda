@@ -73,7 +73,9 @@ InvestigasiInsiden.create = async(newInvestigasiInsiden, result) => {
 		newInvestigasiInsiden = setActivity(newInvestigasiInsiden);
 		const res = await query("INSERT INTO investigasi_insiden SET ?", newInvestigasiInsiden);
 		objek.koneksi = res.insertId;
-		await query("INSERT INTO activity_log SET ?", objek);
+		if (objek.action != null) {
+			await query("INSERT INTO activity_log SET ?", objek);
+		}
 		result(null, { id: res.insertId, ...newInvestigasiInsiden });
 	} catch (error) {
 	    result(error, null);
@@ -158,7 +160,9 @@ InvestigasiInsiden.updateById = async(id, investigasiinsiden, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
-		await query("INSERT INTO activity_log SET ?", objek);
+		if (objek.action != null) {
+			await query("INSERT INTO activity_log SET ?", objek);
+		}
 		await query("UPDATE investigasi_insiden SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...investigasiinsiden });
 	} catch (error) {

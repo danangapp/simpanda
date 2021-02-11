@@ -40,7 +40,9 @@ AssetRumahDinas.create = async(newAssetRumahDinas, result) => {
 		newAssetRumahDinas = setActivity(newAssetRumahDinas);
 		const res = await query("INSERT INTO asset_rumah_dinas SET ?", newAssetRumahDinas);
 		objek.koneksi = res.insertId;
-		await query("INSERT INTO activity_log SET ?", objek);
+		if (objek.action != null) {
+			await query("INSERT INTO activity_log SET ?", objek);
+		}
 		result(null, { id: res.insertId, ...newAssetRumahDinas });
 	} catch (error) {
 	    result(error, null);
@@ -125,7 +127,9 @@ AssetRumahDinas.updateById = async(id, assetrumahdinas, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
-		await query("INSERT INTO activity_log SET ?", objek);
+		if (objek.action != null) {
+			await query("INSERT INTO activity_log SET ?", objek);
+		}
 		await query("UPDATE asset_rumah_dinas SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...assetrumahdinas });
 	} catch (error) {

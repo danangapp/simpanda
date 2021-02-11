@@ -95,7 +95,9 @@ TipeAsset.updateById = async(id, tipeasset, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
-		await query("INSERT INTO activity_log SET ?", objek);
+		if (objek.action != null) {
+			await query("INSERT INTO activity_log SET ?", objek);
+		}
 		await query("UPDATE tipe_asset SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...tipeasset });
 	} catch (error) {

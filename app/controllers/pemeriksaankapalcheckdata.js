@@ -14,6 +14,7 @@ exports.create = (req, res) => {
         tanggal_akhir: f.toDate(req.body.tanggal_akhir),
         keterangan: req.body.keterangan,
         pemeriksaan_kapal_id: req.body.pemeriksaan_kapal_id,
+        pemeriksaan_kapal_check_id: req.body.pemeriksaan_kapal_check_id,
     };
 
 	var used = {};

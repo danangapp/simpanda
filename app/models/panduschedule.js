@@ -37,7 +37,9 @@ PanduSchedule.create = async(newPanduSchedule, result) => {
 		newPanduSchedule = setActivity(newPanduSchedule);
 		const res = await query("INSERT INTO pandu_schedule SET ?", newPanduSchedule);
 		objek.koneksi = res.insertId;
-		await query("INSERT INTO activity_log SET ?", objek);
+		if (objek.action != null) {
+			await query("INSERT INTO activity_log SET ?", objek);
+		}
 		result(null, { id: res.insertId, ...newPanduSchedule });
 	} catch (error) {
 	    result(error, null);
@@ -122,7 +124,9 @@ PanduSchedule.updateById = async(id, panduschedule, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
-		await query("INSERT INTO activity_log SET ?", objek);
+		if (objek.action != null) {
+			await query("INSERT INTO activity_log SET ?", objek);
+		}
 		await query("UPDATE pandu_schedule SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...panduschedule });
 	} catch (error) {

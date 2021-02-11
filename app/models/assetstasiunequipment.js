@@ -37,7 +37,9 @@ AssetStasiunEquipment.create = async(newAssetStasiunEquipment, result) => {
 		newAssetStasiunEquipment = setActivity(newAssetStasiunEquipment);
 		const res = await query("INSERT INTO asset_stasiun_equipment SET ?", newAssetStasiunEquipment);
 		objek.koneksi = res.insertId;
-		await query("INSERT INTO activity_log SET ?", objek);
+		if (objek.action != null) {
+			await query("INSERT INTO activity_log SET ?", objek);
+		}
 		result(null, { id: res.insertId, ...newAssetStasiunEquipment });
 	} catch (error) {
 	    result(error, null);
@@ -122,7 +124,9 @@ AssetStasiunEquipment.updateById = async(id, assetstasiunequipment, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
-		await query("INSERT INTO activity_log SET ?", objek);
+		if (objek.action != null) {
+			await query("INSERT INTO activity_log SET ?", objek);
+		}
 		await query("UPDATE asset_stasiun_equipment SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...assetstasiunequipment });
 	} catch (error) {

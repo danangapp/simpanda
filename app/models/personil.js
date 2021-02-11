@@ -73,7 +73,9 @@ Personil.create = async(newPersonil, result) => {
 		newPersonil = setActivity(newPersonil);
 		const res = await query("INSERT INTO personil SET ?", newPersonil);
 		objek.koneksi = res.insertId;
-		await query("INSERT INTO activity_log SET ?", objek);
+		if (objek.action != null) {
+			await query("INSERT INTO activity_log SET ?", objek);
+		}
 		result(null, { id: res.insertId, ...newPersonil });
 	} catch (error) {
 	    result(error, null);
@@ -175,7 +177,9 @@ Personil.updateById = async(id, personil, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
-		await query("INSERT INTO activity_log SET ?", objek);
+		if (objek.action != null) {
+			await query("INSERT INTO activity_log SET ?", objek);
+		}
 		await query("UPDATE personil SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...personil });
 	} catch (error) {

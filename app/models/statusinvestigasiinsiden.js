@@ -95,7 +95,9 @@ StatusInvestigasiInsiden.updateById = async(id, statusinvestigasiinsiden, result
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
-		await query("INSERT INTO activity_log SET ?", objek);
+		if (objek.action != null) {
+			await query("INSERT INTO activity_log SET ?", objek);
+		}
 		await query("UPDATE status_investigasi_insiden SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...statusinvestigasiinsiden });
 	} catch (error) {

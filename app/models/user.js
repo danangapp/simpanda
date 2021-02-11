@@ -99,7 +99,9 @@ User.updateById = async(id, user, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
-		await query("INSERT INTO activity_log SET ?", objek);
+		if (objek.action != null) {
+			await query("INSERT INTO activity_log SET ?", objek);
+		}
 		await query("UPDATE user SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...user });
 	} catch (error) {

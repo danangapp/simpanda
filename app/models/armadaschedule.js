@@ -102,7 +102,9 @@ ArmadaSchedule.updateById = async(id, armadaschedule, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
-		await query("INSERT INTO activity_log SET ?", objek);
+		if (objek.action != null) {
+			await query("INSERT INTO activity_log SET ?", objek);
+		}
 		await query("UPDATE armada_schedule SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...armadaschedule });
 	} catch (error) {

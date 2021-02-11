@@ -11,6 +11,7 @@ const PemeriksaanKapalCheckData = function (pemeriksaankapalcheckdata) {
     this.tanggal_akhir = pemeriksaankapalcheckdata.tanggal_akhir;
     this.keterangan = pemeriksaankapalcheckdata.keterangan;
     this.pemeriksaan_kapal_id = pemeriksaankapalcheckdata.pemeriksaan_kapal_id;
+    this.pemeriksaan_kapal_check_id = pemeriksaankapalcheckdata.pemeriksaan_kapal_check_id;
 };
 
 PemeriksaanKapalCheckData.create = async(newPemeriksaanKapalCheckData, result) => {
@@ -42,7 +43,7 @@ PemeriksaanKapalCheckData.findById = (id, result) => {
 
 PemeriksaanKapalCheckData.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.* , a1.nama as kondisi, a2.nama as pemeriksaan_kapal FROM pemeriksaan_kapal_check_data a LEFT JOIN kondisi a1 ON a.kondisi_id = a1.id  LEFT JOIN pemeriksaan_kapal a2 ON a.pemeriksaan_kapal_id = a2.id ";
+    var query = "SELECT a.* , a1.nama as kondisi, a2.nama as pemeriksaan_kapal, a3.nama as pemeriksaan_kapal_check FROM pemeriksaan_kapal_check_data a LEFT JOIN kondisi a1 ON a.kondisi_id = a1.id  LEFT JOIN pemeriksaan_kapal a2 ON a.pemeriksaan_kapal_id = a2.id  LEFT JOIN pemeriksaan_kapal_check a3 ON a.pemeriksaan_kapal_check_id = a3.id ";
     if (length > 0) {
         query += " WHERE ";
         for (var i in param) {
@@ -99,7 +100,9 @@ PemeriksaanKapalCheckData.updateById = async(id, pemeriksaankapalcheckdata, resu
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
-		await query("INSERT INTO activity_log SET ?", objek);
+		if (objek.action != null) {
+			await query("INSERT INTO activity_log SET ?", objek);
+		}
 		await query("UPDATE pemeriksaan_kapal_check_data SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...pemeriksaankapalcheckdata });
 	} catch (error) {

@@ -31,18 +31,22 @@ const setActivity = (objects, koneksi = 1) => {
 PemeriksaanKapal.create = async(newPemeriksaanKapal, result) => {
 	try {
 		newPemeriksaanKapal = setActivity(newPemeriksaanKapal);
-
 		var check = newPemeriksaanKapal.check;
+		delete newPemeriksaanKapal.check;
+		const res = await query("INSERT INTO pemeriksaan_kapal SET ?", newPemeriksaanKapal);
 		for (var i in check) {
+		    const pemeriksaan_kapal_check_id = check[i].pemeriksaan_kapal_check_id;
 		    const kondisi_id = check[i].kondisi_id;
 		    const tanggal_awal = f.toDate(check[i].tanggal_awal);
 		    const tanggal_akhir = f.toDate(check[i].tanggal_akhir);
 		    const keterangan = check[i].keterangan;
-		    res = await query("INSERT INTO pemeriksaan_kapal (asset_kapal_id, cabang_id, kondisi_id, tanggal_awal, tanggal_akhir, keterangan) VALUES (1, 1, " + kondisi_id + ", '" + tanggal_awal + "', '" + tanggal_akhir + "', '" + keterangan + "')");
+		    await query("INSERT INTO pemeriksaan_kapal_check_data (pemeriksaan_kapal_check_id, kondisi_id, tanggal_awal, tanggal_akhir, keterangan, pemeriksaan_kapal_id) VALUES (" + pemeriksaan_kapal_check_id + ", " + kondisi_id + ", '" + tanggal_awal + "', '" + tanggal_akhir + "', '" + keterangan + "', '" + res.insertId + "')");
 		}
 
 		objek.koneksi = res.insertId;
-		await query("INSERT INTO activity_log SET ?", objek);
+		if (objek.action != null) {
+			await query("INSERT INTO activity_log SET ?", objek);
+		}
 		result(null, { id: res.insertId, ...newPemeriksaanKapal });
 	} catch (error) {
 	    result(error, null);
@@ -116,6 +120,17 @@ PemeriksaanKapal.updateById = async(id, pemeriksaankapal, result) => {
 	try {
 		pemeriksaankapal = await setActivity(pemeriksaankapal, id);
 
+		var check = pemeriksaankapal.check;
+		for (var i in check) {
+		    const pemeriksaan_kapal_check_id = check[i].pemeriksaan_kapal_check_id;
+		    const kondisi_id = check[i].kondisi_id;
+		    const tanggal_awal = f.toDate(check[i].tanggal_awal);
+		    const tanggal_akhir = f.toDate(check[i].tanggal_akhir);
+		    const keterangan = check[i].keterangan;
+		    await query("UPDATE pemeriksaan_kapal_check_data SET pemeriksaan_kapal_check_id='" + pemeriksaan_kapal_check_id + "', kondisi_id='" + kondisi_id + "', tanggal_awal='" + tanggal_awal + "', tanggal_akhir='" + tanggal_akhir + "', keterangan='" + keterangan + "' WHERE kondisi_id='" + kondisi_id + "' AND pemeriksaan_kapal_id='" + id + "'");
+		}
+		delete pemeriksaankapal.check;
+
 		var str = "", obj = [], no = 1;
 		for (var i in pemeriksaankapal) {
 		    if (pemeriksaankapal[i]) {
@@ -127,7 +142,9 @@ PemeriksaanKapal.updateById = async(id, pemeriksaankapal, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
-		await query("INSERT INTO activity_log SET ?", objek);
+		if (objek.action != null) {
+			await query("INSERT INTO activity_log SET ?", objek);
+		}
 		await query("UPDATE pemeriksaan_kapal SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...pemeriksaankapal });
 	} catch (error) {

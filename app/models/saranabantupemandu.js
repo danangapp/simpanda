@@ -33,7 +33,9 @@ SaranaBantuPemandu.create = async(newSaranaBantuPemandu, result) => {
 		newSaranaBantuPemandu = setActivity(newSaranaBantuPemandu);
 		const res = await query("INSERT INTO sarana_bantu_pemandu SET ?", newSaranaBantuPemandu);
 		objek.koneksi = res.insertId;
-		await query("INSERT INTO activity_log SET ?", objek);
+		if (objek.action != null) {
+			await query("INSERT INTO activity_log SET ?", objek);
+		}
 		result(null, { id: res.insertId, ...newSaranaBantuPemandu });
 	} catch (error) {
 	    result(error, null);
@@ -118,7 +120,9 @@ SaranaBantuPemandu.updateById = async(id, saranabantupemandu, result) => {
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
 
-		await query("INSERT INTO activity_log SET ?", objek);
+		if (objek.action != null) {
+			await query("INSERT INTO activity_log SET ?", objek);
+		}
 		await query("UPDATE sarana_bantu_pemandu SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...saranabantupemandu });
 	} catch (error) {

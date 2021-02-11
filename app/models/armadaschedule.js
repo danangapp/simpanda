@@ -26,7 +26,7 @@ ArmadaSchedule.create = async(newArmadaSchedule, result) => {
 };
 
 ArmadaSchedule.findById = (id, result) => {
-    sql.query(`SELECT a.* , a1.nama as tipe_asset FROM armada_schedule a  LEFT JOIN tipe_asset a1 ON a.kategori_armada = a1.id  WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* , a1.nama as tipe_asset FROM armada_schedule a  LEFT JOIN tipe_asset a1 ON a.kategori_armada = a1.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

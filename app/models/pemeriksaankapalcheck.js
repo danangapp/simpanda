@@ -19,7 +19,7 @@ PemeriksaanKapalCheck.create = async(newPemeriksaanKapalCheck, result) => {
 };
 
 PemeriksaanKapalCheck.findById = (id, result) => {
-    sql.query(`SELECT a.*  FROM pemeriksaan_kapal_check a  WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.*  FROM pemeriksaan_kapal_check a  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

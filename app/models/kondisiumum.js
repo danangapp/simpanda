@@ -19,7 +19,7 @@ KondisiUmum.create = async(newKondisiUmum, result) => {
 };
 
 KondisiUmum.findById = (id, result) => {
-    sql.query(`SELECT a.*  FROM kondisi_umum a  WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.*  FROM kondisi_umum a  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

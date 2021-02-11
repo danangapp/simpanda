@@ -32,7 +32,7 @@ UserGroup.create = async(newUserGroup, result) => {
 };
 
 UserGroup.findById = (id, result) => {
-    sql.query(`SELECT a.* , a1.nama as cabang FROM user_group a  LEFT JOIN cabang a1 ON a.cabang_id = a1.id  WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* , a1.nama as cabang FROM user_group a  LEFT JOIN cabang a1 ON a.cabang_id = a1.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

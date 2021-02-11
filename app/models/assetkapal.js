@@ -105,7 +105,7 @@ AssetKapal.create = async(newAssetKapal, result) => {
 };
 
 AssetKapal.findById = (id, result) => {
-    sql.query(`SELECT a.* , a1.nama as tipe_asset, a2.nama as ena, a3.nama as approval_status FROM asset_kapal a  LEFT JOIN tipe_asset a1 ON a.jenis_kapal = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN approval_status a3 ON a.approval_status_id = a3.id  WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* , a1.nama as tipe_asset, a2.nama as ena, a3.nama as approval_status FROM asset_kapal a  LEFT JOIN tipe_asset a1 ON a.jenis_kapal = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN approval_status a3 ON a.approval_status_id = a3.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

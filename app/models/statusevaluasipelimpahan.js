@@ -19,7 +19,7 @@ StatusEvaluasiPelimpahan.create = async(newStatusEvaluasiPelimpahan, result) => 
 };
 
 StatusEvaluasiPelimpahan.findById = (id, result) => {
-    sql.query(`SELECT a.*  FROM status_evaluasi_pelimpahan a  WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.*  FROM status_evaluasi_pelimpahan a  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

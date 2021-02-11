@@ -19,7 +19,7 @@ StatusIjazah.create = async(newStatusIjazah, result) => {
 };
 
 StatusIjazah.findById = (id, result) => {
-    sql.query(`SELECT a.*  FROM status_ijazah a  WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.*  FROM status_ijazah a  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

@@ -19,7 +19,7 @@ StatusKepegawaian.create = async(newStatusKepegawaian, result) => {
 };
 
 StatusKepegawaian.findById = (id, result) => {
-    sql.query(`SELECT a.*  FROM status_kepegawaian a  WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.*  FROM status_kepegawaian a  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

@@ -29,7 +29,7 @@ Cabang.create = async(newCabang, result) => {
 };
 
 Cabang.findById = (id, result) => {
-    sql.query(`SELECT a.*  FROM cabang a  WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.*  FROM cabang a  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

@@ -23,7 +23,7 @@ User.create = async(newUser, result) => {
 };
 
 User.findById = (id, result) => {
-    sql.query(`SELECT a.* , a1.nama as user_group, a2.nama as role FROM user a  LEFT JOIN user_group a1 ON a.user_group_id = a1.id  LEFT JOIN role a2 ON a.role_id = a2.id  WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* , a1.nama as user_group, a2.nama as role FROM user a  LEFT JOIN user_group a1 ON a.user_group_id = a1.id  LEFT JOIN role a2 ON a.role_id = a2.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

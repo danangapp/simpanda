@@ -24,7 +24,7 @@ ActivityLog.create = async(newActivityLog, result) => {
 };
 
 ActivityLog.findById = (id, result) => {
-    sql.query(`SELECT a.* , a1.nama as user FROM activity_log a  LEFT JOIN user a1 ON a.user_id = a1.id  WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* , a1.nama as user FROM activity_log a  LEFT JOIN user a1 ON a.user_id = a1.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

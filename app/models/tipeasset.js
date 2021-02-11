@@ -19,7 +19,7 @@ TipeAsset.create = async(newTipeAsset, result) => {
 };
 
 TipeAsset.findById = (id, result) => {
-    sql.query(`SELECT a.*  FROM tipe_asset a  WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.*  FROM tipe_asset a  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

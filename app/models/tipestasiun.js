@@ -19,7 +19,7 @@ TipeStasiun.create = async(newTipeStasiun, result) => {
 };
 
 TipeStasiun.findById = (id, result) => {
-    sql.query(`SELECT a.*  FROM tipe_stasiun a  WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.*  FROM tipe_stasiun a  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

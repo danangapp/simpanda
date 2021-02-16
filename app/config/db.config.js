@@ -1,7 +1,7 @@
 require('dotenv').config();
 module.exports = {
-  HOST: "localhost",
-  USER: "root",
+  HOST: process.env.HOSTNAME,
+  USER: process.env.USER,
   PASSWORD: process.env.PASSWORD,
-  DB: "simpanda"
+  DB: process.env.DB
 };

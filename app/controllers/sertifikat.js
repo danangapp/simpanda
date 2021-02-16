@@ -2,23 +2,23 @@ const Sertifikat = require("../models/sertifikat.js");
 const f = require('./function');
 
 exports.create = (req, res) => {
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
     var sertifikat = {
-        tipe_cert_id: req.body.tipe_cert_id,
-        personil_id: req.body.personil_id,
-        no_sertifikat: req.body.no_sertifikat,
-        issuer: req.body.issuer,
-        tempat_keluar_sertifikat: req.body.tempat_keluar_sertifikat,
-        tanggal_keluar_sertifikat: f.toDate(req.body.tanggal_keluar_sertifikat),
-        tanggal_expire: f.toDate(req.body.tanggal_expire),
-        reminder_date: f.toDate(req.body.reminder_date),
-        sertifikat: req.body.sertifikat,
-        sertifikat: req.body.sertifikat,
+        tipe_cert_id: req.fields.tipe_cert_id,
+        personil_id: req.fields.personil_id,
+        no_sertifikat: req.fields.no_sertifikat,
+        issuer: req.fields.issuer,
+        tempat_keluar_sertifikat: req.fields.tempat_keluar_sertifikat,
+        tanggal_keluar_sertifikat: f.toDate(req.fields.tanggal_keluar_sertifikat),
+        tanggal_expire: f.toDate(req.fields.tanggal_expire),
+        reminder_date: f.toDate(req.fields.reminder_date),
+        sertifikat: req.fields.sertifikat,
+        sertifikat: req.fields.sertifikat,
     };
 
 	var used = {};
@@ -78,20 +78,20 @@ exports.findOne = (req, res) => {
 
 exports.update = (req, res) => {
     // Validate Request
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
-	req.body.tanggal_keluar_sertifikat = f.toDate(req.body.tanggal_keluar_sertifikat);
-	req.body.tanggal_expire = f.toDate(req.body.tanggal_expire);
-	req.body.reminder_date = f.toDate(req.body.reminder_date);
-	req.body.date = f.toDate(req.body.date);
+	req.fields.tanggal_keluar_sertifikat = f.toDate(req.fields.tanggal_keluar_sertifikat);
+	req.fields.tanggal_expire = f.toDate(req.fields.tanggal_expire);
+	req.fields.reminder_date = f.toDate(req.fields.reminder_date);
+	req.fields.date = f.toDate(req.fields.date);
 
     Sertifikat.updateById(
         req.params.id,
-        req.body,
+        req.fields,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

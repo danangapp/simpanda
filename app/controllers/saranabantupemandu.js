@@ -2,23 +2,23 @@ const SaranaBantuPemandu = require("../models/saranabantupemandu.js");
 const f = require('./function');
 
 exports.create = (req, res) => {
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
     var saranabantupemandu = {
-        approval_status_id: req.body.approval_status_id,
-        cabang_id: req.body.cabang_id,
-        tanggal_pemeriksaan: f.toDate(req.body.tanggal_pemeriksaan),
-        pelaksana: req.body.pelaksana,
-        date: f.toDate(req.body.date),
-        item: req.body.item,
-        action: req.body.action,
-        user_id: req.body.user_id,
-        remark: req.body.remark,
-        koneksi: req.body.koneksi,
+        approval_status_id: req.fields.approval_status_id,
+        cabang_id: req.fields.cabang_id,
+        tanggal_pemeriksaan: f.toDate(req.fields.tanggal_pemeriksaan),
+        pelaksana: req.fields.pelaksana,
+        date: f.toDate(req.fields.date),
+        item: req.fields.item,
+        action: req.fields.action,
+        user_id: req.fields.user_id,
+        remark: req.fields.remark,
+        koneksi: req.fields.koneksi,
     };
 
 	var used = {};
@@ -78,17 +78,17 @@ exports.findOne = (req, res) => {
 
 exports.update = (req, res) => {
     // Validate Request
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
-	req.body.tanggal_pemeriksaan = f.toDate(req.body.tanggal_pemeriksaan);
+	req.fields.tanggal_pemeriksaan = f.toDate(req.fields.tanggal_pemeriksaan);
 
     SaranaBantuPemandu.updateById(
         req.params.id,
-        req.body,
+        req.fields,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

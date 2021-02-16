@@ -2,14 +2,14 @@ const StatusAbsen = require("../models/statusabsen.js");
 const f = require('./function');
 
 exports.create = (req, res) => {
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
     var statusabsen = {
-        nama: req.body.nama,
+        nama: req.fields.nama,
     };
 
 	var used = {};
@@ -69,7 +69,7 @@ exports.findOne = (req, res) => {
 
 exports.update = (req, res) => {
     // Validate Request
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
@@ -78,7 +78,7 @@ exports.update = (req, res) => {
 
     StatusAbsen.updateById(
         req.params.id,
-        req.body,
+        req.fields,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

@@ -2,19 +2,19 @@ const ActivityLog = require("../models/activitylog.js");
 const f = require('./function');
 
 exports.create = (req, res) => {
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
     var activitylog = {
-        date: f.toDate(req.body.date),
-        item: req.body.item,
-        action: req.body.action,
-        user_id: req.body.user_id,
-        remark: req.body.remark,
-        koneksi: req.body.koneksi,
+        date: f.toDate(req.fields.date),
+        item: req.fields.item,
+        action: req.fields.action,
+        user_id: req.fields.user_id,
+        remark: req.fields.remark,
+        koneksi: req.fields.koneksi,
     };
 
 	var used = {};
@@ -74,17 +74,17 @@ exports.findOne = (req, res) => {
 
 exports.update = (req, res) => {
     // Validate Request
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
-	req.body.date = f.toDate(req.body.date);
+	req.fields.date = f.toDate(req.fields.date);
 
     ActivityLog.updateById(
         req.params.id,
-        req.body,
+        req.fields,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

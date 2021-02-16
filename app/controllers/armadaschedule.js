@@ -2,21 +2,21 @@ const ArmadaSchedule = require("../models/armadaschedule.js");
 const f = require('./function');
 
 exports.create = (req, res) => {
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
     var armadaschedule = {
-        date: f.toDate(req.body.date),
-        cabang: req.body.cabang,
-        kategori_armada: req.body.kategori_armada,
-        armada_id: req.body.armada_id,
-        status: req.body.status,
-        jam_pengoperasian: req.body.jam_pengoperasian,
-        reliabiliy: req.body.reliabiliy,
-        keterangan: req.body.keterangan,
+        date: f.toDate(req.fields.date),
+        cabang: req.fields.cabang,
+        kategori_armada: req.fields.kategori_armada,
+        armada_id: req.fields.armada_id,
+        status: req.fields.status,
+        jam_pengoperasian: req.fields.jam_pengoperasian,
+        reliabiliy: req.fields.reliabiliy,
+        keterangan: req.fields.keterangan,
     };
 
 	var used = {};
@@ -76,17 +76,17 @@ exports.findOne = (req, res) => {
 
 exports.update = (req, res) => {
     // Validate Request
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
-	req.body.date = f.toDate(req.body.date);
+	req.fields.date = f.toDate(req.fields.date);
 
     ArmadaSchedule.updateById(
         req.params.id,
-        req.body,
+        req.fields,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

@@ -2,63 +2,63 @@ const InvestigasiInsiden = require("../models/investigasiinsiden.js");
 const f = require('./function');
 
 exports.create = (req, res) => {
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
     var investigasiinsiden = {
-        approval_status_id: req.body.approval_status_id,
-        enable: req.body.enable,
-        no_report: req.body.no_report,
-        unit_terkait: req.body.unit_terkait,
-        judul_report: req.body.judul_report,
-        kronologi_kejadian: req.body.kronologi_kejadian,
-        temuan_investigasi: req.body.temuan_investigasi,
-        bukti_temuan: req.body.bukti_temuan,
-        saksi_1: req.body.saksi_1,
-        saksi_2: req.body.saksi_2,
-        investigator: req.body.investigator,
-        rincian_kegiatan: req.body.rincian_kegiatan,
-        luka_sakit: req.body.luka_sakit,
-        wujud_cedera: req.body.wujud_cedera,
-        bagian_tubuh_cedera: req.body.bagian_tubuh_cedera,
-        mekanisme_cedera: req.body.mekanisme_cedera,
-        kerusakan_alat: req.body.kerusakan_alat,
-        uraian_kejadian: req.body.uraian_kejadian,
-        analisa_penyebab: req.body.analisa_penyebab,
-        peralatan_kelengkapan: req.body.peralatan_kelengkapan,
-        alat_pelindung_diri: req.body.alat_pelindung_diri,
-        perilaku: req.body.perilaku,
-        kebersihan_kerapihan: req.body.kebersihan_kerapihan,
-        peralatan_perlengkapan: req.body.peralatan_perlengkapan,
-        kemampuan_kondisi_fisik: req.body.kemampuan_kondisi_fisik,
-        pemeliharaan_perbaikan: req.body.pemeliharaan_perbaikan,
-        design: req.body.design,
-        tingkat_kemampuan: req.body.tingkat_kemampuan,
-        penjagaan: req.body.penjagaan,
-        tidandakan_terkait: req.body.tidandakan_terkait,
-        faktor_utama_insiden: req.body.faktor_utama_insiden,
-        rekomendasi_tindakan: req.body.rekomendasi_tindakan,
-        pihak_yang_bertanggungjawab: req.body.pihak_yang_bertanggungjawab,
-        pelaksana: req.body.pelaksana,
-        tanggal_pemeriksaan: req.body.tanggal_pemeriksaan,
-        nama: req.body.nama,
-        jabatan: req.body.jabatan,
-        status_investigasi_insiden_id: req.body.status_investigasi_insiden_id,
-        prepard_by: req.body.prepard_by,
-        prepard_tanggal: f.toDate(req.body.prepard_tanggal),
-        reviewed_by: req.body.reviewed_by,
-        reviewed_tanggal: f.toDate(req.body.reviewed_tanggal),
-        approved_by: req.body.approved_by,
-        approved_tanggal: f.toDate(req.body.approved_tanggal),
-        date: f.toDate(req.body.date),
-        item: req.body.item,
-        action: req.body.action,
-        user_id: req.body.user_id,
-        remark: req.body.remark,
-        koneksi: req.body.koneksi,
+        approval_status_id: req.fields.approval_status_id,
+        enable: req.fields.enable,
+        no_report: req.fields.no_report,
+        unit_terkait: req.fields.unit_terkait,
+        judul_report: req.fields.judul_report,
+        kronologi_kejadian: req.fields.kronologi_kejadian,
+        temuan_investigasi: req.fields.temuan_investigasi,
+        bukti_temuan: req.fields.bukti_temuan,
+        saksi_1: req.fields.saksi_1,
+        saksi_2: req.fields.saksi_2,
+        investigator: req.fields.investigator,
+        rincian_kegiatan: req.fields.rincian_kegiatan,
+        luka_sakit: req.fields.luka_sakit,
+        wujud_cedera: req.fields.wujud_cedera,
+        bagian_tubuh_cedera: req.fields.bagian_tubuh_cedera,
+        mekanisme_cedera: req.fields.mekanisme_cedera,
+        kerusakan_alat: req.fields.kerusakan_alat,
+        uraian_kejadian: req.fields.uraian_kejadian,
+        analisa_penyebab: req.fields.analisa_penyebab,
+        peralatan_kelengkapan: req.fields.peralatan_kelengkapan,
+        alat_pelindung_diri: req.fields.alat_pelindung_diri,
+        perilaku: req.fields.perilaku,
+        kebersihan_kerapihan: req.fields.kebersihan_kerapihan,
+        peralatan_perlengkapan: req.fields.peralatan_perlengkapan,
+        kemampuan_kondisi_fisik: req.fields.kemampuan_kondisi_fisik,
+        pemeliharaan_perbaikan: req.fields.pemeliharaan_perbaikan,
+        design: req.fields.design,
+        tingkat_kemampuan: req.fields.tingkat_kemampuan,
+        penjagaan: req.fields.penjagaan,
+        tidandakan_terkait: req.fields.tidandakan_terkait,
+        faktor_utama_insiden: req.fields.faktor_utama_insiden,
+        rekomendasi_tindakan: req.fields.rekomendasi_tindakan,
+        pihak_yang_bertanggungjawab: req.fields.pihak_yang_bertanggungjawab,
+        pelaksana: req.fields.pelaksana,
+        tanggal_pemeriksaan: req.fields.tanggal_pemeriksaan,
+        nama: req.fields.nama,
+        jabatan: req.fields.jabatan,
+        status_investigasi_insiden_id: req.fields.status_investigasi_insiden_id,
+        prepard_by: req.fields.prepard_by,
+        prepard_tanggal: f.toDate(req.fields.prepard_tanggal),
+        reviewed_by: req.fields.reviewed_by,
+        reviewed_tanggal: f.toDate(req.fields.reviewed_tanggal),
+        approved_by: req.fields.approved_by,
+        approved_tanggal: f.toDate(req.fields.approved_tanggal),
+        date: f.toDate(req.fields.date),
+        item: req.fields.item,
+        action: req.fields.action,
+        user_id: req.fields.user_id,
+        remark: req.fields.remark,
+        koneksi: req.fields.koneksi,
     };
 
 	var used = {};
@@ -118,19 +118,19 @@ exports.findOne = (req, res) => {
 
 exports.update = (req, res) => {
     // Validate Request
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
-	req.body.prepard_tanggal = f.toDate(req.body.prepard_tanggal);
-	req.body.reviewed_tanggal = f.toDate(req.body.reviewed_tanggal);
-	req.body.approved_tanggal = f.toDate(req.body.approved_tanggal);
+	req.fields.prepard_tanggal = f.toDate(req.fields.prepard_tanggal);
+	req.fields.reviewed_tanggal = f.toDate(req.fields.reviewed_tanggal);
+	req.fields.approved_tanggal = f.toDate(req.fields.approved_tanggal);
 
     InvestigasiInsiden.updateById(
         req.params.id,
-        req.body,
+        req.fields,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

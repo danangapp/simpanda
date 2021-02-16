@@ -2,27 +2,27 @@ const PanduSchedule = require("../models/panduschedule.js");
 const f = require('./function');
 
 exports.create = (req, res) => {
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
     var panduschedule = {
-        date: f.toDate(req.body.date),
-        cabang_id: req.body.cabang_id,
-        pandu_jaga_id: req.body.pandu_jaga_id,
-        pandu_jaga_nama: req.body.pandu_jaga_nama,
-        status_absen: req.body.status_absen,
-        keterangan: req.body.keterangan,
-        approval_status_id: req.body.approval_status_id,
-        enable: req.body.enable,
-        date: f.toDate(req.body.date),
-        item: req.body.item,
-        action: req.body.action,
-        user_id: req.body.user_id,
-        remark: req.body.remark,
-        koneksi: req.body.koneksi,
+        date: f.toDate(req.fields.date),
+        cabang_id: req.fields.cabang_id,
+        pandu_jaga_id: req.fields.pandu_jaga_id,
+        pandu_jaga_nama: req.fields.pandu_jaga_nama,
+        status_absen: req.fields.status_absen,
+        keterangan: req.fields.keterangan,
+        approval_status_id: req.fields.approval_status_id,
+        enable: req.fields.enable,
+        date: f.toDate(req.fields.date),
+        item: req.fields.item,
+        action: req.fields.action,
+        user_id: req.fields.user_id,
+        remark: req.fields.remark,
+        koneksi: req.fields.koneksi,
     };
 
 	var used = {};
@@ -82,17 +82,17 @@ exports.findOne = (req, res) => {
 
 exports.update = (req, res) => {
     // Validate Request
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
-	req.body.date = f.toDate(req.body.date);
+	req.fields.date = f.toDate(req.fields.date);
 
     PanduSchedule.updateById(
         req.params.id,
-        req.body,
+        req.fields,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

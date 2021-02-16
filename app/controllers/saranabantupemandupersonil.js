@@ -2,18 +2,18 @@ const SaranaBantuPemanduPersonil = require("../models/saranabantupemandupersonil
 const f = require('./function');
 
 exports.create = (req, res) => {
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
     var saranabantupemandupersonil = {
-        sarana_bantu_pemandu_id: req.body.sarana_bantu_pemandu_id,
-        nama: req.body.nama,
-        jabatan: req.body.jabatan,
-        asset_kapal_id: req.body.asset_kapal_id,
-        status_ijazah_id: req.body.status_ijazah_id,
+        sarana_bantu_pemandu_id: req.fields.sarana_bantu_pemandu_id,
+        nama: req.fields.nama,
+        jabatan: req.fields.jabatan,
+        asset_kapal_id: req.fields.asset_kapal_id,
+        status_ijazah_id: req.fields.status_ijazah_id,
     };
 
 	var used = {};
@@ -73,7 +73,7 @@ exports.findOne = (req, res) => {
 
 exports.update = (req, res) => {
     // Validate Request
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
@@ -82,7 +82,7 @@ exports.update = (req, res) => {
 
     SaranaBantuPemanduPersonil.updateById(
         req.params.id,
-        req.body,
+        req.fields,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

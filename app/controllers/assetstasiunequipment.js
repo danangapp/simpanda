@@ -2,27 +2,27 @@ const AssetStasiunEquipment = require("../models/assetstasiunequipment.js");
 const f = require('./function');
 
 exports.create = (req, res) => {
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
     var assetstasiunequipment = {
-        nomor_asset: req.body.nomor_asset,
-        tipe_asset_id: req.body.tipe_asset_id,
-        nama: req.body.nama,
-        tahun_perolehan: req.body.tahun_perolehan,
-        nilai_perolehan: req.body.nilai_perolehan,
-        kondisi: req.body.kondisi,
-        approval_status_id: req.body.approval_status_id,
-        enable: req.body.enable,
-        date: f.toDate(req.body.date),
-        item: req.body.item,
-        action: req.body.action,
-        user_id: req.body.user_id,
-        remark: req.body.remark,
-        koneksi: req.body.koneksi,
+        nomor_asset: req.fields.nomor_asset,
+        tipe_asset_id: req.fields.tipe_asset_id,
+        nama: req.fields.nama,
+        tahun_perolehan: req.fields.tahun_perolehan,
+        nilai_perolehan: req.fields.nilai_perolehan,
+        kondisi: req.fields.kondisi,
+        approval_status_id: req.fields.approval_status_id,
+        enable: req.fields.enable,
+        date: f.toDate(req.fields.date),
+        item: req.fields.item,
+        action: req.fields.action,
+        user_id: req.fields.user_id,
+        remark: req.fields.remark,
+        koneksi: req.fields.koneksi,
     };
 
 	var used = {};
@@ -82,7 +82,7 @@ exports.findOne = (req, res) => {
 
 exports.update = (req, res) => {
     // Validate Request
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
@@ -91,7 +91,7 @@ exports.update = (req, res) => {
 
     AssetStasiunEquipment.updateById(
         req.params.id,
-        req.body,
+        req.fields,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

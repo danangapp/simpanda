@@ -2,27 +2,27 @@ const UserGroup = require("../models/usergroup.js");
 const f = require('./function');
 
 exports.create = (req, res) => {
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
     var usergroup = {
-        nama: req.body.nama,
-        keterangan: req.body.keterangan,
-        cabang_id: req.body.cabang_id,
-        access_dashboard: req.body.access_dashboard,
-        access_resource_pandu: req.body.access_resource_pandu,
-        access_resource_pendukung: req.body.access_resource_pendukung,
-        access_resource_absensi: req.body.access_resource_absensi,
-        access_asset_kapal: req.body.access_asset_kapal,
-        access_asset_stasiun: req.body.access_asset_stasiun,
-        access_asset_rumah: req.body.access_asset_rumah,
-        access_asset_absensi: req.body.access_asset_absensi,
-        access_inspection_sarana: req.body.access_inspection_sarana,
-        access_inspection_pemeriksaan: req.body.access_inspection_pemeriksaan,
-        access_inspection_investigasi: req.body.access_inspection_investigasi,
+        nama: req.fields.nama,
+        keterangan: req.fields.keterangan,
+        cabang_id: req.fields.cabang_id,
+        access_dashboard: req.fields.access_dashboard,
+        access_resource_pandu: req.fields.access_resource_pandu,
+        access_resource_pendukung: req.fields.access_resource_pendukung,
+        access_resource_absensi: req.fields.access_resource_absensi,
+        access_asset_kapal: req.fields.access_asset_kapal,
+        access_asset_stasiun: req.fields.access_asset_stasiun,
+        access_asset_rumah: req.fields.access_asset_rumah,
+        access_asset_absensi: req.fields.access_asset_absensi,
+        access_inspection_sarana: req.fields.access_inspection_sarana,
+        access_inspection_pemeriksaan: req.fields.access_inspection_pemeriksaan,
+        access_inspection_investigasi: req.fields.access_inspection_investigasi,
     };
 
 	var used = {};
@@ -82,7 +82,7 @@ exports.findOne = (req, res) => {
 
 exports.update = (req, res) => {
     // Validate Request
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
@@ -91,7 +91,7 @@ exports.update = (req, res) => {
 
     UserGroup.updateById(
         req.params.id,
-        req.body,
+        req.fields,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

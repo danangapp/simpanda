@@ -2,35 +2,35 @@ const EvaluasiPelimpahan = require("../models/evaluasipelimpahan.js");
 const f = require('./function');
 
 exports.create = (req, res) => {
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
     var evaluasipelimpahan = {
-        approval_status_id: req.body.approval_status_id,
-        enable: req.body.enable,
-        cabang_id: req.body.cabang_id,
-        bup: req.body.bup,
-        izin_bup: req.body.izin_bup,
-        penetapan_perairan_pandu: req.body.penetapan_perairan_pandu,
-        izin_pelimpahan: req.body.izin_pelimpahan,
-        pengawas_pemanduan: req.body.pengawas_pemanduan,
-        laporan_bulanan: req.body.laporan_bulanan,
-        bukti_pembayaran_pnpb: req.body.bukti_pembayaran_pnpb,
-        sispro: req.body.sispro,
-        tarif_jasa_pandu_tunda: req.body.tarif_jasa_pandu_tunda,
-        data_dukung: req.body.data_dukung,
-        dile_pendukung: req.body.dile_pendukung,
-        tanggal_sk: f.toDate(req.body.tanggal_sk),
-        file_sk_pelimpahan: req.body.file_sk_pelimpahan,
-        date: f.toDate(req.body.date),
-        item: req.body.item,
-        action: req.body.action,
-        user_id: req.body.user_id,
-        remark: req.body.remark,
-        koneksi: req.body.koneksi,
+        approval_status_id: req.fields.approval_status_id,
+        enable: req.fields.enable,
+        cabang_id: req.fields.cabang_id,
+        bup: req.fields.bup,
+        izin_bup: req.fields.izin_bup,
+        penetapan_perairan_pandu: req.fields.penetapan_perairan_pandu,
+        izin_pelimpahan: req.fields.izin_pelimpahan,
+        pengawas_pemanduan: req.fields.pengawas_pemanduan,
+        laporan_bulanan: req.fields.laporan_bulanan,
+        bukti_pembayaran_pnpb: req.fields.bukti_pembayaran_pnpb,
+        sispro: req.fields.sispro,
+        tarif_jasa_pandu_tunda: req.fields.tarif_jasa_pandu_tunda,
+        data_dukung: req.fields.data_dukung,
+        dile_pendukung: req.fields.dile_pendukung,
+        tanggal_sk: f.toDate(req.fields.tanggal_sk),
+        file_sk_pelimpahan: req.fields.file_sk_pelimpahan,
+        date: f.toDate(req.fields.date),
+        item: req.fields.item,
+        action: req.fields.action,
+        user_id: req.fields.user_id,
+        remark: req.fields.remark,
+        koneksi: req.fields.koneksi,
     };
 
 	var used = {};
@@ -90,17 +90,17 @@ exports.findOne = (req, res) => {
 
 exports.update = (req, res) => {
     // Validate Request
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
-	req.body.tanggal_sk = f.toDate(req.body.tanggal_sk);
+	req.fields.tanggal_sk = f.toDate(req.fields.tanggal_sk);
 
     EvaluasiPelimpahan.updateById(
         req.params.id,
-        req.body,
+        req.fields,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

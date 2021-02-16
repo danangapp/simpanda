@@ -2,41 +2,41 @@ const Personil = require("../models/personil.js");
 const f = require('./function');
 
 exports.create = (req, res) => {
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
     var personil = {
-        tipe_personil_id: req.body.tipe_personil_id,
-        approval_status_id: req.body.approval_status_id,
-        simop_kd_pers_pandu: req.body.simop_kd_pers_pandu,
-        simop_kd_pers_pandu_cbg: req.body.simop_kd_pers_pandu_cbg,
-        enable: req.body.enable,
-        asset_kapal_id: req.body.asset_kapal_id,
-        nama: req.body.nama,
-        kelas: req.body.kelas,
-        tempat_lahir: req.body.tempat_lahir,
-        tanggal_lahir: f.toDate(req.body.tanggal_lahir),
-        nipp: req.body.nipp,
-        jabatan: req.body.jabatan,
-        status_kepegawaian_id: req.body.status_kepegawaian_id,
-        cv: req.body.cv,
-        tempat_tugas: req.body.tempat_tugas,
-        nomor_sk: req.body.nomor_sk,
-        tanggal_mulai: f.toDate(req.body.tanggal_mulai),
-        tanggal_selesai: f.toDate(req.body.tanggal_selesai),
-        sk: req.body.sk,
-        skpp: req.body.skpp,
-        surat_kesehatan: req.body.surat_kesehatan,
-        sertifikat: req.body.sertifikat,
-        date: f.toDate(req.body.date),
-        item: req.body.item,
-        action: req.body.action,
-        user_id: req.body.user_id,
-        remark: req.body.remark,
-        koneksi: req.body.koneksi,
+        tipe_personil_id: req.fields.tipe_personil_id,
+        approval_status_id: req.fields.approval_status_id,
+        simop_kd_pers_pandu: req.fields.simop_kd_pers_pandu,
+        simop_kd_pers_pandu_cbg: req.fields.simop_kd_pers_pandu_cbg,
+        enable: req.fields.enable,
+        asset_kapal_id: req.fields.asset_kapal_id,
+        nama: req.fields.nama,
+        kelas: req.fields.kelas,
+        tempat_lahir: req.fields.tempat_lahir,
+        tanggal_lahir: f.toDate(req.fields.tanggal_lahir),
+        nipp: req.fields.nipp,
+        jabatan: req.fields.jabatan,
+        status_kepegawaian_id: req.fields.status_kepegawaian_id,
+        cv: req.fields.cv,
+        tempat_tugas: req.fields.tempat_tugas,
+        nomor_sk: req.fields.nomor_sk,
+        tanggal_mulai: f.toDate(req.fields.tanggal_mulai),
+        tanggal_selesai: f.toDate(req.fields.tanggal_selesai),
+        sk: req.fields.sk,
+        skpp: req.fields.skpp,
+        surat_kesehatan: req.fields.surat_kesehatan,
+        sertifikat: req.fields.sertifikat,
+        date: f.toDate(req.fields.date),
+        item: req.fields.item,
+        action: req.fields.action,
+        user_id: req.fields.user_id,
+        remark: req.fields.remark,
+        koneksi: req.fields.koneksi,
     };
 
 	var used = {};
@@ -96,20 +96,20 @@ exports.findOne = (req, res) => {
 
 exports.update = (req, res) => {
     // Validate Request
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
-	req.body.tanggal_lahir = f.toDate(req.body.tanggal_lahir);
-	req.body.tanggal_mulai = f.toDate(req.body.tanggal_mulai);
-	req.body.tanggal_selesai = f.toDate(req.body.tanggal_selesai);
-	req.body.date = f.toDate(req.body.date);
+	req.fields.tanggal_lahir = f.toDate(req.fields.tanggal_lahir);
+	req.fields.tanggal_mulai = f.toDate(req.fields.tanggal_mulai);
+	req.fields.tanggal_selesai = f.toDate(req.fields.tanggal_selesai);
+	req.fields.date = f.toDate(req.fields.date);
 
     Personil.updateById(
         req.params.id,
-        req.body,
+        req.fields,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

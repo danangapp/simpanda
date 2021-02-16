@@ -2,24 +2,24 @@ const Cabang = require("../models/cabang.js");
 const f = require('./function');
 
 exports.create = (req, res) => {
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
     var cabang = {
-        nama: req.body.nama,
-        almt_cabang: req.body.almt_cabang,
-        cabang_cms: req.body.cabang_cms,
-        no_account_cabang: req.body.no_account_cabang,
-        nm_cabang_3digit: req.body.nm_cabang_3digit,
-        kd_account_cabang: req.body.kd_account_cabang,
-        kd_cabang_jai_puspel: req.body.kd_cabang_jai_puspel,
-        orgid: req.body.orgid,
-        port_code: req.body.port_code,
-        autospk: req.body.autospk,
-        kd_jenis_pelabuhan: req.body.kd_jenis_pelabuhan,
+        nama: req.fields.nama,
+        almt_cabang: req.fields.almt_cabang,
+        cabang_cms: req.fields.cabang_cms,
+        no_account_cabang: req.fields.no_account_cabang,
+        nm_cabang_3digit: req.fields.nm_cabang_3digit,
+        kd_account_cabang: req.fields.kd_account_cabang,
+        kd_cabang_jai_puspel: req.fields.kd_cabang_jai_puspel,
+        orgid: req.fields.orgid,
+        port_code: req.fields.port_code,
+        autospk: req.fields.autospk,
+        kd_jenis_pelabuhan: req.fields.kd_jenis_pelabuhan,
     };
 
 	var used = {};
@@ -79,7 +79,7 @@ exports.findOne = (req, res) => {
 
 exports.update = (req, res) => {
     // Validate Request
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
@@ -88,7 +88,7 @@ exports.update = (req, res) => {
 
     Cabang.updateById(
         req.params.id,
-        req.body,
+        req.fields,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

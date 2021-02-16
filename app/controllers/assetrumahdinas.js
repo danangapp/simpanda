@@ -2,30 +2,30 @@ const AssetRumahDinas = require("../models/assetrumahdinas.js");
 const f = require('./function');
 
 exports.create = (req, res) => {
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
     var assetrumahdinas = {
-        nama_assets: req.body.nama_assets,
-        satuan: req.body.satuan,
-        tahun_perolehan: req.body.tahun_perolehan,
-        nilai_perolehan: req.body.nilai_perolehan,
-        wilayah: req.body.wilayah,
-        nilai_buku: req.body.nilai_buku,
-        approval_status_id: req.body.approval_status_id,
-        tanggal: f.toDate(req.body.tanggal),
-        nilai: req.body.nilai,
-        catatan: req.body.catatan,
-        enable: req.body.enable,
-        date: f.toDate(req.body.date),
-        item: req.body.item,
-        action: req.body.action,
-        user_id: req.body.user_id,
-        remark: req.body.remark,
-        koneksi: req.body.koneksi,
+        nama_assets: req.fields.nama_assets,
+        satuan: req.fields.satuan,
+        tahun_perolehan: req.fields.tahun_perolehan,
+        nilai_perolehan: req.fields.nilai_perolehan,
+        wilayah: req.fields.wilayah,
+        nilai_buku: req.fields.nilai_buku,
+        approval_status_id: req.fields.approval_status_id,
+        tanggal: f.toDate(req.fields.tanggal),
+        nilai: req.fields.nilai,
+        catatan: req.fields.catatan,
+        enable: req.fields.enable,
+        date: f.toDate(req.fields.date),
+        item: req.fields.item,
+        action: req.fields.action,
+        user_id: req.fields.user_id,
+        remark: req.fields.remark,
+        koneksi: req.fields.koneksi,
     };
 
 	var used = {};
@@ -85,17 +85,17 @@ exports.findOne = (req, res) => {
 
 exports.update = (req, res) => {
     // Validate Request
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
-	req.body.tanggal = f.toDate(req.body.tanggal);
+	req.fields.tanggal = f.toDate(req.fields.tanggal);
 
     AssetRumahDinas.updateById(
         req.params.id,
-        req.body,
+        req.fields,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

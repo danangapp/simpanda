@@ -2,63 +2,63 @@ const AssetKapal = require("../models/assetkapal.js");
 const f = require('./function');
 
 exports.create = (req, res) => {
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
     var assetkapal = {
-        simop_kd_fas: req.body.simop_kd_fas,
-        kepemilikan_kapal: req.body.kepemilikan_kapal,
-        simop_status_milik: req.body.simop_status_milik,
-        simop_kd_agen: req.body.simop_kd_agen,
-        jenis_kapal: req.body.jenis_kapal,
-        nama_asset: req.body.nama_asset,
-        horse_power: req.body.horse_power,
-        tahun_perolehan: req.body.tahun_perolehan,
-        nilai_perolehan: req.body.nilai_perolehan,
-        lokasi: req.body.lokasi,
-        enable: req.body.enable,
-        asset_number: req.body.asset_number,
-        simop_kd_puspel_jai: req.body.simop_kd_puspel_jai,
-        simop_new_puspel_jai: req.body.simop_new_puspel_jai,
-        simop_new_asset_jai: req.body.simop_new_asset_jai,
-        approval_status_id: req.body.approval_status_id,
-        loa: req.body.loa,
-        tahun_pembuatan: req.body.tahun_pembuatan,
-        breadth: req.body.breadth,
-        kontruksi: req.body.kontruksi,
-        depth: req.body.depth,
-        negara_pembuat: req.body.negara_pembuat,
-        draft_max: req.body.draft_max,
-        daya: req.body.daya,
-        putaran: req.body.putaran,
-        merk: req.body.merk,
-        tipe: req.body.tipe,
-        daya_motor: req.body.daya_motor,
-        daya_generator: req.body.daya_generator,
-        putaran_spesifikasi: req.body.putaran_spesifikasi,
-        merk_spesifikasi: req.body.merk_spesifikasi,
-        tipe_spesifikasi: req.body.tipe_spesifikasi,
-        klas: req.body.klas,
-        notasi_permesinan: req.body.notasi_permesinan,
-        no_registrasi: req.body.no_registrasi,
-        notasi_perlengkapan: req.body.notasi_perlengkapan,
-        port_of_registration: req.body.port_of_registration,
-        notasi_perairan: req.body.notasi_perairan,
-        notasi_lambung: req.body.notasi_lambung,
-        gross_tonnage: req.body.gross_tonnage,
-        bolard_pull: req.body.bolard_pull,
-        kecepatan: req.body.kecepatan,
-        ship_particular: req.body.ship_particular,
-        sertifikat: req.body.sertifikat,
-        date: f.toDate(req.body.date),
-        item: req.body.item,
-        action: req.body.action,
-        user_id: req.body.user_id,
-        remark: req.body.remark,
-        koneksi: req.body.koneksi,
+        simop_kd_fas: req.fields.simop_kd_fas,
+        kepemilikan_kapal: req.fields.kepemilikan_kapal,
+        simop_status_milik: req.fields.simop_status_milik,
+        simop_kd_agen: req.fields.simop_kd_agen,
+        jenis_kapal: req.fields.jenis_kapal,
+        nama_asset: req.fields.nama_asset,
+        horse_power: req.fields.horse_power,
+        tahun_perolehan: req.fields.tahun_perolehan,
+        nilai_perolehan: req.fields.nilai_perolehan,
+        lokasi: req.fields.lokasi,
+        enable: req.fields.enable,
+        asset_number: req.fields.asset_number,
+        simop_kd_puspel_jai: req.fields.simop_kd_puspel_jai,
+        simop_new_puspel_jai: req.fields.simop_new_puspel_jai,
+        simop_new_asset_jai: req.fields.simop_new_asset_jai,
+        approval_status_id: req.fields.approval_status_id,
+        loa: req.fields.loa,
+        tahun_pembuatan: req.fields.tahun_pembuatan,
+        breadth: req.fields.breadth,
+        kontruksi: req.fields.kontruksi,
+        depth: req.fields.depth,
+        negara_pembuat: req.fields.negara_pembuat,
+        draft_max: req.fields.draft_max,
+        daya: req.fields.daya,
+        putaran: req.fields.putaran,
+        merk: req.fields.merk,
+        tipe: req.fields.tipe,
+        daya_motor: req.fields.daya_motor,
+        daya_generator: req.fields.daya_generator,
+        putaran_spesifikasi: req.fields.putaran_spesifikasi,
+        merk_spesifikasi: req.fields.merk_spesifikasi,
+        tipe_spesifikasi: req.fields.tipe_spesifikasi,
+        klas: req.fields.klas,
+        notasi_permesinan: req.fields.notasi_permesinan,
+        no_registrasi: req.fields.no_registrasi,
+        notasi_perlengkapan: req.fields.notasi_perlengkapan,
+        port_of_registration: req.fields.port_of_registration,
+        notasi_perairan: req.fields.notasi_perairan,
+        notasi_lambung: req.fields.notasi_lambung,
+        gross_tonnage: req.fields.gross_tonnage,
+        bolard_pull: req.fields.bolard_pull,
+        kecepatan: req.fields.kecepatan,
+        ship_particular: req.fields.ship_particular,
+        sertifikat: req.fields.sertifikat,
+        date: f.toDate(req.fields.date),
+        item: req.fields.item,
+        action: req.fields.action,
+        user_id: req.fields.user_id,
+        remark: req.fields.remark,
+        koneksi: req.fields.koneksi,
     };
 
 	var used = {};
@@ -118,17 +118,17 @@ exports.findOne = (req, res) => {
 
 exports.update = (req, res) => {
     // Validate Request
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
-	req.body.date = f.toDate(req.body.date);
+	req.fields.date = f.toDate(req.fields.date);
 
     AssetKapal.updateById(
         req.params.id,
-        req.body,
+        req.fields,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

@@ -2,24 +2,24 @@ const PemeriksaanKapal = require("../models/pemeriksaankapal.js");
 const f = require('./function');
 
 exports.create = (req, res) => {
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
 
     var pemeriksaankapal = {
-        approval_status_id: req.body.approval_status_id,
-        enable: req.body.enable,
-        asset_kapal_id: req.body.asset_kapal_id,
-        cabang_id: req.body.cabang_id,
-        date: f.toDate(req.body.date),
-        item: req.body.item,
-        action: req.body.action,
-        user_id: req.body.user_id,
-        remark: req.body.remark,
-        koneksi: req.body.koneksi,
-        check: req.body.check,
+        approval_status_id: req.fields.approval_status_id,
+        enable: req.fields.enable,
+        asset_kapal_id: req.fields.asset_kapal_id,
+        cabang_id: req.fields.cabang_id,
+        date: f.toDate(req.fields.date),
+        item: req.fields.item,
+        action: req.fields.action,
+        user_id: req.fields.user_id,
+        remark: req.fields.remark,
+        koneksi: req.fields.koneksi,
+        check: req.fields.check,
     };
 
 	var used = {};
@@ -79,7 +79,7 @@ exports.findOne = (req, res) => {
 
 exports.update = (req, res) => {
     // Validate Request
-    if (!req.body) {
+    if (!req.fields) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
@@ -88,7 +88,7 @@ exports.update = (req, res) => {
 
     PemeriksaanKapal.updateById(
         req.params.id,
-        req.body,
+        req.fields,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

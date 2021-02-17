@@ -129,6 +129,10 @@ exports.update = (req, res) => {
     }
 
 	req.fields.date = f.toDate(req.fields.date);
+	if (req.files.ship_particular) {
+	    req.fields.ship_particular = f.uploadFile('asset_kapal', req.files.ship_particular, asset_kapal.ship_particular);
+	}
+
 
     AssetKapal.updateById(
         req.params.id,

@@ -105,6 +105,14 @@ exports.update = (req, res) => {
     }
 
 	req.fields.tanggal_sk = f.toDate(req.fields.tanggal_sk);
+	if (req.files.file_pendukung) {
+	    req.fields.file_pendukung = f.uploadFile('evaluasi_pelimpahan', req.files.file_pendukung, evaluasi_pelimpahan.file_pendukung);
+	}
+
+	if (req.files.file_sk_pelimpahan) {
+	    req.fields.file_sk_pelimpahan = f.uploadFile('evaluasi_pelimpahan', req.files.file_sk_pelimpahan, evaluasi_pelimpahan.file_sk_pelimpahan);
+	}
+
 
     EvaluasiPelimpahan.updateById(
         req.params.id,

@@ -131,6 +131,10 @@ exports.update = (req, res) => {
 	req.fields.prepard_tanggal = f.toDate(req.fields.prepard_tanggal);
 	req.fields.reviewed_tanggal = f.toDate(req.fields.reviewed_tanggal);
 	req.fields.approved_tanggal = f.toDate(req.fields.approved_tanggal);
+	if (req.files.bukti_temuan) {
+	    req.fields.bukti_temuan = f.uploadFile('investigasi_insiden', req.files.bukti_temuan, investigasi_insiden.bukti_temuan);
+	}
+
 
     InvestigasiInsiden.updateById(
         req.params.id,

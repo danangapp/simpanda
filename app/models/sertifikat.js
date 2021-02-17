@@ -34,7 +34,12 @@ Sertifikat.create = async(newSertifikat, result) => {
 		    for (var a in x) {
 		        const val = x[a];
 		        header += a + ", ";
-		        value += "'" + val + "', ";
+				if (a != "sertifikat") {
+				    value += "'" + val + "', ";
+				} else {
+				    var fileName = f.uploadFile64('sertifikat', val);
+				    value += "'" + fileName + "', ";
+				}
 		    }
 		    value = value.substring(0, value.length - 2);
 		    header = header.substring(0, header.length - 2);

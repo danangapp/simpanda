@@ -122,6 +122,22 @@ exports.update = (req, res) => {
 	req.fields.tanggal_mulai = f.toDate(req.fields.tanggal_mulai);
 	req.fields.tanggal_selesai = f.toDate(req.fields.tanggal_selesai);
 	req.fields.date = f.toDate(req.fields.date);
+	if (req.files.cv) {
+	    req.fields.cv = f.uploadFile('personil', req.files.cv, personil.cv);
+	}
+
+	if (req.files.sk) {
+	    req.fields.sk = f.uploadFile('personil', req.files.sk, personil.sk);
+	}
+
+	if (req.files.skpp) {
+	    req.fields.skpp = f.uploadFile('personil', req.files.skpp, personil.skpp);
+	}
+
+	if (req.files.surat_kesehatan) {
+	    req.fields.surat_kesehatan = f.uploadFile('personil', req.files.surat_kesehatan, personil.surat_kesehatan);
+	}
+
 
     Personil.updateById(
         req.params.id,

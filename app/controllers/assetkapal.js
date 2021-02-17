@@ -69,7 +69,7 @@ exports.create = (req, res) => {
 	}
 
 	if (req.files.ship_particular) {
-	    asset_kapal.ship_particular = f.uploadFile('asset_kapal', req.files.ship_particular, asset_kapal.ship_particular);
+	    asset_kapal.ship_particular = f.uploadFile64('asset_kapal', req.files.ship_particular);
 	}
 
     AssetKapal.create(assetkapal, (err, data) => {
@@ -130,7 +130,7 @@ exports.update = (req, res) => {
 
 	req.fields.date = f.toDate(req.fields.date);
 	if (req.files.ship_particular) {
-	    req.fields.ship_particular = f.uploadFile('asset_kapal', req.files.ship_particular, asset_kapal.ship_particular);
+	    req.fields.ship_particular = f.uploadFile64('asset_kapal', req.files.ship_particular);
 	}
 
 

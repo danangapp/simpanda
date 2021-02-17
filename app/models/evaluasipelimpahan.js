@@ -19,7 +19,7 @@ const EvaluasiPelimpahan = function (evaluasipelimpahan) {
     this.sispro = evaluasipelimpahan.sispro;
     this.tarif_jasa_pandu_tunda = evaluasipelimpahan.tarif_jasa_pandu_tunda;
     this.data_dukung = evaluasipelimpahan.data_dukung;
-    this.dile_pendukung = evaluasipelimpahan.dile_pendukung;
+    this.file_pendukung = evaluasipelimpahan.file_pendukung;
     this.tanggal_sk = evaluasipelimpahan.tanggal_sk;
     this.file_sk_pelimpahan = evaluasipelimpahan.file_sk_pelimpahan;
 };

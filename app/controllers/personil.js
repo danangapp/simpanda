@@ -46,6 +46,22 @@ exports.create = (req, res) => {
 	    }
 	}
 
+	if (req.files.cv) {
+	    personil.cv = f.uploadFile('personil', req.files.cv, personil.cv);
+	}
+
+	if (req.files.sk) {
+	    personil.sk = f.uploadFile('personil', req.files.sk, personil.sk);
+	}
+
+	if (req.files.skpp) {
+	    personil.skpp = f.uploadFile('personil', req.files.skpp, personil.skpp);
+	}
+
+	if (req.files.surat_kesehatan) {
+	    personil.surat_kesehatan = f.uploadFile('personil', req.files.surat_kesehatan, personil.surat_kesehatan);
+	}
+
     Personil.create(personil, (err, data) => {
         if (err)
             res.status(500).send({

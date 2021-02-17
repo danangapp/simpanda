@@ -12,7 +12,7 @@ const ArmadaSchedule = function (armadaschedule) {
     this.armada_id = armadaschedule.armada_id;
     this.status = armadaschedule.status;
     this.jam_pengoperasian = armadaschedule.jam_pengoperasian;
-    this.reliabiliy = armadaschedule.reliabiliy;
+    this.reliability = armadaschedule.reliability;
     this.keterangan = armadaschedule.keterangan;
 };
 

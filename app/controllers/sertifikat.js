@@ -13,7 +13,7 @@ exports.create = (req, res) => {
         personil_id: req.fields.personil_id,
         no_sertifikat: req.fields.no_sertifikat,
         issuer: req.fields.issuer,
-        tempat_keluar_sertifikat: req.fields.tempat_keluar_sertifikat,
+        tempat_keluar_sertifikat: f.toDate(req.fields.tempat_keluar_sertifikat),
         tanggal_keluar_sertifikat: f.toDate(req.fields.tanggal_keluar_sertifikat),
         tanggal_expire: f.toDate(req.fields.tanggal_expire),
         reminder_date: f.toDate(req.fields.reminder_date),
@@ -84,6 +84,7 @@ exports.update = (req, res) => {
         });
     }
 
+	req.fields.tempat_keluar_sertifikat = f.toDate(req.fields.tempat_keluar_sertifikat);
 	req.fields.tanggal_keluar_sertifikat = f.toDate(req.fields.tanggal_keluar_sertifikat);
 	req.fields.tanggal_expire = f.toDate(req.fields.tanggal_expire);
 	req.fields.reminder_date = f.toDate(req.fields.reminder_date);

@@ -10,7 +10,7 @@ exports.create = (req, res) => {
 
     var assetstasiunequipment = {
         nomor_asset: req.fields.nomor_asset,
-        tipe_asset_id: req.fields.tipe_asset_id,
+        tipe_stasiun_id: req.fields.tipe_stasiun_id,
         nama: req.fields.nama,
         tahun_perolehan: req.fields.tahun_perolehan,
         nilai_perolehan: req.fields.nilai_perolehan,

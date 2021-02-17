@@ -7,6 +7,7 @@ var objek = new Object();
 // constructor
 const TipeAsset = function (tipeasset) {
     this.nama = tipeasset.nama;
+    this.type = tipeasset.type;
 };
 
 TipeAsset.create = async(newTipeAsset, result) => {

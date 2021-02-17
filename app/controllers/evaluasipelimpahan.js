@@ -22,7 +22,7 @@ exports.create = (req, res) => {
         sispro: req.fields.sispro,
         tarif_jasa_pandu_tunda: req.fields.tarif_jasa_pandu_tunda,
         data_dukung: req.fields.data_dukung,
-        dile_pendukung: req.fields.dile_pendukung,
+        file_pendukung: req.fields.file_pendukung,
         tanggal_sk: f.toDate(req.fields.tanggal_sk),
         file_sk_pelimpahan: req.fields.file_sk_pelimpahan,
         date: f.toDate(req.fields.date),
@@ -38,6 +38,14 @@ exports.create = (req, res) => {
 	    if (!evaluasipelimpahan[i]) {
 	        delete evaluasipelimpahan[i];
 	    }
+	}
+
+	if (req.files.file_pendukung) {
+	    evaluasi_pelimpahan.file_pendukung = f.uploadFile('evaluasi_pelimpahan', req.files.file_pendukung, evaluasi_pelimpahan.file_pendukung);
+	}
+
+	if (req.files.file_sk_pelimpahan) {
+	    evaluasi_pelimpahan.file_sk_pelimpahan = f.uploadFile('evaluasi_pelimpahan', req.files.file_sk_pelimpahan, evaluasi_pelimpahan.file_sk_pelimpahan);
 	}
 
     EvaluasiPelimpahan.create(evaluasipelimpahan, (err, data) => {

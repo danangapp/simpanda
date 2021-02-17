@@ -68,6 +68,10 @@ exports.create = (req, res) => {
 	    }
 	}
 
+	if (req.files.ship_particular) {
+	    asset_kapal.ship_particular = f.uploadFile('asset_kapal', req.files.ship_particular, asset_kapal.ship_particular);
+	}
+
     AssetKapal.create(assetkapal, (err, data) => {
         if (err)
             res.status(500).send({

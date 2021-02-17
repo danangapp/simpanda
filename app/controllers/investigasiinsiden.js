@@ -68,6 +68,10 @@ exports.create = (req, res) => {
 	    }
 	}
 
+	if (req.files.bukti_temuan) {
+	    investigasi_insiden.bukti_temuan = f.uploadFile('investigasi_insiden', req.files.bukti_temuan, investigasi_insiden.bukti_temuan);
+	}
+
     InvestigasiInsiden.create(investigasiinsiden, (err, data) => {
         if (err)
             res.status(500).send({

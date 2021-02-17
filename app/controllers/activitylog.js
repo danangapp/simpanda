@@ -9,7 +9,7 @@ exports.create = (req, res) => {
     }
 
     var activitylog = {
-        date: f.toDate(req.fields.date),
+        date: req.fields.date,
         item: req.fields.item,
         action: req.fields.action,
         user_id: req.fields.user_id,
@@ -80,7 +80,6 @@ exports.update = (req, res) => {
         });
     }
 
-	req.fields.date = f.toDate(req.fields.date);
 
     ActivityLog.updateById(
         req.params.id,

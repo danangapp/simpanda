@@ -10,6 +10,7 @@ exports.create = (req, res) => {
 
     var tipeasset = {
         nama: req.fields.nama,
+        type: req.fields.type,
     };
 
 	var used = {};

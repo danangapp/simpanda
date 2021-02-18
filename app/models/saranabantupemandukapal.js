@@ -104,26 +104,36 @@ SaranaBantuPemanduKapal.findById = (id, result) => {
 
 SaranaBantuPemanduKapal.getAll = (param, result) => {
     const length = Object.keys(param).length;
+    var wheres = "";
     var query = "SELECT a.* , a1.nama as sarana_bantu_pemandu, a2.nama as tipe_sarana_pemandu_kapal FROM sarana_bantu_pemandu_kapal a  LEFT JOIN sarana_bantu_pemandu a1 ON a.sarana_bantu_pemandu_id = a1.id  LEFT JOIN tipe_sarana_pemandu_kapal a2 ON a.tipe_sarana_pemandu_kapal_id = a2.id ";
     if (length > 0) {
-        query += " WHERE ";
+        wheres += " WHERE ";
         for (var i in param) {
-            var str = param[i];
-            // var split = str.split(",");
-            if (typeof str != "string") {
-                query += "(";
-                for (var x in str) {
-                    query += "a." + i + " ='" + str[x] + "' or ";
-                }
-                query = query.substring(0, query.length - 4);
-                query += ") and ";
-            } else {
-                query += "a." + i + " ='" + param[i] + "' and ";
-            }
+        	if (i != "q") {
+        	    var str = param[i];
+        	    if (typeof str != "string") {
+        	        wheres += "(";
+        	        for (var x in str) {
+        	            wheres += "a." + i + " ='" + str[x] + "' or ";
+        	        }
+        	        wheres = wheres.substring(0, wheres.length - 4);
+        	        wheres += ") and ";
+        	    } else {
+        	        wheres += "a." + i + " ='" + param[i] + "' and ";
+        	    }
+        	}
         }
 
-        query = query.substring(0, query.length - 5);
+        if (wheres.length > 7){
+        	wheres = wheres.substring(0, wheres.length - 5);
+        }
     }
+
+	wheres += wheres.length == 7 ? "(" : "OR (";
+	wheres += "a.sarana_bantu_pemandu_id LIKE '%1234%' OR a.tipe_sarana_pemandu_kapal_id LIKE '%1234%' OR a.dokumen_kapal_q1 LIKE '%1234%' OR a.dokumen_kapal_q2 LIKE '%1234%' OR a.dokumen_kapal_q3 LIKE '%1234%' OR a.dokumen_kapal_q4 LIKE '%1234%' OR a.dokumen_kapal_q5 LIKE '%1234%' OR a.dokumen_kapal_q6 LIKE '%1234%' OR a.dokumen_kapal_q7 LIKE '%1234%' OR a.dokumen_kapal_q8 LIKE '%1234%' OR a.dokumen_kapal_q9 LIKE '%1234%' OR a.dokumen_kapal_q10 LIKE '%1234%' OR a.dokumen_kapal_q11 LIKE '%1234%' OR a.dokumen_kapal_q12 LIKE '%1234%' OR a.dokumen_kapal_q13 LIKE '%1234%' OR a.dokumen_kapal_q14 LIKE '%1234%' OR a.dokumen_kapal_q15 LIKE '%1234%' OR a.kondisi_umum_q1 LIKE '%1234%' OR a.kondisi_umum_q2 LIKE '%1234%' OR a.kondisi_umum_q3 LIKE '%1234%' OR a.kondisi_umum_q4 LIKE '%1234%' OR a.kondisi_umum_q5 LIKE '%1234%' OR a.kondisi_umum_q6 LIKE '%1234%' OR a.pemeriksaan_performa_q1 LIKE '%1234%' OR a.pemeriksaan_performa_q2 LIKE '%1234%' OR a.pemeriksaan_performa_q3 LIKE '%1234%' OR a.pemeriksaan_performa_q4 LIKE '%1234%' OR a.pemeriksaan_performa_q5 LIKE '%1234%' OR a.pemeriksaan_fisik_a1 LIKE '%1234%' OR a.pemeriksaan_fisik_a2 LIKE '%1234%' OR a.pemeriksaan_fisik_a3 LIKE '%1234%' OR a.pemeriksaan_fisik_a4 LIKE '%1234%' OR a.pemeriksaan_fisik_a5 LIKE '%1234%' OR a.pemeriksaan_fisik_a6 LIKE '%1234%' OR a.pemeriksaan_fisik_a7 LIKE '%1234%' OR a.pemeriksaan_fisik_b1 LIKE '%1234%' OR a.pemeriksaan_fisik_b2 LIKE '%1234%' OR a.pemeriksaan_fisik_b3 LIKE '%1234%' OR a.pemeriksaan_fisik_b4 LIKE '%1234%' OR a.pemeriksaan_fisik_b5 LIKE '%1234%' OR a.pemeriksaan_fisik_b6 LIKE '%1234%' OR a.pemeriksaan_fisik_b7 LIKE '%1234%' OR a.pemeriksaan_fisik_b8 LIKE '%1234%' OR a.pemeriksaan_fisik_b9 LIKE '%1234%' OR a.pemeriksaan_fisik_c1 LIKE '%1234%' OR a.pemeriksaan_fisik_c2 LIKE '%1234%' OR a.pemeriksaan_fisik_c3 LIKE '%1234%' OR a.pemeriksaan_fisik_c4 LIKE '%1234%' OR a.pemeriksaan_fisik_c5 LIKE '%1234%' OR a.pemeriksaan_fisik_c6 LIKE '%1234%' OR a.pemeriksaan_fisik_c7 LIKE '%1234%' OR a.pemeriksaan_fisik_d1 LIKE '%1234%' OR a.pemeriksaan_fisik_d2 LIKE '%1234%' OR a.pemeriksaan_fisik_d3 LIKE '%1234%' OR a.pemeriksaan_fisik_d4 LIKE '%1234%' OR a.pemeriksaan_fisik_d5 LIKE '%1234%' OR a.pemeriksaan_fisik_d6 LIKE '%1234%' OR a.pemeriksaan_fisik_d7 LIKE '%1234%' OR a.pemeriksaan_fisik_d8 LIKE '%1234%' OR a.pemeriksaan_fisik_d9 LIKE '%1234%' OR a.pemeriksaan_fisik_e1 LIKE '%1234%' OR a.pemeriksaan_fisik_e2 LIKE '%1234%' OR a.pemeriksaan_fisik_e3 LIKE '%1234%' OR a.pemeriksaan_fisik_f1 LIKE '%1234%' OR a.pemeriksaan_fisik_f2 LIKE '%1234%' OR a.pemeriksaan_fisik_f3 LIKE '%1234%' OR a.pemeriksaan_fisik_f4 LIKE '%1234%'";	
+	wheres += ")";
+    query += wheres;
+
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);

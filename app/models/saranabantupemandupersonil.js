@@ -42,26 +42,36 @@ SaranaBantuPemanduPersonil.findById = (id, result) => {
 
 SaranaBantuPemanduPersonil.getAll = (param, result) => {
     const length = Object.keys(param).length;
+    var wheres = "";
     var query = "SELECT a.* , a1.nama as sarana_bantu_pemandu, a2.nama_asset as asset_kapal, a3.nama as status_ijazah FROM sarana_bantu_pemandu_personil a  LEFT JOIN sarana_bantu_pemandu a1 ON a.sarana_bantu_pemandu_id = a1.id  LEFT JOIN asset_kapal a2 ON a.asset_kapal_id = a2.id  LEFT JOIN status_ijazah a3 ON a.status_ijazah_id = a3.id ";
     if (length > 0) {
-        query += " WHERE ";
+        wheres += " WHERE ";
         for (var i in param) {
-            var str = param[i];
-            // var split = str.split(",");
-            if (typeof str != "string") {
-                query += "(";
-                for (var x in str) {
-                    query += "a." + i + " ='" + str[x] + "' or ";
-                }
-                query = query.substring(0, query.length - 4);
-                query += ") and ";
-            } else {
-                query += "a." + i + " ='" + param[i] + "' and ";
-            }
+        	if (i != "q") {
+        	    var str = param[i];
+        	    if (typeof str != "string") {
+        	        wheres += "(";
+        	        for (var x in str) {
+        	            wheres += "a." + i + " ='" + str[x] + "' or ";
+        	        }
+        	        wheres = wheres.substring(0, wheres.length - 4);
+        	        wheres += ") and ";
+        	    } else {
+        	        wheres += "a." + i + " ='" + param[i] + "' and ";
+        	    }
+        	}
         }
 
-        query = query.substring(0, query.length - 5);
+        if (wheres.length > 7){
+        	wheres = wheres.substring(0, wheres.length - 5);
+        }
     }
+
+	wheres += wheres.length == 7 ? "(" : "OR (";
+	wheres += "a.sarana_bantu_pemandu_id LIKE '%1234%' OR a.nama LIKE '%1234%' OR a.jabatan LIKE '%1234%' OR a.asset_kapal_id LIKE '%1234%' OR a.status_ijazah_id LIKE '%1234%'";	
+	wheres += ")";
+    query += wheres;
+
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);

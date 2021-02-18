@@ -48,26 +48,36 @@ Cabang.findById = (id, result) => {
 
 Cabang.getAll = (param, result) => {
     const length = Object.keys(param).length;
+    var wheres = "";
     var query = "SELECT a.*  FROM cabang a ";
     if (length > 0) {
-        query += " WHERE ";
+        wheres += " WHERE ";
         for (var i in param) {
-            var str = param[i];
-            // var split = str.split(",");
-            if (typeof str != "string") {
-                query += "(";
-                for (var x in str) {
-                    query += "a." + i + " ='" + str[x] + "' or ";
-                }
-                query = query.substring(0, query.length - 4);
-                query += ") and ";
-            } else {
-                query += "a." + i + " ='" + param[i] + "' and ";
-            }
+        	if (i != "q") {
+        	    var str = param[i];
+        	    if (typeof str != "string") {
+        	        wheres += "(";
+        	        for (var x in str) {
+        	            wheres += "a." + i + " ='" + str[x] + "' or ";
+        	        }
+        	        wheres = wheres.substring(0, wheres.length - 4);
+        	        wheres += ") and ";
+        	    } else {
+        	        wheres += "a." + i + " ='" + param[i] + "' and ";
+        	    }
+        	}
         }
 
-        query = query.substring(0, query.length - 5);
+        if (wheres.length > 7){
+        	wheres = wheres.substring(0, wheres.length - 5);
+        }
     }
+
+	wheres += wheres.length == 7 ? "(" : "OR (";
+	wheres += "a.nama LIKE '%1234%' OR a.almt_cabang LIKE '%1234%' OR a.cabang_cms LIKE '%1234%' OR a.no_account_cabang LIKE '%1234%' OR a.nm_cabang_3digit LIKE '%1234%' OR a.kd_account_cabang LIKE '%1234%' OR a.kd_cabang_jai_puspel LIKE '%1234%' OR a.orgid LIKE '%1234%' OR a.port_code LIKE '%1234%' OR a.autospk LIKE '%1234%' OR a.kd_jenis_pelabuhan LIKE '%1234%'";	
+	wheres += ")";
+    query += wheres;
+
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);

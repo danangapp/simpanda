@@ -107,26 +107,36 @@ Personil.findById = (id, result) => {
 
 Personil.getAll = (param, result) => {
     const length = Object.keys(param).length;
+    var wheres = "";
     var query = "SELECT a.* , a1.nama as tipe_personil, a2.nama as approval_status, a3.nama as ena, a4.nama_asset as asset_kapal, a5.nama as status_kepegawaian, a6.nama as cabang FROM personil a  LEFT JOIN tipe_personil a1 ON a.tipe_personil_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id  LEFT JOIN asset_kapal a4 ON a.asset_kapal_id = a4.id  LEFT JOIN status_kepegawaian a5 ON a.status_kepegawaian_id = a5.id  LEFT JOIN cabang a6 ON a.tempat_tugas = a6.id ";
     if (length > 0) {
-        query += " WHERE ";
+        wheres += " WHERE ";
         for (var i in param) {
-            var str = param[i];
-            // var split = str.split(",");
-            if (typeof str != "string") {
-                query += "(";
-                for (var x in str) {
-                    query += "a." + i + " ='" + str[x] + "' or ";
-                }
-                query = query.substring(0, query.length - 4);
-                query += ") and ";
-            } else {
-                query += "a." + i + " ='" + param[i] + "' and ";
-            }
+        	if (i != "q") {
+        	    var str = param[i];
+        	    if (typeof str != "string") {
+        	        wheres += "(";
+        	        for (var x in str) {
+        	            wheres += "a." + i + " ='" + str[x] + "' or ";
+        	        }
+        	        wheres = wheres.substring(0, wheres.length - 4);
+        	        wheres += ") and ";
+        	    } else {
+        	        wheres += "a." + i + " ='" + param[i] + "' and ";
+        	    }
+        	}
         }
 
-        query = query.substring(0, query.length - 5);
+        if (wheres.length > 7){
+        	wheres = wheres.substring(0, wheres.length - 5);
+        }
     }
+
+	wheres += wheres.length == 7 ? "(" : "OR (";
+	wheres += "a.tipe_personil_id LIKE '%1234%' OR a.approval_status_id LIKE '%1234%' OR a.simop_kd_pers_pandu LIKE '%1234%' OR a.simop_kd_pers_pandu_cbg LIKE '%1234%' OR a.enable LIKE '%1234%' OR a.asset_kapal_id LIKE '%1234%' OR a.nama LIKE '%1234%' OR a.kelas LIKE '%1234%' OR a.tempat_lahir LIKE '%1234%' OR a.tanggal_lahir LIKE '%1234%' OR a.nipp LIKE '%1234%' OR a.jabatan LIKE '%1234%' OR a.status_kepegawaian_id LIKE '%1234%' OR a.cv LIKE '%1234%' OR a.tempat_tugas LIKE '%1234%' OR a.nomor_sk LIKE '%1234%' OR a.tanggal_mulai LIKE '%1234%' OR a.tanggal_selesai LIKE '%1234%' OR a.sk LIKE '%1234%' OR a.skpp LIKE '%1234%' OR a.surat_kesehatan LIKE '%1234%' OR a.sertifikat_id LIKE '%1234%'";	
+	wheres += ")";
+    query += wheres;
+
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);

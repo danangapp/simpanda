@@ -66,26 +66,36 @@ AssetStasiunEquipment.findById = (id, result) => {
 
 AssetStasiunEquipment.getAll = (param, result) => {
     const length = Object.keys(param).length;
+    var wheres = "";
     var query = "SELECT a.* , a1.nama as tipe_stasiun, a2.nama as approval_status, a3.nama as ena FROM asset_stasiun_equipment a  LEFT JOIN tipe_stasiun a1 ON a.tipe_stasiun_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id ";
     if (length > 0) {
-        query += " WHERE ";
+        wheres += " WHERE ";
         for (var i in param) {
-            var str = param[i];
-            // var split = str.split(",");
-            if (typeof str != "string") {
-                query += "(";
-                for (var x in str) {
-                    query += "a." + i + " ='" + str[x] + "' or ";
-                }
-                query = query.substring(0, query.length - 4);
-                query += ") and ";
-            } else {
-                query += "a." + i + " ='" + param[i] + "' and ";
-            }
+        	if (i != "q") {
+        	    var str = param[i];
+        	    if (typeof str != "string") {
+        	        wheres += "(";
+        	        for (var x in str) {
+        	            wheres += "a." + i + " ='" + str[x] + "' or ";
+        	        }
+        	        wheres = wheres.substring(0, wheres.length - 4);
+        	        wheres += ") and ";
+        	    } else {
+        	        wheres += "a." + i + " ='" + param[i] + "' and ";
+        	    }
+        	}
         }
 
-        query = query.substring(0, query.length - 5);
+        if (wheres.length > 7){
+        	wheres = wheres.substring(0, wheres.length - 5);
+        }
     }
+
+	wheres += wheres.length == 7 ? "(" : "OR (";
+	wheres += "a.nomor_asset LIKE '%1234%' OR a.tipe_stasiun_id LIKE '%1234%' OR a.nama LIKE '%1234%' OR a.tahun_perolehan LIKE '%1234%' OR a.nilai_perolehan LIKE '%1234%' OR a.kondisi LIKE '%1234%' OR a.approval_status_id LIKE '%1234%' OR a.enable LIKE '%1234%'";	
+	wheres += ")";
+    query += wheres;
+
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);

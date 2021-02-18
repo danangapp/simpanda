@@ -102,26 +102,36 @@ InvestigasiInsiden.findById = (id, result) => {
 
 InvestigasiInsiden.getAll = (param, result) => {
     const length = Object.keys(param).length;
+    var wheres = "";
     var query = "SELECT a.* , a1.nama as approval_status, a2.nama as ena, a3.nama as status_investigasi_insiden FROM investigasi_insiden a  LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN status_investigasi_insiden a3 ON a.status_investigasi_insiden_id = a3.id ";
     if (length > 0) {
-        query += " WHERE ";
+        wheres += " WHERE ";
         for (var i in param) {
-            var str = param[i];
-            // var split = str.split(",");
-            if (typeof str != "string") {
-                query += "(";
-                for (var x in str) {
-                    query += "a." + i + " ='" + str[x] + "' or ";
-                }
-                query = query.substring(0, query.length - 4);
-                query += ") and ";
-            } else {
-                query += "a." + i + " ='" + param[i] + "' and ";
-            }
+        	if (i != "q") {
+        	    var str = param[i];
+        	    if (typeof str != "string") {
+        	        wheres += "(";
+        	        for (var x in str) {
+        	            wheres += "a." + i + " ='" + str[x] + "' or ";
+        	        }
+        	        wheres = wheres.substring(0, wheres.length - 4);
+        	        wheres += ") and ";
+        	    } else {
+        	        wheres += "a." + i + " ='" + param[i] + "' and ";
+        	    }
+        	}
         }
 
-        query = query.substring(0, query.length - 5);
+        if (wheres.length > 7){
+        	wheres = wheres.substring(0, wheres.length - 5);
+        }
     }
+
+	wheres += wheres.length == 7 ? "(" : "OR (";
+	wheres += "a.approval_status_id LIKE '%1234%' OR a.enable LIKE '%1234%' OR a.no_report LIKE '%1234%' OR a.unit_terkait LIKE '%1234%' OR a.judul_report LIKE '%1234%' OR a.kronologi_kejadian LIKE '%1234%' OR a.temuan_investigasi LIKE '%1234%' OR a.bukti_temuan LIKE '%1234%' OR a.saksi_1 LIKE '%1234%' OR a.saksi_2 LIKE '%1234%' OR a.investigator LIKE '%1234%' OR a.rincian_kegiatan LIKE '%1234%' OR a.luka_sakit LIKE '%1234%' OR a.wujud_cedera LIKE '%1234%' OR a.bagian_tubuh_cedera LIKE '%1234%' OR a.mekanisme_cedera LIKE '%1234%' OR a.kerusakan_alat LIKE '%1234%' OR a.uraian_kejadian LIKE '%1234%' OR a.analisa_penyebab LIKE '%1234%' OR a.peralatan_kelengkapan LIKE '%1234%' OR a.alat_pelindung_diri LIKE '%1234%' OR a.perilaku LIKE '%1234%' OR a.kebersihan_kerapihan LIKE '%1234%' OR a.peralatan_perlengkapan LIKE '%1234%' OR a.kemampuan_kondisi_fisik LIKE '%1234%' OR a.pemeliharaan_perbaikan LIKE '%1234%' OR a.design LIKE '%1234%' OR a.tingkat_kemampuan LIKE '%1234%' OR a.penjagaan LIKE '%1234%' OR a.tidandakan_terkait LIKE '%1234%' OR a.faktor_utama_insiden LIKE '%1234%' OR a.rekomendasi_tindakan LIKE '%1234%' OR a.pihak_yang_bertanggungjawab LIKE '%1234%' OR a.pelaksana LIKE '%1234%' OR a.tanggal_pemeriksaan LIKE '%1234%' OR a.nama LIKE '%1234%' OR a.jabatan LIKE '%1234%' OR a.status_investigasi_insiden_id LIKE '%1234%' OR a.prepard_by LIKE '%1234%' OR a.prepard_tanggal LIKE '%1234%' OR a.reviewed_by LIKE '%1234%' OR a.reviewed_tanggal LIKE '%1234%' OR a.approved_by LIKE '%1234%' OR a.approved_tanggal LIKE '%1234%'";	
+	wheres += ")";
+    query += wheres;
+
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);

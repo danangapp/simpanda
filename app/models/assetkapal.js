@@ -129,26 +129,36 @@ AssetKapal.findById = (id, result) => {
 
 AssetKapal.getAll = (param, result) => {
     const length = Object.keys(param).length;
+    var wheres = "";
     var query = "SELECT a.* , a1.nama as tipe_asset, a2.nama as ena, a3.nama as approval_status FROM asset_kapal a  LEFT JOIN tipe_asset a1 ON a.jenis_kapal = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN approval_status a3 ON a.approval_status_id = a3.id ";
     if (length > 0) {
-        query += " WHERE ";
+        wheres += " WHERE ";
         for (var i in param) {
-            var str = param[i];
-            // var split = str.split(",");
-            if (typeof str != "string") {
-                query += "(";
-                for (var x in str) {
-                    query += "a." + i + " ='" + str[x] + "' or ";
-                }
-                query = query.substring(0, query.length - 4);
-                query += ") and ";
-            } else {
-                query += "a." + i + " ='" + param[i] + "' and ";
-            }
+        	if (i != "q") {
+        	    var str = param[i];
+        	    if (typeof str != "string") {
+        	        wheres += "(";
+        	        for (var x in str) {
+        	            wheres += "a." + i + " ='" + str[x] + "' or ";
+        	        }
+        	        wheres = wheres.substring(0, wheres.length - 4);
+        	        wheres += ") and ";
+        	    } else {
+        	        wheres += "a." + i + " ='" + param[i] + "' and ";
+        	    }
+        	}
         }
 
-        query = query.substring(0, query.length - 5);
+        if (wheres.length > 7){
+        	wheres = wheres.substring(0, wheres.length - 5);
+        }
     }
+
+	wheres += wheres.length == 7 ? "(" : "OR (";
+	wheres += "a.simop_kd_fas LIKE '%1234%' OR a.kepemilikan_kapal LIKE '%1234%' OR a.simop_status_milik LIKE '%1234%' OR a.simop_kd_agen LIKE '%1234%' OR a.jenis_kapal LIKE '%1234%' OR a.nama_asset LIKE '%1234%' OR a.horse_power LIKE '%1234%' OR a.tahun_perolehan LIKE '%1234%' OR a.nilai_perolehan LIKE '%1234%' OR a.lokasi LIKE '%1234%' OR a.enable LIKE '%1234%' OR a.asset_number LIKE '%1234%' OR a.simop_kd_puspel_jai LIKE '%1234%' OR a.simop_new_puspel_jai LIKE '%1234%' OR a.simop_new_asset_jai LIKE '%1234%' OR a.approval_status_id LIKE '%1234%' OR a.loa LIKE '%1234%' OR a.tahun_pembuatan LIKE '%1234%' OR a.breadth LIKE '%1234%' OR a.kontruksi LIKE '%1234%' OR a.depth LIKE '%1234%' OR a.negara_pembuat LIKE '%1234%' OR a.draft_max LIKE '%1234%' OR a.daya LIKE '%1234%' OR a.putaran LIKE '%1234%' OR a.merk LIKE '%1234%' OR a.tipe LIKE '%1234%' OR a.daya_motor LIKE '%1234%' OR a.daya_generator LIKE '%1234%' OR a.putaran_spesifikasi LIKE '%1234%' OR a.merk_spesifikasi LIKE '%1234%' OR a.tipe_spesifikasi LIKE '%1234%' OR a.klas LIKE '%1234%' OR a.notasi_permesinan LIKE '%1234%' OR a.no_registrasi LIKE '%1234%' OR a.notasi_perlengkapan LIKE '%1234%' OR a.port_of_registration LIKE '%1234%' OR a.notasi_perairan LIKE '%1234%' OR a.notasi_lambung LIKE '%1234%' OR a.gross_tonnage LIKE '%1234%' OR a.bolard_pull LIKE '%1234%' OR a.kecepatan LIKE '%1234%' OR a.ship_particular LIKE '%1234%' OR a.sertifikat_id LIKE '%1234%'";	
+	wheres += ")";
+    query += wheres;
+
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);

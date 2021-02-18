@@ -15,6 +15,7 @@ app.use(
     multiples: true,
   })
 )
+app.use(express.static(__dirname + '/files'));
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*')

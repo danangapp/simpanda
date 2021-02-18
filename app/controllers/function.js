@@ -39,10 +39,13 @@ module.exports = {
         var updateTo = folders + '/' + n + ext;
 
         var base64Data = files.replace(/^data:image\/jpg;base64,/, "");
-        base64Data = files.replace(/^data:image\/jpeg;base64,/, "");
-        base64Data = files.replace(/^data:image\/png;base64,/, "");
-        base64Data = files.replace(/^data:application\/pdf;base64,/, "");
-        // console.log(updateTo)
+        base64Data = base64Data.replace(/^data:image\/JPG;base64,/, "");
+        base64Data = base64Data.replace(/^data:image\/png;base64,/, "");
+        base64Data = base64Data.replace(/^data:image\/PNG;base64,/, "");
+        base64Data = base64Data.replace(/^data:image\/jpeg;base64,/, "");
+        base64Data = base64Data.replace(/^data:image\/JPEG;base64,/, "");
+        base64Data = base64Data.replace(/^data:application\/pdf;base64,/, "");
+        base64Data = base64Data.replace(/^data:application\/PDF;base64,/, "");
 
         require("fs").writeFile(path + updateTo, base64Data, 'base64', function (err) {
             console.log(err);

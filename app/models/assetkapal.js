@@ -154,10 +154,12 @@ AssetKapal.getAll = (param, result) => {
         }
     }
 
-	wheres += wheres.length == 7 ? "(" : "OR (";
-	wheres += "a.simop_kd_fas LIKE '%1234%' OR a.kepemilikan_kapal LIKE '%1234%' OR a.simop_status_milik LIKE '%1234%' OR a.simop_kd_agen LIKE '%1234%' OR a.jenis_kapal LIKE '%1234%' OR a.nama_asset LIKE '%1234%' OR a.horse_power LIKE '%1234%' OR a.tahun_perolehan LIKE '%1234%' OR a.nilai_perolehan LIKE '%1234%' OR a.lokasi LIKE '%1234%' OR a.enable LIKE '%1234%' OR a.asset_number LIKE '%1234%' OR a.simop_kd_puspel_jai LIKE '%1234%' OR a.simop_new_puspel_jai LIKE '%1234%' OR a.simop_new_asset_jai LIKE '%1234%' OR a.approval_status_id LIKE '%1234%' OR a.loa LIKE '%1234%' OR a.tahun_pembuatan LIKE '%1234%' OR a.breadth LIKE '%1234%' OR a.kontruksi LIKE '%1234%' OR a.depth LIKE '%1234%' OR a.negara_pembuat LIKE '%1234%' OR a.draft_max LIKE '%1234%' OR a.daya LIKE '%1234%' OR a.putaran LIKE '%1234%' OR a.merk LIKE '%1234%' OR a.tipe LIKE '%1234%' OR a.daya_motor LIKE '%1234%' OR a.daya_generator LIKE '%1234%' OR a.putaran_spesifikasi LIKE '%1234%' OR a.merk_spesifikasi LIKE '%1234%' OR a.tipe_spesifikasi LIKE '%1234%' OR a.klas LIKE '%1234%' OR a.notasi_permesinan LIKE '%1234%' OR a.no_registrasi LIKE '%1234%' OR a.notasi_perlengkapan LIKE '%1234%' OR a.port_of_registration LIKE '%1234%' OR a.notasi_perairan LIKE '%1234%' OR a.notasi_lambung LIKE '%1234%' OR a.gross_tonnage LIKE '%1234%' OR a.bolard_pull LIKE '%1234%' OR a.kecepatan LIKE '%1234%' OR a.ship_particular LIKE '%1234%' OR a.sertifikat_id LIKE '%1234%'";	
-	wheres += ")";
-    query += wheres;
+	if (param.q) {
+		wheres += wheres.length == 7 ? "(" : "OR (";
+		wheres += "a.simop_kd_fas LIKE '%1234%' OR a.kepemilikan_kapal LIKE '%1234%' OR a.simop_status_milik LIKE '%1234%' OR a.simop_kd_agen LIKE '%1234%' OR a.jenis_kapal LIKE '%1234%' OR a.nama_asset LIKE '%1234%' OR a.horse_power LIKE '%1234%' OR a.tahun_perolehan LIKE '%1234%' OR a.nilai_perolehan LIKE '%1234%' OR a.lokasi LIKE '%1234%' OR a.enable LIKE '%1234%' OR a.asset_number LIKE '%1234%' OR a.simop_kd_puspel_jai LIKE '%1234%' OR a.simop_new_puspel_jai LIKE '%1234%' OR a.simop_new_asset_jai LIKE '%1234%' OR a.approval_status_id LIKE '%1234%' OR a.loa LIKE '%1234%' OR a.tahun_pembuatan LIKE '%1234%' OR a.breadth LIKE '%1234%' OR a.kontruksi LIKE '%1234%' OR a.depth LIKE '%1234%' OR a.negara_pembuat LIKE '%1234%' OR a.draft_max LIKE '%1234%' OR a.daya LIKE '%1234%' OR a.putaran LIKE '%1234%' OR a.merk LIKE '%1234%' OR a.tipe LIKE '%1234%' OR a.daya_motor LIKE '%1234%' OR a.daya_generator LIKE '%1234%' OR a.putaran_spesifikasi LIKE '%1234%' OR a.merk_spesifikasi LIKE '%1234%' OR a.tipe_spesifikasi LIKE '%1234%' OR a.klas LIKE '%1234%' OR a.notasi_permesinan LIKE '%1234%' OR a.no_registrasi LIKE '%1234%' OR a.notasi_perlengkapan LIKE '%1234%' OR a.port_of_registration LIKE '%1234%' OR a.notasi_perairan LIKE '%1234%' OR a.notasi_lambung LIKE '%1234%' OR a.gross_tonnage LIKE '%1234%' OR a.bolard_pull LIKE '%1234%' OR a.kecepatan LIKE '%1234%' OR a.ship_particular LIKE '%1234%' OR a.sertifikat_id LIKE '%1234%'";	
+		wheres += ")";
+    	query += wheres;
+   }
 
     sql.query(query, (err, res) => {
         if (err) {

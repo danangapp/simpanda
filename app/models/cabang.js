@@ -73,10 +73,12 @@ Cabang.getAll = (param, result) => {
         }
     }
 
-	wheres += wheres.length == 7 ? "(" : "OR (";
-	wheres += "a.nama LIKE '%1234%' OR a.almt_cabang LIKE '%1234%' OR a.cabang_cms LIKE '%1234%' OR a.no_account_cabang LIKE '%1234%' OR a.nm_cabang_3digit LIKE '%1234%' OR a.kd_account_cabang LIKE '%1234%' OR a.kd_cabang_jai_puspel LIKE '%1234%' OR a.orgid LIKE '%1234%' OR a.port_code LIKE '%1234%' OR a.autospk LIKE '%1234%' OR a.kd_jenis_pelabuhan LIKE '%1234%'";	
-	wheres += ")";
-    query += wheres;
+	if (param.q) {
+		wheres += wheres.length == 7 ? "(" : "OR (";
+		wheres += "a.nama LIKE '%1234%' OR a.almt_cabang LIKE '%1234%' OR a.cabang_cms LIKE '%1234%' OR a.no_account_cabang LIKE '%1234%' OR a.nm_cabang_3digit LIKE '%1234%' OR a.kd_account_cabang LIKE '%1234%' OR a.kd_cabang_jai_puspel LIKE '%1234%' OR a.orgid LIKE '%1234%' OR a.port_code LIKE '%1234%' OR a.autospk LIKE '%1234%' OR a.kd_jenis_pelabuhan LIKE '%1234%'";	
+		wheres += ")";
+    	query += wheres;
+   }
 
     sql.query(query, (err, res) => {
         if (err) {

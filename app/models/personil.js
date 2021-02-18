@@ -6,71 +6,71 @@ var objek = new Object();
 
 // constructor
 const Personil = function (personil) {
-    this.tipe_personil_id = personil.tipe_personil_id;
-    this.approval_status_id = personil.approval_status_id;
-    this.simop_kd_pers_pandu = personil.simop_kd_pers_pandu;
-    this.simop_kd_pers_pandu_cbg = personil.simop_kd_pers_pandu_cbg;
-    this.enable = personil.enable;
-    this.asset_kapal_id = personil.asset_kapal_id;
-    this.nama = personil.nama;
-    this.kelas = personil.kelas;
-    this.tempat_lahir = personil.tempat_lahir;
-    this.tanggal_lahir = personil.tanggal_lahir;
-    this.nipp = personil.nipp;
-    this.jabatan = personil.jabatan;
-    this.status_kepegawaian_id = personil.status_kepegawaian_id;
-    this.cv = personil.cv;
-    this.tempat_tugas = personil.tempat_tugas;
-    this.nomor_sk = personil.nomor_sk;
-    this.tanggal_mulai = personil.tanggal_mulai;
-    this.tanggal_selesai = personil.tanggal_selesai;
-    this.sk = personil.sk;
-    this.skpp = personil.skpp;
-    this.surat_kesehatan = personil.surat_kesehatan;
-    this.sertifikat = personil.sertifikat;
-    this.date = personil.date;
-    this.item = personil.item;
-    this.action = personil.action;
-    this.user_id = personil.user_id;
-    this.remark = personil.remark;
-    this.koneksi = personil.koneksi;
+	this.tipe_personil_id = personil.tipe_personil_id;
+	this.approval_status_id = personil.approval_status_id;
+	this.simop_kd_pers_pandu = personil.simop_kd_pers_pandu;
+	this.simop_kd_pers_pandu_cbg = personil.simop_kd_pers_pandu_cbg;
+	this.enable = personil.enable;
+	this.asset_kapal_id = personil.asset_kapal_id;
+	this.nama = personil.nama;
+	this.kelas = personil.kelas;
+	this.tempat_lahir = personil.tempat_lahir;
+	this.tanggal_lahir = personil.tanggal_lahir;
+	this.nipp = personil.nipp;
+	this.jabatan = personil.jabatan;
+	this.status_kepegawaian_id = personil.status_kepegawaian_id;
+	this.cv = personil.cv;
+	this.tempat_tugas = personil.tempat_tugas;
+	this.nomor_sk = personil.nomor_sk;
+	this.tanggal_mulai = personil.tanggal_mulai;
+	this.tanggal_selesai = personil.tanggal_selesai;
+	this.sk = personil.sk;
+	this.skpp = personil.skpp;
+	this.surat_kesehatan = personil.surat_kesehatan;
+	this.sertifikat = personil.sertifikat;
+	this.date = personil.date;
+	this.item = personil.item;
+	this.action = personil.action;
+	this.user_id = personil.user_id;
+	this.remark = personil.remark;
+	this.koneksi = personil.koneksi;
 };
 
 const setActivity = (objects, koneksi = 1) => {
-		objek.date = f.toDate(objects.date);
-		objek.item = 'personil';
-		objek.action = objects.approval_status_id;
-		objek.user_id = objects.user_id;
-		objek.remark = objects.remark;
-		objek.koneksi = koneksi;
-		delete objects.date;
-		delete objects.item;
-		delete objects.action;
-		delete objects.user_id;
-		delete objects.remark;
-		delete objects.koneksi;
-		return objects
+	objek.date = f.toDate(objects.date);
+	objek.item = 'personil';
+	objek.action = objects.approval_status_id;
+	objek.user_id = objects.user_id;
+	objek.remark = objects.remark;
+	objek.koneksi = koneksi;
+	delete objects.date;
+	delete objects.item;
+	delete objects.action;
+	delete objects.user_id;
+	delete objects.remark;
+	delete objects.koneksi;
+	return objects
 };
 
-Personil.create = async(newPersonil, result) => {
+Personil.create = async (newPersonil, result) => {
 	try {
 		const sertifikat = newPersonil.sertifikat;
 		for (var i in sertifikat) {
-		    const x = sertifikat[i];
-		
-		    var header = "", value = "";
-		    for (var a in x) {
-		        const val = x[a];
-		        header += a + ", ";
+			const x = sertifikat[i];
+
+			var header = "", value = "";
+			for (var a in x) {
+				const val = x[a];
+				header += a + ", ";
 				if (a != "sertifikat") {
-				    value += "'" + val + "', ";
+					value += "'" + val + "', ";
 				} else {
-				    var fileName = f.uploadFile64('personil', val);
-				    value += "'" + fileName + "', ";
+					var fileName = f.uploadFile64('personil', val);
+					value += "'" + fileName + "', ";
 				}
-		    }
-		    value = value.substring(0, value.length - 2);
-		    header = header.substring(0, header.length - 2);
+			}
+			value = value.substring(0, value.length - 2);
+			header = header.substring(0, header.length - 2);
 			await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
 		}
 
@@ -83,98 +83,100 @@ Personil.create = async(newPersonil, result) => {
 		}
 		result(null, { id: res.insertId, ...newPersonil });
 	} catch (error) {
-	    result(error, null);
+		result(error, null);
 	}
 };
 
 Personil.findById = (id, result) => {
-    sql.query(`SELECT a.* , a1.nama as tipe_personil, a2.nama as approval_status, a3.nama as ena, a4.nama_asset as asset_kapal, a5.nama as status_kepegawaian, a6.nama as cabang FROM personil a  LEFT JOIN tipe_personil a1 ON a.tipe_personil_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id  LEFT JOIN asset_kapal a4 ON a.asset_kapal_id = a4.id  LEFT JOIN status_kepegawaian a5 ON a.status_kepegawaian_id = a5.id  LEFT JOIN cabang a6 ON a.tempat_tugas = a6.id  WHERE a.id = ${id}`, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
+	sql.query(`SELECT a.* , a1.nama as tipe_personil, a2.nama as approval_status, a3.nama as ena, a4.nama_asset as asset_kapal, a5.nama as status_kepegawaian, a6.nama as cabang FROM personil a  LEFT JOIN tipe_personil a1 ON a.tipe_personil_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id  LEFT JOIN asset_kapal a4 ON a.asset_kapal_id = a4.id  LEFT JOIN status_kepegawaian a5 ON a.status_kepegawaian_id = a5.id  LEFT JOIN cabang a6 ON a.tempat_tugas = a6.id  WHERE a.id = ${id}`, (err, res) => {
+		if (err) {
+			console.log("error: ", err);
+			result(err, null);
+			return;
+		}
 
-        if (res.length) {
-            result(null, res[0]);
-            return;
-        }
+		if (res.length) {
+			result(null, res[0]);
+			return;
+		}
 
-        // not found Personil with the id
-        result({ kind: "not_found" }, null);
-    });
+		// not found Personil with the id
+		result({ kind: "not_found" }, null);
+	});
 };
 
 Personil.getAll = (param, result) => {
-    const length = Object.keys(param).length;
-    var wheres = "";
-    var query = "SELECT a.* , a1.nama as tipe_personil, a2.nama as approval_status, a3.nama as ena, a4.nama_asset as asset_kapal, a5.nama as status_kepegawaian, a6.nama as cabang FROM personil a  LEFT JOIN tipe_personil a1 ON a.tipe_personil_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id  LEFT JOIN asset_kapal a4 ON a.asset_kapal_id = a4.id  LEFT JOIN status_kepegawaian a5 ON a.status_kepegawaian_id = a5.id  LEFT JOIN cabang a6 ON a.tempat_tugas = a6.id ";
-    if (length > 0) {
-        wheres += " WHERE ";
-        for (var i in param) {
-        	if (i != "q") {
-        	    var str = param[i];
-        	    if (typeof str != "string") {
-        	        wheres += "(";
-        	        for (var x in str) {
-        	            wheres += "a." + i + " ='" + str[x] + "' or ";
-        	        }
-        	        wheres = wheres.substring(0, wheres.length - 4);
-        	        wheres += ") and ";
-        	    } else {
-        	        wheres += "a." + i + " ='" + param[i] + "' and ";
-        	    }
-        	}
-        }
+	const length = Object.keys(param).length;
+	var wheres = "";
+	var query = "SELECT a.* , a1.nama as tipe_personil, a2.nama as approval_status, a3.nama as ena, a4.nama_asset as asset_kapal, a5.nama as status_kepegawaian, a6.nama as cabang FROM personil a  LEFT JOIN tipe_personil a1 ON a.tipe_personil_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id  LEFT JOIN asset_kapal a4 ON a.asset_kapal_id = a4.id  LEFT JOIN status_kepegawaian a5 ON a.status_kepegawaian_id = a5.id  LEFT JOIN cabang a6 ON a.tempat_tugas = a6.id ";
+	if (length > 0) {
+		wheres += " WHERE ";
+		for (var i in param) {
+			if (i != "q") {
+				var str = param[i];
+				if (typeof str != "string") {
+					wheres += "(";
+					for (var x in str) {
+						wheres += "a." + i + " ='" + str[x] + "' or ";
+					}
+					wheres = wheres.substring(0, wheres.length - 4);
+					wheres += ") and ";
+				} else {
+					wheres += "a." + i + " ='" + param[i] + "' and ";
+				}
+			}
+		}
 
-        if (wheres.length > 7){
-        	wheres = wheres.substring(0, wheres.length - 5);
-        }
-    }
+		if (wheres.length > 7) {
+			wheres = wheres.substring(0, wheres.length - 5);
+		}
+	}
 
-	wheres += wheres.length == 7 ? "(" : "OR (";
-	wheres += "a.tipe_personil_id LIKE '%1234%' OR a.approval_status_id LIKE '%1234%' OR a.simop_kd_pers_pandu LIKE '%1234%' OR a.simop_kd_pers_pandu_cbg LIKE '%1234%' OR a.enable LIKE '%1234%' OR a.asset_kapal_id LIKE '%1234%' OR a.nama LIKE '%1234%' OR a.kelas LIKE '%1234%' OR a.tempat_lahir LIKE '%1234%' OR a.tanggal_lahir LIKE '%1234%' OR a.nipp LIKE '%1234%' OR a.jabatan LIKE '%1234%' OR a.status_kepegawaian_id LIKE '%1234%' OR a.cv LIKE '%1234%' OR a.tempat_tugas LIKE '%1234%' OR a.nomor_sk LIKE '%1234%' OR a.tanggal_mulai LIKE '%1234%' OR a.tanggal_selesai LIKE '%1234%' OR a.sk LIKE '%1234%' OR a.skpp LIKE '%1234%' OR a.surat_kesehatan LIKE '%1234%' OR a.sertifikat_id LIKE '%1234%'";	
-	wheres += ")";
-    query += wheres;
+	if (param.q) {
+		wheres += wheres.length == 7 ? "(" : "OR (";
+		wheres += "a.tipe_personil_id LIKE '%1234%' OR a.approval_status_id LIKE '%1234%' OR a.simop_kd_pers_pandu LIKE '%1234%' OR a.simop_kd_pers_pandu_cbg LIKE '%1234%' OR a.enable LIKE '%1234%' OR a.asset_kapal_id LIKE '%1234%' OR a.nama LIKE '%1234%' OR a.kelas LIKE '%1234%' OR a.tempat_lahir LIKE '%1234%' OR a.tanggal_lahir LIKE '%1234%' OR a.nipp LIKE '%1234%' OR a.jabatan LIKE '%1234%' OR a.status_kepegawaian_id LIKE '%1234%' OR a.cv LIKE '%1234%' OR a.tempat_tugas LIKE '%1234%' OR a.nomor_sk LIKE '%1234%' OR a.tanggal_mulai LIKE '%1234%' OR a.tanggal_selesai LIKE '%1234%' OR a.sk LIKE '%1234%' OR a.skpp LIKE '%1234%' OR a.surat_kesehatan LIKE '%1234%' OR a.sertifikat_id LIKE '%1234%'";
+		wheres += ")";
+		query += wheres;
+	}
 
-    sql.query(query, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
+	sql.query(query, (err, res) => {
+		if (err) {
+			console.log("error: ", err);
+			result(null, err);
+			return;
+		}
 
-        result(null, res);
-    });
+		result(null, res);
+	});
 };
 
 Personil.design = result => {
-    sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'personil'", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
+	sql.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'simpanda' AND TABLE_NAME = 'personil'", (err, res) => {
+		if (err) {
+			console.log("error: ", err);
+			result(null, err);
+			return;
+		}
 
-        result(null, res);
-    });
+		result(null, res);
+	});
 };
 
-Personil.updateById = async(id, personil, result) => {
+Personil.updateById = async (id, personil, result) => {
 	try {
 		const sertifikat = personil.sertifikat;
 		for (var i in sertifikat) {
-		    const x = sertifikat[i];
-		
-		    var header = "", value = "";
-		    for (var a in x) {
-		        const val = x[a];
-		        header += a + ", ";
-		        value += "'" + val + "', ";
-		    }
-		    value = value.substring(0, value.length - 2);
-		    header = header.substring(0, header.length - 2);
-		
+			const x = sertifikat[i];
+
+			var header = "", value = "";
+			for (var a in x) {
+				const val = x[a];
+				header += a + ", ";
+				value += "'" + val + "', ";
+			}
+			value = value.substring(0, value.length - 2);
+			header = header.substring(0, header.length - 2);
+
 			await query("DELETE FROM sertifikat WHERE id = ?", x.id);
 			await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
 		}
@@ -183,11 +185,11 @@ Personil.updateById = async(id, personil, result) => {
 
 		var str = "", obj = [], no = 1;
 		for (var i in personil) {
-		    if (personil[i]) {
-		        str += i + " = ?, ";
-		        obj.push(personil[i]);
-		    }
-		    no++;
+			if (personil[i]) {
+				str += i + " = ?, ";
+				obj.push(personil[i]);
+			}
+			no++;
 		}
 		obj.push(id);
 		str = str.substring(0, str.length - 2);
@@ -198,26 +200,26 @@ Personil.updateById = async(id, personil, result) => {
 		await query("UPDATE personil SET " + str + " WHERE id = ?", obj);
 		result(null, { id: id, ...personil });
 	} catch (error) {
-	    result(error, null);
+		result(error, null);
 	}
 };
 
 Personil.remove = (id, result) => {
-    sql.query("DELETE FROM personil WHERE id = ?", id, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
+	sql.query("DELETE FROM personil WHERE id = ?", id, (err, res) => {
+		if (err) {
+			console.log("error: ", err);
+			result(null, err);
+			return;
+		}
 
-        if (res.affectedRows == 0) {
-            // not found Personil with the id
-            result({ kind: "not_found" }, null);
-            return;
-        }
+		if (res.affectedRows == 0) {
+			// not found Personil with the id
+			result({ kind: "not_found" }, null);
+			return;
+		}
 
-        result(null, res);
-    });
+		result(null, res);
+	});
 };
 
 module.exports = Personil;

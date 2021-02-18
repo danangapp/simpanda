@@ -67,10 +67,12 @@ SaranaBantuPemanduPersonil.getAll = (param, result) => {
         }
     }
 
-	wheres += wheres.length == 7 ? "(" : "OR (";
-	wheres += "a.sarana_bantu_pemandu_id LIKE '%1234%' OR a.nama LIKE '%1234%' OR a.jabatan LIKE '%1234%' OR a.asset_kapal_id LIKE '%1234%' OR a.status_ijazah_id LIKE '%1234%'";	
-	wheres += ")";
-    query += wheres;
+	if (param.q) {
+		wheres += wheres.length == 7 ? "(" : "OR (";
+		wheres += "a.sarana_bantu_pemandu_id LIKE '%1234%' OR a.nama LIKE '%1234%' OR a.jabatan LIKE '%1234%' OR a.asset_kapal_id LIKE '%1234%' OR a.status_ijazah_id LIKE '%1234%'";	
+		wheres += ")";
+    	query += wheres;
+   }
 
     sql.query(query, (err, res) => {
         if (err) {

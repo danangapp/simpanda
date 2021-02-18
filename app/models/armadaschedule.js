@@ -70,10 +70,12 @@ ArmadaSchedule.getAll = (param, result) => {
         }
     }
 
-	wheres += wheres.length == 7 ? "(" : "OR (";
-	wheres += "a.date LIKE '%1234%' OR a.cabang LIKE '%1234%' OR a.kategori_armada LIKE '%1234%' OR a.armada_id LIKE '%1234%' OR a.status LIKE '%1234%' OR a.jam_pengoperasian LIKE '%1234%' OR a.reliability LIKE '%1234%' OR a.keterangan LIKE '%1234%'";	
-	wheres += ")";
-    query += wheres;
+	if (param.q) {
+		wheres += wheres.length == 7 ? "(" : "OR (";
+		wheres += "a.date LIKE '%1234%' OR a.cabang LIKE '%1234%' OR a.kategori_armada LIKE '%1234%' OR a.armada_id LIKE '%1234%' OR a.status LIKE '%1234%' OR a.jam_pengoperasian LIKE '%1234%' OR a.reliability LIKE '%1234%' OR a.keterangan LIKE '%1234%'";	
+		wheres += ")";
+    	query += wheres;
+   }
 
     sql.query(query, (err, res) => {
         if (err) {

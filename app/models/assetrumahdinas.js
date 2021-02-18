@@ -94,10 +94,12 @@ AssetRumahDinas.getAll = (param, result) => {
         }
     }
 
-	wheres += wheres.length == 7 ? "(" : "OR (";
-	wheres += "a.nama_assets LIKE '%1234%' OR a.satuan LIKE '%1234%' OR a.tahun_perolehan LIKE '%1234%' OR a.nilai_perolehan LIKE '%1234%' OR a.wilayah LIKE '%1234%' OR a.nilai_buku LIKE '%1234%' OR a.approval_status_id LIKE '%1234%' OR a.tanggal LIKE '%1234%' OR a.nilai LIKE '%1234%' OR a.catatan LIKE '%1234%' OR a.enable LIKE '%1234%'";	
-	wheres += ")";
-    query += wheres;
+	if (param.q) {
+		wheres += wheres.length == 7 ? "(" : "OR (";
+		wheres += "a.nama_assets LIKE '%1234%' OR a.satuan LIKE '%1234%' OR a.tahun_perolehan LIKE '%1234%' OR a.nilai_perolehan LIKE '%1234%' OR a.wilayah LIKE '%1234%' OR a.nilai_buku LIKE '%1234%' OR a.approval_status_id LIKE '%1234%' OR a.tanggal LIKE '%1234%' OR a.nilai LIKE '%1234%' OR a.catatan LIKE '%1234%' OR a.enable LIKE '%1234%'";	
+		wheres += ")";
+    	query += wheres;
+   }
 
     sql.query(query, (err, res) => {
         if (err) {

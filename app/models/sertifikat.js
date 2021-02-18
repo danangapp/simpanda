@@ -99,10 +99,12 @@ Sertifikat.getAll = (param, result) => {
         }
     }
 
-	wheres += wheres.length == 7 ? "(" : "OR (";
-	wheres += "a.tipe_cert_id LIKE '%1234%' OR a.personil_id LIKE '%1234%' OR a.no_sertifikat LIKE '%1234%' OR a.issuer LIKE '%1234%' OR a.tempat_keluar_sertifikat LIKE '%1234%' OR a.tanggal_keluar_sertifikat LIKE '%1234%' OR a.tanggal_expire LIKE '%1234%' OR a.reminder_date LIKE '%1234%' OR a.sertifikat LIKE '%1234%' OR a.sertifikat_id LIKE '%1234%'";	
-	wheres += ")";
-    query += wheres;
+	if (param.q) {
+		wheres += wheres.length == 7 ? "(" : "OR (";
+		wheres += "a.tipe_cert_id LIKE '%1234%' OR a.personil_id LIKE '%1234%' OR a.no_sertifikat LIKE '%1234%' OR a.issuer LIKE '%1234%' OR a.tempat_keluar_sertifikat LIKE '%1234%' OR a.tanggal_keluar_sertifikat LIKE '%1234%' OR a.tanggal_expire LIKE '%1234%' OR a.reminder_date LIKE '%1234%' OR a.sertifikat LIKE '%1234%' OR a.sertifikat_id LIKE '%1234%'";	
+		wheres += ")";
+    	query += wheres;
+   }
 
     sql.query(query, (err, res) => {
         if (err) {

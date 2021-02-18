@@ -99,10 +99,12 @@ EvaluasiPelimpahan.getAll = (param, result) => {
         }
     }
 
-	wheres += wheres.length == 7 ? "(" : "OR (";
-	wheres += "a.approval_status_id LIKE '%1234%' OR a.enable LIKE '%1234%' OR a.cabang_id LIKE '%1234%' OR a.bup LIKE '%1234%' OR a.izin_bup LIKE '%1234%' OR a.penetapan_perairan_pandu LIKE '%1234%' OR a.izin_pelimpahan LIKE '%1234%' OR a.pengawas_pemanduan LIKE '%1234%' OR a.laporan_bulanan LIKE '%1234%' OR a.bukti_pembayaran_pnpb LIKE '%1234%' OR a.sispro LIKE '%1234%' OR a.tarif_jasa_pandu_tunda LIKE '%1234%' OR a.data_dukung LIKE '%1234%' OR a.file_pendukung LIKE '%1234%' OR a.tanggal_sk LIKE '%1234%' OR a.file_sk_pelimpahan LIKE '%1234%'";	
-	wheres += ")";
-    query += wheres;
+	if (param.q) {
+		wheres += wheres.length == 7 ? "(" : "OR (";
+		wheres += "a.approval_status_id LIKE '%1234%' OR a.enable LIKE '%1234%' OR a.cabang_id LIKE '%1234%' OR a.bup LIKE '%1234%' OR a.izin_bup LIKE '%1234%' OR a.penetapan_perairan_pandu LIKE '%1234%' OR a.izin_pelimpahan LIKE '%1234%' OR a.pengawas_pemanduan LIKE '%1234%' OR a.laporan_bulanan LIKE '%1234%' OR a.bukti_pembayaran_pnpb LIKE '%1234%' OR a.sispro LIKE '%1234%' OR a.tarif_jasa_pandu_tunda LIKE '%1234%' OR a.data_dukung LIKE '%1234%' OR a.file_pendukung LIKE '%1234%' OR a.tanggal_sk LIKE '%1234%' OR a.file_sk_pelimpahan LIKE '%1234%'";	
+		wheres += ")";
+    	query += wheres;
+   }
 
     sql.query(query, (err, res) => {
         if (err) {

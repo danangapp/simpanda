@@ -1,20 +1,20 @@
 const express = require("express");
-const bodyParser = require("body-parser");
-// const formidableMiddleware = require('express-formidable');
+// const bodyParser = require("body-parser");
+const formidableMiddleware = require('express-formidable');
 require('dotenv').config();
 
 const app = express();
-// app.use(formidableMiddleware());
+app.use(formidableMiddleware());
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(
-//   formidableMiddleware({
-//     encoding: 'utf-8',
-//     uploadDir: './',
-//     multiples: true,
-//   })
-// )
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  formidableMiddleware({
+    encoding: 'utf-8',
+    uploadDir: './',
+    multiples: true,
+  })
+)
 app.use(express.static(__dirname + '/files'));
 
 app.use((req, res, next) => {

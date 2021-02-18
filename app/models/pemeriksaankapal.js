@@ -61,8 +61,21 @@ PemeriksaanKapal.findById = (id, result) => {
             return;
         }
 
+		const checked = {
+		    "question": res[0].question,
+		    "tanggal_awal": res[0].tanggal_awal,
+		    "tanggal_akhir": res[0].tanggal_akhir,
+		    "keterangan": res[0].keterangan
+		}
+		const check = { "check": { ...checked } }
+		let merge = { ...res[0], ...check }	
+		delete merge.question;
+		delete merge.tanggal_awal;
+		delete merge.tanggal_akhir;
+		delete merge.keterangan;
+
         if (res.length) {
-            result(null, res);
+            result(null, merge);
             return;
         }
 

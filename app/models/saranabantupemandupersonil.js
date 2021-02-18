@@ -50,12 +50,13 @@ SaranaBantuPemanduPersonil.getAll = (param, result) => {
         	if (i != "q") {
         	    var str = param[i];
         	    if (typeof str != "string") {
-        	        wheres += "(";
-        	        for (var x in str) {
-        	            wheres += "a." + i + " ='" + str[x] + "' or ";
-        	        }
-        	        wheres = wheres.substring(0, wheres.length - 4);
-        	        wheres += ") and ";
+					var wherein = "";
+					for (var x in str) {
+					    wherein += str[x] + ", ";
+					}
+					wherein = wherein.substring(0, wherein.length - 2);
+					wheres += "a." + i + " IN (" + wherein + ")";
+					wheres += " and ";
         	    } else {
         	        wheres += "a." + i + " ='" + param[i] + "' and ";
         	    }
@@ -71,9 +72,9 @@ SaranaBantuPemanduPersonil.getAll = (param, result) => {
 		wheres += wheres.length == 7 ? "(" : "OR (";
 		wheres += "a.sarana_bantu_pemandu_id LIKE '%" + param.q + "%' OR a.nama LIKE '%" + param.q + "%' OR a.jabatan LIKE '%" + param.q + "%' OR a.asset_kapal_id LIKE '%" + param.q + "%' OR a.status_ijazah_id LIKE '%" + param.q + "%'";	
 		wheres += ")";
-    	query += wheres;
    }
 
+   query += wheres;
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);

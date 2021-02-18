@@ -137,12 +137,13 @@ AssetKapal.getAll = (param, result) => {
         	if (i != "q") {
         	    var str = param[i];
         	    if (typeof str != "string") {
-        	        wheres += "(";
-        	        for (var x in str) {
-        	            wheres += "a." + i + " ='" + str[x] + "' or ";
-        	        }
-        	        wheres = wheres.substring(0, wheres.length - 4);
-        	        wheres += ") and ";
+					var wherein = "";
+					for (var x in str) {
+					    wherein += str[x] + ", ";
+					}
+					wherein = wherein.substring(0, wherein.length - 2);
+					wheres += "a." + i + " IN (" + wherein + ")";
+					wheres += " and ";
         	    } else {
         	        wheres += "a." + i + " ='" + param[i] + "' and ";
         	    }
@@ -158,9 +159,9 @@ AssetKapal.getAll = (param, result) => {
 		wheres += wheres.length == 7 ? "(" : "OR (";
 		wheres += "a.simop_kd_fas LIKE '%" + param.q + "%' OR a.kepemilikan_kapal LIKE '%" + param.q + "%' OR a.simop_status_milik LIKE '%" + param.q + "%' OR a.simop_kd_agen LIKE '%" + param.q + "%' OR a.jenis_kapal LIKE '%" + param.q + "%' OR a.nama_asset LIKE '%" + param.q + "%' OR a.horse_power LIKE '%" + param.q + "%' OR a.tahun_perolehan LIKE '%" + param.q + "%' OR a.nilai_perolehan LIKE '%" + param.q + "%' OR a.lokasi LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%' OR a.asset_number LIKE '%" + param.q + "%' OR a.simop_kd_puspel_jai LIKE '%" + param.q + "%' OR a.simop_new_puspel_jai LIKE '%" + param.q + "%' OR a.simop_new_asset_jai LIKE '%" + param.q + "%' OR a.approval_status_id LIKE '%" + param.q + "%' OR a.loa LIKE '%" + param.q + "%' OR a.tahun_pembuatan LIKE '%" + param.q + "%' OR a.breadth LIKE '%" + param.q + "%' OR a.kontruksi LIKE '%" + param.q + "%' OR a.depth LIKE '%" + param.q + "%' OR a.negara_pembuat LIKE '%" + param.q + "%' OR a.draft_max LIKE '%" + param.q + "%' OR a.daya LIKE '%" + param.q + "%' OR a.putaran LIKE '%" + param.q + "%' OR a.merk LIKE '%" + param.q + "%' OR a.tipe LIKE '%" + param.q + "%' OR a.daya_motor LIKE '%" + param.q + "%' OR a.daya_generator LIKE '%" + param.q + "%' OR a.putaran_spesifikasi LIKE '%" + param.q + "%' OR a.merk_spesifikasi LIKE '%" + param.q + "%' OR a.tipe_spesifikasi LIKE '%" + param.q + "%' OR a.klas LIKE '%" + param.q + "%' OR a.notasi_permesinan LIKE '%" + param.q + "%' OR a.no_registrasi LIKE '%" + param.q + "%' OR a.notasi_perlengkapan LIKE '%" + param.q + "%' OR a.port_of_registration LIKE '%" + param.q + "%' OR a.notasi_perairan LIKE '%" + param.q + "%' OR a.notasi_lambung LIKE '%" + param.q + "%' OR a.gross_tonnage LIKE '%" + param.q + "%' OR a.bolard_pull LIKE '%" + param.q + "%' OR a.kecepatan LIKE '%" + param.q + "%' OR a.ship_particular LIKE '%" + param.q + "%' OR a.sertifikat_id LIKE '%" + param.q + "%'";	
 		wheres += ")";
-    	query += wheres;
    }
 
+   query += wheres;
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);

@@ -112,12 +112,13 @@ SaranaBantuPemanduKapal.getAll = (param, result) => {
         	if (i != "q") {
         	    var str = param[i];
         	    if (typeof str != "string") {
-        	        wheres += "(";
-        	        for (var x in str) {
-        	            wheres += "a." + i + " ='" + str[x] + "' or ";
-        	        }
-        	        wheres = wheres.substring(0, wheres.length - 4);
-        	        wheres += ") and ";
+					var wherein = "";
+					for (var x in str) {
+					    wherein += str[x] + ", ";
+					}
+					wherein = wherein.substring(0, wherein.length - 2);
+					wheres += "a." + i + " IN (" + wherein + ")";
+					wheres += " and ";
         	    } else {
         	        wheres += "a." + i + " ='" + param[i] + "' and ";
         	    }
@@ -133,9 +134,9 @@ SaranaBantuPemanduKapal.getAll = (param, result) => {
 		wheres += wheres.length == 7 ? "(" : "OR (";
 		wheres += "a.sarana_bantu_pemandu_id LIKE '%" + param.q + "%' OR a.tipe_sarana_pemandu_kapal_id LIKE '%" + param.q + "%' OR a.dokumen_kapal_q1 LIKE '%" + param.q + "%' OR a.dokumen_kapal_q2 LIKE '%" + param.q + "%' OR a.dokumen_kapal_q3 LIKE '%" + param.q + "%' OR a.dokumen_kapal_q4 LIKE '%" + param.q + "%' OR a.dokumen_kapal_q5 LIKE '%" + param.q + "%' OR a.dokumen_kapal_q6 LIKE '%" + param.q + "%' OR a.dokumen_kapal_q7 LIKE '%" + param.q + "%' OR a.dokumen_kapal_q8 LIKE '%" + param.q + "%' OR a.dokumen_kapal_q9 LIKE '%" + param.q + "%' OR a.dokumen_kapal_q10 LIKE '%" + param.q + "%' OR a.dokumen_kapal_q11 LIKE '%" + param.q + "%' OR a.dokumen_kapal_q12 LIKE '%" + param.q + "%' OR a.dokumen_kapal_q13 LIKE '%" + param.q + "%' OR a.dokumen_kapal_q14 LIKE '%" + param.q + "%' OR a.dokumen_kapal_q15 LIKE '%" + param.q + "%' OR a.kondisi_umum_q1 LIKE '%" + param.q + "%' OR a.kondisi_umum_q2 LIKE '%" + param.q + "%' OR a.kondisi_umum_q3 LIKE '%" + param.q + "%' OR a.kondisi_umum_q4 LIKE '%" + param.q + "%' OR a.kondisi_umum_q5 LIKE '%" + param.q + "%' OR a.kondisi_umum_q6 LIKE '%" + param.q + "%' OR a.pemeriksaan_performa_q1 LIKE '%" + param.q + "%' OR a.pemeriksaan_performa_q2 LIKE '%" + param.q + "%' OR a.pemeriksaan_performa_q3 LIKE '%" + param.q + "%' OR a.pemeriksaan_performa_q4 LIKE '%" + param.q + "%' OR a.pemeriksaan_performa_q5 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_a1 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_a2 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_a3 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_a4 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_a5 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_a6 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_a7 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_b1 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_b2 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_b3 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_b4 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_b5 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_b6 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_b7 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_b8 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_b9 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_c1 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_c2 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_c3 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_c4 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_c5 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_c6 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_c7 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_d1 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_d2 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_d3 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_d4 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_d5 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_d6 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_d7 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_d8 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_d9 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_e1 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_e2 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_e3 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_f1 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_f2 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_f3 LIKE '%" + param.q + "%' OR a.pemeriksaan_fisik_f4 LIKE '%" + param.q + "%'";	
 		wheres += ")";
-    	query += wheres;
    }
 
+   query += wheres;
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);

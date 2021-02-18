@@ -110,12 +110,13 @@ InvestigasiInsiden.getAll = (param, result) => {
         	if (i != "q") {
         	    var str = param[i];
         	    if (typeof str != "string") {
-        	        wheres += "(";
-        	        for (var x in str) {
-        	            wheres += "a." + i + " ='" + str[x] + "' or ";
-        	        }
-        	        wheres = wheres.substring(0, wheres.length - 4);
-        	        wheres += ") and ";
+					var wherein = "";
+					for (var x in str) {
+					    wherein += str[x] + ", ";
+					}
+					wherein = wherein.substring(0, wherein.length - 2);
+					wheres += "a." + i + " IN (" + wherein + ")";
+					wheres += " and ";
         	    } else {
         	        wheres += "a." + i + " ='" + param[i] + "' and ";
         	    }
@@ -131,9 +132,9 @@ InvestigasiInsiden.getAll = (param, result) => {
 		wheres += wheres.length == 7 ? "(" : "OR (";
 		wheres += "a.approval_status_id LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%' OR a.no_report LIKE '%" + param.q + "%' OR a.unit_terkait LIKE '%" + param.q + "%' OR a.judul_report LIKE '%" + param.q + "%' OR a.kronologi_kejadian LIKE '%" + param.q + "%' OR a.temuan_investigasi LIKE '%" + param.q + "%' OR a.bukti_temuan LIKE '%" + param.q + "%' OR a.saksi_1 LIKE '%" + param.q + "%' OR a.saksi_2 LIKE '%" + param.q + "%' OR a.investigator LIKE '%" + param.q + "%' OR a.rincian_kegiatan LIKE '%" + param.q + "%' OR a.luka_sakit LIKE '%" + param.q + "%' OR a.wujud_cedera LIKE '%" + param.q + "%' OR a.bagian_tubuh_cedera LIKE '%" + param.q + "%' OR a.mekanisme_cedera LIKE '%" + param.q + "%' OR a.kerusakan_alat LIKE '%" + param.q + "%' OR a.uraian_kejadian LIKE '%" + param.q + "%' OR a.analisa_penyebab LIKE '%" + param.q + "%' OR a.peralatan_kelengkapan LIKE '%" + param.q + "%' OR a.alat_pelindung_diri LIKE '%" + param.q + "%' OR a.perilaku LIKE '%" + param.q + "%' OR a.kebersihan_kerapihan LIKE '%" + param.q + "%' OR a.peralatan_perlengkapan LIKE '%" + param.q + "%' OR a.kemampuan_kondisi_fisik LIKE '%" + param.q + "%' OR a.pemeliharaan_perbaikan LIKE '%" + param.q + "%' OR a.design LIKE '%" + param.q + "%' OR a.tingkat_kemampuan LIKE '%" + param.q + "%' OR a.penjagaan LIKE '%" + param.q + "%' OR a.tidandakan_terkait LIKE '%" + param.q + "%' OR a.faktor_utama_insiden LIKE '%" + param.q + "%' OR a.rekomendasi_tindakan LIKE '%" + param.q + "%' OR a.pihak_yang_bertanggungjawab LIKE '%" + param.q + "%' OR a.pelaksana LIKE '%" + param.q + "%' OR a.tanggal_pemeriksaan LIKE '%" + param.q + "%' OR a.nama LIKE '%" + param.q + "%' OR a.jabatan LIKE '%" + param.q + "%' OR a.status_investigasi_insiden_id LIKE '%" + param.q + "%' OR a.prepard_by LIKE '%" + param.q + "%' OR a.prepard_tanggal LIKE '%" + param.q + "%' OR a.reviewed_by LIKE '%" + param.q + "%' OR a.reviewed_tanggal LIKE '%" + param.q + "%' OR a.approved_by LIKE '%" + param.q + "%' OR a.approved_tanggal LIKE '%" + param.q + "%'";	
 		wheres += ")";
-    	query += wheres;
    }
 
+   query += wheres;
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);

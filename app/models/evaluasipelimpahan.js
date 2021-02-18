@@ -82,12 +82,13 @@ EvaluasiPelimpahan.getAll = (param, result) => {
         	if (i != "q") {
         	    var str = param[i];
         	    if (typeof str != "string") {
-        	        wheres += "(";
-        	        for (var x in str) {
-        	            wheres += "a." + i + " ='" + str[x] + "' or ";
-        	        }
-        	        wheres = wheres.substring(0, wheres.length - 4);
-        	        wheres += ") and ";
+					var wherein = "";
+					for (var x in str) {
+					    wherein += str[x] + ", ";
+					}
+					wherein = wherein.substring(0, wherein.length - 2);
+					wheres += "a." + i + " IN (" + wherein + ")";
+					wheres += " and ";
         	    } else {
         	        wheres += "a." + i + " ='" + param[i] + "' and ";
         	    }
@@ -103,9 +104,9 @@ EvaluasiPelimpahan.getAll = (param, result) => {
 		wheres += wheres.length == 7 ? "(" : "OR (";
 		wheres += "a.approval_status_id LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%' OR a.cabang_id LIKE '%" + param.q + "%' OR a.bup LIKE '%" + param.q + "%' OR a.izin_bup LIKE '%" + param.q + "%' OR a.penetapan_perairan_pandu LIKE '%" + param.q + "%' OR a.izin_pelimpahan LIKE '%" + param.q + "%' OR a.pengawas_pemanduan LIKE '%" + param.q + "%' OR a.laporan_bulanan LIKE '%" + param.q + "%' OR a.bukti_pembayaran_pnpb LIKE '%" + param.q + "%' OR a.sispro LIKE '%" + param.q + "%' OR a.tarif_jasa_pandu_tunda LIKE '%" + param.q + "%' OR a.data_dukung LIKE '%" + param.q + "%' OR a.file_pendukung LIKE '%" + param.q + "%' OR a.tanggal_sk LIKE '%" + param.q + "%' OR a.file_sk_pelimpahan LIKE '%" + param.q + "%'";	
 		wheres += ")";
-    	query += wheres;
    }
 
+   query += wheres;
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);

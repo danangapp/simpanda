@@ -24,11 +24,6 @@ app.use((req, res, next) => {
   res.header('Access-Control-Request-Method', '*')
   next()
 })
-
-app.all('*', (req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://localhost:3000");
-  next();
-});
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "Simpanda Application" });

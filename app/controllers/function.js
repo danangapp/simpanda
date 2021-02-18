@@ -33,7 +33,7 @@ module.exports = {
         var d = new Date();
         var n = d.getTime();
 
-        const ext = files.split(';')[0].split('/')[1];
+        const ext = "." + files.split(';')[0].split('/')[1];
 
         const path = './files/';
         var updateTo = folders + '/' + n + ext;

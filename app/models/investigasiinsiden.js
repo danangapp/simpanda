@@ -83,7 +83,7 @@ InvestigasiInsiden.create = async(newInvestigasiInsiden, result) => {
 };
 
 InvestigasiInsiden.findById = async (id, result) => {
-const resQuery = await query("SELECT pemeriksaan_kapal_check_id, tanggal_awal, tanggal_akhir, keterangan FROM pemeriksaan_kapal_check_data WHERE pemeriksaan_kapal_id = '" + id + "'");
+	const resQuery = await query("SELECT kondisi_id, pemeriksaan_kapal_check_id, tanggal_awal, tanggal_akhir, keterangan FROM pemeriksaan_kapal_check_data WHERE pemeriksaan_kapal_id = '" + id + "'");
     sql.query(`SELECT a.* , a1.nama as approval_status, a2.nama as ena, a3.nama as status_investigasi_insiden FROM investigasi_insiden a  LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN status_investigasi_insiden a3 ON a.status_investigasi_insiden_id = a3.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);

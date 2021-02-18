@@ -47,7 +47,7 @@ AssetStasiunEquipment.create = async(newAssetStasiunEquipment, result) => {
 };
 
 AssetStasiunEquipment.findById = async (id, result) => {
-const resQuery = await query("SELECT pemeriksaan_kapal_check_id, tanggal_awal, tanggal_akhir, keterangan FROM pemeriksaan_kapal_check_data WHERE pemeriksaan_kapal_id = '" + id + "'");
+	const resQuery = await query("SELECT kondisi_id, pemeriksaan_kapal_check_id, tanggal_awal, tanggal_akhir, keterangan FROM pemeriksaan_kapal_check_data WHERE pemeriksaan_kapal_id = '" + id + "'");
     sql.query(`SELECT a.* , a1.nama as tipe_stasiun, a2.nama as approval_status, a3.nama as ena FROM asset_stasiun_equipment a  LEFT JOIN tipe_stasiun a1 ON a.tipe_stasiun_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);

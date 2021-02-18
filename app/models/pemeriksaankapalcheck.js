@@ -19,7 +19,7 @@ PemeriksaanKapalCheck.create = async(newPemeriksaanKapalCheck, result) => {
 };
 
 PemeriksaanKapalCheck.findById = async (id, result) => {
-const resQuery = await query("SELECT pemeriksaan_kapal_check_id, tanggal_awal, tanggal_akhir, keterangan FROM pemeriksaan_kapal_check_data WHERE pemeriksaan_kapal_id = '" + id + "'");
+	const resQuery = await query("SELECT kondisi_id, pemeriksaan_kapal_check_id, tanggal_awal, tanggal_akhir, keterangan FROM pemeriksaan_kapal_check_data WHERE pemeriksaan_kapal_id = '" + id + "'");
     sql.query(`SELECT a.*  FROM pemeriksaan_kapal_check a  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);

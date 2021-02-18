@@ -24,7 +24,7 @@ PemeriksaanKapalCheckData.create = async(newPemeriksaanKapalCheckData, result) =
 };
 
 PemeriksaanKapalCheckData.findById = async (id, result) => {
-const resQuery = await query("SELECT pemeriksaan_kapal_check_id, tanggal_awal, tanggal_akhir, keterangan FROM pemeriksaan_kapal_check_data WHERE pemeriksaan_kapal_id = '" + id + "'");
+	const resQuery = await query("SELECT kondisi_id, pemeriksaan_kapal_check_id, tanggal_awal, tanggal_akhir, keterangan FROM pemeriksaan_kapal_check_data WHERE pemeriksaan_kapal_id = '" + id + "'");
     sql.query(`SELECT a.* , a1.nama as kondisi, a2.nama as pemeriksaan_kapal, a3.nama as pemeriksaan_kapal_check FROM pemeriksaan_kapal_check_data a  LEFT JOIN kondisi a1 ON a.kondisi_id = a1.id  LEFT JOIN pemeriksaan_kapal a2 ON a.pemeriksaan_kapal_id = a2.id  LEFT JOIN pemeriksaan_kapal_check a3 ON a.pemeriksaan_kapal_check_id = a3.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);

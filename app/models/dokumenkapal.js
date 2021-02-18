@@ -18,7 +18,8 @@ DokumenKapal.create = async(newDokumenKapal, result) => {
 	}
 };
 
-DokumenKapal.findById = (id, result) => {
+DokumenKapal.findById = async (id, result) => {
+const resQuery = await query("SELECT pemeriksaan_kapal_check_id, tanggal_awal, tanggal_akhir, keterangan FROM pemeriksaan_kapal_check_data WHERE pemeriksaan_kapal_id = '" + id + "'");
     sql.query(`SELECT a.*  FROM dokumen_kapal a  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);

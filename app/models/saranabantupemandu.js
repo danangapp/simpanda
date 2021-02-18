@@ -42,7 +42,8 @@ SaranaBantuPemandu.create = async(newSaranaBantuPemandu, result) => {
 	}
 };
 
-SaranaBantuPemandu.findById = (id, result) => {
+SaranaBantuPemandu.findById = async (id, result) => {
+const resQuery = await query("SELECT pemeriksaan_kapal_check_id, tanggal_awal, tanggal_akhir, keterangan FROM pemeriksaan_kapal_check_data WHERE pemeriksaan_kapal_id = '" + id + "'");
     sql.query(`SELECT a.* , a1.nama as approval_status, a2.nama as cabang FROM sarana_bantu_pemandu a  LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN cabang a2 ON a.cabang_id = a2.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);

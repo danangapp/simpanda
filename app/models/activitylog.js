@@ -23,7 +23,8 @@ ActivityLog.create = async(newActivityLog, result) => {
 	}
 };
 
-ActivityLog.findById = (id, result) => {
+ActivityLog.findById = async (id, result) => {
+const resQuery = await query("SELECT pemeriksaan_kapal_check_id, tanggal_awal, tanggal_akhir, keterangan FROM pemeriksaan_kapal_check_data WHERE pemeriksaan_kapal_id = '" + id + "'");
     sql.query(`SELECT a.* , a1.nama as user FROM activity_log a  LEFT JOIN user a1 ON a.user_id = a1.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);

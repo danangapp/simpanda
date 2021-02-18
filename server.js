@@ -1,10 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const formidableMiddleware = require('express-formidable');
+var cors = require('cors')
 require('dotenv').config();
 
 const app = express();
 app.use(formidableMiddleware());
+app.use(cors())
 
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));

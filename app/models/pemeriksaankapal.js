@@ -103,7 +103,7 @@ PemeriksaanKapal.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "OR (";
-		wheres += "a.approval_status_id LIKE '%1234%' OR a.enable LIKE '%1234%' OR a.asset_kapal_id LIKE '%1234%' OR a.cabang_id LIKE '%1234%'";	
+		wheres += "a.approval_status_id LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%' OR a.asset_kapal_id LIKE '%" + param.q + "%' OR a.cabang_id LIKE '%" + param.q + "%'";	
 		wheres += ")";
     	query += wheres;
    }

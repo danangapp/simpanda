@@ -66,7 +66,7 @@ PemeriksaanKapalCheck.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "OR (";
-		wheres += "a.question LIKE '%1234%'";	
+		wheres += "a.question LIKE '%" + param.q + "%'";	
 		wheres += ")";
     	query += wheres;
    }

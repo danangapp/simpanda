@@ -94,7 +94,7 @@ PanduSchedule.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "OR (";
-		wheres += "a.date LIKE '%1234%' OR a.cabang_id LIKE '%1234%' OR a.pandu_jaga_id LIKE '%1234%' OR a.pandu_jaga_nama LIKE '%1234%' OR a.status_absen LIKE '%1234%' OR a.keterangan LIKE '%1234%' OR a.approval_status_id LIKE '%1234%' OR a.enable LIKE '%1234%'";	
+		wheres += "a.date LIKE '%" + param.q + "%' OR a.cabang_id LIKE '%" + param.q + "%' OR a.pandu_jaga_id LIKE '%" + param.q + "%' OR a.pandu_jaga_nama LIKE '%" + param.q + "%' OR a.status_absen LIKE '%" + param.q + "%' OR a.keterangan LIKE '%" + param.q + "%' OR a.approval_status_id LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%'";	
 		wheres += ")";
     	query += wheres;
    }

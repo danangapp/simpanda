@@ -71,7 +71,7 @@ ActivityLog.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "OR (";
-		wheres += "a.date LIKE '%1234%' OR a.item LIKE '%1234%' OR a.action LIKE '%1234%' OR a.user_id LIKE '%1234%' OR a.remark LIKE '%1234%' OR a.koneksi LIKE '%1234%'";	
+		wheres += "a.date LIKE '%" + param.q + "%' OR a.item LIKE '%" + param.q + "%' OR a.action LIKE '%" + param.q + "%' OR a.user_id LIKE '%" + param.q + "%' OR a.remark LIKE '%" + param.q + "%' OR a.koneksi LIKE '%" + param.q + "%'";	
 		wheres += ")";
     	query += wheres;
    }

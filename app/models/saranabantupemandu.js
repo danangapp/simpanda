@@ -90,7 +90,7 @@ SaranaBantuPemandu.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "OR (";
-		wheres += "a.approval_status_id LIKE '%1234%' OR a.cabang_id LIKE '%1234%' OR a.tanggal_pemeriksaan LIKE '%1234%' OR a.pelaksana LIKE '%1234%'";	
+		wheres += "a.approval_status_id LIKE '%" + param.q + "%' OR a.cabang_id LIKE '%" + param.q + "%' OR a.tanggal_pemeriksaan LIKE '%" + param.q + "%' OR a.pelaksana LIKE '%" + param.q + "%'";	
 		wheres += ")";
     	query += wheres;
    }

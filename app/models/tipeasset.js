@@ -67,7 +67,7 @@ TipeAsset.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "OR (";
-		wheres += "a.nama LIKE '%1234%' OR a.type LIKE '%1234%'";	
+		wheres += "a.nama LIKE '%" + param.q + "%' OR a.type LIKE '%" + param.q + "%'";	
 		wheres += ")";
     	query += wheres;
    }

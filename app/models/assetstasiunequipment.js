@@ -94,7 +94,7 @@ AssetStasiunEquipment.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "OR (";
-		wheres += "a.nomor_asset LIKE '%1234%' OR a.tipe_stasiun_id LIKE '%1234%' OR a.nama LIKE '%1234%' OR a.tahun_perolehan LIKE '%1234%' OR a.nilai_perolehan LIKE '%1234%' OR a.kondisi LIKE '%1234%' OR a.approval_status_id LIKE '%1234%' OR a.enable LIKE '%1234%'";	
+		wheres += "a.nomor_asset LIKE '%" + param.q + "%' OR a.tipe_stasiun_id LIKE '%" + param.q + "%' OR a.nama LIKE '%" + param.q + "%' OR a.tahun_perolehan LIKE '%" + param.q + "%' OR a.nilai_perolehan LIKE '%" + param.q + "%' OR a.kondisi LIKE '%" + param.q + "%' OR a.approval_status_id LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%'";	
 		wheres += ")";
     	query += wheres;
    }

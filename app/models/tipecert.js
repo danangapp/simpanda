@@ -67,7 +67,7 @@ TipeCert.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "OR (";
-		wheres += "a.nama LIKE '%1234%' OR a.remark LIKE '%1234%'";	
+		wheres += "a.nama LIKE '%" + param.q + "%' OR a.remark LIKE '%" + param.q + "%'";	
 		wheres += ")";
     	query += wheres;
    }

@@ -102,7 +102,7 @@ Sertifikat.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "OR (";
-		wheres += "a.tipe_cert_id LIKE '%1234%' OR a.personil_id LIKE '%1234%' OR a.no_sertifikat LIKE '%1234%' OR a.issuer LIKE '%1234%' OR a.tempat_keluar_sertifikat LIKE '%1234%' OR a.tanggal_keluar_sertifikat LIKE '%1234%' OR a.tanggal_expire LIKE '%1234%' OR a.reminder_date LIKE '%1234%' OR a.sertifikat LIKE '%1234%' OR a.sertifikat_id LIKE '%1234%'";	
+		wheres += "a.tipe_cert_id LIKE '%" + param.q + "%' OR a.personil_id LIKE '%" + param.q + "%' OR a.no_sertifikat LIKE '%" + param.q + "%' OR a.issuer LIKE '%" + param.q + "%' OR a.tempat_keluar_sertifikat LIKE '%" + param.q + "%' OR a.tanggal_keluar_sertifikat LIKE '%" + param.q + "%' OR a.tanggal_expire LIKE '%" + param.q + "%' OR a.reminder_date LIKE '%" + param.q + "%' OR a.sertifikat LIKE '%" + param.q + "%' OR a.sertifikat_id LIKE '%" + param.q + "%'";	
 		wheres += ")";
     	query += wheres;
    }

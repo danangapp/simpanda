@@ -97,7 +97,7 @@ AssetRumahDinas.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "OR (";
-		wheres += "a.nama_assets LIKE '%1234%' OR a.satuan LIKE '%1234%' OR a.tahun_perolehan LIKE '%1234%' OR a.nilai_perolehan LIKE '%1234%' OR a.wilayah LIKE '%1234%' OR a.nilai_buku LIKE '%1234%' OR a.approval_status_id LIKE '%1234%' OR a.tanggal LIKE '%1234%' OR a.nilai LIKE '%1234%' OR a.catatan LIKE '%1234%' OR a.enable LIKE '%1234%'";	
+		wheres += "a.nama_assets LIKE '%" + param.q + "%' OR a.satuan LIKE '%" + param.q + "%' OR a.tahun_perolehan LIKE '%" + param.q + "%' OR a.nilai_perolehan LIKE '%" + param.q + "%' OR a.wilayah LIKE '%" + param.q + "%' OR a.nilai_buku LIKE '%" + param.q + "%' OR a.approval_status_id LIKE '%" + param.q + "%' OR a.tanggal LIKE '%" + param.q + "%' OR a.nilai LIKE '%" + param.q + "%' OR a.catatan LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%'";	
 		wheres += ")";
     	query += wheres;
    }

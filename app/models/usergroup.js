@@ -79,7 +79,7 @@ UserGroup.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "OR (";
-		wheres += "a.nama LIKE '%1234%' OR a.keterangan LIKE '%1234%' OR a.cabang_id LIKE '%1234%' OR a.access_dashboard LIKE '%1234%' OR a.access_resource_pandu LIKE '%1234%' OR a.access_resource_pendukung LIKE '%1234%' OR a.access_resource_absensi LIKE '%1234%' OR a.access_asset_kapal LIKE '%1234%' OR a.access_asset_stasiun LIKE '%1234%' OR a.access_asset_rumah LIKE '%1234%' OR a.access_asset_absensi LIKE '%1234%' OR a.access_inspection_sarana LIKE '%1234%' OR a.access_inspection_pemeriksaan LIKE '%1234%' OR a.access_inspection_investigasi LIKE '%1234%'";	
+		wheres += "a.nama LIKE '%" + param.q + "%' OR a.keterangan LIKE '%" + param.q + "%' OR a.cabang_id LIKE '%" + param.q + "%' OR a.access_dashboard LIKE '%" + param.q + "%' OR a.access_resource_pandu LIKE '%" + param.q + "%' OR a.access_resource_pendukung LIKE '%" + param.q + "%' OR a.access_resource_absensi LIKE '%" + param.q + "%' OR a.access_asset_kapal LIKE '%" + param.q + "%' OR a.access_asset_stasiun LIKE '%" + param.q + "%' OR a.access_asset_rumah LIKE '%" + param.q + "%' OR a.access_asset_absensi LIKE '%" + param.q + "%' OR a.access_inspection_sarana LIKE '%" + param.q + "%' OR a.access_inspection_pemeriksaan LIKE '%" + param.q + "%' OR a.access_inspection_investigasi LIKE '%" + param.q + "%'";	
 		wheres += ")";
     	query += wheres;
    }

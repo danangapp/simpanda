@@ -71,7 +71,7 @@ PemeriksaanKapalCheckData.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "OR (";
-		wheres += "a.kondisi_id LIKE '%1234%' OR a.tanggal_awal LIKE '%1234%' OR a.tanggal_akhir LIKE '%1234%' OR a.keterangan LIKE '%1234%' OR a.pemeriksaan_kapal_id LIKE '%1234%' OR a.pemeriksaan_kapal_check_id LIKE '%1234%'";	
+		wheres += "a.kondisi_id LIKE '%" + param.q + "%' OR a.tanggal_awal LIKE '%" + param.q + "%' OR a.tanggal_akhir LIKE '%" + param.q + "%' OR a.keterangan LIKE '%" + param.q + "%' OR a.pemeriksaan_kapal_id LIKE '%" + param.q + "%' OR a.pemeriksaan_kapal_check_id LIKE '%" + param.q + "%'";	
 		wheres += ")";
     	query += wheres;
    }

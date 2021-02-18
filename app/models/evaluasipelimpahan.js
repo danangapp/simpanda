@@ -102,7 +102,7 @@ EvaluasiPelimpahan.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "OR (";
-		wheres += "a.approval_status_id LIKE '%1234%' OR a.enable LIKE '%1234%' OR a.cabang_id LIKE '%1234%' OR a.bup LIKE '%1234%' OR a.izin_bup LIKE '%1234%' OR a.penetapan_perairan_pandu LIKE '%1234%' OR a.izin_pelimpahan LIKE '%1234%' OR a.pengawas_pemanduan LIKE '%1234%' OR a.laporan_bulanan LIKE '%1234%' OR a.bukti_pembayaran_pnpb LIKE '%1234%' OR a.sispro LIKE '%1234%' OR a.tarif_jasa_pandu_tunda LIKE '%1234%' OR a.data_dukung LIKE '%1234%' OR a.file_pendukung LIKE '%1234%' OR a.tanggal_sk LIKE '%1234%' OR a.file_sk_pelimpahan LIKE '%1234%'";	
+		wheres += "a.approval_status_id LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%' OR a.cabang_id LIKE '%" + param.q + "%' OR a.bup LIKE '%" + param.q + "%' OR a.izin_bup LIKE '%" + param.q + "%' OR a.penetapan_perairan_pandu LIKE '%" + param.q + "%' OR a.izin_pelimpahan LIKE '%" + param.q + "%' OR a.pengawas_pemanduan LIKE '%" + param.q + "%' OR a.laporan_bulanan LIKE '%" + param.q + "%' OR a.bukti_pembayaran_pnpb LIKE '%" + param.q + "%' OR a.sispro LIKE '%" + param.q + "%' OR a.tarif_jasa_pandu_tunda LIKE '%" + param.q + "%' OR a.data_dukung LIKE '%" + param.q + "%' OR a.file_pendukung LIKE '%" + param.q + "%' OR a.tanggal_sk LIKE '%" + param.q + "%' OR a.file_sk_pelimpahan LIKE '%" + param.q + "%'";	
 		wheres += ")";
     	query += wheres;
    }

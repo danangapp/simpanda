@@ -88,7 +88,6 @@ Personil.create = async(newPersonil, result) => {
 };
 
 Personil.findById = async (id, result) => {
-	const resQuery = await query("SELECT kondisi_id, pemeriksaan_kapal_check_id, tanggal_awal, tanggal_akhir, keterangan FROM pemeriksaan_kapal_check_data WHERE pemeriksaan_kapal_id = '" + id + "'");
     sql.query(`SELECT a.* , a1.nama as tipe_personil, a2.nama as approval_status, a3.nama as ena, a4.nama_asset as asset_kapal, a5.nama as status_kepegawaian, a6.nama as cabang FROM personil a  LEFT JOIN tipe_personil a1 ON a.tipe_personil_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id  LEFT JOIN asset_kapal a4 ON a.asset_kapal_id = a4.id  LEFT JOIN status_kepegawaian a5 ON a.status_kepegawaian_id = a5.id  LEFT JOIN cabang a6 ON a.tempat_tugas = a6.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);

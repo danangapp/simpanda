@@ -33,16 +33,15 @@ module.exports = {
         var d = new Date();
         var n = d.getTime();
 
-        const ext = "." + files.split(';')[0].split('/')[1];
+        const ext = "." + files.split(';')[0].split('/')[1].toLowerCase();
 
         const path = './files/';
         var updateTo = folders + '/' + n + ext;
-        const type = files.split(';')[0].split('/')[1];
 
         var base64Data = files.replace(/^data:image\/jpg;base64,/, "");
-        base64Data = base64Data.replace(/^data:image\/jpeg;base64,/, "");
-        base64Data = base64Data.replace(/^data:image\/png;base64,/, "");
-        base64Data = base64Data.replace(/^data:application\/pdf;base64,/, "");
+        base64Data = files.replace(/^data:image\/jpeg;base64,/, "");
+        base64Data = files.replace(/^data:image\/png;base64,/, "");
+        base64Data = files.replace(/^data:application\/pdf;base64,/, "");
         // console.log(updateTo)
 
         require("fs").writeFile(path + updateTo, base64Data, 'base64', function (err) {

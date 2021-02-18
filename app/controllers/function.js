@@ -42,6 +42,7 @@ module.exports = {
         base64Data = base64Data.replace(/^data:image\/jpeg;base64,/, "");
         base64Data = base64Data.replace(/^data:image\/png;base64,/, "");
         base64Data = base64Data.replace(/^data:application\/pdf;base64,/, "");
+        console.log(updateTo)
 
         require("fs").writeFile(path + updateTo, base64Data, 'base64', function (err) {
             console.log(err);

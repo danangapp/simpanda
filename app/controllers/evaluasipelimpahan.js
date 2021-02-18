@@ -40,12 +40,12 @@ exports.create = (req, res) => {
 	    }
 	}
 
-	if (req.files.file_pendukung) {
-	    evaluasi_pelimpahan.file_pendukung = f.uploadFile64('evaluasi_pelimpahan', req.files.file_pendukung);
+	if (req.fields.file_pendukung) {
+	    evaluasi_pelimpahan.file_pendukung = f.uploadFile64('evaluasi_pelimpahan', req.fields.file_pendukung);
 	}
 
-	if (req.files.file_sk_pelimpahan) {
-	    evaluasi_pelimpahan.file_sk_pelimpahan = f.uploadFile64('evaluasi_pelimpahan', req.files.file_sk_pelimpahan);
+	if (req.fields.file_sk_pelimpahan) {
+	    evaluasi_pelimpahan.file_sk_pelimpahan = f.uploadFile64('evaluasi_pelimpahan', req.fields.file_sk_pelimpahan);
 	}
 
     EvaluasiPelimpahan.create(evaluasipelimpahan, (err, data) => {
@@ -105,12 +105,12 @@ exports.update = (req, res) => {
     }
 
 	req.fields.tanggal_sk = f.toDate(req.fields.tanggal_sk);
-	if (req.files.file_pendukung) {
-	    req.fields.file_pendukung = f.uploadFile64('evaluasi_pelimpahan', req.files.file_pendukung);
+	if (req.fields.file_pendukung) {
+	    req.fields.file_pendukung = f.uploadFile64('evaluasi_pelimpahan', req.fields.file_pendukung);
 	}
 
-	if (req.files.file_sk_pelimpahan) {
-	    req.fields.file_sk_pelimpahan = f.uploadFile64('evaluasi_pelimpahan', req.files.file_sk_pelimpahan);
+	if (req.fields.file_sk_pelimpahan) {
+	    req.fields.file_sk_pelimpahan = f.uploadFile64('evaluasi_pelimpahan', req.fields.file_sk_pelimpahan);
 	}
 
 

@@ -29,28 +29,27 @@ module.exports = {
         return updateTo;
     },
     uploadFile64: function (folders, files) {
-        // var str = files.path;
-        // var d = new Date();
-        // var n = d.getTime();
+        var str = files.path;
+        var d = new Date();
+        var n = d.getTime();
 
-        // const ext = "." + files.split(';')[0].split('/')[1].toLowerCase();
+        const ext = "." + files.split(';')[0].split('/')[1].toLowerCase();
 
-        // const path = './files/';
-        // var updateTo = folders + '/' + n + ext;
+        const path = './files/';
+        var updateTo = folders + '/' + n + ext;
 
-        // var base64Data = files.replace(/^data:image\/jpg;base64,/, "");
-        // base64Data = base64Data.replace(/^data:image\/JPG;base64,/, "");
-        // base64Data = base64Data.replace(/^data:image\/png;base64,/, "");
-        // base64Data = base64Data.replace(/^data:image\/PNG;base64,/, "");
-        // base64Data = base64Data.replace(/^data:image\/jpeg;base64,/, "");
-        // base64Data = base64Data.replace(/^data:image\/JPEG;base64,/, "");
-        // base64Data = base64Data.replace(/^data:application\/pdf;base64,/, "");
-        // base64Data = base64Data.replace(/^data:application\/PDF;base64,/, "");
+        var base64Data = files.replace(/^data:image\/jpg;base64,/, "");
+        base64Data = base64Data.replace(/^data:image\/JPG;base64,/, "");
+        base64Data = base64Data.replace(/^data:image\/png;base64,/, "");
+        base64Data = base64Data.replace(/^data:image\/PNG;base64,/, "");
+        base64Data = base64Data.replace(/^data:image\/jpeg;base64,/, "");
+        base64Data = base64Data.replace(/^data:image\/JPEG;base64,/, "");
+        base64Data = base64Data.replace(/^data:application\/pdf;base64,/, "");
+        base64Data = base64Data.replace(/^data:application\/PDF;base64,/, "");
 
-        // require("fs").writeFile(path + updateTo, base64Data, 'base64', function (err) {
-        //     console.log(err);
-        // });
-        // return updateTo;
-        return "pathnya";
+        require("fs").writeFile(path + updateTo, base64Data, 'base64', function (err) {
+            console.log(err);
+        });
+        return updateTo;
     }
 };

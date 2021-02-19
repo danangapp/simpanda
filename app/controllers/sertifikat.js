@@ -18,6 +18,7 @@ exports.create = (req, res) => {
         tanggal_expire: f.toDate(req.fields.tanggal_expire),
         reminder_date: f.toDate(req.fields.reminder_date),
         sertifikat: req.fields.sertifikat,
+        sertifikat_id: req.fields.sertifikat_id,
         sertifikat: req.fields.sertifikat,
     };
 

@@ -52,6 +52,7 @@ exports.create = (req, res) => {
         bolard_pull: req.fields.bolard_pull,
         kecepatan: req.fields.kecepatan,
         ship_particular: req.fields.ship_particular,
+        sertifikat_id: req.fields.sertifikat_id,
         sertifikat: req.fields.sertifikat,
         date: f.toDate(req.fields.date),
         item: req.fields.item,

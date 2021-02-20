@@ -8,6 +8,7 @@ var objek = new Object();
 const Sertifikat = function (sertifikat) {
     this.tipe_cert_id = sertifikat.tipe_cert_id;
     this.personil_id = sertifikat.personil_id;
+    this.asset_kapal_id = sertifikat.asset_kapal_id;
     this.no_sertifikat = sertifikat.no_sertifikat;
     this.issuer = sertifikat.issuer;
     this.tempat_keluar_sertifikat = sertifikat.tempat_keluar_sertifikat;
@@ -58,15 +59,15 @@ Sertifikat.create = async(newSertifikat, result) => {
 
 Sertifikat.findById = async (id, result) => {
 	const resQuery = await query("SELECT a.* FROM sertifikat a INNER JOIN sertifikat b ON a.sertifikat_id = b.id WHERE b.id =  '" + id + "'");
-    sql.query(`SELECT a.* , a1.nama as tipe_cert, a2.nama as personil FROM sertifikat a  LEFT JOIN tipe_cert a1 ON a.tipe_cert_id = a1.id  LEFT JOIN personil a2 ON a.personil_id = a2.id  WHERE a.id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* , a1.nama as tipe_cert, a2.nama as personil, a3.nama_asset as asset_kapal FROM sertifikat a  LEFT JOIN tipe_cert a1 ON a.tipe_cert_id = a1.id  LEFT JOIN personil a2 ON a.personil_id = a2.id  LEFT JOIN asset_kapal a3 ON a.asset_kapal_id = a3.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
             return;
         }
 
-		const check = { "check": resQuery }
-		let merge = [{ ...res[0], ...check }]	
+		const sertifikat = { "sertifikat": resQuery }
+		let merge = [{ ...res[0], ...sertifikat }]	
         if (res.length) {
             result(null, merge);
             return;
@@ -80,7 +81,7 @@ Sertifikat.findById = async (id, result) => {
 Sertifikat.getAll = (param, result) => {
     const length = Object.keys(param).length;
     var wheres = "";
-    var query = "SELECT a.* , a1.nama as tipe_cert, a2.nama as personil FROM sertifikat a  LEFT JOIN tipe_cert a1 ON a.tipe_cert_id = a1.id  LEFT JOIN personil a2 ON a.personil_id = a2.id ";
+    var query = "SELECT a.* , a1.nama as tipe_cert, a2.nama as personil, a3.nama_asset as asset_kapal FROM sertifikat a  LEFT JOIN tipe_cert a1 ON a.tipe_cert_id = a1.id  LEFT JOIN personil a2 ON a.personil_id = a2.id  LEFT JOIN asset_kapal a3 ON a.asset_kapal_id = a3.id ";
     if (length > 0) {
         wheres += " WHERE ";
         for (var i in param) {
@@ -107,7 +108,7 @@ Sertifikat.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "OR (";
-		wheres += "a.tipe_cert_id LIKE '%" + param.q + "%' OR a.personil_id LIKE '%" + param.q + "%' OR a.no_sertifikat LIKE '%" + param.q + "%' OR a.issuer LIKE '%" + param.q + "%' OR a.tempat_keluar_sertifikat LIKE '%" + param.q + "%' OR a.tanggal_keluar_sertifikat LIKE '%" + param.q + "%' OR a.tanggal_expire LIKE '%" + param.q + "%' OR a.reminder_date1 LIKE '%" + param.q + "%' OR a.reminder_date3 LIKE '%" + param.q + "%' OR a.reminder_date6 LIKE '%" + param.q + "%' OR a.sertifikat LIKE '%" + param.q + "%' OR a.sertifikat_id LIKE '%" + param.q + "%'";	
+		wheres += "a.tipe_cert_id LIKE '%" + param.q + "%' OR a.personil_id LIKE '%" + param.q + "%' OR a.asset_kapal_id LIKE '%" + param.q + "%' OR a.no_sertifikat LIKE '%" + param.q + "%' OR a.issuer LIKE '%" + param.q + "%' OR a.tempat_keluar_sertifikat LIKE '%" + param.q + "%' OR a.tanggal_keluar_sertifikat LIKE '%" + param.q + "%' OR a.tanggal_expire LIKE '%" + param.q + "%' OR a.reminder_date1 LIKE '%" + param.q + "%' OR a.reminder_date3 LIKE '%" + param.q + "%' OR a.reminder_date6 LIKE '%" + param.q + "%' OR a.sertifikat LIKE '%" + param.q + "%' OR a.sertifikat_id LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }
 

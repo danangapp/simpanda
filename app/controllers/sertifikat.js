@@ -11,6 +11,7 @@ exports.create = (req, res) => {
     var sertifikat = {
         tipe_cert_id: req.fields.tipe_cert_id,
         personil_id: req.fields.personil_id,
+        asset_kapal_id: req.fields.asset_kapal_id,
         no_sertifikat: req.fields.no_sertifikat,
         issuer: req.fields.issuer,
         tempat_keluar_sertifikat: f.toDate(req.fields.tempat_keluar_sertifikat),

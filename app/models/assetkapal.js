@@ -118,8 +118,8 @@ AssetKapal.findById = async (id, result) => {
             return;
         }
 
-		const check = { "check": resQuery }
-		let merge = [{ ...res[0], ...check }]	
+		const sertifikat = { "sertifikat": resQuery }
+		let merge = [{ ...res[0], ...sertifikat }]	
         if (res.length) {
             result(null, merge);
             return;

@@ -110,7 +110,7 @@ AssetKapal.create = async(newAssetKapal, result) => {
 };
 
 AssetKapal.findById = async (id, result) => {
-	const resQuery = await query("SELECT a.* FROM sertifikat a INNER JOIN personil b ON a.sertifikat_id = b.sertifikat_id WHERE b.id =  '" + id + "'");
+	const resQuery = await query("SELECT a.* FROM sertifikat a INNER JOIN asset_kapal b ON a.asset_kapal_id = b.id WHERE b.id =  '" + id + "'");
     sql.query(`SELECT a.* , a1.nama as tipe_asset, a2.nama as ena, a3.nama as approval_status FROM asset_kapal a  LEFT JOIN tipe_asset a1 ON a.jenis_kapal = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN approval_status a3 ON a.approval_status_id = a3.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);

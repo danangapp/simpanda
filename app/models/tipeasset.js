@@ -27,6 +27,7 @@ TipeAsset.findById = async (id, result) => {
             return;
         }
 
+		let merge = [{ ...res[0] }]	
         if (res.length) {
             result(null, res[0]);
             return;

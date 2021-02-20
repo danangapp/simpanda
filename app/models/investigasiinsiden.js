@@ -83,6 +83,7 @@ InvestigasiInsiden.create = async(newInvestigasiInsiden, result) => {
 };
 
 InvestigasiInsiden.findById = async (id, result) => {
+	const resActivityLog = await query("SELECT a.date, a.item, a.action, a.user_id, a.remark, a.koneksi FROM activity_log a INNER JOIN investigasi_insiden b ON a.item = 'investigasi_insiden' AND a.koneksi = b.id WHERE b.id =  '" + id + "'");
     sql.query(`SELECT a.* , a1.nama as approval_status, a2.nama as ena, a3.nama as status_investigasi_insiden FROM investigasi_insiden a  LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN status_investigasi_insiden a3 ON a.status_investigasi_insiden_id = a3.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -90,6 +91,8 @@ InvestigasiInsiden.findById = async (id, result) => {
             return;
         }
 
+		const activityLog = { "activityLog": resActivityLog }
+		let merge = [{ ...res[0], ...activityLog }]	
         if (res.length) {
             result(null, res[0]);
             return;

@@ -50,6 +50,7 @@ AssetRumahDinas.create = async(newAssetRumahDinas, result) => {
 };
 
 AssetRumahDinas.findById = async (id, result) => {
+	const resActivityLog = await query("SELECT a.date, a.item, a.action, a.user_id, a.remark, a.koneksi FROM activity_log a INNER JOIN asset_rumah_dinas b ON a.item = 'asset_rumah_dinas' AND a.koneksi = b.id WHERE b.id =  '" + id + "'");
     sql.query(`SELECT a.* , a1.nama as approval_status, a2.nama as ena FROM asset_rumah_dinas a  LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -57,6 +58,8 @@ AssetRumahDinas.findById = async (id, result) => {
             return;
         }
 
+		const activityLog = { "activityLog": resActivityLog }
+		let merge = [{ ...res[0], ...activityLog }]	
         if (res.length) {
             result(null, res[0]);
             return;

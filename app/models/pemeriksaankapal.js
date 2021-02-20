@@ -55,6 +55,7 @@ PemeriksaanKapal.create = async(newPemeriksaanKapal, result) => {
 
 PemeriksaanKapal.findById = async (id, result) => {
 	const resQuery = await query("SELECT kondisi_id, pemeriksaan_kapal_check_id, tanggal_awal, tanggal_akhir, keterangan FROM pemeriksaan_kapal_check_data WHERE pemeriksaan_kapal_id = '" + id + "'");
+	const resActivityLog = await query("SELECT a.date, a.item, a.action, a.user_id, a.remark, a.koneksi FROM activity_log a INNER JOIN pemeriksaan_kapal b ON a.item = 'pemeriksaan_kapal' AND a.koneksi = b.id WHERE b.id =  '" + id + "'");
     sql.query(`SELECT a.* , a1.nama as approval_status, a2.nama as ena, a3.nama_asset as asset_kapal, a4.nama as cabang , a6.question, a5.tanggal_awal, a5.tanggal_akhir, a5.keterangan  FROM pemeriksaan_kapal a  LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN asset_kapal a3 ON a.asset_kapal_id = a3.id  LEFT JOIN cabang a4 ON a.cabang_id = a4.id  LEFT JOIN pemeriksaan_kapal_check_data a5 ON a.id = a5.pemeriksaan_kapal_id LEFT JOIN pemeriksaan_kapal_check a6 ON a5.pemeriksaan_kapal_check_id = a6.id LEFT JOIN kondisi a7 ON a5.kondisi_id = a7.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -63,7 +64,8 @@ PemeriksaanKapal.findById = async (id, result) => {
         }
 
 		const check = { "check": resQuery }
-		let merge = [{ ...res[0], ...check }]	
+		const activityLog = { "activityLog": resActivityLog }
+		let merge = [{ ...res[0], ...check, ...activityLog }]	
         if (res.length) {
             result(null, merge);
             return;

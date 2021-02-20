@@ -47,6 +47,7 @@ PanduSchedule.create = async(newPanduSchedule, result) => {
 };
 
 PanduSchedule.findById = async (id, result) => {
+	const resActivityLog = await query("SELECT a.date, a.item, a.action, a.user_id, a.remark, a.koneksi FROM activity_log a INNER JOIN pandu_schedule b ON a.item = 'pandu_schedule' AND a.koneksi = b.id WHERE b.id =  '" + id + "'");
     sql.query(`SELECT a.* , a1.nama as cabang, a2.nama as approval_status, a3.nama as ena FROM pandu_schedule a  LEFT JOIN cabang a1 ON a.cabang_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -54,6 +55,8 @@ PanduSchedule.findById = async (id, result) => {
             return;
         }
 
+		const activityLog = { "activityLog": resActivityLog }
+		let merge = [{ ...res[0], ...activityLog }]	
         if (res.length) {
             result(null, res[0]);
             return;

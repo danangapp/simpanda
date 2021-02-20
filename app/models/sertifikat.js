@@ -13,7 +13,9 @@ const Sertifikat = function (sertifikat) {
     this.tempat_keluar_sertifikat = sertifikat.tempat_keluar_sertifikat;
     this.tanggal_keluar_sertifikat = sertifikat.tanggal_keluar_sertifikat;
     this.tanggal_expire = sertifikat.tanggal_expire;
-    this.reminder_date = sertifikat.reminder_date;
+    this.reminder_date1 = sertifikat.reminder_date1;
+    this.reminder_date3 = sertifikat.reminder_date3;
+    this.reminder_date6 = sertifikat.reminder_date6;
     this.sertifikat = sertifikat.sertifikat;
     this.sertifikat = sertifikat.sertifikat;
     this.date = sertifikat.date;
@@ -55,6 +57,7 @@ Sertifikat.create = async(newSertifikat, result) => {
 };
 
 Sertifikat.findById = async (id, result) => {
+	const resQuery = await query("SELECT a.* FROM sertifikat a INNER JOIN personil b ON a.sertifikat_id = b.sertifikat_id WHERE b.id =  '" + id + "'");
     sql.query(`SELECT a.* , a1.nama as tipe_cert, a2.nama as personil FROM sertifikat a  LEFT JOIN tipe_cert a1 ON a.tipe_cert_id = a1.id  LEFT JOIN personil a2 ON a.personil_id = a2.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -62,8 +65,10 @@ Sertifikat.findById = async (id, result) => {
             return;
         }
 
+		const check = { "check": resQuery }
+		let merge = [{ ...res[0], ...check }]	
         if (res.length) {
-            result(null, res[0]);
+            result(null, merge);
             return;
         }
 
@@ -102,7 +107,7 @@ Sertifikat.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "OR (";
-		wheres += "a.tipe_cert_id LIKE '%" + param.q + "%' OR a.personil_id LIKE '%" + param.q + "%' OR a.no_sertifikat LIKE '%" + param.q + "%' OR a.issuer LIKE '%" + param.q + "%' OR a.tempat_keluar_sertifikat LIKE '%" + param.q + "%' OR a.tanggal_keluar_sertifikat LIKE '%" + param.q + "%' OR a.tanggal_expire LIKE '%" + param.q + "%' OR a.reminder_date LIKE '%" + param.q + "%' OR a.sertifikat LIKE '%" + param.q + "%' OR a.sertifikat_id LIKE '%" + param.q + "%'";	
+		wheres += "a.tipe_cert_id LIKE '%" + param.q + "%' OR a.personil_id LIKE '%" + param.q + "%' OR a.no_sertifikat LIKE '%" + param.q + "%' OR a.issuer LIKE '%" + param.q + "%' OR a.tempat_keluar_sertifikat LIKE '%" + param.q + "%' OR a.tanggal_keluar_sertifikat LIKE '%" + param.q + "%' OR a.tanggal_expire LIKE '%" + param.q + "%' OR a.reminder_date1 LIKE '%" + param.q + "%' OR a.reminder_date3 LIKE '%" + param.q + "%' OR a.reminder_date6 LIKE '%" + param.q + "%' OR a.sertifikat LIKE '%" + param.q + "%' OR a.sertifikat_id LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }
 

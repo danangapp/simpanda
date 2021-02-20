@@ -16,7 +16,9 @@ exports.create = (req, res) => {
         tempat_keluar_sertifikat: f.toDate(req.fields.tempat_keluar_sertifikat),
         tanggal_keluar_sertifikat: f.toDate(req.fields.tanggal_keluar_sertifikat),
         tanggal_expire: f.toDate(req.fields.tanggal_expire),
-        reminder_date: f.toDate(req.fields.reminder_date),
+        reminder_date1: f.toDate(req.fields.reminder_date1),
+        reminder_date3: f.toDate(req.fields.reminder_date3),
+        reminder_date6: f.toDate(req.fields.reminder_date6),
         sertifikat: req.fields.sertifikat,
         sertifikat_id: req.fields.sertifikat_id,
         sertifikat: req.fields.sertifikat,
@@ -88,7 +90,9 @@ exports.update = (req, res) => {
 	req.fields.tempat_keluar_sertifikat = f.toDate(req.fields.tempat_keluar_sertifikat);
 	req.fields.tanggal_keluar_sertifikat = f.toDate(req.fields.tanggal_keluar_sertifikat);
 	req.fields.tanggal_expire = f.toDate(req.fields.tanggal_expire);
-	req.fields.reminder_date = f.toDate(req.fields.reminder_date);
+	req.fields.reminder_date1 = f.toDate(req.fields.reminder_date1);
+	req.fields.reminder_date3 = f.toDate(req.fields.reminder_date3);
+	req.fields.reminder_date6 = f.toDate(req.fields.reminder_date6);
 	req.fields.date = f.toDate(req.fields.date);
 
     Sertifikat.updateById(

@@ -69,7 +69,7 @@ SaranaBantuPemanduPersonil.getAll = (param, result) => {
     }
 
 	if (param.q) {
-		wheres += wheres.length == 7 ? "(" : "OR (";
+		wheres += wheres.length == 7 ? "(" : "AND (";
 		wheres += "a.sarana_bantu_pemandu_id LIKE '%" + param.q + "%' OR a.nama LIKE '%" + param.q + "%' OR a.jabatan LIKE '%" + param.q + "%' OR a.asset_kapal_id LIKE '%" + param.q + "%' OR a.status_ijazah_id LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }

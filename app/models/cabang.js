@@ -75,7 +75,7 @@ Cabang.getAll = (param, result) => {
     }
 
 	if (param.q) {
-		wheres += wheres.length == 7 ? "(" : "OR (";
+		wheres += wheres.length == 7 ? "(" : "AND (";
 		wheres += "a.nama LIKE '%" + param.q + "%' OR a.almt_cabang LIKE '%" + param.q + "%' OR a.cabang_cms LIKE '%" + param.q + "%' OR a.no_account_cabang LIKE '%" + param.q + "%' OR a.nm_cabang_3digit LIKE '%" + param.q + "%' OR a.kd_account_cabang LIKE '%" + param.q + "%' OR a.kd_cabang_jai_puspel LIKE '%" + param.q + "%' OR a.orgid LIKE '%" + param.q + "%' OR a.port_code LIKE '%" + param.q + "%' OR a.autospk LIKE '%" + param.q + "%' OR a.kd_jenis_pelabuhan LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }

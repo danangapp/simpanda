@@ -101,7 +101,7 @@ EvaluasiPelimpahan.getAll = (param, result) => {
     }
 
 	if (param.q) {
-		wheres += wheres.length == 7 ? "(" : "OR (";
+		wheres += wheres.length == 7 ? "(" : "AND (";
 		wheres += "a.approval_status_id LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%' OR a.cabang_id LIKE '%" + param.q + "%' OR a.bup LIKE '%" + param.q + "%' OR a.izin_bup LIKE '%" + param.q + "%' OR a.penetapan_perairan_pandu LIKE '%" + param.q + "%' OR a.izin_pelimpahan LIKE '%" + param.q + "%' OR a.pengawas_pemanduan LIKE '%" + param.q + "%' OR a.laporan_bulanan LIKE '%" + param.q + "%' OR a.bukti_pembayaran_pnpb LIKE '%" + param.q + "%' OR a.sispro LIKE '%" + param.q + "%' OR a.tarif_jasa_pandu_tunda LIKE '%" + param.q + "%' OR a.data_dukung LIKE '%" + param.q + "%' OR a.file_pendukung LIKE '%" + param.q + "%' OR a.tanggal_sk LIKE '%" + param.q + "%' OR a.file_sk_pelimpahan LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }

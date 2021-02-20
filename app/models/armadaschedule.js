@@ -72,7 +72,7 @@ ArmadaSchedule.getAll = (param, result) => {
     }
 
 	if (param.q) {
-		wheres += wheres.length == 7 ? "(" : "OR (";
+		wheres += wheres.length == 7 ? "(" : "AND (";
 		wheres += "a.date LIKE '%" + param.q + "%' OR a.cabang LIKE '%" + param.q + "%' OR a.kategori_armada LIKE '%" + param.q + "%' OR a.armada_id LIKE '%" + param.q + "%' OR a.status LIKE '%" + param.q + "%' OR a.jam_pengoperasian LIKE '%" + param.q + "%' OR a.reliability LIKE '%" + param.q + "%' OR a.keterangan LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }

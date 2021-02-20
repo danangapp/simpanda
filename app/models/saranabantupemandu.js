@@ -89,7 +89,7 @@ SaranaBantuPemandu.getAll = (param, result) => {
     }
 
 	if (param.q) {
-		wheres += wheres.length == 7 ? "(" : "OR (";
+		wheres += wheres.length == 7 ? "(" : "AND (";
 		wheres += "a.approval_status_id LIKE '%" + param.q + "%' OR a.cabang_id LIKE '%" + param.q + "%' OR a.tanggal_pemeriksaan LIKE '%" + param.q + "%' OR a.pelaksana LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }

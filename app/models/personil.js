@@ -137,7 +137,7 @@ Personil.getAll = (param, result) => {
     }
 
 	if (param.q) {
-		wheres += wheres.length == 7 ? "(" : "OR (";
+		wheres += wheres.length == 7 ? "(" : "AND (";
 		wheres += "a.tipe_personil_id LIKE '%" + param.q + "%' OR a.approval_status_id LIKE '%" + param.q + "%' OR a.simop_kd_pers_pandu LIKE '%" + param.q + "%' OR a.simop_kd_pers_pandu_cbg LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%' OR a.asset_kapal_id LIKE '%" + param.q + "%' OR a.nama LIKE '%" + param.q + "%' OR a.kelas LIKE '%" + param.q + "%' OR a.tempat_lahir LIKE '%" + param.q + "%' OR a.tanggal_lahir LIKE '%" + param.q + "%' OR a.nipp LIKE '%" + param.q + "%' OR a.jabatan LIKE '%" + param.q + "%' OR a.status_kepegawaian_id LIKE '%" + param.q + "%' OR a.cv LIKE '%" + param.q + "%' OR a.tempat_tugas LIKE '%" + param.q + "%' OR a.nomor_sk LIKE '%" + param.q + "%' OR a.tanggal_mulai LIKE '%" + param.q + "%' OR a.tanggal_selesai LIKE '%" + param.q + "%' OR a.sk LIKE '%" + param.q + "%' OR a.skpp LIKE '%" + param.q + "%' OR a.surat_kesehatan LIKE '%" + param.q + "%' OR a.sertifikat_id LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }

@@ -69,7 +69,7 @@ User.getAll = (param, result) => {
     }
 
 	if (param.q) {
-		wheres += wheres.length == 7 ? "(" : "OR (";
+		wheres += wheres.length == 7 ? "(" : "AND (";
 		wheres += "a.username LIKE '%" + param.q + "%' OR a.nama LIKE '%" + param.q + "%' OR a.password LIKE '%" + param.q + "%' OR a.user_group_id LIKE '%" + param.q + "%' OR a.role_id LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }

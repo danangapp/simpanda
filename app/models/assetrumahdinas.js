@@ -96,7 +96,7 @@ AssetRumahDinas.getAll = (param, result) => {
     }
 
 	if (param.q) {
-		wheres += wheres.length == 7 ? "(" : "OR (";
+		wheres += wheres.length == 7 ? "(" : "AND (";
 		wheres += "a.nama_assets LIKE '%" + param.q + "%' OR a.satuan LIKE '%" + param.q + "%' OR a.tahun_perolehan LIKE '%" + param.q + "%' OR a.nilai_perolehan LIKE '%" + param.q + "%' OR a.wilayah LIKE '%" + param.q + "%' OR a.nilai_buku LIKE '%" + param.q + "%' OR a.approval_status_id LIKE '%" + param.q + "%' OR a.tanggal LIKE '%" + param.q + "%' OR a.nilai LIKE '%" + param.q + "%' OR a.catatan LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }

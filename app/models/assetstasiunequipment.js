@@ -93,7 +93,7 @@ AssetStasiunEquipment.getAll = (param, result) => {
     }
 
 	if (param.q) {
-		wheres += wheres.length == 7 ? "(" : "OR (";
+		wheres += wheres.length == 7 ? "(" : "AND (";
 		wheres += "a.nomor_asset LIKE '%" + param.q + "%' OR a.tipe_stasiun_id LIKE '%" + param.q + "%' OR a.nama LIKE '%" + param.q + "%' OR a.tahun_perolehan LIKE '%" + param.q + "%' OR a.nilai_perolehan LIKE '%" + param.q + "%' OR a.kondisi LIKE '%" + param.q + "%' OR a.approval_status_id LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }

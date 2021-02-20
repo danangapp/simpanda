@@ -70,7 +70,7 @@ ActivityLog.getAll = (param, result) => {
     }
 
 	if (param.q) {
-		wheres += wheres.length == 7 ? "(" : "OR (";
+		wheres += wheres.length == 7 ? "(" : "AND (";
 		wheres += "a.date LIKE '%" + param.q + "%' OR a.item LIKE '%" + param.q + "%' OR a.action LIKE '%" + param.q + "%' OR a.user_id LIKE '%" + param.q + "%' OR a.remark LIKE '%" + param.q + "%' OR a.koneksi LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }

@@ -11,6 +11,7 @@ exports.create = (req, res) => {
     var tipecert = {
         nama: req.fields.nama,
         remark: req.fields.remark,
+        jenis: req.fields.jenis,
     };
 
 	var used = {};

@@ -76,3 +76,30 @@ const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
+
+
+// var oracledb = require('oracledb');
+// const dbConfig = require('./dbconfig.js');njdrdybkj
+// oracledb.initOracleClient({ libDir: 'D:\\tools\\instantclient_19_10' });
+// async function run() {
+//   let connection;
+//   try {
+//     connection = await oracledb.getConnection(dbConfig);
+//     const result = await connection.execute(`SELECT NAMA FROM ACTION`);
+
+//     console.log(result.metaData); // [ { name: 'FARMER' }, { name: 'PICKED' }, { name: 'RIPENESS' } ]
+//     console.log(result.rows);
+//   } catch (err) {
+//     console.error(err);
+//   } finally {
+//     if (connection) {
+//       try {
+//         await connection.close();
+//       } catch (err) {
+//         console.error(err);
+//       }
+//     }
+//   }
+// }
+
+// run();

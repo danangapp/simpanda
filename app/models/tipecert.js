@@ -8,6 +8,7 @@ var objek = new Object();
 const TipeCert = function (tipecert) {
     this.nama = tipecert.nama;
     this.remark = tipecert.remark;
+    this.jenis = tipecert.jenis;
 };
 
 TipeCert.create = async(newTipeCert, result) => {
@@ -67,7 +68,7 @@ TipeCert.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "AND (";
-		wheres += "a.nama LIKE '%" + param.q + "%' OR a.remark LIKE '%" + param.q + "%'";	
+		wheres += "a.nama LIKE '%" + param.q + "%' OR a.remark LIKE '%" + param.q + "%' OR a.jenis LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }
 

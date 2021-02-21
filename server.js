@@ -70,6 +70,7 @@ require("./app/routes/tipesaranapemandukapal")(app);
 require("./app/routes/tipestasiun")(app);
 require("./app/routes/user")(app);
 require("./app/routes/usergroup")(app);
+require("./app/routes/jeniscert")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 4000;

@@ -1,4 +1,4 @@
-const TipeCert = require("../models/tipecert.js");
+const JenisCert = require("../models/jeniscert.js");
 const f = require('./function');
 
 exports.create = (req, res) => {
@@ -8,61 +8,60 @@ exports.create = (req, res) => {
         });
     }
 
-    var tipecert = {
+    var jeniscert = {
         nama: req.fields.nama,
         remark: req.fields.remark,
-        jenis_cert_id: req.fields.jenis_cert_id,
     };
 
 	var used = {};
-	for (var i in tipecert) {
-	    if (!tipecert[i]) {
-	        delete tipecert[i];
+	for (var i in jeniscert) {
+	    if (!jeniscert[i]) {
+	        delete jeniscert[i];
 	    }
 	}
 
-    TipeCert.create(tipecert, (err, data) => {
+    JenisCert.create(jeniscert, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the TipeCert."
+                    err.message || "Some error occurred while creating the JenisCert."
             });
         else res.send(data);
     });
 };
 
 exports.findAll = (req, res) => {
-    TipeCert.getAll(req.query, (err, data) => {
+    JenisCert.getAll(req.query, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving tipecertnames."
+                    err.message || "Some error occurred while retrieving jeniscertnames."
             });
         else res.send(data);
     });
 };
 
 exports.design = (req, res) => {
-    TipeCert.design((err, data) => {
+    JenisCert.design((err, data) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving tipecertnames."
+                    err.message || "Some error occurred while retrieving jeniscertnames."
             });
         else res.send(data);
     });
 };
 
 exports.findOne = (req, res) => {
-    TipeCert.findById(req.params.id, (err, data) => {
+    JenisCert.findById(req.params.id, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Not found TipeCert with id ${req.params.id}.`
+                    message: `Not found JenisCert with id ${req.params.id}.`
                 });
             } else {
                 res.status(500).send({
-                    message: "Error retrieving TipeCert with id " + req.params.id
+                    message: "Error retrieving JenisCert with id " + req.params.id
                 });
             }
         } else res.send(data);
@@ -78,18 +77,18 @@ exports.update = (req, res) => {
     }
 
 
-    TipeCert.updateById(
+    JenisCert.updateById(
         req.params.id,
         req.fields,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
                     res.status(404).send({
-                        message: `Not found TipeCert with id ${req.params.id}.`
+                        message: `Not found JenisCert with id ${req.params.id}.`
                     });
                 } else {
                     res.status(500).send({
-                        message: "Error updating TipeCert with id " + req.params.id
+                        message: "Error updating JenisCert with id " + req.params.id
                     });
                 }
             } else res.send(data);
@@ -98,18 +97,18 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-    TipeCert.remove(req.params.id, (err, data) => {
+    JenisCert.remove(req.params.id, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Not found TipeCert with id ${req.params.id}.`
+                    message: `Not found JenisCert with id ${req.params.id}.`
                 });
             } else {
                 res.status(500).send({
-                    message: "Could not delete TipeCert with id " + req.params.id
+                    message: "Could not delete JenisCert with id " + req.params.id
                 });
             }
-        } else res.send({ message: `TipeCert was deleted successfully!` });
+        } else res.send({ message: `JenisCert was deleted successfully!` });
     });
 };
 

@@ -210,6 +210,9 @@ AssetKapal.updateById = async(id, assetkapal, result) => {
 
 				if (adadiTable == 1) {
 					header += a + ", ";
+					if (a === "tanggal_keluar_sertifikat" || a === "tanggal_expire" || a === "reminder_date1" || a === "reminder_date3" || a === "reminder_date6") {
+						val = f.toDate(val);
+					}
 					value += "'" + val + "', ";
 				}
 		    }

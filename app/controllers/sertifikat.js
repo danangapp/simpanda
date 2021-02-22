@@ -9,6 +9,7 @@ exports.create = (req, res) => {
     }
 
     var sertifikat = {
+        jenis_cert_id: req.fields.jenis_cert_id,
         tipe_cert_id: req.fields.tipe_cert_id,
         personil_id: req.fields.personil_id,
         asset_kapal_id: req.fields.asset_kapal_id,

@@ -102,8 +102,16 @@ SaranaBantuPemanduPersonil.updateById = async(id, saranabantupemandupersonil, re
 	try {
 
 		var str = "", obj = [], no = 1;
+		var arr = ["sarana_bantu_pemandu_id", "nama", "jabatan", "asset_kapal_id", "status_ijazah_id"];
 		for (var i in saranabantupemandupersonil) {
-		    if (saranabantupemandupersonil[i]) {
+			var adadiTable = 0
+			for (var b in arr) {
+				if (i == arr[b]) {
+					adadiTable = 1;
+					break;
+				}
+			}
+		    if (saranabantupemandupersonil[i] && adadiTable == 1) {
 		        str += i + " = ?, ";
 		        obj.push(saranabantupemandupersonil[i]);
 		    }

@@ -6,6 +6,7 @@ var objek = new Object();
 
 // constructor
 const Sertifikat = function (sertifikat) {
+    this.jenis_cert_id = sertifikat.jenis_cert_id;
     this.tipe_cert_id = sertifikat.tipe_cert_id;
     this.personil_id = sertifikat.personil_id;
     this.asset_kapal_id = sertifikat.asset_kapal_id;
@@ -59,7 +60,7 @@ Sertifikat.create = async(newSertifikat, result) => {
 
 Sertifikat.findById = async (id, result) => {
 	const resQuery = await query("SELECT a.*, c.nama as tipe_cert, d.nama as jenis_cert FROM sertifikat a INNER JOIN sertifikat b ON a.sertifikat_id = b.id INNER JOIN tipe_cert c ON a.tipe_cert_id = c.id INNER JOIN jenis_cert d ON c.jenis_cert_id = d.id WHERE b.id =  '" + id + "'");
-    sql.query(`SELECT a.* , a1.nama as tipe_cert, a2.nama as personil, a3.nama_asset as asset_kapal FROM sertifikat a  LEFT JOIN tipe_cert a1 ON a.tipe_cert_id = a1.id  LEFT JOIN personil a2 ON a.personil_id = a2.id  LEFT JOIN asset_kapal a3 ON a.asset_kapal_id = a3.id  WHERE a.id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* , a1.nama as jenis_cert, a2.nama as tipe_cert, a3.nama as personil, a4.nama_asset as asset_kapal FROM sertifikat a  LEFT JOIN jenis_cert a1 ON a.jenis_cert_id = a1.id  LEFT JOIN tipe_cert a2 ON a.tipe_cert_id = a2.id  LEFT JOIN personil a3 ON a.personil_id = a3.id  LEFT JOIN asset_kapal a4 ON a.asset_kapal_id = a4.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -81,7 +82,7 @@ Sertifikat.findById = async (id, result) => {
 Sertifikat.getAll = (param, result) => {
     const length = Object.keys(param).length;
     var wheres = "";
-    var query = "SELECT a.* , a1.nama as tipe_cert, a2.nama as personil, a3.nama_asset as asset_kapal FROM sertifikat a  LEFT JOIN tipe_cert a1 ON a.tipe_cert_id = a1.id  LEFT JOIN personil a2 ON a.personil_id = a2.id  LEFT JOIN asset_kapal a3 ON a.asset_kapal_id = a3.id ";
+    var query = "SELECT a.* , a1.nama as jenis_cert, a2.nama as tipe_cert, a3.nama as personil, a4.nama_asset as asset_kapal FROM sertifikat a  LEFT JOIN jenis_cert a1 ON a.jenis_cert_id = a1.id  LEFT JOIN tipe_cert a2 ON a.tipe_cert_id = a2.id  LEFT JOIN personil a3 ON a.personil_id = a3.id  LEFT JOIN asset_kapal a4 ON a.asset_kapal_id = a4.id ";
     if (length > 0) {
         wheres += " WHERE ";
         for (var i in param) {
@@ -108,7 +109,7 @@ Sertifikat.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "AND (";
-		wheres += "a.tipe_cert_id LIKE '%" + param.q + "%' OR a.personil_id LIKE '%" + param.q + "%' OR a.asset_kapal_id LIKE '%" + param.q + "%' OR a.no_sertifikat LIKE '%" + param.q + "%' OR a.issuer LIKE '%" + param.q + "%' OR a.tempat_keluar_sertifikat LIKE '%" + param.q + "%' OR a.tanggal_keluar_sertifikat LIKE '%" + param.q + "%' OR a.tanggal_expire LIKE '%" + param.q + "%' OR a.reminder_date1 LIKE '%" + param.q + "%' OR a.reminder_date3 LIKE '%" + param.q + "%' OR a.reminder_date6 LIKE '%" + param.q + "%' OR a.sertifikat LIKE '%" + param.q + "%' OR a.sertifikat_id LIKE '%" + param.q + "%'";	
+		wheres += "a.jenis_cert_id LIKE '%" + param.q + "%' OR a.tipe_cert_id LIKE '%" + param.q + "%' OR a.personil_id LIKE '%" + param.q + "%' OR a.asset_kapal_id LIKE '%" + param.q + "%' OR a.no_sertifikat LIKE '%" + param.q + "%' OR a.issuer LIKE '%" + param.q + "%' OR a.tempat_keluar_sertifikat LIKE '%" + param.q + "%' OR a.tanggal_keluar_sertifikat LIKE '%" + param.q + "%' OR a.tanggal_expire LIKE '%" + param.q + "%' OR a.reminder_date1 LIKE '%" + param.q + "%' OR a.reminder_date3 LIKE '%" + param.q + "%' OR a.reminder_date6 LIKE '%" + param.q + "%' OR a.sertifikat LIKE '%" + param.q + "%' OR a.sertifikat_id LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }
 
@@ -139,14 +140,25 @@ Sertifikat.design = result => {
 Sertifikat.updateById = async(id, sertifikat, result) => {
 	try {
 		const sertifikat = sertifikat.sertifikat;
+		var arr = ["jenis_cert_id", "tipe_cert_id", "personil_id", "asset_kapal_id", "no_sertifikat", "issuer", "tempat_keluar_sertifikat", "tanggal_keluar_sertifikat", "tanggal_expire", "reminder_date1", "reminder_date3", "reminder_date6", "sertifikat", "sertifikat_id"]
 		for (var i in sertifikat) {
 		    const x = sertifikat[i];
 		
 		    var header = "", value = "";
 		    for (var a in x) {
 		        const val = x[a];
-		        header += a + ", ";
-		        value += "'" + val + "', ";
+				var adadiTable = 0
+				for (var b in arr) {
+					if (a == arr[b]) {
+						adadiTable = 1;
+						break;
+					}
+				}
+
+				if (adadiTable == 1) {
+					header += a + ", ";
+					value += "'" + val + "', ";
+				}
 		    }
 		    value = value.substring(0, value.length - 2);
 		    header = header.substring(0, header.length - 2);
@@ -157,8 +169,16 @@ Sertifikat.updateById = async(id, sertifikat, result) => {
 		delete sertifikat.sertifikat;
 
 		var str = "", obj = [], no = 1;
+		var arr = ["jenis_cert_id", "tipe_cert_id", "personil_id", "asset_kapal_id", "no_sertifikat", "issuer", "tempat_keluar_sertifikat", "tanggal_keluar_sertifikat", "tanggal_expire", "reminder_date1", "reminder_date3", "reminder_date6", "sertifikat", "sertifikat_id"];
 		for (var i in sertifikat) {
-		    if (sertifikat[i]) {
+			var adadiTable = 0
+			for (var b in arr) {
+				if (i == arr[b]) {
+					adadiTable = 1;
+					break;
+				}
+			}
+		    if (sertifikat[i] && adadiTable == 1) {
 		        str += i + " = ?, ";
 		        obj.push(sertifikat[i]);
 		    }

@@ -105,8 +105,16 @@ ArmadaSchedule.updateById = async(id, armadaschedule, result) => {
 	try {
 
 		var str = "", obj = [], no = 1;
+		var arr = ["date", "cabang", "kategori_armada", "armada_id", "status", "jam_pengoperasian", "reliability", "keterangan"];
 		for (var i in armadaschedule) {
-		    if (armadaschedule[i]) {
+			var adadiTable = 0
+			for (var b in arr) {
+				if (i == arr[b]) {
+					adadiTable = 1;
+					break;
+				}
+			}
+		    if (armadaschedule[i] && adadiTable == 1) {
 		        str += i + " = ?, ";
 		        obj.push(armadaschedule[i]);
 		    }

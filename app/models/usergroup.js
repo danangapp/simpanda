@@ -111,8 +111,16 @@ UserGroup.updateById = async(id, usergroup, result) => {
 	try {
 
 		var str = "", obj = [], no = 1;
+		var arr = ["nama", "keterangan", "cabang_id", "access_dashboard", "access_resource_pandu", "access_resource_pendukung", "access_resource_absensi", "access_asset_kapal", "access_asset_stasiun", "access_asset_rumah", "access_asset_absensi", "access_inspection_sarana", "access_inspection_pemeriksaan", "access_inspection_investigasi"];
 		for (var i in usergroup) {
-		    if (usergroup[i]) {
+			var adadiTable = 0
+			for (var b in arr) {
+				if (i == arr[b]) {
+					adadiTable = 1;
+					break;
+				}
+			}
+		    if (usergroup[i] && adadiTable == 1) {
 		        str += i + " = ?, ";
 		        obj.push(usergroup[i]);
 		    }

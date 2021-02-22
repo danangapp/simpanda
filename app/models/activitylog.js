@@ -103,8 +103,16 @@ ActivityLog.updateById = async(id, activitylog, result) => {
 	try {
 
 		var str = "", obj = [], no = 1;
+		var arr = ["date", "item", "action", "user_id", "remark", "koneksi"];
 		for (var i in activitylog) {
-		    if (activitylog[i]) {
+			var adadiTable = 0
+			for (var b in arr) {
+				if (i == arr[b]) {
+					adadiTable = 1;
+					break;
+				}
+			}
+		    if (activitylog[i] && adadiTable == 1) {
 		        str += i + " = ?, ";
 		        obj.push(activitylog[i]);
 		    }

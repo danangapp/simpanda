@@ -193,14 +193,25 @@ AssetKapal.design = result => {
 AssetKapal.updateById = async(id, assetkapal, result) => {
 	try {
 		const sertifikat = assetkapal.sertifikat;
+		var arr = ["jenis_cert_id", "tipe_cert_id", "personil_id", "asset_kapal_id", "no_sertifikat", "issuer", "tempat_keluar_sertifikat", "tanggal_keluar_sertifikat", "tanggal_expire", "reminder_date1", "reminder_date3", "reminder_date6", "sertifikat", "sertifikat_id"]
 		for (var i in sertifikat) {
 		    const x = sertifikat[i];
 		
 		    var header = "", value = "";
 		    for (var a in x) {
 		        const val = x[a];
-		        header += a + ", ";
-		        value += "'" + val + "', ";
+				var adadiTable = 0
+				for (var b in arr) {
+					if (a == arr[b]) {
+						adadiTable = 1;
+						break;
+					}
+				}
+
+				if (adadiTable == 1) {
+					header += a + ", ";
+					value += "'" + val + "', ";
+				}
 		    }
 		    value = value.substring(0, value.length - 2);
 		    header = header.substring(0, header.length - 2);
@@ -212,8 +223,16 @@ AssetKapal.updateById = async(id, assetkapal, result) => {
 		assetkapal = await setActivity(assetkapal, id);
 
 		var str = "", obj = [], no = 1;
+		var arr = ["simop_kd_fas", "kepemilikan_kapal", "simop_status_milik", "simop_kd_agen", "jenis_kapal", "nama_asset", "horse_power", "tahun_perolehan", "nilai_perolehan", "lokasi", "enable", "asset_number", "simop_kd_puspel_jai", "simop_new_puspel_jai", "simop_new_asset_jai", "approval_status_id", "loa", "tahun_pembuatan", "breadth", "kontruksi", "depth", "negara_pembuat", "draft_max", "daya", "putaran", "merk", "tipe", "daya_motor", "daya_generator", "putaran_spesifikasi", "merk_spesifikasi", "tipe_spesifikasi", "klas", "notasi_permesinan", "no_registrasi", "notasi_perlengkapan", "port_of_registration", "notasi_perairan", "notasi_lambung", "gross_tonnage", "bolard_pull", "kecepatan", "ship_particular", "sertifikat_id"];
 		for (var i in assetkapal) {
-		    if (assetkapal[i]) {
+			var adadiTable = 0
+			for (var b in arr) {
+				if (i == arr[b]) {
+					adadiTable = 1;
+					break;
+				}
+			}
+		    if (assetkapal[i] && adadiTable == 1) {
 		        str += i + " = ?, ";
 		        obj.push(assetkapal[i]);
 		    }

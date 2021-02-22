@@ -100,8 +100,16 @@ TipeCert.updateById = async(id, tipecert, result) => {
 	try {
 
 		var str = "", obj = [], no = 1;
+		var arr = ["nama", "remark", "jenis_cert_id"];
 		for (var i in tipecert) {
-		    if (tipecert[i]) {
+			var adadiTable = 0
+			for (var b in arr) {
+				if (i == arr[b]) {
+					adadiTable = 1;
+					break;
+				}
+			}
+		    if (tipecert[i] && adadiTable == 1) {
 		        str += i + " = ?, ";
 		        obj.push(tipecert[i]);
 		    }

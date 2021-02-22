@@ -126,8 +126,16 @@ SaranaBantuPemandu.updateById = async(id, saranabantupemandu, result) => {
 		saranabantupemandu = await setActivity(saranabantupemandu, id);
 
 		var str = "", obj = [], no = 1;
+		var arr = ["approval_status_id", "cabang_id", "tanggal_pemeriksaan", "pelaksana"];
 		for (var i in saranabantupemandu) {
-		    if (saranabantupemandu[i]) {
+			var adadiTable = 0
+			for (var b in arr) {
+				if (i == arr[b]) {
+					adadiTable = 1;
+					break;
+				}
+			}
+		    if (saranabantupemandu[i] && adadiTable == 1) {
 		        str += i + " = ?, ";
 		        obj.push(saranabantupemandu[i]);
 		    }

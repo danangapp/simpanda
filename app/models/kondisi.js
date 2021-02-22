@@ -98,8 +98,16 @@ Kondisi.updateById = async(id, kondisi, result) => {
 	try {
 
 		var str = "", obj = [], no = 1;
+		var arr = ["nama"];
 		for (var i in kondisi) {
-		    if (kondisi[i]) {
+			var adadiTable = 0
+			for (var b in arr) {
+				if (i == arr[b]) {
+					adadiTable = 1;
+					break;
+				}
+			}
+		    if (kondisi[i] && adadiTable == 1) {
 		        str += i + " = ?, ";
 		        obj.push(kondisi[i]);
 		    }

@@ -102,8 +102,16 @@ User.updateById = async(id, user, result) => {
 	try {
 
 		var str = "", obj = [], no = 1;
+		var arr = ["username", "nama", "password", "user_group_id", "role_id"];
 		for (var i in user) {
-		    if (user[i]) {
+			var adadiTable = 0
+			for (var b in arr) {
+				if (i == arr[b]) {
+					adadiTable = 1;
+					break;
+				}
+			}
+		    if (user[i] && adadiTable == 1) {
 		        str += i + " = ?, ";
 		        obj.push(user[i]);
 		    }

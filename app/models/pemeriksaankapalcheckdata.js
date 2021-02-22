@@ -103,8 +103,16 @@ PemeriksaanKapalCheckData.updateById = async(id, pemeriksaankapalcheckdata, resu
 	try {
 
 		var str = "", obj = [], no = 1;
+		var arr = ["kondisi_id", "tanggal_awal", "tanggal_akhir", "keterangan", "pemeriksaan_kapal_id", "pemeriksaan_kapal_check_id"];
 		for (var i in pemeriksaankapalcheckdata) {
-		    if (pemeriksaankapalcheckdata[i]) {
+			var adadiTable = 0
+			for (var b in arr) {
+				if (i == arr[b]) {
+					adadiTable = 1;
+					break;
+				}
+			}
+		    if (pemeriksaankapalcheckdata[i] && adadiTable == 1) {
 		        str += i + " = ?, ";
 		        obj.push(pemeriksaankapalcheckdata[i]);
 		    }

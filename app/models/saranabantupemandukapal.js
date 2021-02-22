@@ -164,8 +164,16 @@ SaranaBantuPemanduKapal.updateById = async(id, saranabantupemandukapal, result) 
 	try {
 
 		var str = "", obj = [], no = 1;
+		var arr = ["sarana_bantu_pemandu_id", "tipe_sarana_pemandu_kapal_id", "dokumen_kapal_q1", "dokumen_kapal_q2", "dokumen_kapal_q3", "dokumen_kapal_q4", "dokumen_kapal_q5", "dokumen_kapal_q6", "dokumen_kapal_q7", "dokumen_kapal_q8", "dokumen_kapal_q9", "dokumen_kapal_q10", "dokumen_kapal_q11", "dokumen_kapal_q12", "dokumen_kapal_q13", "dokumen_kapal_q14", "dokumen_kapal_q15", "kondisi_umum_q1", "kondisi_umum_q2", "kondisi_umum_q3", "kondisi_umum_q4", "kondisi_umum_q5", "kondisi_umum_q6", "pemeriksaan_performa_q1", "pemeriksaan_performa_q2", "pemeriksaan_performa_q3", "pemeriksaan_performa_q4", "pemeriksaan_performa_q5", "pemeriksaan_fisik_a1", "pemeriksaan_fisik_a2", "pemeriksaan_fisik_a3", "pemeriksaan_fisik_a4", "pemeriksaan_fisik_a5", "pemeriksaan_fisik_a6", "pemeriksaan_fisik_a7", "pemeriksaan_fisik_b1", "pemeriksaan_fisik_b2", "pemeriksaan_fisik_b3", "pemeriksaan_fisik_b4", "pemeriksaan_fisik_b5", "pemeriksaan_fisik_b6", "pemeriksaan_fisik_b7", "pemeriksaan_fisik_b8", "pemeriksaan_fisik_b9", "pemeriksaan_fisik_c1", "pemeriksaan_fisik_c2", "pemeriksaan_fisik_c3", "pemeriksaan_fisik_c4", "pemeriksaan_fisik_c5", "pemeriksaan_fisik_c6", "pemeriksaan_fisik_c7", "pemeriksaan_fisik_d1", "pemeriksaan_fisik_d2", "pemeriksaan_fisik_d3", "pemeriksaan_fisik_d4", "pemeriksaan_fisik_d5", "pemeriksaan_fisik_d6", "pemeriksaan_fisik_d7", "pemeriksaan_fisik_d8", "pemeriksaan_fisik_d9", "pemeriksaan_fisik_e1", "pemeriksaan_fisik_e2", "pemeriksaan_fisik_e3", "pemeriksaan_fisik_f1", "pemeriksaan_fisik_f2", "pemeriksaan_fisik_f3", "pemeriksaan_fisik_f4"];
 		for (var i in saranabantupemandukapal) {
-		    if (saranabantupemandukapal[i]) {
+			var adadiTable = 0
+			for (var b in arr) {
+				if (i == arr[b]) {
+					adadiTable = 1;
+					break;
+				}
+			}
+		    if (saranabantupemandukapal[i] && adadiTable == 1) {
 		        str += i + " = ?, ";
 		        obj.push(saranabantupemandukapal[i]);
 		    }

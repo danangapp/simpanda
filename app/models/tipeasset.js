@@ -99,8 +99,16 @@ TipeAsset.updateById = async(id, tipeasset, result) => {
 	try {
 
 		var str = "", obj = [], no = 1;
+		var arr = ["nama", "type"];
 		for (var i in tipeasset) {
-		    if (tipeasset[i]) {
+			var adadiTable = 0
+			for (var b in arr) {
+				if (i == arr[b]) {
+					adadiTable = 1;
+					break;
+				}
+			}
+		    if (tipeasset[i] && adadiTable == 1) {
 		        str += i + " = ?, ";
 		        obj.push(tipeasset[i]);
 		    }

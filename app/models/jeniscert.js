@@ -99,8 +99,16 @@ JenisCert.updateById = async(id, jeniscert, result) => {
 	try {
 
 		var str = "", obj = [], no = 1;
+		var arr = ["nama", "remark"];
 		for (var i in jeniscert) {
-		    if (jeniscert[i]) {
+			var adadiTable = 0
+			for (var b in arr) {
+				if (i == arr[b]) {
+					adadiTable = 1;
+					break;
+				}
+			}
+		    if (jeniscert[i] && adadiTable == 1) {
 		        str += i + " = ?, ";
 		        obj.push(jeniscert[i]);
 		    }

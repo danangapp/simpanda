@@ -130,8 +130,16 @@ AssetStasiunEquipment.updateById = async(id, assetstasiunequipment, result) => {
 		assetstasiunequipment = await setActivity(assetstasiunequipment, id);
 
 		var str = "", obj = [], no = 1;
+		var arr = ["nomor_asset", "tipe_stasiun_id", "nama", "tahun_perolehan", "nilai_perolehan", "kondisi", "approval_status_id", "enable"];
 		for (var i in assetstasiunequipment) {
-		    if (assetstasiunequipment[i]) {
+			var adadiTable = 0
+			for (var b in arr) {
+				if (i == arr[b]) {
+					adadiTable = 1;
+					break;
+				}
+			}
+		    if (assetstasiunequipment[i] && adadiTable == 1) {
 		        str += i + " = ?, ";
 		        obj.push(assetstasiunequipment[i]);
 		    }

@@ -150,8 +150,16 @@ PemeriksaanKapal.updateById = async(id, pemeriksaankapal, result) => {
 		delete pemeriksaankapal.check;
 
 		var str = "", obj = [], no = 1;
+		var arr = ["approval_status_id", "enable", "asset_kapal_id", "cabang_id"];
 		for (var i in pemeriksaankapal) {
-		    if (pemeriksaankapal[i]) {
+			var adadiTable = 0
+			for (var b in arr) {
+				if (i == arr[b]) {
+					adadiTable = 1;
+					break;
+				}
+			}
+		    if (pemeriksaankapal[i] && adadiTable == 1) {
 		        str += i + " = ?, ";
 		        obj.push(pemeriksaankapal[i]);
 		    }

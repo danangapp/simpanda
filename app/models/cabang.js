@@ -108,8 +108,16 @@ Cabang.updateById = async(id, cabang, result) => {
 	try {
 
 		var str = "", obj = [], no = 1;
+		var arr = ["nama", "almt_cabang", "cabang_cms", "no_account_cabang", "nm_cabang_3digit", "kd_account_cabang", "kd_cabang_jai_puspel", "orgid", "port_code", "autospk", "kd_jenis_pelabuhan"];
 		for (var i in cabang) {
-		    if (cabang[i]) {
+			var adadiTable = 0
+			for (var b in arr) {
+				if (i == arr[b]) {
+					adadiTable = 1;
+					break;
+				}
+			}
+		    if (cabang[i] && adadiTable == 1) {
 		        str += i + " = ?, ";
 		        obj.push(cabang[i]);
 		    }

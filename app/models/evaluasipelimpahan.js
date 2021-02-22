@@ -138,8 +138,16 @@ EvaluasiPelimpahan.updateById = async(id, evaluasipelimpahan, result) => {
 		evaluasipelimpahan = await setActivity(evaluasipelimpahan, id);
 
 		var str = "", obj = [], no = 1;
+		var arr = ["approval_status_id", "enable", "cabang_id", "bup", "izin_bup", "penetapan_perairan_pandu", "izin_pelimpahan", "pengawas_pemanduan", "laporan_bulanan", "bukti_pembayaran_pnpb", "sispro", "tarif_jasa_pandu_tunda", "data_dukung", "file_pendukung", "tanggal_sk", "file_sk_pelimpahan"];
 		for (var i in evaluasipelimpahan) {
-		    if (evaluasipelimpahan[i]) {
+			var adadiTable = 0
+			for (var b in arr) {
+				if (i == arr[b]) {
+					adadiTable = 1;
+					break;
+				}
+			}
+		    if (evaluasipelimpahan[i] && adadiTable == 1) {
 		        str += i + " = ?, ";
 		        obj.push(evaluasipelimpahan[i]);
 		    }

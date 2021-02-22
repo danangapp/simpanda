@@ -130,8 +130,16 @@ PanduSchedule.updateById = async(id, panduschedule, result) => {
 		panduschedule = await setActivity(panduschedule, id);
 
 		var str = "", obj = [], no = 1;
+		var arr = ["date", "cabang_id", "pandu_jaga_id", "pandu_jaga_nama", "status_absen", "keterangan", "approval_status_id", "enable"];
 		for (var i in panduschedule) {
-		    if (panduschedule[i]) {
+			var adadiTable = 0
+			for (var b in arr) {
+				if (i == arr[b]) {
+					adadiTable = 1;
+					break;
+				}
+			}
+		    if (panduschedule[i] && adadiTable == 1) {
 		        str += i + " = ?, ";
 		        obj.push(panduschedule[i]);
 		    }

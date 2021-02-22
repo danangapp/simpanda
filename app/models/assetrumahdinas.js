@@ -133,8 +133,16 @@ AssetRumahDinas.updateById = async(id, assetrumahdinas, result) => {
 		assetrumahdinas = await setActivity(assetrumahdinas, id);
 
 		var str = "", obj = [], no = 1;
+		var arr = ["nama_assets", "satuan", "tahun_perolehan", "nilai_perolehan", "wilayah", "nilai_buku", "approval_status_id", "tanggal", "nilai", "catatan", "enable"];
 		for (var i in assetrumahdinas) {
-		    if (assetrumahdinas[i]) {
+			var adadiTable = 0
+			for (var b in arr) {
+				if (i == arr[b]) {
+					adadiTable = 1;
+					break;
+				}
+			}
+		    if (assetrumahdinas[i] && adadiTable == 1) {
 		        str += i + " = ?, ";
 		        obj.push(assetrumahdinas[i]);
 		    }

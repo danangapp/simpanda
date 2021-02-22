@@ -59,7 +59,7 @@ AssetRumahDinas.findById = async (id, result) => {
         }
 
 		const activityLog = { "activityLog": resActivityLog }
-		let merge = [{ ...res[0], ...activityLog }]	
+		let merge = { ...res[0], ...activityLog }	
         if (res.length) {
             result(null, res[0]);
             return;

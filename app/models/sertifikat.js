@@ -67,7 +67,7 @@ Sertifikat.findById = async (id, result) => {
         }
 
 		const sertifikat = { "sertifikat": resQuery }
-		let merge = [{ ...res[0], ...sertifikat }]	
+		let merge = { ...res[0], ...sertifikat }	
         if (res.length) {
             result(null, merge);
             return;

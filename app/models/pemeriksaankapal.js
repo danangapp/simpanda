@@ -65,7 +65,7 @@ PemeriksaanKapal.findById = async (id, result) => {
 
 		const check = { "check": resQuery }
 		const activityLog = { "activityLog": resActivityLog }
-		let merge = [{ ...res[0], ...check, ...activityLog }]	
+		let merge = { ...res[0], ...check, ...activityLog }	
         if (res.length) {
             result(null, merge);
             return;

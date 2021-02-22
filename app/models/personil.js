@@ -99,7 +99,7 @@ Personil.findById = async (id, result) => {
 
 		const sertifikat = { "sertifikat": resQuery }
 		const activityLog = { "activityLog": resActivityLog }
-		let merge = [{ ...res[0], ...sertifikat, ...activityLog }]	
+		let merge = { ...res[0], ...sertifikat, ...activityLog }	
         if (res.length) {
             result(null, merge);
             return;

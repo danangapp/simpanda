@@ -169,65 +169,62 @@ Personil.design = result => {
 };
 
 Personil.updateById = async (id, personil, result) => {
-	try {
-		const sertifikat = personil.sertifikat;
-		var arr = ["id", "jenis_cert_id", "tipe_cert_id", "personil_id", "asset_kapal_id", "no_sertifikat", "issuer", "tempat_keluar_sertifikat", "tanggal_keluar_sertifikat", "tanggal_expire", "reminder_date1", "reminder_date3", "reminder_date6", "sertifikat", "sertifikat_id"]
-		for (var i in sertifikat) {
-			const x = sertifikat[i];
+	const sertifikat = personil.sertifikat;
+	var arr = ["id", "jenis_cert_id", "tipe_cert_id", "personil_id", "asset_kapal_id", "no_sertifikat", "issuer", "tempat_keluar_sertifikat", "tanggal_keluar_sertifikat", "tanggal_expire", "reminder_date1", "reminder_date3", "reminder_date6", "sertifikat", "sertifikat_id"]
+	for (var i in sertifikat) {
+		const x = sertifikat[i];
 
-			var header = "", value = "";
-			for (var a in x) {
-				const val = x[a];
-				var adadiTable = 0
-				for (var b in arr) {
-					if (a == arr[b]) {
-						adadiTable = 1;
-						break;
-					}
-				}
-
-				if (adadiTable == 1) {
-					header += a + ", ";
-					value += "'" + val + "', ";
-				}
-			}
-
-			value = value.substring(0, value.length - 2);
-			header = header.substring(0, header.length - 2);
-
-			await query("DELETE FROM sertifikat WHERE id='" + x.id + "'");
-			await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
-		}
-		delete personil.sertifikat;
-		personil = await setActivity(personil, id);
-
-		var str = "", obj = [], no = 1;
-		var arr = ["tipe_personil_id", "approval_status_id", "simop_kd_pers_pandu", "simop_kd_pers_pandu_cbg", "enable", "asset_kapal_id", "nama", "kelas", "tempat_lahir", "tanggal_lahir", "nipp", "jabatan", "status_kepegawaian_id", "cv", "tempat_tugas", "nomor_sk", "tanggal_mulai", "tanggal_selesai", "sk", "skpp", "surat_kesehatan", "sertifikat_id"];
-		for (var i in personil) {
+		var header = "", value = "";
+		for (var a in x) {
+			const val = x[a];
 			var adadiTable = 0
 			for (var b in arr) {
-				if (i == arr[b]) {
+				if (a == arr[b]) {
 					adadiTable = 1;
 					break;
 				}
 			}
-			if (personil[i] && adadiTable == 1) {
-				str += i + " = ?, ";
-				obj.push(personil[i]);
-			}
-			no++;
-		}
-		obj.push(id);
-		str = str.substring(0, str.length - 2);
 
-		if (objek.action != null) {
-			await query("INSERT INTO activity_log SET ?", objek);
+			if (adadiTable == 1) {
+				header += a + ", ";
+				value += "'" + val + "', ";
+			}
 		}
-		await query("UPDATE personil SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...personil });
-	} catch (error) {
-		result(error, null);
+
+		value = value.substring(0, value.length - 2);
+		header = header.substring(0, header.length - 2);
+
+		await query("DELETE FROM sertifikat WHERE id='" + x.id + "'");
+		await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
 	}
+	delete personil.sertifikat;
+	personil = await setActivity(personil, id);
+
+	var str = "", obj = [], no = 1;
+	var arr = ["tipe_personil_id", "approval_status_id", "simop_kd_pers_pandu", "simop_kd_pers_pandu_cbg", "enable", "asset_kapal_id", "nama", "kelas", "tempat_lahir", "tanggal_lahir", "nipp", "jabatan", "status_kepegawaian_id", "cv", "tempat_tugas", "nomor_sk", "tanggal_mulai", "tanggal_selesai", "sk", "skpp", "surat_kesehatan", "sertifikat_id"];
+	for (var i in personil) {
+		var adadiTable = 0
+		for (var b in arr) {
+			if (i == arr[b]) {
+				adadiTable = 1;
+				break;
+			}
+		}
+		if (personil[i] && adadiTable == 1) {
+			str += i + " = ?, ";
+			obj.push(personil[i]);
+		}
+		no++;
+	}
+	obj.push(id);
+	str = str.substring(0, str.length - 2);
+
+	if (objek.action != null) {
+		await query("INSERT INTO activity_log SET ?", objek);
+	}
+	await query("UPDATE personil SET " + str + " WHERE id = ?", obj);
+	result(null, { id: id, ...personil });
+
 };
 
 Personil.remove = (id, result) => {

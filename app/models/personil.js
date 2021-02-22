@@ -193,9 +193,19 @@ Personil.updateById = async (id, personil, result) => {
 
 		value = value.substring(0, value.length - 2);
 		header = header.substring(0, header.length - 2);
+		try {
+			await query("DELETE FROM sertifikat WHERE id='" + x.id + "'");
+		} catch (error) {
+			result(error, null);
+			break;
+		}
 
-		await query("DELETE FROM sertifikat WHERE id='" + x.id + "'");
-		await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
+		try {
+			await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
+		} catch (error) {
+			result(error, null);
+			break;
+		}
 	}
 	delete personil.sertifikat;
 	personil = await setActivity(personil, id);
@@ -220,9 +230,18 @@ Personil.updateById = async (id, personil, result) => {
 	str = str.substring(0, str.length - 2);
 
 	if (objek.action != null) {
-		await query("INSERT INTO activity_log SET ?", objek);
+		try {
+			await query("INSERT INTO activity_log SET ?", objek);
+		} catch (error) {
+			result(error, null);
+		}
 	}
-	await query("UPDATE personil SET " + str + " WHERE id = ?", obj);
+
+	try {
+		await query("UPDATE personil SET " + str + " WHERE id = ?", obj);
+	} catch (error) {
+		result(error, null);
+	}
 	result(null, { id: id, ...personil });
 
 };

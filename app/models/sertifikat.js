@@ -146,7 +146,7 @@ Sertifikat.updateById = async(id, sertifikat, result) => {
 		
 		    var header = "", value = "";
 		    for (var a in x) {
-		        const val = x[a];
+		        var val = x[a];
 				var adadiTable = 0
 				for (var b in arr) {
 					if (a == arr[b]) {

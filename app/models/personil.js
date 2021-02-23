@@ -58,9 +58,9 @@ Personil.create = async(newPersonil, result) => {
 		delete newPersonil.sertifikat;
 		newPersonil = setActivity(newPersonil);
 		const res = await query("INSERT INTO personil SET ?", newPersonil);
-		sertifikat['personil_id'] = res.insertId;
 		for (var i in sertifikat) {
 		    const x = sertifikat[i];
+			x['personil_id'] = res.insertId;
 		
 		    var header = "", value = "";
 		    for (var a in x) {

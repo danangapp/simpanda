@@ -33,9 +33,9 @@ Sertifikat.create = async(newSertifikat, result) => {
 		const sertifikat = newSertifikat.sertifikat;
 		delete newSertifikat.sertifikat;
 		const res = await query("INSERT INTO sertifikat SET ?", newSertifikat);
-		sertifikat['personil_id'] = res.insertId;
 		for (var i in sertifikat) {
 		    const x = sertifikat[i];
+			x['personil_id'] = res.insertId;
 		
 		    var header = "", value = "";
 		    for (var a in x) {

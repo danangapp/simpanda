@@ -82,7 +82,7 @@ AssetKapal.create = async(newAssetKapal, result) => {
 		const res = await query("INSERT INTO asset_kapal SET ?", newAssetKapal);
 		for (var i in sertifikat) {
 		    const x = sertifikat[i];
-			x['personil_id'] = res.insertId;
+			x['asset_kapal_id'] = res.insertId;
 		
 		    var header = "", value = "";
 		    for (var a in x) {

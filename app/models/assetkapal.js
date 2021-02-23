@@ -228,9 +228,7 @@ AssetKapal.updateById = async(id, assetkapal, result) => {
 		    value = value.substring(0, value.length - 2);
 		    header = header.substring(0, header.length - 2);
 		
-			if (x.id) {
-				await query("DELETE FROM sertifikat WHERE id='" + x.id + "'");
-			}
+			await query("DELETE FROM sertifikat WHERE id='" + x.asset_kapal_id + "'");
 			await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
 		}
 		delete assetkapal.sertifikat;

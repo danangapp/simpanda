@@ -146,6 +146,7 @@ Sertifikat.updateById = async(id, sertifikat, result) => {
 		    const x = sertifikat[i];
 		
 		    var header = "", value = "";
+			x['sertifikat_id'] = id;
 		    for (var a in x) {
 		        var val = x[a];
 				var adadiTable = 0
@@ -162,7 +163,12 @@ Sertifikat.updateById = async(id, sertifikat, result) => {
 					}
 					if (val) {
 						header += a + ", ";
-						value += "'" + val + "', ";
+						if (a != "sertifikat") {
+						    value += "'" + val + "', ";
+						} else {
+						    var fileName = f.uploadFile64('sertifikat', val);
+						    value += "'" + fileName + "', ";
+						}
 					}
 				}
 		    }

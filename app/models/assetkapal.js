@@ -199,6 +199,7 @@ AssetKapal.updateById = async(id, assetkapal, result) => {
 		    const x = sertifikat[i];
 		
 		    var header = "", value = "";
+			x['asset_kapal_id'] = id;
 		    for (var a in x) {
 		        var val = x[a];
 				var adadiTable = 0
@@ -215,7 +216,12 @@ AssetKapal.updateById = async(id, assetkapal, result) => {
 					}
 					if (val) {
 						header += a + ", ";
-						value += "'" + val + "', ";
+						if (a != "sertifikat") {
+						    value += "'" + val + "', ";
+						} else {
+						    var fileName = f.uploadFile64('asset_kapal', val);
+						    value += "'" + fileName + "', ";
+						}
 					}
 				}
 		    }

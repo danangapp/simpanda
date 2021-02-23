@@ -77,6 +77,10 @@ const setActivity = (objects, koneksi = 1) => {
 AssetKapal.create = async(newAssetKapal, result) => {
 	try {
 		const sertifikat = newAssetKapal.sertifikat;
+		delete newAssetKapal.sertifikat;
+		newAssetKapal = setActivity(newAssetKapal);
+		const res = await query("INSERT INTO asset_kapal SET ?", newAssetKapal);
+		sertifikat['personil_id'] = res.insertId;
 		for (var i in sertifikat) {
 		    const x = sertifikat[i];
 		
@@ -96,9 +100,6 @@ AssetKapal.create = async(newAssetKapal, result) => {
 			await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
 		}
 
-		delete newAssetKapal.sertifikat;
-		newAssetKapal = setActivity(newAssetKapal);
-		const res = await query("INSERT INTO asset_kapal SET ?", newAssetKapal);
 		objek.koneksi = res.insertId;
 		if (objek.action != null) {
 			await query("INSERT INTO activity_log SET ?", objek);
@@ -209,11 +210,13 @@ AssetKapal.updateById = async(id, assetkapal, result) => {
 				}
 
 				if (adadiTable == 1) {
-					header += a + ", ";
 					if (a === "tanggal_keluar_sertifikat" || a === "tanggal_expire" || a === "reminder_date1" || a === "reminder_date3" || a === "reminder_date6") {
 						val = f.toDate(val);
 					}
-					value += "'" + val + "', ";
+					if (val) {
+						header += a + ", ";
+						value += "'" + val + "', ";
+					}
 				}
 		    }
 		    value = value.substring(0, value.length - 2);

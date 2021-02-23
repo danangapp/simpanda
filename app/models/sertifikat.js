@@ -31,6 +31,9 @@ const Sertifikat = function (sertifikat) {
 Sertifikat.create = async(newSertifikat, result) => {
 	try {
 		const sertifikat = newSertifikat.sertifikat;
+		delete newSertifikat.sertifikat;
+		const res = await query("INSERT INTO sertifikat SET ?", newSertifikat);
+		sertifikat['personil_id'] = res.insertId;
 		for (var i in sertifikat) {
 		    const x = sertifikat[i];
 		
@@ -50,8 +53,6 @@ Sertifikat.create = async(newSertifikat, result) => {
 			await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
 		}
 
-		delete newSertifikat.sertifikat;
-		const res = await query("INSERT INTO sertifikat SET ?", newSertifikat);
 		result(null, { id: res.insertId, ...newSertifikat });
 	} catch (error) {
 	    result(error, null);
@@ -156,11 +157,13 @@ Sertifikat.updateById = async(id, sertifikat, result) => {
 				}
 
 				if (adadiTable == 1) {
-					header += a + ", ";
 					if (a === "tanggal_keluar_sertifikat" || a === "tanggal_expire" || a === "reminder_date1" || a === "reminder_date3" || a === "reminder_date6") {
 						val = f.toDate(val);
 					}
-					value += "'" + val + "', ";
+					if (val) {
+						header += a + ", ";
+						value += "'" + val + "', ";
+					}
 				}
 		    }
 		    value = value.substring(0, value.length - 2);

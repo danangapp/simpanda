@@ -195,6 +195,7 @@ AssetKapal.updateById = async(id, assetkapal, result) => {
 	try {
 		const sertifikat = assetkapal.sertifikat;
 		var arr = ["jenis_cert_id", "tipe_cert_id", "personil_id", "asset_kapal_id", "no_sertifikat", "issuer", "tempat_keluar_sertifikat", "tanggal_keluar_sertifikat", "tanggal_expire", "reminder_date1", "reminder_date3", "reminder_date6", "sertifikat", "sertifikat_id"]
+		await query("DELETE FROM sertifikat WHERE asset_kapal_id='" + id + "'");
 		for (var i in sertifikat) {
 		    const x = sertifikat[i];
 		
@@ -228,7 +229,6 @@ AssetKapal.updateById = async(id, assetkapal, result) => {
 		    value = value.substring(0, value.length - 2);
 		    header = header.substring(0, header.length - 2);
 		
-			await query("DELETE FROM sertifikat WHERE asset_kapal_id='" + x.asset_kapal_id + "'");
 			await query("INSERT INTO sertifikat (" + header + ") values (" + value + ")");
 		}
 		delete assetkapal.sertifikat;

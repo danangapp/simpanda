@@ -33,6 +33,7 @@ app.get("/", (req, res) => {
 require("./app/routes/action")(app);
 require("./app/routes/activitylog")(app);
 require("./app/routes/approvalstatus")(app);
+require("./app/routes/armadajaga")(app);
 require("./app/routes/armadaschedule")(app);
 require("./app/routes/assetkapal")(app);
 require("./app/routes/assetrumahdinas")(app);
@@ -49,6 +50,7 @@ require("./app/routes/mstpemeriksaankapalcheck")(app);
 require("./app/routes/mstrole")(app);
 require("./app/routes/msttipeasset")(app);
 require("./app/routes/msttipepersonil")(app);
+require("./app/routes/pandujaga")(app);
 require("./app/routes/panduschedule")(app);
 require("./app/routes/pemeriksaankapal")(app);
 require("./app/routes/pemeriksaankapalcheck")(app);

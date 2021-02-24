@@ -12,6 +12,7 @@ const PanduSchedule = function (panduschedule) {
     this.keterangan = panduschedule.keterangan;
     this.approval_status_id = panduschedule.approval_status_id;
     this.enable = panduschedule.enable;
+    this.pandu_jaga_id = panduschedule.pandu_jaga_id;
 };
 
 const setActivity = (objects, koneksi = 1) => {
@@ -95,7 +96,7 @@ PanduSchedule.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "AND (";
-		wheres += "a.date LIKE '%" + param.q + "%' OR a.cabang_id LIKE '%" + param.q + "%' OR a.status_absen LIKE '%" + param.q + "%' OR a.keterangan LIKE '%" + param.q + "%' OR a.approval_status_id LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%'";	
+		wheres += "a.date LIKE '%" + param.q + "%' OR a.cabang_id LIKE '%" + param.q + "%' OR a.status_absen LIKE '%" + param.q + "%' OR a.keterangan LIKE '%" + param.q + "%' OR a.approval_status_id LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%' OR a.pandu_jaga_id LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }
 
@@ -128,7 +129,7 @@ PanduSchedule.updateById = async(id, panduschedule, result) => {
 		panduschedule = await setActivity(panduschedule, id);
 
 		var str = "", obj = [], no = 1;
-		var arr = ["date", "cabang_id", "status_absen", "keterangan", "approval_status_id", "enable"];
+		var arr = ["date", "cabang_id", "status_absen", "keterangan", "approval_status_id", "enable", "pandu_jaga_id"];
 		for (var i in panduschedule) {
 			var adadiTable = 0
 			for (var b in arr) {

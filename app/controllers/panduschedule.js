@@ -15,6 +15,7 @@ exports.create = (req, res) => {
         keterangan: req.fields.keterangan,
         approval_status_id: req.fields.approval_status_id,
         enable: req.fields.enable,
+        pandu_jaga_id: req.fields.pandu_jaga_id,
         date: f.toDate(req.fields.date),
         item: req.fields.item,
         action: req.fields.action,

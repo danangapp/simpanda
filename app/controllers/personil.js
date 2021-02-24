@@ -48,19 +48,19 @@ exports.create = (req, res) => {
 	}
 
 	if (req.fields.cv) {
-	    personil.cv = f.uploadFile64('personil', req.fields.cv);
+	    cv.cv = f.uploadFile64('personil', req.fields.cv);
 	}
 
 	if (req.fields.sk) {
-	    personil.sk = f.uploadFile64('personil', req.fields.sk);
+	    sk.sk = f.uploadFile64('personil', req.fields.sk);
 	}
 
 	if (req.fields.skpp) {
-	    personil.skpp = f.uploadFile64('personil', req.fields.skpp);
+	    skpp.skpp = f.uploadFile64('personil', req.fields.skpp);
 	}
 
 	if (req.fields.surat_kesehatan) {
-	    personil.surat_kesehatan = f.uploadFile64('personil', req.fields.surat_kesehatan);
+	    surat_kesehatan.surat_kesehatan = f.uploadFile64('personil', req.fields.surat_kesehatan);
 	}
 
     Personil.create(personil, (err, data) => {

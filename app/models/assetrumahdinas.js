@@ -6,7 +6,7 @@ var objek = new Object();
 
 // constructor
 const AssetRumahDinas = function (assetrumahdinas) {
-    this.nama_assets = assetrumahdinas.nama_assets;
+    this.nama_asset = assetrumahdinas.nama_asset;
     this.satuan = assetrumahdinas.satuan;
     this.tahun_perolehan = assetrumahdinas.tahun_perolehan;
     this.nilai_perolehan = assetrumahdinas.nilai_perolehan;
@@ -100,7 +100,7 @@ AssetRumahDinas.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "AND (";
-		wheres += "a.nama_assets LIKE '%" + param.q + "%' OR a.satuan LIKE '%" + param.q + "%' OR a.tahun_perolehan LIKE '%" + param.q + "%' OR a.nilai_perolehan LIKE '%" + param.q + "%' OR a.wilayah LIKE '%" + param.q + "%' OR a.nilai_buku LIKE '%" + param.q + "%' OR a.approval_status_id LIKE '%" + param.q + "%' OR a.tanggal LIKE '%" + param.q + "%' OR a.nilai LIKE '%" + param.q + "%' OR a.catatan LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%'";	
+		wheres += "a.nama_asset LIKE '%" + param.q + "%' OR a.satuan LIKE '%" + param.q + "%' OR a.tahun_perolehan LIKE '%" + param.q + "%' OR a.nilai_perolehan LIKE '%" + param.q + "%' OR a.wilayah LIKE '%" + param.q + "%' OR a.nilai_buku LIKE '%" + param.q + "%' OR a.approval_status_id LIKE '%" + param.q + "%' OR a.tanggal LIKE '%" + param.q + "%' OR a.nilai LIKE '%" + param.q + "%' OR a.catatan LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }
 
@@ -133,7 +133,7 @@ AssetRumahDinas.updateById = async(id, assetrumahdinas, result) => {
 		assetrumahdinas = await setActivity(assetrumahdinas, id);
 
 		var str = "", obj = [], no = 1;
-		var arr = ["nama_assets", "satuan", "tahun_perolehan", "nilai_perolehan", "wilayah", "nilai_buku", "approval_status_id", "tanggal", "nilai", "catatan", "enable"];
+		var arr = ["nama_asset", "satuan", "tahun_perolehan", "nilai_perolehan", "wilayah", "nilai_buku", "approval_status_id", "tanggal", "nilai", "catatan", "enable"];
 		for (var i in assetrumahdinas) {
 			var adadiTable = 0
 			for (var b in arr) {

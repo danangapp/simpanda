@@ -9,7 +9,7 @@ exports.create = (req, res) => {
     }
 
     var assetrumahdinas = {
-        nama_assets: req.fields.nama_assets,
+        nama_asset: req.fields.nama_asset,
         satuan: req.fields.satuan,
         tahun_perolehan: req.fields.tahun_perolehan,
         nilai_perolehan: req.fields.nilai_perolehan,

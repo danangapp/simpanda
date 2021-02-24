@@ -32,8 +32,25 @@ const setActivity = (objects, koneksi = 1) => {
 
 PanduSchedule.create = async(newPanduSchedule, result) => {
 	try {
+		const pandu_jaga = newPanduSchedule.pandu_jaga;
+		delete newPanduSchedule.pandu_jaga;
 		newPanduSchedule = setActivity(newPanduSchedule);
 		const res = await query("INSERT INTO pandu_schedule SET ?", newPanduSchedule);
+		for (var i in pandu_jaga) {
+		    const x = pandu_jaga[i];
+			x['pandu_schedule_id'] = res.insertId;
+		
+		    var header = "", value = "";
+		    for (var a in x) {
+		        const val = x[a];
+		        header += a + ", ";
+				value += "'" + val + "', ";
+		    }
+		    value = value.substring(0, value.length - 2);
+		    header = header.substring(0, header.length - 2);
+			await query("INSERT INTO pandu_jaga (" + header + ") values (" + value + ")");
+		}
+
 		objek.koneksi = res.insertId;
 		if (objek.action != null) {
 			await query("INSERT INTO activity_log SET ?", objek);
@@ -45,6 +62,7 @@ PanduSchedule.create = async(newPanduSchedule, result) => {
 };
 
 PanduSchedule.findById = async (id, result) => {
+	const resQuery = await query("SELECT * FROM pandu_jaga WHERE pandu_schedule_id = '" + id + "'");
 	const resActivityLog = await query("SELECT a.date, a.item, a.action, a.user_id, a.remark, a.koneksi FROM activity_log a INNER JOIN pandu_schedule b ON a.item = 'pandu_schedule' AND a.koneksi = b.id WHERE b.id =  '" + id + "'");
     sql.query(`SELECT a.* , a1.nama as cabang, a2.nama as approval_status, a3.nama as ena FROM pandu_schedule a  LEFT JOIN cabang a1 ON a.cabang_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
@@ -53,10 +71,11 @@ PanduSchedule.findById = async (id, result) => {
             return;
         }
 
+		const pandu_jaga = { "pandu_jaga": resQuery }
 		const activityLog = { "activityLog": resActivityLog }
-		let merge = { ...res[0], ...activityLog }	
+		let merge = { ...res[0], ...pandu_jaga, ...activityLog }	
         if (res.length) {
-            result(null, res[0]);
+            result(null, merge);
             return;
         }
 
@@ -125,6 +144,37 @@ PanduSchedule.design = result => {
 
 PanduSchedule.updateById = async(id, panduschedule, result) => {
 	try {
+		const pandu_jaga = panduschedule.pandu_jaga;
+		var arr = ["pandu_schedule_id", "personil_id"]
+		await query("DELETE FROM pandu_jaga WHERE pandu_schedule_id='" + id + "'");
+		for (var i in pandu_jaga) {
+		    const x = pandu_jaga[i];
+		
+		    var header = "", value = "";
+			x['pandu_schedule_id'] = id;
+		    for (var a in x) {
+		        var val = x[a];
+				var adadiTable = 0
+				for (var b in arr) {
+					if (a == arr[b]) {
+						adadiTable = 1;
+						break;
+					}
+				}
+
+				if (adadiTable == 1) {
+					if (val) {
+						header += a + ", ";
+						value += "'" + val + "', ";
+					}
+				}
+		    }
+		    value = value.substring(0, value.length - 2);
+		    header = header.substring(0, header.length - 2);
+		
+			await query("INSERT INTO pandu_jaga (" + header + ") values (" + value + ")");
+		}
+		delete panduschedule.pandu_jaga;
 		panduschedule = await setActivity(panduschedule, id);
 
 		var str = "", obj = [], no = 1;

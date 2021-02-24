@@ -18,6 +18,8 @@ const ArmadaSchedule = function (armadaschedule) {
 
 ArmadaSchedule.create = async(newArmadaSchedule, result) => {
 	try {
+		const armada_jaga = newArmadaSchedule.armada_jaga;
+		delete newArmadaSchedule.armada_jaga;
 		const res = await query("INSERT INTO armada_schedule SET ?", newArmadaSchedule);
 		result(null, { id: res.insertId, ...newArmadaSchedule });
 	} catch (error) {
@@ -26,6 +28,7 @@ ArmadaSchedule.create = async(newArmadaSchedule, result) => {
 };
 
 ArmadaSchedule.findById = async (id, result) => {
+	const resQuery = await query("SELECT * FROM armada_jaga WHERE armada_schedule_id = '" + id + "'");
     sql.query(`SELECT a.* , a1.nama as tipe_asset, a2.nama_asset as asset_kapal FROM armada_schedule a  LEFT JOIN tipe_asset a1 ON a.tipe_asset_id = a1.id  LEFT JOIN asset_kapal a2 ON a.asset_kapal_id = a2.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -33,8 +36,9 @@ ArmadaSchedule.findById = async (id, result) => {
             return;
         }
 
+		const armada_jaga = { "armada_jaga": resQuery }
         if (res.length) {
-            result(null, res[0]);
+            result(null, merge);
             return;
         }
 
@@ -103,6 +107,37 @@ ArmadaSchedule.design = result => {
 
 ArmadaSchedule.updateById = async(id, armadaschedule, result) => {
 	try {
+		const armada_jaga = armadaschedule.armada_jaga;
+		var arr = ["tipe_asset_d", "asset_kapal_id", "armada_schedule_id"]
+		await query("DELETE FROM armada_jaga WHERE armada_schedule_id='" + id + "'");
+		for (var i in armada_jaga) {
+		    const x = armada_jaga[i];
+		
+		    var header = "", value = "";
+			x['armada_schedule_id'] = id;
+		    for (var a in x) {
+		        var val = x[a];
+				var adadiTable = 0
+				for (var b in arr) {
+					if (a == arr[b]) {
+						adadiTable = 1;
+						break;
+					}
+				}
+
+				if (adadiTable == 1) {
+					if (val) {
+						header += a + ", ";
+						value += "'" + val + "', ";
+					}
+				}
+		    }
+		    value = value.substring(0, value.length - 2);
+		    header = header.substring(0, header.length - 2);
+		
+			await query("INSERT INTO armada_jaga (" + header + ") values (" + value + ")");
+		}
+		delete armadaschedule.armada_jaga;
 
 		var str = "", obj = [], no = 1;
 		var arr = ["date", "cabang", "tipe_asset_id", "asset_kapal_id", "status", "jam_pengoperasian", "reliability", "keterangan"];

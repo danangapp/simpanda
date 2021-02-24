@@ -13,6 +13,7 @@ exports.create = (req, res) => {
         nama: req.fields.nama,
         jabatan: req.fields.jabatan,
         asset_kapal_id: req.fields.asset_kapal_id,
+        tipe_asset_id: req.fields.tipe_asset_id,
         status_ijazah_id: req.fields.status_ijazah_id,
     };
 

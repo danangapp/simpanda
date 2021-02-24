@@ -10,6 +10,7 @@ const SaranaBantuPemanduPersonil = function (saranabantupemandupersonil) {
     this.nama = saranabantupemandupersonil.nama;
     this.jabatan = saranabantupemandupersonil.jabatan;
     this.asset_kapal_id = saranabantupemandupersonil.asset_kapal_id;
+    this.tipe_asset_id = saranabantupemandupersonil.tipe_asset_id;
     this.status_ijazah_id = saranabantupemandupersonil.status_ijazah_id;
 };
 
@@ -23,7 +24,7 @@ SaranaBantuPemanduPersonil.create = async(newSaranaBantuPemanduPersonil, result)
 };
 
 SaranaBantuPemanduPersonil.findById = async (id, result) => {
-    sql.query(`SELECT a.* , a1.nama as sarana_bantu_pemandu, a2.nama_asset as asset_kapal, a3.nama as status_ijazah FROM sarana_bantu_pemandu_personil a  LEFT JOIN sarana_bantu_pemandu a1 ON a.sarana_bantu_pemandu_id = a1.id  LEFT JOIN asset_kapal a2 ON a.asset_kapal_id = a2.id  LEFT JOIN status_ijazah a3 ON a.status_ijazah_id = a3.id  WHERE a.id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* , a1.nama as sarana_bantu_pemandu, a2.nama_asset as asset_kapal, a3.nama as tipe_asset, a4.nama as status_ijazah FROM sarana_bantu_pemandu_personil a  LEFT JOIN sarana_bantu_pemandu a1 ON a.sarana_bantu_pemandu_id = a1.id  LEFT JOIN asset_kapal a2 ON a.asset_kapal_id = a2.id  LEFT JOIN tipe_asset a3 ON a.tipe_asset_id = a3.id  LEFT JOIN status_ijazah a4 ON a.status_ijazah_id = a4.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -43,7 +44,7 @@ SaranaBantuPemanduPersonil.findById = async (id, result) => {
 SaranaBantuPemanduPersonil.getAll = (param, result) => {
     const length = Object.keys(param).length;
     var wheres = "";
-    var query = "SELECT a.* , a1.nama as sarana_bantu_pemandu, a2.nama_asset as asset_kapal, a3.nama as status_ijazah FROM sarana_bantu_pemandu_personil a  LEFT JOIN sarana_bantu_pemandu a1 ON a.sarana_bantu_pemandu_id = a1.id  LEFT JOIN asset_kapal a2 ON a.asset_kapal_id = a2.id  LEFT JOIN status_ijazah a3 ON a.status_ijazah_id = a3.id ";
+    var query = "SELECT a.* , a1.nama as sarana_bantu_pemandu, a2.nama_asset as asset_kapal, a3.nama as tipe_asset, a4.nama as status_ijazah FROM sarana_bantu_pemandu_personil a  LEFT JOIN sarana_bantu_pemandu a1 ON a.sarana_bantu_pemandu_id = a1.id  LEFT JOIN asset_kapal a2 ON a.asset_kapal_id = a2.id  LEFT JOIN tipe_asset a3 ON a.tipe_asset_id = a3.id  LEFT JOIN status_ijazah a4 ON a.status_ijazah_id = a4.id ";
     if (length > 0) {
         wheres += " WHERE ";
         for (var i in param) {
@@ -70,7 +71,7 @@ SaranaBantuPemanduPersonil.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "AND (";
-		wheres += "a.sarana_bantu_pemandu_id LIKE '%" + param.q + "%' OR a.nama LIKE '%" + param.q + "%' OR a.jabatan LIKE '%" + param.q + "%' OR a.asset_kapal_id LIKE '%" + param.q + "%' OR a.status_ijazah_id LIKE '%" + param.q + "%'";	
+		wheres += "a.sarana_bantu_pemandu_id LIKE '%" + param.q + "%' OR a.nama LIKE '%" + param.q + "%' OR a.jabatan LIKE '%" + param.q + "%' OR a.asset_kapal_id LIKE '%" + param.q + "%' OR a.tipe_asset_id LIKE '%" + param.q + "%' OR a.status_ijazah_id LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }
 
@@ -102,7 +103,7 @@ SaranaBantuPemanduPersonil.updateById = async(id, saranabantupemandupersonil, re
 	try {
 
 		var str = "", obj = [], no = 1;
-		var arr = ["sarana_bantu_pemandu_id", "nama", "jabatan", "asset_kapal_id", "status_ijazah_id"];
+		var arr = ["sarana_bantu_pemandu_id", "nama", "jabatan", "asset_kapal_id", "tipe_asset_id", "status_ijazah_id"];
 		for (var i in saranabantupemandupersonil) {
 			var adadiTable = 0
 			for (var b in arr) {

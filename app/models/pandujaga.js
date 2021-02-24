@@ -38,7 +38,7 @@ PanduJaga.create = async(newPanduJaga, result) => {
 
 PanduJaga.findById = async (id, result) => {
 	const resQuery = await query("SELECT * FROM pandu_schedule WHERE pandu_jaga_id = '" + id + "'");
-    sql.query(`SELECT a.* , a1.nama as pandu_schedule, a2.nama as personil FROM pandu_jaga a  LEFT JOIN pandu_schedule a1 ON a.pandu_schedule_id = a1.id  LEFT JOIN personil a2 ON a.personil_id = a2.id  WHERE a.id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* , a1.keterangan as pandu_schedule, a2.nama as personil FROM pandu_jaga a  LEFT JOIN pandu_schedule a1 ON a.pandu_schedule_id = a1.id  LEFT JOIN personil a2 ON a.personil_id = a2.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -46,6 +46,7 @@ PanduJaga.findById = async (id, result) => {
         }
 
 		const pandu_schedule = { "pandu_schedule": resQuery }
+		let merge = { ...res[0], ...pandu_schedule }	
         if (res.length) {
             result(null, merge);
             return;
@@ -59,7 +60,7 @@ PanduJaga.findById = async (id, result) => {
 PanduJaga.getAll = (param, result) => {
     const length = Object.keys(param).length;
     var wheres = "";
-    var query = "SELECT a.* , a1.nama as pandu_schedule, a2.nama as personil FROM pandu_jaga a  LEFT JOIN pandu_schedule a1 ON a.pandu_schedule_id = a1.id  LEFT JOIN personil a2 ON a.personil_id = a2.id ";
+    var query = "SELECT a.* , a1.keterangan as pandu_schedule, a2.nama as personil FROM pandu_jaga a  LEFT JOIN pandu_schedule a1 ON a.pandu_schedule_id = a1.id  LEFT JOIN personil a2 ON a.personil_id = a2.id ";
     if (length > 0) {
         wheres += " WHERE ";
         for (var i in param) {

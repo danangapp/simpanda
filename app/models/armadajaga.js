@@ -32,6 +32,7 @@ ArmadaJaga.findById = async (id, result) => {
         }
 
 		const armada_schedule = { "armada_schedule": resQuery }
+		let merge = { ...res[0], ...armada_schedule }	
         if (res.length) {
             result(null, merge);
             return;

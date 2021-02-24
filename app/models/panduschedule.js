@@ -8,7 +8,7 @@ var objek = new Object();
 const PanduSchedule = function (panduschedule) {
     this.date = panduschedule.date;
     this.cabang_id = panduschedule.cabang_id;
-    this.status_absen = panduschedule.status_absen;
+    this.status_absen_id = panduschedule.status_absen_id;
     this.keterangan = panduschedule.keterangan;
     this.approval_status_id = panduschedule.approval_status_id;
     this.enable = panduschedule.enable;
@@ -47,7 +47,7 @@ PanduSchedule.create = async(newPanduSchedule, result) => {
 
 PanduSchedule.findById = async (id, result) => {
 	const resActivityLog = await query("SELECT a.date, a.item, a.action, a.user_id, a.remark, a.koneksi FROM activity_log a INNER JOIN pandu_schedule b ON a.item = 'pandu_schedule' AND a.koneksi = b.id WHERE b.id =  '" + id + "'");
-    sql.query(`SELECT a.* , a1.nama as cabang, a2.nama as approval_status, a3.nama as ena FROM pandu_schedule a  LEFT JOIN cabang a1 ON a.cabang_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id  WHERE a.id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* , a1.nama as cabang, a2.nama as status_absen, a3.nama as approval_status, a4.nama as ena FROM pandu_schedule a  LEFT JOIN cabang a1 ON a.cabang_id = a1.id  LEFT JOIN status_absen a2 ON a.status_absen_id = a2.id  LEFT JOIN approval_status a3 ON a.approval_status_id = a3.id  LEFT JOIN enable a4 ON a.enable = a4.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -69,7 +69,7 @@ PanduSchedule.findById = async (id, result) => {
 PanduSchedule.getAll = (param, result) => {
     const length = Object.keys(param).length;
     var wheres = "";
-    var query = "SELECT a.* , a1.nama as cabang, a2.nama as approval_status, a3.nama as ena FROM pandu_schedule a  LEFT JOIN cabang a1 ON a.cabang_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id ";
+    var query = "SELECT a.* , a1.nama as cabang, a2.nama as status_absen, a3.nama as approval_status, a4.nama as ena FROM pandu_schedule a  LEFT JOIN cabang a1 ON a.cabang_id = a1.id  LEFT JOIN status_absen a2 ON a.status_absen_id = a2.id  LEFT JOIN approval_status a3 ON a.approval_status_id = a3.id  LEFT JOIN enable a4 ON a.enable = a4.id ";
     if (length > 0) {
         wheres += " WHERE ";
         for (var i in param) {
@@ -96,7 +96,7 @@ PanduSchedule.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "AND (";
-		wheres += "a.date LIKE '%" + param.q + "%' OR a.cabang_id LIKE '%" + param.q + "%' OR a.status_absen LIKE '%" + param.q + "%' OR a.keterangan LIKE '%" + param.q + "%' OR a.approval_status_id LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%' OR a.pandu_jaga_id LIKE '%" + param.q + "%'";	
+		wheres += "a.date LIKE '%" + param.q + "%' OR a.cabang_id LIKE '%" + param.q + "%' OR a.status_absen_id LIKE '%" + param.q + "%' OR a.keterangan LIKE '%" + param.q + "%' OR a.approval_status_id LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%' OR a.pandu_jaga_id LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }
 
@@ -129,7 +129,7 @@ PanduSchedule.updateById = async(id, panduschedule, result) => {
 		panduschedule = await setActivity(panduschedule, id);
 
 		var str = "", obj = [], no = 1;
-		var arr = ["date", "cabang_id", "status_absen", "keterangan", "approval_status_id", "enable", "pandu_jaga_id"];
+		var arr = ["date", "cabang_id", "status_absen_id", "keterangan", "approval_status_id", "enable", "pandu_jaga_id"];
 		for (var i in panduschedule) {
 			var adadiTable = 0
 			for (var b in arr) {

@@ -41,11 +41,11 @@ exports.create = (req, res) => {
 	}
 
 	if (req.fields.file_pendukung) {
-	    file_pendukung.file_pendukung = f.uploadFile64('evaluasi_pelimpahan', req.fields.file_pendukung);
+	    evaluasipelimpahan.file_pendukung = f.uploadFile64('evaluasi_pelimpahan', req.fields.file_pendukung);
 	}
 
 	if (req.fields.file_sk_pelimpahan) {
-	    file_sk_pelimpahan.file_sk_pelimpahan = f.uploadFile64('evaluasi_pelimpahan', req.fields.file_sk_pelimpahan);
+	    evaluasipelimpahan.file_sk_pelimpahan = f.uploadFile64('evaluasi_pelimpahan', req.fields.file_sk_pelimpahan);
 	}
 
     EvaluasiPelimpahan.create(evaluasipelimpahan, (err, data) => {

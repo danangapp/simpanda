@@ -70,7 +70,7 @@ exports.create = (req, res) => {
 	}
 
 	if (req.fields.ship_particular) {
-	    ship_particular.ship_particular = f.uploadFile64('asset_kapal', req.fields.ship_particular);
+	    assetkapal.ship_particular = f.uploadFile64('asset_kapal', req.fields.ship_particular);
 	}
 
     AssetKapal.create(assetkapal, (err, data) => {

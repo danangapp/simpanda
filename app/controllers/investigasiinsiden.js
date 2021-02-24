@@ -69,7 +69,7 @@ exports.create = (req, res) => {
 	}
 
 	if (req.fields.bukti_temuan) {
-	    bukti_temuan.bukti_temuan = f.uploadFile64('investigasi_insiden', req.fields.bukti_temuan);
+	    investigasiinsiden.bukti_temuan = f.uploadFile64('investigasi_insiden', req.fields.bukti_temuan);
 	}
 
     InvestigasiInsiden.create(investigasiinsiden, (err, data) => {

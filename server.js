@@ -1,13 +1,11 @@
 const express = require("express");
-// const bodyParser = require("body-parser");
+// const fs = require('fs');
+// var XlsxTemplate = require('xlsx-template');
 const formidableMiddleware = require('express-formidable');
 require('dotenv').config();
 
 const app = express();
 app.use(formidableMiddleware());
-
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   formidableMiddleware({
     encoding: 'utf-8',
@@ -106,3 +104,20 @@ app.listen(PORT, () => {
 // }
 
 // run();
+
+
+// fs.readFile('d:/danang.xlsx', function (err, data) {
+
+//   var template = new XlsxTemplate(data);
+//   var sheetNumber = 1;
+//   var values1 = {
+//     name: 'danang rusmanto'
+//   };
+//   var values2 = {
+//     name: 'renny mai'
+//   };
+//   template.substitute(1, values1);
+//   template.substitute(2, values2);
+//   var data = template.generate();
+//   fs.writeFileSync('d:/danang1.xlsx', data, 'binary');
+// });

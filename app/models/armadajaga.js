@@ -39,7 +39,7 @@ ArmadaJaga.create = async(newArmadaJaga, result) => {
 
 ArmadaJaga.findById = async (id, result) => {
 	const resQuery = await query("SELECT * FROM armada_schedule WHERE armada_jaga_id = '" + id + "'");
-    sql.query(`SELECT a.* , a1.nama as tipe_asset, a2.nama_asset as asset_kapal, a3.nama as armada_schedule FROM armada_jaga a  LEFT JOIN tipe_asset a1 ON a.tipe_asset_id = a1.id  LEFT JOIN asset_kapal a2 ON a.asset_kapal_id = a2.id  LEFT JOIN armada_schedule a3 ON a.armada_schedule_id = a3.id  WHERE a.id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* , a1.nama as tipe_asset, a2.nama_asset as asset_kapal, a3.keterangan as armada_schedule FROM armada_jaga a  LEFT JOIN tipe_asset a1 ON a.tipe_asset_id = a1.id  LEFT JOIN asset_kapal a2 ON a.asset_kapal_id = a2.id  LEFT JOIN armada_schedule a3 ON a.armada_schedule_id = a3.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -61,7 +61,7 @@ ArmadaJaga.findById = async (id, result) => {
 ArmadaJaga.getAll = (param, result) => {
     const length = Object.keys(param).length;
     var wheres = "";
-    var query = "SELECT a.* , a1.nama as tipe_asset, a2.nama_asset as asset_kapal, a3.nama as armada_schedule FROM armada_jaga a  LEFT JOIN tipe_asset a1 ON a.tipe_asset_id = a1.id  LEFT JOIN asset_kapal a2 ON a.asset_kapal_id = a2.id  LEFT JOIN armada_schedule a3 ON a.armada_schedule_id = a3.id ";
+    var query = "SELECT a.* , a1.nama as tipe_asset, a2.nama_asset as asset_kapal, a3.keterangan as armada_schedule FROM armada_jaga a  LEFT JOIN tipe_asset a1 ON a.tipe_asset_id = a1.id  LEFT JOIN asset_kapal a2 ON a.asset_kapal_id = a2.id  LEFT JOIN armada_schedule a3 ON a.armada_schedule_id = a3.id ";
     if (length > 0) {
         wheres += " WHERE ";
         for (var i in param) {
@@ -119,7 +119,7 @@ ArmadaJaga.design = result => {
 ArmadaJaga.updateById = async(id, armadajaga, result) => {
 	try {
 		const armada_schedule = armadajaga.armada_schedule;
-		var arr = ["date", "cabang", "tipe_asset_id", "asset_kapal_id", "status", "jam_pengoperasian", "reliability", "keterangan"]
+		var arr = ["date", "cabang", "tipe_asset_id", "asset_kapal_id", "status", "jam_pengoperasian", "reliability", "keterangan", "armada_jaga_id"]
 		await query("DELETE FROM armada_schedule WHERE armada_jaga_id='" + id + "'");
 		for (var i in armada_schedule) {
 		    const x = armada_schedule[i];

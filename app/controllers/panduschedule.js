@@ -11,8 +11,6 @@ exports.create = (req, res) => {
     var panduschedule = {
         date: f.toDate(req.fields.date),
         cabang_id: req.fields.cabang_id,
-        pandu_jaga_id: req.fields.pandu_jaga_id,
-        pandu_jaga_nama: req.fields.pandu_jaga_nama,
         status_absen: req.fields.status_absen,
         keterangan: req.fields.keterangan,
         approval_status_id: req.fields.approval_status_id,

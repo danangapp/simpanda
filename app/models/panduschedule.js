@@ -8,8 +8,6 @@ var objek = new Object();
 const PanduSchedule = function (panduschedule) {
     this.date = panduschedule.date;
     this.cabang_id = panduschedule.cabang_id;
-    this.pandu_jaga_id = panduschedule.pandu_jaga_id;
-    this.pandu_jaga_nama = panduschedule.pandu_jaga_nama;
     this.status_absen = panduschedule.status_absen;
     this.keterangan = panduschedule.keterangan;
     this.approval_status_id = panduschedule.approval_status_id;
@@ -97,7 +95,7 @@ PanduSchedule.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "AND (";
-		wheres += "a.date LIKE '%" + param.q + "%' OR a.cabang_id LIKE '%" + param.q + "%' OR a.pandu_jaga_id LIKE '%" + param.q + "%' OR a.pandu_jaga_nama LIKE '%" + param.q + "%' OR a.status_absen LIKE '%" + param.q + "%' OR a.keterangan LIKE '%" + param.q + "%' OR a.approval_status_id LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%'";	
+		wheres += "a.date LIKE '%" + param.q + "%' OR a.cabang_id LIKE '%" + param.q + "%' OR a.status_absen LIKE '%" + param.q + "%' OR a.keterangan LIKE '%" + param.q + "%' OR a.approval_status_id LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }
 
@@ -130,7 +128,7 @@ PanduSchedule.updateById = async(id, panduschedule, result) => {
 		panduschedule = await setActivity(panduschedule, id);
 
 		var str = "", obj = [], no = 1;
-		var arr = ["date", "cabang_id", "pandu_jaga_id", "pandu_jaga_nama", "status_absen", "keterangan", "approval_status_id", "enable"];
+		var arr = ["date", "cabang_id", "status_absen", "keterangan", "approval_status_id", "enable"];
 		for (var i in panduschedule) {
 			var adadiTable = 0
 			for (var b in arr) {

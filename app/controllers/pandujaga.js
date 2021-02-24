@@ -1,4 +1,4 @@
-const ArmadaSchedule = require("../models/armadaschedule.js");
+const PanduJaga = require("../models/pandujaga.js");
 const f = require('./function');
 
 exports.create = (req, res) => {
@@ -8,66 +8,60 @@ exports.create = (req, res) => {
         });
     }
 
-    var armadaschedule = {
-        date: f.toDate(req.fields.date),
-        cabang: req.fields.cabang,
-        tipe_asset_id: req.fields.tipe_asset_id,
-        asset_kapal_id: req.fields.asset_kapal_id,
-        status: req.fields.status,
-        jam_pengoperasian: req.fields.jam_pengoperasian,
-        reliability: req.fields.reliability,
-        keterangan: req.fields.keterangan,
+    var pandujaga = {
+        pandu_schedule_id: req.fields.pandu_schedule_id,
+        personil_id: req.fields.personil_id,
     };
 
 	var used = {};
-	for (var i in armadaschedule) {
-	    if (!armadaschedule[i]) {
-	        delete armadaschedule[i];
+	for (var i in pandujaga) {
+	    if (!pandujaga[i]) {
+	        delete pandujaga[i];
 	    }
 	}
 
-    ArmadaSchedule.create(armadaschedule, (err, data) => {
+    PanduJaga.create(pandujaga, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the ArmadaSchedule."
+                    err.message || "Some error occurred while creating the PanduJaga."
             });
         else res.send(data);
     });
 };
 
 exports.findAll = (req, res) => {
-    ArmadaSchedule.getAll(req.query, (err, data) => {
+    PanduJaga.getAll(req.query, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving armadaschedulenames."
+                    err.message || "Some error occurred while retrieving pandujaganames."
             });
         else res.send(data);
     });
 };
 
 exports.design = (req, res) => {
-    ArmadaSchedule.design((err, data) => {
+    PanduJaga.design((err, data) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving armadaschedulenames."
+                    err.message || "Some error occurred while retrieving pandujaganames."
             });
         else res.send(data);
     });
 };
 
 exports.findOne = (req, res) => {
-    ArmadaSchedule.findById(req.params.id, (err, data) => {
+    PanduJaga.findById(req.params.id, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Not found ArmadaSchedule with id ${req.params.id}.`
+                    message: `Not found PanduJaga with id ${req.params.id}.`
                 });
             } else {
                 res.status(500).send({
-                    message: "Error retrieving ArmadaSchedule with id " + req.params.id
+                    message: "Error retrieving PanduJaga with id " + req.params.id
                 });
             }
         } else res.send(data);
@@ -82,20 +76,19 @@ exports.update = (req, res) => {
         });
     }
 
-	req.fields.date = f.toDate(req.fields.date);
 
-    ArmadaSchedule.updateById(
+    PanduJaga.updateById(
         req.params.id,
         req.fields,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
                     res.status(404).send({
-                        message: `Not found ArmadaSchedule with id ${req.params.id}.`
+                        message: `Not found PanduJaga with id ${req.params.id}.`
                     });
                 } else {
                     res.status(500).send({
-                        message: "Error updating ArmadaSchedule with id " + req.params.id
+                        message: "Error updating PanduJaga with id " + req.params.id
                     });
                 }
             } else res.send(data);
@@ -104,18 +97,18 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-    ArmadaSchedule.remove(req.params.id, (err, data) => {
+    PanduJaga.remove(req.params.id, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Not found ArmadaSchedule with id ${req.params.id}.`
+                    message: `Not found PanduJaga with id ${req.params.id}.`
                 });
             } else {
                 res.status(500).send({
-                    message: "Could not delete ArmadaSchedule with id " + req.params.id
+                    message: "Could not delete PanduJaga with id " + req.params.id
                 });
             }
-        } else res.send({ message: `ArmadaSchedule was deleted successfully!` });
+        } else res.send({ message: `PanduJaga was deleted successfully!` });
     });
 };
 

@@ -8,8 +8,8 @@ var objek = new Object();
 const ArmadaSchedule = function (armadaschedule) {
     this.date = armadaschedule.date;
     this.cabang = armadaschedule.cabang;
-    this.kategori_armada = armadaschedule.kategori_armada;
-    this.armada_id = armadaschedule.armada_id;
+    this.tipe_asset_id = armadaschedule.tipe_asset_id;
+    this.asset_kapal_id = armadaschedule.asset_kapal_id;
     this.status = armadaschedule.status;
     this.jam_pengoperasian = armadaschedule.jam_pengoperasian;
     this.reliability = armadaschedule.reliability;
@@ -26,7 +26,7 @@ ArmadaSchedule.create = async(newArmadaSchedule, result) => {
 };
 
 ArmadaSchedule.findById = async (id, result) => {
-    sql.query(`SELECT a.* , a1.nama as tipe_asset FROM armada_schedule a  LEFT JOIN tipe_asset a1 ON a.kategori_armada = a1.id  WHERE a.id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* , a1.nama as tipe_asset, a2.nama_asset as asset_kapal FROM armada_schedule a  LEFT JOIN tipe_asset a1 ON a.tipe_asset_id = a1.id  LEFT JOIN asset_kapal a2 ON a.asset_kapal_id = a2.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -46,7 +46,7 @@ ArmadaSchedule.findById = async (id, result) => {
 ArmadaSchedule.getAll = (param, result) => {
     const length = Object.keys(param).length;
     var wheres = "";
-    var query = "SELECT a.* , a1.nama as tipe_asset FROM armada_schedule a  LEFT JOIN tipe_asset a1 ON a.kategori_armada = a1.id ";
+    var query = "SELECT a.* , a1.nama as tipe_asset, a2.nama_asset as asset_kapal FROM armada_schedule a  LEFT JOIN tipe_asset a1 ON a.tipe_asset_id = a1.id  LEFT JOIN asset_kapal a2 ON a.asset_kapal_id = a2.id ";
     if (length > 0) {
         wheres += " WHERE ";
         for (var i in param) {
@@ -73,7 +73,7 @@ ArmadaSchedule.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "AND (";
-		wheres += "a.date LIKE '%" + param.q + "%' OR a.cabang LIKE '%" + param.q + "%' OR a.kategori_armada LIKE '%" + param.q + "%' OR a.armada_id LIKE '%" + param.q + "%' OR a.status LIKE '%" + param.q + "%' OR a.jam_pengoperasian LIKE '%" + param.q + "%' OR a.reliability LIKE '%" + param.q + "%' OR a.keterangan LIKE '%" + param.q + "%'";	
+		wheres += "a.date LIKE '%" + param.q + "%' OR a.cabang LIKE '%" + param.q + "%' OR a.tipe_asset_id LIKE '%" + param.q + "%' OR a.asset_kapal_id LIKE '%" + param.q + "%' OR a.status LIKE '%" + param.q + "%' OR a.jam_pengoperasian LIKE '%" + param.q + "%' OR a.reliability LIKE '%" + param.q + "%' OR a.keterangan LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }
 
@@ -105,7 +105,7 @@ ArmadaSchedule.updateById = async(id, armadaschedule, result) => {
 	try {
 
 		var str = "", obj = [], no = 1;
-		var arr = ["date", "cabang", "kategori_armada", "armada_id", "status", "jam_pengoperasian", "reliability", "keterangan"];
+		var arr = ["date", "cabang", "tipe_asset_id", "asset_kapal_id", "status", "jam_pengoperasian", "reliability", "keterangan"];
 		for (var i in armadaschedule) {
 			var adadiTable = 0
 			for (var b in arr) {

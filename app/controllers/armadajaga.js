@@ -12,6 +12,7 @@ exports.create = (req, res) => {
         tipe_asset_id: req.fields.tipe_asset_id,
         asset_kapal_id: req.fields.asset_kapal_id,
         armada_schedule_id: req.fields.armada_schedule_id,
+        armada_schedule: req.fields.armada_schedule,
     };
 
 	var used = {};

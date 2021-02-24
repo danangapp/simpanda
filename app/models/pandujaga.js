@@ -12,7 +12,24 @@ const PanduJaga = function (pandujaga) {
 
 PanduJaga.create = async(newPanduJaga, result) => {
 	try {
+		const pandu_schedule = newPanduJaga.pandu_schedule;
+		delete newPanduJaga.pandu_schedule;
 		const res = await query("INSERT INTO pandu_jaga SET ?", newPanduJaga);
+		for (var i in pandu_schedule) {
+		    const x = pandu_schedule[i];
+			x['pandu_jaga_id'] = res.insertId;
+		
+		    var header = "", value = "";
+		    for (var a in x) {
+		        const val = x[a];
+		        header += a + ", ";
+				value += "'" + val + "', ";
+		    }
+		    value = value.substring(0, value.length - 2);
+		    header = header.substring(0, header.length - 2);
+			await query("INSERT INTO pandu_schedule (" + header + ") values (" + value + ")");
+		}
+
 		result(null, { id: res.insertId, ...newPanduJaga });
 	} catch (error) {
 	    result(error, null);
@@ -20,6 +37,7 @@ PanduJaga.create = async(newPanduJaga, result) => {
 };
 
 PanduJaga.findById = async (id, result) => {
+	const resQuery = await query("SELECT * FROM pandu_schedule WHERE pandu_jaga_id = '" + id + "'");
     sql.query(`SELECT a.* , a1.nama as pandu_schedule, a2.nama as personil FROM pandu_jaga a  LEFT JOIN pandu_schedule a1 ON a.pandu_schedule_id = a1.id  LEFT JOIN personil a2 ON a.personil_id = a2.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -27,8 +45,9 @@ PanduJaga.findById = async (id, result) => {
             return;
         }
 
+		const pandu_schedule = { "pandu_schedule": resQuery }
         if (res.length) {
-            result(null, res[0]);
+            result(null, merge);
             return;
         }
 
@@ -97,6 +116,37 @@ PanduJaga.design = result => {
 
 PanduJaga.updateById = async(id, pandujaga, result) => {
 	try {
+		const pandu_schedule = pandujaga.pandu_schedule;
+		var arr = ["date", "cabang_id", "status_absen", "keterangan", "approval_status_id", "enable"]
+		await query("DELETE FROM pandu_schedule WHERE pandu_jaga_id='" + id + "'");
+		for (var i in pandu_schedule) {
+		    const x = pandu_schedule[i];
+		
+		    var header = "", value = "";
+			x['pandu_jaga_id'] = id;
+		    for (var a in x) {
+		        var val = x[a];
+				var adadiTable = 0
+				for (var b in arr) {
+					if (a == arr[b]) {
+						adadiTable = 1;
+						break;
+					}
+				}
+
+				if (adadiTable == 1) {
+					if (val) {
+						header += a + ", ";
+						value += "'" + val + "', ";
+					}
+				}
+		    }
+		    value = value.substring(0, value.length - 2);
+		    header = header.substring(0, header.length - 2);
+		
+			await query("INSERT INTO pandu_schedule (" + header + ") values (" + value + ")");
+		}
+		delete pandujaga.pandu_schedule;
 
 		var str = "", obj = [], no = 1;
 		var arr = ["pandu_schedule_id", "personil_id"];

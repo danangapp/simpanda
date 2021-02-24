@@ -11,6 +11,7 @@ exports.create = (req, res) => {
     var pandujaga = {
         pandu_schedule_id: req.fields.pandu_schedule_id,
         personil_id: req.fields.personil_id,
+        pandu_schedule: req.fields.pandu_schedule,
     };
 
 	var used = {};

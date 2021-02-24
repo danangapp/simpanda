@@ -10,7 +10,7 @@ const AssetKapal = function (assetkapal) {
     this.kepemilikan_kapal = assetkapal.kepemilikan_kapal;
     this.simop_status_milik = assetkapal.simop_status_milik;
     this.simop_kd_agen = assetkapal.simop_kd_agen;
-    this.jenis_kapal = assetkapal.jenis_kapal;
+    this.tipe_asset_id = assetkapal.tipe_asset_id;
     this.nama_asset = assetkapal.nama_asset;
     this.horse_power = assetkapal.horse_power;
     this.tahun_perolehan = assetkapal.tahun_perolehan;
@@ -113,7 +113,7 @@ AssetKapal.create = async(newAssetKapal, result) => {
 AssetKapal.findById = async (id, result) => {
 	const resQuery = await query("SELECT a.*, c.nama as tipe_cert, d.nama as jenis_cert FROM sertifikat a INNER JOIN asset_kapal b ON a.asset_kapal_id = b.id INNER JOIN tipe_cert c ON a.tipe_cert_id = c.id INNER JOIN jenis_cert d ON c.jenis_cert_id = d.id WHERE b.id =  '" + id + "'");
 	const resActivityLog = await query("SELECT a.date, a.item, a.action, a.user_id, a.remark, a.koneksi FROM activity_log a INNER JOIN asset_kapal b ON a.item = 'asset_kapal' AND a.koneksi = b.id WHERE b.id =  '" + id + "'");
-    sql.query(`SELECT a.* , a1.nama as tipe_asset, a2.nama as ena, a3.nama as approval_status FROM asset_kapal a  LEFT JOIN tipe_asset a1 ON a.jenis_kapal = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN approval_status a3 ON a.approval_status_id = a3.id  WHERE a.id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* , a1.nama as tipe_asset, a2.nama as ena, a3.nama as approval_status FROM asset_kapal a  LEFT JOIN tipe_asset a1 ON a.tipe_asset_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN approval_status a3 ON a.approval_status_id = a3.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -136,7 +136,7 @@ AssetKapal.findById = async (id, result) => {
 AssetKapal.getAll = (param, result) => {
     const length = Object.keys(param).length;
     var wheres = "";
-    var query = "SELECT a.* , a1.nama as tipe_asset, a2.nama as ena, a3.nama as approval_status FROM asset_kapal a  LEFT JOIN tipe_asset a1 ON a.jenis_kapal = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN approval_status a3 ON a.approval_status_id = a3.id ";
+    var query = "SELECT a.* , a1.nama as tipe_asset, a2.nama as ena, a3.nama as approval_status FROM asset_kapal a  LEFT JOIN tipe_asset a1 ON a.tipe_asset_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN approval_status a3 ON a.approval_status_id = a3.id ";
     if (length > 0) {
         wheres += " WHERE ";
         for (var i in param) {
@@ -163,7 +163,7 @@ AssetKapal.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "AND (";
-		wheres += "a.simop_kd_fas LIKE '%" + param.q + "%' OR a.kepemilikan_kapal LIKE '%" + param.q + "%' OR a.simop_status_milik LIKE '%" + param.q + "%' OR a.simop_kd_agen LIKE '%" + param.q + "%' OR a.jenis_kapal LIKE '%" + param.q + "%' OR a.nama_asset LIKE '%" + param.q + "%' OR a.horse_power LIKE '%" + param.q + "%' OR a.tahun_perolehan LIKE '%" + param.q + "%' OR a.nilai_perolehan LIKE '%" + param.q + "%' OR a.lokasi LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%' OR a.asset_number LIKE '%" + param.q + "%' OR a.simop_kd_puspel_jai LIKE '%" + param.q + "%' OR a.simop_new_puspel_jai LIKE '%" + param.q + "%' OR a.simop_new_asset_jai LIKE '%" + param.q + "%' OR a.approval_status_id LIKE '%" + param.q + "%' OR a.loa LIKE '%" + param.q + "%' OR a.tahun_pembuatan LIKE '%" + param.q + "%' OR a.breadth LIKE '%" + param.q + "%' OR a.kontruksi LIKE '%" + param.q + "%' OR a.depth LIKE '%" + param.q + "%' OR a.negara_pembuat LIKE '%" + param.q + "%' OR a.draft_max LIKE '%" + param.q + "%' OR a.daya LIKE '%" + param.q + "%' OR a.putaran LIKE '%" + param.q + "%' OR a.merk LIKE '%" + param.q + "%' OR a.tipe LIKE '%" + param.q + "%' OR a.daya_motor LIKE '%" + param.q + "%' OR a.daya_generator LIKE '%" + param.q + "%' OR a.putaran_spesifikasi LIKE '%" + param.q + "%' OR a.merk_spesifikasi LIKE '%" + param.q + "%' OR a.tipe_spesifikasi LIKE '%" + param.q + "%' OR a.klas LIKE '%" + param.q + "%' OR a.notasi_permesinan LIKE '%" + param.q + "%' OR a.no_registrasi LIKE '%" + param.q + "%' OR a.notasi_perlengkapan LIKE '%" + param.q + "%' OR a.port_of_registration LIKE '%" + param.q + "%' OR a.notasi_perairan LIKE '%" + param.q + "%' OR a.notasi_lambung LIKE '%" + param.q + "%' OR a.gross_tonnage LIKE '%" + param.q + "%' OR a.bolard_pull LIKE '%" + param.q + "%' OR a.kecepatan LIKE '%" + param.q + "%' OR a.ship_particular LIKE '%" + param.q + "%' OR a.sertifikat_id LIKE '%" + param.q + "%'";	
+		wheres += "a.simop_kd_fas LIKE '%" + param.q + "%' OR a.kepemilikan_kapal LIKE '%" + param.q + "%' OR a.simop_status_milik LIKE '%" + param.q + "%' OR a.simop_kd_agen LIKE '%" + param.q + "%' OR a.tipe_asset_id LIKE '%" + param.q + "%' OR a.nama_asset LIKE '%" + param.q + "%' OR a.horse_power LIKE '%" + param.q + "%' OR a.tahun_perolehan LIKE '%" + param.q + "%' OR a.nilai_perolehan LIKE '%" + param.q + "%' OR a.lokasi LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%' OR a.asset_number LIKE '%" + param.q + "%' OR a.simop_kd_puspel_jai LIKE '%" + param.q + "%' OR a.simop_new_puspel_jai LIKE '%" + param.q + "%' OR a.simop_new_asset_jai LIKE '%" + param.q + "%' OR a.approval_status_id LIKE '%" + param.q + "%' OR a.loa LIKE '%" + param.q + "%' OR a.tahun_pembuatan LIKE '%" + param.q + "%' OR a.breadth LIKE '%" + param.q + "%' OR a.kontruksi LIKE '%" + param.q + "%' OR a.depth LIKE '%" + param.q + "%' OR a.negara_pembuat LIKE '%" + param.q + "%' OR a.draft_max LIKE '%" + param.q + "%' OR a.daya LIKE '%" + param.q + "%' OR a.putaran LIKE '%" + param.q + "%' OR a.merk LIKE '%" + param.q + "%' OR a.tipe LIKE '%" + param.q + "%' OR a.daya_motor LIKE '%" + param.q + "%' OR a.daya_generator LIKE '%" + param.q + "%' OR a.putaran_spesifikasi LIKE '%" + param.q + "%' OR a.merk_spesifikasi LIKE '%" + param.q + "%' OR a.tipe_spesifikasi LIKE '%" + param.q + "%' OR a.klas LIKE '%" + param.q + "%' OR a.notasi_permesinan LIKE '%" + param.q + "%' OR a.no_registrasi LIKE '%" + param.q + "%' OR a.notasi_perlengkapan LIKE '%" + param.q + "%' OR a.port_of_registration LIKE '%" + param.q + "%' OR a.notasi_perairan LIKE '%" + param.q + "%' OR a.notasi_lambung LIKE '%" + param.q + "%' OR a.gross_tonnage LIKE '%" + param.q + "%' OR a.bolard_pull LIKE '%" + param.q + "%' OR a.kecepatan LIKE '%" + param.q + "%' OR a.ship_particular LIKE '%" + param.q + "%' OR a.sertifikat_id LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }
 
@@ -235,7 +235,7 @@ AssetKapal.updateById = async(id, assetkapal, result) => {
 		assetkapal = await setActivity(assetkapal, id);
 
 		var str = "", obj = [], no = 1;
-		var arr = ["simop_kd_fas", "kepemilikan_kapal", "simop_status_milik", "simop_kd_agen", "jenis_kapal", "nama_asset", "horse_power", "tahun_perolehan", "nilai_perolehan", "lokasi", "enable", "asset_number", "simop_kd_puspel_jai", "simop_new_puspel_jai", "simop_new_asset_jai", "approval_status_id", "loa", "tahun_pembuatan", "breadth", "kontruksi", "depth", "negara_pembuat", "draft_max", "daya", "putaran", "merk", "tipe", "daya_motor", "daya_generator", "putaran_spesifikasi", "merk_spesifikasi", "tipe_spesifikasi", "klas", "notasi_permesinan", "no_registrasi", "notasi_perlengkapan", "port_of_registration", "notasi_perairan", "notasi_lambung", "gross_tonnage", "bolard_pull", "kecepatan", "ship_particular", "sertifikat_id"];
+		var arr = ["simop_kd_fas", "kepemilikan_kapal", "simop_status_milik", "simop_kd_agen", "tipe_asset_id", "nama_asset", "horse_power", "tahun_perolehan", "nilai_perolehan", "lokasi", "enable", "asset_number", "simop_kd_puspel_jai", "simop_new_puspel_jai", "simop_new_asset_jai", "approval_status_id", "loa", "tahun_pembuatan", "breadth", "kontruksi", "depth", "negara_pembuat", "draft_max", "daya", "putaran", "merk", "tipe", "daya_motor", "daya_generator", "putaran_spesifikasi", "merk_spesifikasi", "tipe_spesifikasi", "klas", "notasi_permesinan", "no_registrasi", "notasi_perlengkapan", "port_of_registration", "notasi_perairan", "notasi_lambung", "gross_tonnage", "bolard_pull", "kecepatan", "ship_particular", "sertifikat_id"];
 		for (var i in assetkapal) {
 			var adadiTable = 0
 			for (var b in arr) {

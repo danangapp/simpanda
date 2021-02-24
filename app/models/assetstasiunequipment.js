@@ -7,7 +7,7 @@ var objek = new Object();
 // constructor
 const AssetStasiunEquipment = function (assetstasiunequipment) {
     this.nomor_asset = assetstasiunequipment.nomor_asset;
-    this.tipe_stasiun_id = assetstasiunequipment.tipe_stasiun_id;
+    this.tipe_asset_id = assetstasiunequipment.tipe_asset_id;
     this.nama = assetstasiunequipment.nama;
     this.tahun_perolehan = assetstasiunequipment.tahun_perolehan;
     this.nilai_perolehan = assetstasiunequipment.nilai_perolehan;
@@ -48,7 +48,7 @@ AssetStasiunEquipment.create = async(newAssetStasiunEquipment, result) => {
 
 AssetStasiunEquipment.findById = async (id, result) => {
 	const resActivityLog = await query("SELECT a.date, a.item, a.action, a.user_id, a.remark, a.koneksi FROM activity_log a INNER JOIN asset_stasiun_equipment b ON a.item = 'asset_stasiun_equipment' AND a.koneksi = b.id WHERE b.id =  '" + id + "'");
-    sql.query(`SELECT a.* , a1.nama as tipe_stasiun, a2.nama as approval_status, a3.nama as ena FROM asset_stasiun_equipment a  LEFT JOIN tipe_stasiun a1 ON a.tipe_stasiun_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id  WHERE a.id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* , a1.nama as tipe_asset, a2.nama as approval_status, a3.nama as ena FROM asset_stasiun_equipment a  LEFT JOIN tipe_asset a1 ON a.tipe_asset_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -70,7 +70,7 @@ AssetStasiunEquipment.findById = async (id, result) => {
 AssetStasiunEquipment.getAll = (param, result) => {
     const length = Object.keys(param).length;
     var wheres = "";
-    var query = "SELECT a.* , a1.nama as tipe_stasiun, a2.nama as approval_status, a3.nama as ena FROM asset_stasiun_equipment a  LEFT JOIN tipe_stasiun a1 ON a.tipe_stasiun_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id ";
+    var query = "SELECT a.* , a1.nama as tipe_asset, a2.nama as approval_status, a3.nama as ena FROM asset_stasiun_equipment a  LEFT JOIN tipe_asset a1 ON a.tipe_asset_id = a1.id  LEFT JOIN approval_status a2 ON a.approval_status_id = a2.id  LEFT JOIN enable a3 ON a.enable = a3.id ";
     if (length > 0) {
         wheres += " WHERE ";
         for (var i in param) {
@@ -97,7 +97,7 @@ AssetStasiunEquipment.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "AND (";
-		wheres += "a.nomor_asset LIKE '%" + param.q + "%' OR a.tipe_stasiun_id LIKE '%" + param.q + "%' OR a.nama LIKE '%" + param.q + "%' OR a.tahun_perolehan LIKE '%" + param.q + "%' OR a.nilai_perolehan LIKE '%" + param.q + "%' OR a.kondisi LIKE '%" + param.q + "%' OR a.approval_status_id LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%'";	
+		wheres += "a.nomor_asset LIKE '%" + param.q + "%' OR a.tipe_asset_id LIKE '%" + param.q + "%' OR a.nama LIKE '%" + param.q + "%' OR a.tahun_perolehan LIKE '%" + param.q + "%' OR a.nilai_perolehan LIKE '%" + param.q + "%' OR a.kondisi LIKE '%" + param.q + "%' OR a.approval_status_id LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }
 
@@ -130,7 +130,7 @@ AssetStasiunEquipment.updateById = async(id, assetstasiunequipment, result) => {
 		assetstasiunequipment = await setActivity(assetstasiunequipment, id);
 
 		var str = "", obj = [], no = 1;
-		var arr = ["nomor_asset", "tipe_stasiun_id", "nama", "tahun_perolehan", "nilai_perolehan", "kondisi", "approval_status_id", "enable"];
+		var arr = ["nomor_asset", "tipe_asset_id", "nama", "tahun_perolehan", "nilai_perolehan", "kondisi", "approval_status_id", "enable"];
 		for (var i in assetstasiunequipment) {
 			var adadiTable = 0
 			for (var b in arr) {

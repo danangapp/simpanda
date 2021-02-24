@@ -16,8 +16,8 @@ ArmadaJaga.create = async(newArmadaJaga, result) => {
 		const armada_schedule = newArmadaJaga.armada_schedule;
 		delete newArmadaJaga.armada_schedule;
 		const res = await query("INSERT INTO armada_jaga SET ?", newArmadaJaga);
-		for (var i in aramada_schedule) {
-		    const x = aramada_schedule[i];
+		for (var i in armada_schedule) {
+		    const x = armada_schedule[i];
 			x['armada_jaga_id'] = res.insertId;
 		
 		    var header = "", value = "";
@@ -28,7 +28,7 @@ ArmadaJaga.create = async(newArmadaJaga, result) => {
 		    }
 		    value = value.substring(0, value.length - 2);
 		    header = header.substring(0, header.length - 2);
-			await query("INSERT INTO aramada_schedule (" + header + ") values (" + value + ")");
+			await query("INSERT INTO armada_schedule (" + header + ") values (" + value + ")");
 		}
 
 		result(null, { id: res.insertId, ...newArmadaJaga });

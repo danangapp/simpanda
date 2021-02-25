@@ -2,6 +2,7 @@ const express = require("express");
 // const fs = require('fs');
 // var XlsxTemplate = require('xlsx-template');
 const formidableMiddleware = require('express-formidable');
+const f = require('./app/controllers/function')
 require('dotenv').config();
 
 const app = express();
@@ -78,17 +79,21 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
 
+// const select = f.select(`INSERT INTO "cabang" ("id", "nama") VALUES (20, 'Yunani') RETURN "id" INTO :id`, 1);
+// const select = f.select(`SELECT * FROM "cabang"`);
+// select.then((a) => {
+//   console.log(a.outBinds.id[0]);
+// })
 
+
+// console.log(select);
 // var oracledb = require('oracledb');
-// const dbConfig = require('./dbconfig.js');njdrdybkj
-// oracledb.initOracleClient({ libDir: 'D:\\tools\\instantclient_19_10' });
+// const dbConfig = require('./app/config/dbconfig');
 // async function run() {
 //   let connection;
 //   try {
 //     connection = await oracledb.getConnection(dbConfig);
-//     const result = await connection.execute(`SELECT NAMA FROM ACTION`);
-
-//     console.log(result.metaData); // [ { name: 'FARMER' }, { name: 'PICKED' }, { name: 'RIPENESS' } ]
+//     const result = await connection.execute(`SELECT * FROM "cabang"`, [], { outFormat: oracledb.OUT_FORMAT_OBJECT });
 //     console.log(result.rows);
 //   } catch (err) {
 //     console.error(err);

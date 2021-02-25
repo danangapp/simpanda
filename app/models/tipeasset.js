@@ -8,6 +8,8 @@ var objek = new Object();
 const TipeAsset = function (tipeasset) {
     this.nama = tipeasset.nama;
     this.type = tipeasset.type;
+    this.sarana_config_question = tipeasset.sarana_config_question;
+    this.flag = tipeasset.flag;
 };
 
 TipeAsset.create = async(newTipeAsset, result) => {
@@ -67,7 +69,7 @@ TipeAsset.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "AND (";
-		wheres += "a.nama LIKE '%" + param.q + "%' OR a.type LIKE '%" + param.q + "%'";	
+		wheres += "a.nama LIKE '%" + param.q + "%' OR a.type LIKE '%" + param.q + "%' OR a.sarana_config_question LIKE '%" + param.q + "%' OR a.flag LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }
 
@@ -99,7 +101,7 @@ TipeAsset.updateById = async(id, tipeasset, result) => {
 	try {
 
 		var str = "", obj = [], no = 1;
-		var arr = ["nama", "type"];
+		var arr = ["nama", "type", "sarana_config_question", "flag"];
 		for (var i in tipeasset) {
 			var adadiTable = 0
 			for (var b in arr) {

@@ -1,5 +1,11 @@
 var moment = require('moment');
 var mv = require('mv');
+
+var oracledb = require('oracledb');
+const dbConfig = require('../config/dbconfig');
+oracledb.initOracleClient({ libDir: 'D:\\tools\\instantclient_19_10' });
+oracledb.autoCommit = true
+
 moment.updateLocale(moment.locale(), { invalidDate: null })
 module.exports = {
     toDate: function (str) {
@@ -51,5 +57,34 @@ module.exports = {
             console.log(err);
         });
         return updateTo;
+    },
+    select: async function (query, insert = 0) {
+        let connection;
+        try {
+            connection = await oracledb.getConnection(dbConfig);
+
+            // console.log(result.rows);
+            if (insert == 1) {
+                const result = await connection.execute(
+                    query,
+                    { id: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT } }
+                );
+
+                return result;
+            } else {
+                const result = await connection.execute(query, [], { outFormat: oracledb.OUT_FORMAT_OBJECT });
+                return result;
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            if (connection) {
+                try {
+                    await connection.close();
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+        }
     }
 };

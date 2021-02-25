@@ -11,6 +11,8 @@ exports.create = (req, res) => {
     var tipeasset = {
         nama: req.fields.nama,
         type: req.fields.type,
+        sarana_config_question: req.fields.sarana_config_question,
+        flag: req.fields.flag,
     };
 
 	var used = {};

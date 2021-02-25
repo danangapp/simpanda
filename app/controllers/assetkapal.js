@@ -9,6 +9,7 @@ exports.create = (req, res) => {
     }
 
     var assetkapal = {
+        cabang_id: req.fields.cabang_id,
         simop_kd_fas: req.fields.simop_kd_fas,
         kepemilikan_kapal: req.fields.kepemilikan_kapal,
         simop_status_milik: req.fields.simop_status_milik,
@@ -18,7 +19,6 @@ exports.create = (req, res) => {
         horse_power: req.fields.horse_power,
         tahun_perolehan: req.fields.tahun_perolehan,
         nilai_perolehan: req.fields.nilai_perolehan,
-        lokasi: req.fields.lokasi,
         enable: req.fields.enable,
         asset_number: req.fields.asset_number,
         simop_kd_puspel_jai: req.fields.simop_kd_puspel_jai,

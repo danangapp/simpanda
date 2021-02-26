@@ -19,6 +19,7 @@ exports.create = (req, res) => {
         user_id: req.fields.user_id,
         remark: req.fields.remark,
         koneksi: req.fields.koneksi,
+        sarana_bantu_pemandu_personil: req.fields.sarana_bantu_pemandu_personil,
     };
 
 	var used = {};

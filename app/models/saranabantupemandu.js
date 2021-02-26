@@ -30,8 +30,25 @@ const setActivity = (objects, koneksi = 1) => {
 
 SaranaBantuPemandu.create = async(newSaranaBantuPemandu, result) => {
 	try {
+		const sarana_bantu_pemandu_personil = newSaranaBantuPemandu.sarana_bantu_pemandu_personil;
+		delete newSaranaBantuPemandu.sarana_bantu_pemandu_personil;
 		newSaranaBantuPemandu = setActivity(newSaranaBantuPemandu);
 		const res = await query("INSERT INTO sarana_bantu_pemandu SET ?", newSaranaBantuPemandu);
+		for (var i in sarana_bantu_pemandu_personil) {
+		    const x = sarana_bantu_pemandu_personil[i];
+			x['sarana_bantu_pemandu_id'] = res.insertId;
+		
+		    var header = "", value = "";
+		    for (var a in x) {
+		        const val = x[a];
+		        header += a + ", ";
+				value += "'" + val + "', ";
+		    }
+		    value = value.substring(0, value.length - 2);
+		    header = header.substring(0, header.length - 2);
+			await query("INSERT INTO sarana_bantu_pemandu_personil (" + header + ") values (" + value + ")");
+		}
+
 		objek.koneksi = res.insertId;
 		if (objek.action != null) {
 			await query("INSERT INTO activity_log SET ?", objek);
@@ -43,6 +60,7 @@ SaranaBantuPemandu.create = async(newSaranaBantuPemandu, result) => {
 };
 
 SaranaBantuPemandu.findById = async (id, result) => {
+	const resQuery = await query("SELECT * FROM sarana_bantu_pemandu_personil WHERE sarana_bantu_pemandu_id = '" + id + "'");
 	const resActivityLog = await query("SELECT a.date, a.item, a.action, a.user_id, a.remark, a.koneksi FROM activity_log a INNER JOIN sarana_bantu_pemandu b ON a.item = 'sarana_bantu_pemandu' AND a.koneksi = b.id WHERE b.id =  '" + id + "'");
     sql.query(`SELECT a.* , a1.nama as approval_status, a2.nama as cabang FROM sarana_bantu_pemandu a  LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN cabang a2 ON a.cabang_id = a2.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
@@ -51,10 +69,11 @@ SaranaBantuPemandu.findById = async (id, result) => {
             return;
         }
 
+		const sarana_bantu_pemandu_personil = { "sarana_bantu_pemandu_personil": resQuery }
 		const activityLog = { "activityLog": resActivityLog }
-		let merge = { ...res[0], ...activityLog }	
+		let merge = { ...res[0], ...sarana_bantu_pemandu_personil, ...activityLog }	
         if (res.length) {
-            result(null, res[0]);
+            result(null, merge);
             return;
         }
 

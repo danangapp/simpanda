@@ -21,7 +21,8 @@ PanduJaga.create = async(newPanduJaga, result) => {
 		
 		    var header = "", value = "";
 		    for (var a in x) {
-		        const val = x[a];
+		        var val = x[a];
+		        if (a == "date") val = f.toDate(val);
 		        header += a + ", ";
 				value += "'" + val + "', ";
 		    }

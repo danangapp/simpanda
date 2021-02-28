@@ -14,12 +14,12 @@ exports.create = (req, res) => {
         pandu_schedule: req.fields.pandu_schedule,
     };
 
-	var used = {};
-	for (var i in pandujaga) {
-	    if (!pandujaga[i]) {
-	        delete pandujaga[i];
-	    }
-	}
+    var used = {};
+    for (var i in pandujaga) {
+        if (!pandujaga[i]) {
+            delete pandujaga[i];
+        }
+    }
 
     PanduJaga.create(pandujaga, (err, data) => {
         if (err)

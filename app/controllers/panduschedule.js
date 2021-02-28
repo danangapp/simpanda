@@ -8,30 +8,42 @@ exports.create = (req, res) => {
         });
     }
 
-    var panduschedule = {
-        date: f.toDate(req.fields.date),
-        cabang_id: req.fields.cabang_id,
-        status_absen_id: req.fields.status_absen_id,
-        keterangan: req.fields.keterangan,
-        approval_status_id: req.fields.approval_status_id,
-        enable: req.fields.enable,
-        pandu_jaga_id: req.fields.pandu_jaga_id,
-        pandu_bandar_laut_id: req.fields.pandu_bandar_laut_id,
-        date: f.toDate(req.fields.date),
-        item: req.fields.item,
-        action: req.fields.action,
-        user_id: req.fields.user_id,
-        remark: req.fields.remark,
-        koneksi: req.fields.koneksi,
-        pandu_jaga: req.fields.pandu_jaga,
-    };
+    // console.log(req);
+    const fields = req.fields;
+    var panduschedule = []
+    for (var a in fields) {
+        var b = fields[a];
+        var arr = {
+            date: f.toDate(b.date),
+            cabang_id: b.cabang_id,
+            status_absen_id: b.status_absen_id,
+            keterangan: b.keterangan,
+            approval_status_id: b.approval_status_id,
+            enable: b.enable,
+            pandu_jaga_id: b.pandu_jaga_id,
+            pandu_bandar_laut_id: b.pandu_bandar_laut_id,
+            date: f.toDate(b.date),
+            item: b.item,
+            action: b.action,
+            user_id: b.user_id,
+            remark: b.remark,
+            koneksi: b.koneksi,
+            pandu_jaga: b.pandu_jaga,
+        };
 
-	var used = {};
-	for (var i in panduschedule) {
-	    if (!panduschedule[i]) {
-	        delete panduschedule[i];
-	    }
-	}
+        panduschedule.push(arr);
+    }
+
+    var used = {};
+    for (var i in panduschedule) {
+        var b = panduschedule[i];
+        for (var a in b) {
+            if (!b[a]) {
+                delete b[a];
+            }
+        }
+    }
+    // console.log(panduschedule);
 
     PanduSchedule.create(panduschedule, (err, data) => {
         if (err)
@@ -89,10 +101,10 @@ exports.update = (req, res) => {
         });
     }
 
-	req.fields.date = f.toDate(req.fields.date);
+    // req.fields.date = f.toDate(req.fields.date);
 
+    // console.log(req.fields);
     PanduSchedule.updateById(
-        req.params.id,
         req.fields,
         (err, data) => {
             if (err) {
@@ -125,4 +137,3 @@ exports.delete = (req, res) => {
         } else res.send({ message: `PanduSchedule was deleted successfully!` });
     });
 };
-

@@ -34,14 +34,16 @@ exports.create = (req, res) => {
         panduschedule.push(arr);
     }
 
-    // var used = {};
-    // for (var i in panduschedule) {
-    //     if (!panduschedule[i]) {
-    //         delete panduschedule[i];
-    //     }
-    // }
-
-    console.log(panduschedule);
+    var used = {};
+    for (var i in panduschedule) {
+        var b = panduschedule[i];
+        for (var a in b) {
+            if (!b[a]) {
+                delete b[a];
+            }
+        }
+    }
+    // console.log(panduschedule);
 
     PanduSchedule.create(panduschedule, (err, data) => {
         if (err)
@@ -99,10 +101,10 @@ exports.update = (req, res) => {
         });
     }
 
-    req.fields.date = f.toDate(req.fields.date);
+    // req.fields.date = f.toDate(req.fields.date);
 
+    // console.log(req.fields);
     PanduSchedule.updateById(
-        req.params.id,
         req.fields,
         (err, data) => {
             if (err) {

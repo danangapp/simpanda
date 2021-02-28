@@ -34,36 +34,51 @@ const setActivity = (objects, koneksi = 1) => {
 
 PanduSchedule.create = async (newPanduSchedule, result) => {
 	try {
-		result(null, { id: 1 });
-		// const pandu_jaga = newPanduSchedule.pandu_jaga;
-		// delete newPanduSchedule.pandu_jaga;
-		// newPanduSchedule = setActivity(newPanduSchedule);
-		// const res = await query("INSERT INTO pandu_schedule SET ?", newPanduSchedule);
 
-		// const x = newPanduSchedule.pandu_jaga;
-		// x['pandu_schedule_id'] = res.insertId;
+		// result(null, { id: 1 });
+		for (var a in newPanduSchedule) {
+			var header = "", value = "";
+			var c = newPanduSchedule[a];
+			for (var b in c) {
+				if (b != "pandu_jaga") {
+					header += b + ", ";
+					value += "'" + c[b] + "', ";
+				}
+			}
 
-		// var header = "", value = "";
-		// for (var a in x) {
-		//     var val = x[a];
-		//     header += a + ", ";
-		// 	value += "'" + val + "', ";
-		// }
-		// value = value.substring(0, value.length - 2);
-		// header = header.substring(0, header.length - 2);
-		// await query("INSERT INTO pandu_jaga (" + header + ") values (" + value + ")");
+			value = value.substring(0, value.length - 2);
+			header = header.substring(0, header.length - 2);
+			var res = await query("INSERT INTO pandu_schedule (" + header + ") values (" + value + ")");
 
-		// objek.koneksi = res.insertId;
-		// if (objek.action != null) {
-		// 	await query("INSERT INTO activity_log SET ?", objek);
-		// }
-		// result(null, { id: res.insertId, ...newPanduSchedule });
+			for (var b in c) {
+				if (b === "pandu_jaga") {
+					var e = c[b];
+					for (var d in e) {
+						var g = e[d];
+						g['pandu_schedule_id'] = res.insertId;
+						console.log(g);
+						var header1 = "", value1 = "";
+						for (var f in g) {
+							header1 += f + ", ";
+							value1 += "'" + g[f] + "', ";
+						}
+
+						value1 = value1.substring(0, value1.length - 2);
+						header1 = header1.substring(0, header1.length - 2);
+						await query("INSERT INTO pandu_jaga (" + header1 + ") values (" + value1 + ")");
+					}
+				}
+			}
+		}
+
+		result(null, newPanduSchedule);
 	} catch (error) {
 		result(error, null);
 	}
 };
 
 PanduSchedule.findById = async (id, result) => {
+	const resQuery = await query("SELECT * FROM pandu_jaga WHERE pandu_schedule_id = '" + id + "'");
 	const resActivityLog = await query("SELECT a.date, a.item, a.action, a.user_id, a.remark, a.koneksi FROM activity_log a INNER JOIN pandu_schedule b ON a.item = 'pandu_schedule' AND a.koneksi = b.id WHERE b.id =  '" + id + "'");
 	sql.query(`SELECT a.* , a1.nama as cabang, a2.nama as status_absen, a3.nama as approval_status, a4.nama as ena, a5.nama as pandu_bandar_laut FROM pandu_schedule a  LEFT JOIN cabang a1 ON a.cabang_id = a1.id  LEFT JOIN status_absen a2 ON a.status_absen_id = a2.id  LEFT JOIN approval_status a3 ON a.approval_status_id = a3.id  LEFT JOIN enable a4 ON a.enable = a4.id  LEFT JOIN pandu_bandar_laut a5 ON a.pandu_bandar_laut_id = a5.id  WHERE a.id = ${id}`, (err, res) => {
 		if (err) {
@@ -72,10 +87,11 @@ PanduSchedule.findById = async (id, result) => {
 			return;
 		}
 
+		const pandu_jaga = { "pandu_jaga": resQuery }
 		const activityLog = { "activityLog": resActivityLog }
-		let merge = { ...res[0], ...activityLog }
+		let merge = { ...res[0], ...pandu_jaga }
 		if (res.length) {
-			result(null, res[0]);
+			result(null, merge);
 			return;
 		}
 
@@ -142,34 +158,43 @@ PanduSchedule.design = result => {
 	});
 };
 
-PanduSchedule.updateById = async (id, panduschedule, result) => {
+PanduSchedule.updateById = async (panduschedule, result) => {
 	try {
-		panduschedule = await setActivity(panduschedule, id);
 
-		var str = "", obj = [], no = 1;
-		var arr = ["date", "cabang_id", "status_absen_id", "keterangan", "approval_status_id", "enable", "pandu_jaga_id", "pandu_bandar_laut_id"];
-		for (var i in panduschedule) {
-			var adadiTable = 0
-			for (var b in arr) {
-				if (i == arr[b]) {
-					adadiTable = 1;
-					break;
+		for (var a in panduschedule) {
+			var c = panduschedule[a];
+			var str = "";
+			for (var b in c) {
+				if (b != "pandu_jaga" && b != "pandu_schedule_id") {
+					str += b + "='" + c[b] + "', ";
 				}
 			}
-			if (panduschedule[i] && adadiTable == 1) {
-				str += i + " = ?, ";
-				obj.push(panduschedule[i]);
-			}
-			no++;
-		}
-		obj.push(id);
-		str = str.substring(0, str.length - 2);
 
-		if (objek.action != null) {
-			await query("INSERT INTO activity_log SET ?", objek);
+			str = str.substring(0, str.length - 2);
+			await query("UPDATE pandu_schedule SET " + str + " WHERE id = '" + c['pandu_schedule_id'] + "'");
+			await query("DELETE FROM pandu_jaga WHERE pandu_schedule_id = '" + c['pandu_schedule_id'] + "'");
+
+			for (var b in c) {
+				if (b === "pandu_jaga") {
+					var e = c[b];
+					for (var d in e) {
+						var g = e[d];
+						g['pandu_schedule_id'] = c['pandu_schedule_id'];
+						var header1 = "", value1 = "";
+						for (var f in g) {
+							header1 += f + ", ";
+							value1 += "'" + g[f] + "', ";
+						}
+
+						value1 = value1.substring(0, value1.length - 2);
+						header1 = header1.substring(0, header1.length - 2);
+						await query("INSERT INTO pandu_jaga (" + header1 + ") values (" + value1 + ")");
+					}
+				}
+			}
 		}
-		await query("UPDATE pandu_schedule SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...panduschedule });
+
+		result(null, panduschedule);
 	} catch (error) {
 		result(error, null);
 	}

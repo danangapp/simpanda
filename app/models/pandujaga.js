@@ -83,7 +83,6 @@ PanduJaga.getAll = (param, result) => {
 					} else {
 						wheres += "a." + i + " ='" + param[i] + "' and ";
 					}
-					console.log(wheres);
 				}
 			}
 		}

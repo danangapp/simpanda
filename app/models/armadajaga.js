@@ -61,7 +61,7 @@ ArmadaJaga.findById = async (id, result) => {
 ArmadaJaga.getAll = (param, result) => {
 	const length = Object.keys(param).length;
 	var wheres = "";
-	var query = "SELECT a.*, a2.nama as asset_kapal FROM armada_jaga a LEFT JOIN armada_schedule a1 ON a.armada_schedule_id = a1.id LEFT JOIN asset_kapal a2 ON a1.asset_kapal_id = a2.id ";
+	var query = "SELECT a.*, a2.nama_asset as asset_kapal FROM armada_jaga a LEFT JOIN armada_schedule a1 ON a.armada_schedule_id = a1.id LEFT JOIN asset_kapal a2 ON a1.asset_kapal_id = a2.id ";
 	if (length > 0) {
 		wheres += " WHERE ";
 		for (var i in param) {

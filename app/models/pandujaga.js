@@ -61,7 +61,7 @@ PanduJaga.findById = async (id, result) => {
 PanduJaga.getAll = (param, result) => {
 	const length = Object.keys(param).length;
 	var wheres = "";
-	var query = "SELECT a.* , a1.*, a2.* FROM pandu_jaga a  LEFT JOIN pandu_schedule a1 ON a.pandu_schedule_id = a1.id  LEFT JOIN personil a2 ON a.personil_id = a2.id ";
+	var query = "SELECT a.* FROM pandu_jaga a  LEFT JOIN pandu_schedule a1 ON a.pandu_schedule_id = a1.id  LEFT JOIN personil a2 ON a.personil_id = a2.id LEFT JOIN cabang a3 ON a3.id = a1.cabang_id";
 	if (length > 0) {
 		wheres += " WHERE ";
 		for (var i in param) {
@@ -76,10 +76,10 @@ PanduJaga.getAll = (param, result) => {
 					wheres += "a." + i + " IN (" + wherein + ")";
 					wheres += " and ";
 				} else {
-					if (i == "date" || i == "cabang_id" || i == "status_absen_id" || i == "keterangan" || i == "approval_status_id" || i == "enable" || i == "pandu_jaga_id" || i == "pandu_bandar_laut_id") {
-						wheres += "a1." + i + " ='" + param[i] + "' and ";
-					} else if (i == "tipe_personil_id" || i == "approval_status_id" || i == "simop_kd_pers_pandu" || i == "simop_kd_pers_pandu_cbg" || i == "asset_kapal_id" || i == "nama" || i == "kelas" || i == "tempat_lahir" || i == "tanggal_lahir" || i == "nipp" || i == "jabatan" || i == "status_kepegawaian_id" || i == "cv" || i == "tempat_tugas" || i == "nomor_sk" || i == "tanggal_mulai" || i == "tanggal_selesai" || i == "sk" || i == "skpp" || i == "surat_kesehatan" || i == "sertifikat_id") {
-						wheres += "a2." + i + " ='" + param[i] + "' and ";
+					if (i === "cabang") {
+						wheres += "a3.nama ='" + param[i] + "' and ";
+					} else if (i === "date") {
+						wheres += "a3." + i + " ='" + param[i] + "' and ";
 					} else {
 						wheres += "a." + i + " ='" + param[i] + "' and ";
 					}

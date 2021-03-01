@@ -77,12 +77,13 @@ PanduJaga.getAll = (param, result) => {
 					wheres += " and ";
 				} else {
 					if (i == "date" || i == "cabang_id" || i == "status_absen_id" || i == "keterangan" || i == "approval_status_id" || i == "enable" || i == "pandu_jaga_id" || i == "pandu_bandar_laut_id") {
-						wheres += "b." + i + " ='" + param[i] + "' and ";
+						wheres += "a1." + i + " ='" + param[i] + "' and ";
 					} else if (i == "tipe_personil_id" || i == "approval_status_id" || i == "simop_kd_pers_pandu" || i == "simop_kd_pers_pandu_cbg" || i == "asset_kapal_id" || i == "nama" || i == "kelas" || i == "tempat_lahir" || i == "tanggal_lahir" || i == "nipp" || i == "jabatan" || i == "status_kepegawaian_id" || i == "cv" || i == "tempat_tugas" || i == "nomor_sk" || i == "tanggal_mulai" || i == "tanggal_selesai" || i == "sk" || i == "skpp" || i == "surat_kesehatan" || i == "sertifikat_id") {
-						wheres += "c." + i + " ='" + param[i] + "' and ";
+						wheres += "a2." + i + " ='" + param[i] + "' and ";
 					} else {
 						wheres += "a." + i + " ='" + param[i] + "' and ";
 					}
+					console.log(wheres);
 				}
 			}
 		}

@@ -14,7 +14,7 @@ module.exports = app => {
     app.get("/panduschedule/:id", panduschedule.findOne);
 
     // Update a PanduSchedule with id
-    app.put("/panduschedule/:id", panduschedule.update);
+    app.put("/panduschedule", panduschedule.update);
 
     // Delete a PanduSchedule with id
     app.delete("/panduschedule/:id", panduschedule.delete);

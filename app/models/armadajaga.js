@@ -61,7 +61,7 @@ ArmadaJaga.findById = async (id, result) => {
 ArmadaJaga.getAll = (param, result) => {
 	const length = Object.keys(param).length;
 	var wheres = "";
-	var query = "SELECT a.* , a1.nama as tipe_asset, a2.nama_asset as asset_kapal, a3.keterangan as armada_schedule FROM armada_jaga a  LEFT JOIN tipe_asset a1 ON a.tipe_asset_id = a1.id  LEFT JOIN asset_kapal a2 ON a.asset_kapal_id = a2.id  LEFT JOIN armada_schedule a3 ON a.armada_schedule_id = a3.id ";
+	var query = "SELECT a.*, a2.nama_asset as asset_kapal FROM armada_jaga a LEFT JOIN armada_schedule a1 ON a.armada_schedule_id = a1.id LEFT JOIN asset_kapal a2 ON a1.asset_kapal_id = a2.id ";
 	if (length > 0) {
 		wheres += " WHERE ";
 		for (var i in param) {
@@ -76,15 +76,7 @@ ArmadaJaga.getAll = (param, result) => {
 					wheres += "a." + i + " IN (" + wherein + ")";
 					wheres += " and ";
 				} else {
-					if (i == "nama" || i == "type" || i == "sarana_config_question" || i == "flag") {
-						wheres += "a1." + i + " ='" + param[i] + "' and ";
-					} else if (i == "cabang_id" || i == "simop_kd_fas" || i == "kepemilikan_kapal" || i == "simop_status_milik" || i == "simop_kd_agen" || i == "nama_asset" || i == "horse_power" || i == "tahun_perolehan" || i == "nilai_perolehan" || i == "enable" || i == "asset_number" || i == "simop_kd_puspel_jai" || i == "simop_new_puspel_jai" || i == "simop_new_asset_jai" || i == "approval_status_id" || i == "loa" || i == "tahun_pembuatan" || i == "breadth" || i == "kontruksi" || i == "depth" || i == "negara_pembuat" || i == "draft_max" || i == "daya" || i == "putaran" || i == "merk" || i == "tipe" || i == "daya_motor" || i == "daya_generator" || i == "putaran_spesifikasi" || i == "merk_spesifikasi" || i == "tipe_spesifikasi" || i == "klas" || i == "notasi_permesinan" || i == "no_registrasi" || i == "notasi_perlengkapan" || i == "port_of_registration" || i == "notasi_perairan" || i == "notasi_lambung" || i == "gross_tonnage" || i == "bolard_pull" || i == "kecepatan" || i == "ship_particular" || i == "sertifikat_id") {
-						wheres += "a2." + i + " ='" + param[i] + "' and ";
-					} else if (i == "date" || i == "cabang" || i == "status" || i == "jam_pengoperasian" || i == "reliability" || i == "keterangan" || i == "armada_jaga_id") {
-						wheres += "a3." + i + " ='" + param[i] + "' and ";
-					} else {
-						wheres += "a." + i + " ='" + param[i] + "' and ";
-					}
+					wheres += "a." + i + " ='" + param[i] + "' and ";
 				}
 			}
 		}

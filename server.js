@@ -81,10 +81,10 @@ app.listen(PORT, () => {
 });
 
 // const select = f.select(`INSERT INTO "cabang" ("id", "nama") VALUES (20, 'Yunani') RETURN "id" INTO :id`, 1);
-// const select = f.select(`SELECT * FROM "cabang"`);
-// select.then((a) => {
-//   console.log(a.outBinds.id[0]);
-// })
+const select = f.select(`SELECT * FROM "kondisi"`);
+select.then((a) => {
+  console.log(a.rows);
+})
 
 
 // console.log(select);

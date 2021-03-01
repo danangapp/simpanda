@@ -58,7 +58,7 @@ module.exports = {
         });
         return updateTo;
     }
-    // ,select: async function (query, insert = 0) {
+    // , select: async function (query, insert = 0) {
     //     let connection;
     //     try {
     //         connection = await oracledb.getConnection(dbConfig);

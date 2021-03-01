@@ -24,7 +24,7 @@ Dashboard.statisticresume = (param, result) => {
 
 
 Dashboard.cetivicatevalidity = (param, result) => {
-    var query = "SELECT tanggal_expire, (SELECT count(*) WHERE tanggal_expire < DATE_ADD( CURRENT_DATE (), INTERVAL 5 MONTH )) AS '< 5 Bulan', (SELECT count(*) WHERE tanggal_expire > DATE_ADD( CURRENT_DATE (), INTERVAL 5 MONTH ) AND tanggal_expire < DATE_ADD( CURRENT_DATE (), INTERVAL 11 MONTH )) AS '5 - 11 Bulan', (SELECT count(*) WHERE tanggal_expire > DATE_ADD( CURRENT_DATE (), INTERVAL 11 MONTH )) AS '> 11 Bulan' FROM sertifikat WHERE tanggal_expire > CURRENT_DATE () GROUP BY tanggal_expire";
+    var query = "SELECT tanggal_expire, personil_id, personil.tipe_personil_id, sertifikat.asset_kapal_id FROM sertifikat LEFT JOIN personil ON sertifikat.personil_id = personil.id LEFT JOIN asset_kapal ON sertifikat.asset_kapal_id = asset_kapal.id WHERE tanggal_expire > CURRENT_DATE ()";
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);

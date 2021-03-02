@@ -44,8 +44,6 @@ exports.create = (req, res) => {
         pihak_yang_bertanggungjawab: req.fields.pihak_yang_bertanggungjawab,
         pelaksana: req.fields.pelaksana,
         tanggal_pemeriksaan: req.fields.tanggal_pemeriksaan,
-        nama: req.fields.nama,
-        jabatan: req.fields.jabatan,
         status_investigasi_insiden_id: req.fields.status_investigasi_insiden_id,
         prepard_by: req.fields.prepard_by,
         prepard_tanggal: f.toDate(req.fields.prepard_tanggal),
@@ -59,6 +57,7 @@ exports.create = (req, res) => {
         user_id: req.fields.user_id,
         remark: req.fields.remark,
         koneksi: req.fields.koneksi,
+        investigasi_insiden_tim: req.fields.investigasi_insiden_tim,
     };
 
 	var used = {};

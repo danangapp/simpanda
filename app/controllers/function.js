@@ -1,5 +1,7 @@
 var moment = require('moment');
 var mv = require('mv');
+const fs = require('fs');
+var XlsxTemplate = require('xlsx-template');
 
 // var oracledb = require('oracledb');
 // const dbConfig = require('../config/dbconfig');
@@ -8,11 +10,11 @@ var mv = require('mv');
 
 moment.updateLocale(moment.locale(), { invalidDate: null })
 module.exports = {
-    toDate: function (str) {
+    toDate: function (str, formatdate = 'YYYY-MM-DD') {
         var dateString = str;
         var dateObj = new Date(dateString);
         var momentObj = moment(dateObj);
-        var momentString = momentObj.format('YYYY-MM-DD'); // 2016-07-15
+        var momentString = momentObj.format(formatdate); // 2016-07-15
         return momentString;
     },
     uploadFile: function (folders, files, updateTo) {
@@ -57,7 +59,21 @@ module.exports = {
             console.log(err);
         });
         return updateTo;
+    },
+    downloadExcel: function (pathFile, toFolder, objects) {
+        fs.readFile(pathFile, function (err, data) {
+            var template = new XlsxTemplate(data);
+            for (var a in objects) {
+                var i = parseInt(a) + 1;
+                // console.log(objects[a]);
+                template.substitute(i, objects[a]);
+            }
+
+            var data = template.generate();
+            fs.writeFileSync(toFolder, data, 'binary');
+        });
     }
+
     // , select: async function (query, insert = 0) {
     //     let connection;
     //     try {

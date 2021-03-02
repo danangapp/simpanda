@@ -42,6 +42,7 @@ require("./app/routes/dokumenkapal")(app);
 require("./app/routes/enable")(app);
 require("./app/routes/evaluasipelimpahan")(app);
 require("./app/routes/investigasiinsiden")(app);
+require("./app/routes/investigasiinsidentim")(app);
 require("./app/routes/kondisi")(app);
 require("./app/routes/kondisiumum")(app);
 require("./app/routes/mstcabang")(app);
@@ -73,6 +74,7 @@ require("./app/routes/user")(app);
 require("./app/routes/usergroup")(app);
 require("./app/routes/jeniscert")(app);
 require("./app/routes/dashboard")(app);
+require("./app/routes/download")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 4000;

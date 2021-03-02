@@ -86,7 +86,6 @@ AssetStasiunEquipment.getAll = (param, result) => {
 					wheres += " and ";
         	    } else {
 					if (i == "flag") {
-					    wheres += "a2." + i + " ='" + param[i] + "' and ";
 					    wheres += "a1." + i + " ='" + param[i] + "' and ";
 					} else {
 					    wheres += "a." + i + " ='" + param[i] + "' and ";

@@ -129,7 +129,11 @@ Personil.getAll = (param, result) => {
 					wheres += "a." + i + " IN (" + wherein + ")";
 					wheres += " and ";
         	    } else {
-        	        wheres += "a." + i + " ='" + param[i] + "' and ";
+					if (i == "flag") {
+					    wheres += "a1." + i + " ='" + param[i] + "' and ";
+					} else {
+					    wheres += "a." + i + " ='" + param[i] + "' and ";
+					}
         	    }
         	}
         }

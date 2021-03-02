@@ -23,7 +23,7 @@ InvestigasiInsidenTim.create = async (newInvestigasiInsidenTim, result) => {
 };
 
 InvestigasiInsidenTim.findById = async (id, result) => {
-    sql.query(`SELECT a.* , a1.* FROM investigasi_insiden_tim a  LEFT JOIN investigasi_insiden a1 ON a.investigasi_insiden_id = a1.id  WHERE a.investigasi_insiden_id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* FROM investigasi_insiden_tim a  LEFT JOIN investigasi_insiden a1 ON a.investigasi_insiden_id = a1.id  WHERE a.investigasi_insiden_id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

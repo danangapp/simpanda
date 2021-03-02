@@ -10,6 +10,7 @@ exports.create = (req, res) => {
 
     var tipepersonil = {
         nama: req.fields.nama,
+        flag: req.fields.flag,
     };
 
 	var used = {};

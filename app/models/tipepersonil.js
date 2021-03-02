@@ -7,6 +7,7 @@ var objek = new Object();
 // constructor
 const TipePersonil = function (tipepersonil) {
     this.nama = tipepersonil.nama;
+    this.flag = tipepersonil.flag;
 };
 
 TipePersonil.create = async(newTipePersonil, result) => {
@@ -66,7 +67,7 @@ TipePersonil.getAll = (param, result) => {
 
 	if (param.q) {
 		wheres += wheres.length == 7 ? "(" : "AND (";
-		wheres += "a.nama LIKE '%" + param.q + "%'";	
+		wheres += "a.nama LIKE '%" + param.q + "%' OR a.flag LIKE '%" + param.q + "%'";	
 		wheres += ")";
    }
 
@@ -98,7 +99,7 @@ TipePersonil.updateById = async(id, tipepersonil, result) => {
 	try {
 
 		var str = "", obj = [], no = 1;
-		var arr = ["nama"];
+		var arr = ["nama", "flag"];
 		for (var i in tipepersonil) {
 			var adadiTable = 0
 			for (var b in arr) {

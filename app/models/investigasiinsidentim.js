@@ -13,17 +13,17 @@ const InvestigasiInsidenTim = function (investigasiinsidentim) {
     this.investigasi_insiden_id = investigasiinsidentim.investigasi_insiden_id;
 };
 
-InvestigasiInsidenTim.create = async(newInvestigasiInsidenTim, result) => {
-	try {
-		const res = await query("INSERT INTO investigasi_insiden_tim SET ?", newInvestigasiInsidenTim);
-		result(null, { id: res.insertId, ...newInvestigasiInsidenTim });
-	} catch (error) {
-	    result(error, null);
-	}
+InvestigasiInsidenTim.create = async (newInvestigasiInsidenTim, result) => {
+    try {
+        const res = await query("INSERT INTO investigasi_insiden_tim SET ?", newInvestigasiInsidenTim);
+        result(null, { id: res.insertId, ...newInvestigasiInsidenTim });
+    } catch (error) {
+        result(error, null);
+    }
 };
 
 InvestigasiInsidenTim.findById = async (id, result) => {
-    sql.query(`SELECT a.* , a1.nama as investigasi_insiden FROM investigasi_insiden_tim a  LEFT JOIN investigasi_insiden a1 ON a.investigasi_insiden_id = a1.id  WHERE a.id = ${id}`, (err, res) => {
+    sql.query(`SELECT a.* , a1.* FROM investigasi_insiden_tim a  LEFT JOIN investigasi_insiden a1 ON a.investigasi_insiden_id = a1.id  WHERE a.investigasi_insiden_id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -31,7 +31,7 @@ InvestigasiInsidenTim.findById = async (id, result) => {
         }
 
         if (res.length) {
-            result(null, res[0]);
+            result(null, res);
             return;
         }
 
@@ -47,34 +47,34 @@ InvestigasiInsidenTim.getAll = (param, result) => {
     if (length > 0) {
         wheres += " WHERE ";
         for (var i in param) {
-        	if (i != "q") {
-        	    var str = param[i];
-        	    if (typeof str != "string") {
-					var wherein = "";
-					for (var x in str) {
-					    wherein += str[x] + ", ";
-					}
-					wherein = wherein.substring(0, wherein.length - 2);
-					wheres += "a." + i + " IN (" + wherein + ")";
-					wheres += " and ";
-        	    } else {
-        	        wheres += "a." + i + " ='" + param[i] + "' and ";
-        	    }
-        	}
+            if (i != "q") {
+                var str = param[i];
+                if (typeof str != "string") {
+                    var wherein = "";
+                    for (var x in str) {
+                        wherein += str[x] + ", ";
+                    }
+                    wherein = wherein.substring(0, wherein.length - 2);
+                    wheres += "a." + i + " IN (" + wherein + ")";
+                    wheres += " and ";
+                } else {
+                    wheres += "a." + i + " ='" + param[i] + "' and ";
+                }
+            }
         }
 
-        if (wheres.length > 7){
-        	wheres = wheres.substring(0, wheres.length - 5);
+        if (wheres.length > 7) {
+            wheres = wheres.substring(0, wheres.length - 5);
         }
     }
 
-	if (param.q) {
-		wheres += wheres.length == 7 ? "(" : "AND (";
-		wheres += "a.nama LIKE '%" + param.q + "%' OR a.jabatan LIKE '%" + param.q + "%' OR a.tgl LIKE '%" + param.q + "%' OR a.status LIKE '%" + param.q + "%' OR a.investigasi_insiden_id LIKE '%" + param.q + "%'";	
-		wheres += ")";
-   }
+    if (param.q) {
+        wheres += wheres.length == 7 ? "(" : "AND (";
+        wheres += "a.nama LIKE '%" + param.q + "%' OR a.jabatan LIKE '%" + param.q + "%' OR a.tgl LIKE '%" + param.q + "%' OR a.status LIKE '%" + param.q + "%' OR a.investigasi_insiden_id LIKE '%" + param.q + "%'";
+        wheres += ")";
+    }
 
-   query += wheres;
+    query += wheres;
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -98,36 +98,36 @@ InvestigasiInsidenTim.design = result => {
     });
 };
 
-InvestigasiInsidenTim.updateById = async(id, investigasiinsidentim, result) => {
-	try {
+InvestigasiInsidenTim.updateById = async (id, investigasiinsidentim, result) => {
+    try {
 
-		var str = "", obj = [], no = 1;
-		var arr = ["nama", "jabatan", "tgl", "status", "investigasi_insiden_id"];
-		for (var i in investigasiinsidentim) {
-			var adadiTable = 0
-			for (var b in arr) {
-				if (i == arr[b]) {
-					adadiTable = 1;
-					break;
-				}
-			}
-		    if (investigasiinsidentim[i] && adadiTable == 1) {
-		        str += i + " = ?, ";
-		        obj.push(investigasiinsidentim[i]);
-		    }
-		    no++;
-		}
-		obj.push(id);
-		str = str.substring(0, str.length - 2);
+        var str = "", obj = [], no = 1;
+        var arr = ["nama", "jabatan", "tgl", "status", "investigasi_insiden_id"];
+        for (var i in investigasiinsidentim) {
+            var adadiTable = 0
+            for (var b in arr) {
+                if (i == arr[b]) {
+                    adadiTable = 1;
+                    break;
+                }
+            }
+            if (investigasiinsidentim[i] && adadiTable == 1) {
+                str += i + " = ?, ";
+                obj.push(investigasiinsidentim[i]);
+            }
+            no++;
+        }
+        obj.push(id);
+        str = str.substring(0, str.length - 2);
 
-		if (objek.action != null) {
-			await query("INSERT INTO activity_log SET ?", objek);
-		}
-		await query("UPDATE investigasi_insiden_tim SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...investigasiinsidentim });
-	} catch (error) {
-	    result(error, null);
-	}
+        if (objek.action != null) {
+            await query("INSERT INTO activity_log SET ?", objek);
+        }
+        await query("UPDATE investigasi_insiden_tim SET " + str + " WHERE id = ?", obj);
+        result(null, { id: id, ...investigasiinsidentim });
+    } catch (error) {
+        result(error, null);
+    }
 };
 
 InvestigasiInsidenTim.remove = (id, result) => {

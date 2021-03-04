@@ -75,6 +75,7 @@ require("./app/routes/usergroup")(app);
 require("./app/routes/jeniscert")(app);
 require("./app/routes/dashboard")(app);
 require("./app/routes/download")(app);
+require("./app/routes/menu")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 4000;

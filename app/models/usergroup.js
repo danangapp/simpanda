@@ -24,7 +24,29 @@ const UserGroup = function (usergroup) {
 
 UserGroup.create = async(newUserGroup, result) => {
 	try {
+		const user_access = newUserGroup.user_access;
+		delete newUserGroup.user_access;
 		const res = await query("INSERT INTO user_group SET ?", newUserGroup);
+		for (var i in user_access) {
+		    const x = user_access[i];
+			x['user_group_id'] = res.insertId;
+		
+		    var header = "", value = "";
+		    for (var a in x) {
+		        const val = x[a];
+		        header += a + ", ";
+				if (a != "user_access") {
+				    value += "'" + val + "', ";
+				} else {
+				    var fileName = f.uploadFile64('user_group', val);
+				    value += "'" + fileName + "', ";
+				}
+		    }
+		    value = value.substring(0, value.length - 2);
+		    header = header.substring(0, header.length - 2);
+			await query("INSERT INTO user_access (" + header + ") values (" + value + ")");
+		}
+
 		result(null, { id: res.insertId, ...newUserGroup });
 	} catch (error) {
 	    result(error, null);
@@ -32,6 +54,7 @@ UserGroup.create = async(newUserGroup, result) => {
 };
 
 UserGroup.findById = async (id, result) => {
+	const resQuery = await query("SELECT * FROM user_access WHERE user_group_id = '" + id + "'");
     sql.query(`SELECT a.* , a1.nama as cabang FROM user_group a  LEFT JOIN cabang a1 ON a.cabang_id = a1.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -39,8 +62,10 @@ UserGroup.findById = async (id, result) => {
             return;
         }
 
+		const user_access = { "user_access": resQuery }
+		let merge = { ...res[0], ...user_access }	
         if (res.length) {
-            result(null, res[0]);
+            result(null, merge);
             return;
         }
 
@@ -109,6 +134,35 @@ UserGroup.design = result => {
 
 UserGroup.updateById = async(id, usergroup, result) => {
 	try {
+		const user_access = usergroup.user_access;
+		var arr = ["user_group_id", "menu_id"]
+		await query("DELETE FROM user_access WHERE user_group_id='" + id + "'");
+		for (var i in user_access) {
+		    const x = user_access[i];
+		
+		    var header = "", value = "";
+			x['user_group_id'] = id;
+		    for (var a in x) {
+		        var val = x[a];
+				var adadiTable = 0
+				for (var b in arr) {
+					if (a == arr[b]) {
+						adadiTable = 1;
+						break;
+					}
+				}
+
+				if (adadiTable == 1) {
+					header += a + ", ";
+					value += "'" + val + "', ";
+				}
+		    }
+		    value = value.substring(0, value.length - 2);
+		    header = header.substring(0, header.length - 2);
+		
+			await query("INSERT INTO user_access (" + header + ") values (" + value + ")");
+		}
+		delete usergroup.user_access;
 
 		var str = "", obj = [], no = 1;
 		var arr = ["nama", "keterangan", "cabang_id", "access_dashboard", "access_resource_pandu", "access_resource_pendukung", "access_resource_absensi", "access_asset_kapal", "access_asset_stasiun", "access_asset_rumah", "access_asset_absensi", "access_inspection_sarana", "access_inspection_pemeriksaan", "access_inspection_investigasi"];

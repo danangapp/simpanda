@@ -23,6 +23,7 @@ exports.create = (req, res) => {
         access_inspection_sarana: req.fields.access_inspection_sarana,
         access_inspection_pemeriksaan: req.fields.access_inspection_pemeriksaan,
         access_inspection_investigasi: req.fields.access_inspection_investigasi,
+        user_access: req.fields.user_access,
     };
 
 	var used = {};

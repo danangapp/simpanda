@@ -26,8 +26,8 @@ User.create = async (newUser, result) => {
 };
 
 User.findById = async (id, result) => {
-    // console.log(id);
-    sql.query(`SELECT a.username, a.nama, a.user_group_id , a1.nama as user_group, a.accessToken, a.refreshToken, a2.nama as role FROM user a  LEFT JOIN user_group a1 ON a.user_group_id = a1.id  LEFT JOIN role a2 ON a.role_id = a2.id  WHERE a.username = '` + id + `'`, (err, res) => {
+    console.log(`SELECT a.username, a.nama, a.user_group_id , a1.nama as user_group, a.accessToken, a.refreshToken, a2.nama as role FROM user a  LEFT JOIN user_group a1 ON a.user_group_id = a1.id  LEFT JOIN role a2 ON a.role_id = a2.id  WHERE a. = ${id}`);
+    sql.query(`SELECT a.username, a.nama, a.user_group_id , a1.nama as user_group, a.accessToken, a.refreshToken, a2.nama as role FROM user a  LEFT JOIN user_group a1 ON a.user_group_id = a1.id  LEFT JOIN role a2 ON a.role_id = a2.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

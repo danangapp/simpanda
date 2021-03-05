@@ -7,6 +7,9 @@ module.exports = app => {
     // Retrieve all Users
     app.get("/user", user.findAll);
 
+    // Retrieve all Users
+    app.post("/login", user.getUser);
+
     // View Design Users
     app.options("/user", user.design);
 

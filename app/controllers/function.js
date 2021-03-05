@@ -2,6 +2,7 @@ var moment = require('moment');
 var mv = require('mv');
 const fs = require('fs');
 var XlsxTemplate = require('xlsx-template');
+var sjcl = require('sjcl');
 
 // var oracledb = require('oracledb');
 // const dbConfig = require('../config/dbconfig');
@@ -72,6 +73,11 @@ module.exports = {
             var data = template.generate();
             fs.writeFileSync(toFolder, data, 'binary');
         });
+    },
+    hashCode: function (str) {
+        const myBitArray = sjcl.hash.sha256.hash(str)
+        const myHash = sjcl.codec.hex.fromBits(myBitArray)
+        return myHash;
     }
 
     // , select: async function (query, insert = 0) {

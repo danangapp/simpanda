@@ -13,15 +13,17 @@ exports.create = (req, res) => {
         nama: req.fields.nama,
         password: req.fields.password,
         user_group_id: req.fields.user_group_id,
+        accesToken: req.fields.accesToken,
+        refreshToken: req.fields.refreshToken,
         role_id: req.fields.role_id,
     };
 
-	var used = {};
-	for (var i in user) {
-	    if (!user[i]) {
-	        delete user[i];
-	    }
-	}
+    var used = {};
+    for (var i in user) {
+        if (!user[i]) {
+            delete user[i];
+        }
+    }
 
     User.create(user, (err, data) => {
         if (err)
@@ -35,6 +37,17 @@ exports.create = (req, res) => {
 
 exports.findAll = (req, res) => {
     User.getAll(req.query, (err, data) => {
+        if (err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving usernames."
+            });
+        else res.send(data);
+    });
+};
+
+exports.getUser = (req, res) => {
+    User.login(req.fields, (err, data) => {
         if (err)
             res.status(500).send({
                 message:

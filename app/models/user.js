@@ -55,6 +55,38 @@ User.getAll = (param, result) => {
     const length = Object.keys(param).length;
     var query = "SELECT a.username, a.nama, a.user_group_id , a1.nama as user_group, a2.nama as role FROM user a  LEFT JOIN user_group a1 ON a.user_group_id = a1.id  LEFT JOIN role a2 ON a.role_id = a2.id ";
 
+    var wheres = "";
+    if (length > 0) {
+        wheres += " WHERE ";
+        for (var i in param) {
+            if (i != "q") {
+                var str = param[i];
+                if (typeof str != "string") {
+                    var wherein = "";
+                    for (var x in str) {
+                        wherein += str[x] + ", ";
+                    }
+                    wherein = wherein.substring(0, wherein.length - 2);
+                    wheres += "a." + i + " IN (" + wherein + ")";
+                    wheres += " and ";
+                } else {
+                    wheres += "a." + i + " ='" + param[i] + "' and ";
+                }
+            }
+        }
+
+        if (wheres.length > 7) {
+            wheres = wheres.substring(0, wheres.length - 5);
+        }
+    }
+
+    if (param.q) {
+        wheres += wheres.length == 7 ? "(" : "AND (";
+        wheres += "a.nama LIKE '%" + param.q + "%'";
+        wheres += ")";
+    }
+
+
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);

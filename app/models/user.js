@@ -86,7 +86,7 @@ User.getAll = (param, result) => {
         wheres += ")";
     }
 
-
+    query += wheres;
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);

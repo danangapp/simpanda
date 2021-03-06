@@ -53,7 +53,8 @@ User.findById = async (id, result) => {
 
 User.getAll = (param, result) => {
     const length = Object.keys(param).length;
-    var query = "SELECT a.username, a.nama, a.user_group_id, a1.nama, a1.keterangan, a1.cabang_id, a.accessToken, a.refreshToken, a2.nama as cabang FROM user a  INNER JOIN user_group a1 ON a.user_group_id = a1.id  INNER JOIN cabang a2 ON a1.cabang_id = a2.id ";
+    var idx = length > 0 ? "a.id, " : "";
+    var query = "SELECT a.username, " + idx + "a.nama, a.user_group_id, a1.nama, a1.keterangan, a1.cabang_id, a.accessToken, a.refreshToken, a2.nama as cabang FROM user a  INNER JOIN user_group a1 ON a.user_group_id = a1.id  INNER JOIN cabang a2 ON a1.cabang_id = a2.id ";
 
     var wheres = "";
     if (length > 0) {

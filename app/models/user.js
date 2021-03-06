@@ -17,8 +17,16 @@ const User = function (user) {
 
 User.create = async (newUser, result) => {
     try {
+        var rand = function () {
+            return Math.random().toString(36).substr(2); // remove `0.`
+        };
+        var token = function () {
+            return rand() + rand(); // to make it longer
+        };
+        newUser.accessToken = f.hashCode(token())
         newUser.password = f.hashCode(newUser.password)
         const res = await query("INSERT INTO user SET ?", newUser);
+        delete newUser.password;
         result(null, { id: res.insertId, ...newUser });
     } catch (error) {
         result(error, null);
@@ -26,7 +34,6 @@ User.create = async (newUser, result) => {
 };
 
 User.findById = async (id, result) => {
-    console.log(`SELECT a.username, a.nama, a.user_group_id , a1.nama as user_group, a.accessToken, a.refreshToken, a2.nama as role FROM user a  LEFT JOIN user_group a1 ON a.user_group_id = a1.id  LEFT JOIN role a2 ON a.role_id = a2.id  WHERE a. = ${id}`);
     sql.query(`SELECT a.username, a.nama, a.user_group_id , a1.nama as user_group, a.accessToken, a.refreshToken, a2.nama as role FROM user a  LEFT JOIN user_group a1 ON a.user_group_id = a1.id  LEFT JOIN role a2 ON a.role_id = a2.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);

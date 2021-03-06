@@ -51,60 +51,69 @@ const InvestigasiInsiden = function (investigasiinsiden) {
 };
 
 const setActivity = (objects, koneksi = 1) => {
-		objek.date = f.toDate(objects.date);
-		objek.item = 'investigasiinsiden';
-		objek.action = objects.approval_status_id;
-		objek.user_id = objects.user_id;
-		objek.remark = objects.remark;
-		objek.koneksi = koneksi;
-		delete objects.date;
-		delete objects.item;
-		delete objects.action;
-		delete objects.user_id;
-		delete objects.remark;
-		delete objects.koneksi;
-		return objects
+    objek.date = f.toDate(objects.date);
+    objek.item = 'investigasiinsiden';
+    objek.action = objects.approval_status_id;
+    objek.user_id = objects.user_id;
+    objek.remark = objects.remark;
+    objek.koneksi = koneksi;
+    delete objects.date;
+    delete objects.item;
+    delete objects.action;
+    delete objects.user_id;
+    delete objects.remark;
+    delete objects.koneksi;
+    return objects
 };
 
-InvestigasiInsiden.create = async(newInvestigasiInsiden, result) => {
-	try {
-		const investigasi_insiden_tim = newInvestigasiInsiden.investigasi_insiden_tim;
-		delete newInvestigasiInsiden.investigasi_insiden_tim;
-		newInvestigasiInsiden = setActivity(newInvestigasiInsiden);
-		const res = await query("INSERT INTO investigasi_insiden SET ?", newInvestigasiInsiden);
-		for (var i in investigasi_insiden_tim) {
-		    const x = investigasi_insiden_tim[i];
-			x['investigasi_insiden_id'] = res.insertId;
-		
-		    var header = "", value = "";
-		    for (var a in x) {
-		        const val = x[a];
-		        header += a + ", ";
-				if (a != "investigasi_insiden_tim") {
-				    value += "'" + val + "', ";
-				} else {
-				    var fileName = f.uploadFile64('investigasi_insiden', val);
-				    value += "'" + fileName + "', ";
-				}
-		    }
-		    value = value.substring(0, value.length - 2);
-		    header = header.substring(0, header.length - 2);
-			await query("INSERT INTO investigasi_insiden_tim (" + header + ") values (" + value + ")");
-		}
+InvestigasiInsiden.create = async (newInvestigasiInsiden, result) => {
+    try {
+        const investigasi_insiden_tim = newInvestigasiInsiden.investigasi_insiden_tim;
+        delete newInvestigasiInsiden.investigasi_insiden_tim;
+        newInvestigasiInsiden = setActivity(newInvestigasiInsiden);
+        var b = newInvestigasiInsiden.checks;
+        for (var a in b) {
+            var d = b[a];
+            for (var c in d) {
+                newInvestigasiInsiden[c] = d[c];
+            }
+        }
+        delete newInvestigasiInsiden.checks;
 
-		objek.koneksi = res.insertId;
-		if (objek.action != null) {
-			await query("INSERT INTO activity_log SET ?", objek);
-		}
-		result(null, { id: res.insertId, ...newInvestigasiInsiden });
-	} catch (error) {
-	    result(error, null);
-	}
+        const res = await query("INSERT INTO investigasi_insiden SET ?", newInvestigasiInsiden);
+        for (var i in investigasi_insiden_tim) {
+            const x = investigasi_insiden_tim[i];
+            x['investigasi_insiden_id'] = res.insertId;
+
+            var header = "", value = "";
+            for (var a in x) {
+                const val = x[a];
+                header += a + ", ";
+                if (a != "investigasi_insiden_tim") {
+                    value += "'" + val + "', ";
+                } else {
+                    var fileName = f.uploadFile64('investigasi_insiden', val);
+                    value += "'" + fileName + "', ";
+                }
+            }
+            value = value.substring(0, value.length - 2);
+            header = header.substring(0, header.length - 2);
+            await query("INSERT INTO investigasi_insiden_tim (" + header + ") values (" + value + ")");
+        }
+
+        // objek.koneksi = res.insertId;
+        // if (objek.action != null) {
+        //     await query("INSERT INTO activity_log SET ?", objek);
+        // }
+        result(null, { id: res.insertId, ...newInvestigasiInsiden });
+    } catch (error) {
+        result(error, null);
+    }
 };
 
 InvestigasiInsiden.findById = async (id, result) => {
-	const resQuery = await query("SELECT * FROM investigasi_insiden_tim WHERE investigasi_insiden_id = '" + id + "'");
-	const resActivityLog = await query("SELECT a.date, a.item, a.action, a.user_id, a.remark, a.koneksi FROM activity_log a INNER JOIN investigasi_insiden b ON a.item = 'investigasi_insiden' AND a.koneksi = b.id WHERE b.id =  '" + id + "'");
+    const resQuery = await query("SELECT * FROM investigasi_insiden_tim WHERE investigasi_insiden_id = '" + id + "'");
+    const resActivityLog = await query("SELECT a.date, a.item, a.action, a.user_id, a.remark, a.koneksi FROM activity_log a INNER JOIN investigasi_insiden b ON a.item = 'investigasi_insiden' AND a.koneksi = b.id WHERE b.id =  '" + id + "'");
     sql.query(`SELECT a.* , a1.nama as approval_status, a2.nama as ena, a3.nama as status_investigasi_insiden FROM investigasi_insiden a  LEFT JOIN approval_status a1 ON a.approval_status_id = a1.id  LEFT JOIN enable a2 ON a.enable = a2.id  LEFT JOIN status_investigasi_insiden a3 ON a.status_investigasi_insiden_id = a3.id  WHERE a.id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -112,9 +121,9 @@ InvestigasiInsiden.findById = async (id, result) => {
             return;
         }
 
-		const investigasi_insiden_tim = { "investigasi_insiden_tim": resQuery }
-		const activityLog = { "activityLog": resActivityLog }
-		let merge = { ...res[0], ...investigasi_insiden_tim, ...activityLog }	
+        const investigasi_insiden_tim = { "investigasi_insiden_tim": resQuery }
+        const activityLog = { "activityLog": resActivityLog }
+        let merge = { ...res[0], ...investigasi_insiden_tim, ...activityLog }
         if (res.length) {
             result(null, merge);
             return;
@@ -132,34 +141,34 @@ InvestigasiInsiden.getAll = (param, result) => {
     if (length > 0) {
         wheres += " WHERE ";
         for (var i in param) {
-        	if (i != "q") {
-        	    var str = param[i];
-        	    if (typeof str != "string") {
-					var wherein = "";
-					for (var x in str) {
-					    wherein += str[x] + ", ";
-					}
-					wherein = wherein.substring(0, wherein.length - 2);
-					wheres += "a." + i + " IN (" + wherein + ")";
-					wheres += " and ";
-        	    } else {
-        	        wheres += "a." + i + " ='" + param[i] + "' and ";
-        	    }
-        	}
+            if (i != "q") {
+                var str = param[i];
+                if (typeof str != "string") {
+                    var wherein = "";
+                    for (var x in str) {
+                        wherein += str[x] + ", ";
+                    }
+                    wherein = wherein.substring(0, wherein.length - 2);
+                    wheres += "a." + i + " IN (" + wherein + ")";
+                    wheres += " and ";
+                } else {
+                    wheres += "a." + i + " ='" + param[i] + "' and ";
+                }
+            }
         }
 
-        if (wheres.length > 7){
-        	wheres = wheres.substring(0, wheres.length - 5);
+        if (wheres.length > 7) {
+            wheres = wheres.substring(0, wheres.length - 5);
         }
     }
 
-	if (param.q) {
-		wheres += wheres.length == 7 ? "(" : "AND (";
-		wheres += "a.approval_status_id LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%' OR a.no_report LIKE '%" + param.q + "%' OR a.unit_terkait LIKE '%" + param.q + "%' OR a.judul_report LIKE '%" + param.q + "%' OR a.kronologi_kejadian LIKE '%" + param.q + "%' OR a.temuan_investigasi LIKE '%" + param.q + "%' OR a.bukti_temuan LIKE '%" + param.q + "%' OR a.saksi_1 LIKE '%" + param.q + "%' OR a.saksi_2 LIKE '%" + param.q + "%' OR a.investigator LIKE '%" + param.q + "%' OR a.rincian_kegiatan LIKE '%" + param.q + "%' OR a.luka_sakit LIKE '%" + param.q + "%' OR a.wujud_cedera LIKE '%" + param.q + "%' OR a.bagian_tubuh_cedera LIKE '%" + param.q + "%' OR a.mekanisme_cedera LIKE '%" + param.q + "%' OR a.kerusakan_alat LIKE '%" + param.q + "%' OR a.uraian_kejadian LIKE '%" + param.q + "%' OR a.analisa_penyebab LIKE '%" + param.q + "%' OR a.peralatan_kelengkapan LIKE '%" + param.q + "%' OR a.alat_pelindung_diri LIKE '%" + param.q + "%' OR a.perilaku LIKE '%" + param.q + "%' OR a.kebersihan_kerapihan LIKE '%" + param.q + "%' OR a.peralatan_perlengkapan LIKE '%" + param.q + "%' OR a.kemampuan_kondisi_fisik LIKE '%" + param.q + "%' OR a.pemeliharaan_perbaikan LIKE '%" + param.q + "%' OR a.design LIKE '%" + param.q + "%' OR a.tingkat_kemampuan LIKE '%" + param.q + "%' OR a.penjagaan LIKE '%" + param.q + "%' OR a.tidandakan_terkait LIKE '%" + param.q + "%' OR a.faktor_utama_insiden LIKE '%" + param.q + "%' OR a.rekomendasi_tindakan LIKE '%" + param.q + "%' OR a.pihak_yang_bertanggungjawab LIKE '%" + param.q + "%' OR a.pelaksana LIKE '%" + param.q + "%' OR a.tanggal_pemeriksaan LIKE '%" + param.q + "%' OR a.status_investigasi_insiden_id LIKE '%" + param.q + "%' OR a.prepard_by LIKE '%" + param.q + "%' OR a.prepard_tanggal LIKE '%" + param.q + "%' OR a.reviewed_by LIKE '%" + param.q + "%' OR a.reviewed_tanggal LIKE '%" + param.q + "%' OR a.approved_by LIKE '%" + param.q + "%' OR a.approved_tanggal LIKE '%" + param.q + "%'";	
-		wheres += ")";
-   }
+    if (param.q) {
+        wheres += wheres.length == 7 ? "(" : "AND (";
+        wheres += "a.approval_status_id LIKE '%" + param.q + "%' OR a.enable LIKE '%" + param.q + "%' OR a.no_report LIKE '%" + param.q + "%' OR a.unit_terkait LIKE '%" + param.q + "%' OR a.judul_report LIKE '%" + param.q + "%' OR a.kronologi_kejadian LIKE '%" + param.q + "%' OR a.temuan_investigasi LIKE '%" + param.q + "%' OR a.bukti_temuan LIKE '%" + param.q + "%' OR a.saksi_1 LIKE '%" + param.q + "%' OR a.saksi_2 LIKE '%" + param.q + "%' OR a.investigator LIKE '%" + param.q + "%' OR a.rincian_kegiatan LIKE '%" + param.q + "%' OR a.luka_sakit LIKE '%" + param.q + "%' OR a.wujud_cedera LIKE '%" + param.q + "%' OR a.bagian_tubuh_cedera LIKE '%" + param.q + "%' OR a.mekanisme_cedera LIKE '%" + param.q + "%' OR a.kerusakan_alat LIKE '%" + param.q + "%' OR a.uraian_kejadian LIKE '%" + param.q + "%' OR a.analisa_penyebab LIKE '%" + param.q + "%' OR a.peralatan_kelengkapan LIKE '%" + param.q + "%' OR a.alat_pelindung_diri LIKE '%" + param.q + "%' OR a.perilaku LIKE '%" + param.q + "%' OR a.kebersihan_kerapihan LIKE '%" + param.q + "%' OR a.peralatan_perlengkapan LIKE '%" + param.q + "%' OR a.kemampuan_kondisi_fisik LIKE '%" + param.q + "%' OR a.pemeliharaan_perbaikan LIKE '%" + param.q + "%' OR a.design LIKE '%" + param.q + "%' OR a.tingkat_kemampuan LIKE '%" + param.q + "%' OR a.penjagaan LIKE '%" + param.q + "%' OR a.tidandakan_terkait LIKE '%" + param.q + "%' OR a.faktor_utama_insiden LIKE '%" + param.q + "%' OR a.rekomendasi_tindakan LIKE '%" + param.q + "%' OR a.pihak_yang_bertanggungjawab LIKE '%" + param.q + "%' OR a.pelaksana LIKE '%" + param.q + "%' OR a.tanggal_pemeriksaan LIKE '%" + param.q + "%' OR a.status_investigasi_insiden_id LIKE '%" + param.q + "%' OR a.prepard_by LIKE '%" + param.q + "%' OR a.prepard_tanggal LIKE '%" + param.q + "%' OR a.reviewed_by LIKE '%" + param.q + "%' OR a.reviewed_tanggal LIKE '%" + param.q + "%' OR a.approved_by LIKE '%" + param.q + "%' OR a.approved_tanggal LIKE '%" + param.q + "%'";
+        wheres += ")";
+    }
 
-   query += wheres;
+    query += wheres;
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -183,37 +192,37 @@ InvestigasiInsiden.design = result => {
     });
 };
 
-InvestigasiInsiden.updateById = async(id, investigasiinsiden, result) => {
-	try {
-		investigasiinsiden = await setActivity(investigasiinsiden, id);
+InvestigasiInsiden.updateById = async (id, investigasiinsiden, result) => {
+    try {
+        investigasiinsiden = await setActivity(investigasiinsiden, id);
 
-		var str = "", obj = [], no = 1;
-		var arr = ["approval_status_id", "enable", "no_report", "unit_terkait", "judul_report", "kronologi_kejadian", "temuan_investigasi", "bukti_temuan", "saksi_1", "saksi_2", "investigator", "rincian_kegiatan", "luka_sakit", "wujud_cedera", "bagian_tubuh_cedera", "mekanisme_cedera", "kerusakan_alat", "uraian_kejadian", "analisa_penyebab", "peralatan_kelengkapan", "alat_pelindung_diri", "perilaku", "kebersihan_kerapihan", "peralatan_perlengkapan", "kemampuan_kondisi_fisik", "pemeliharaan_perbaikan", "design", "tingkat_kemampuan", "penjagaan", "tidandakan_terkait", "faktor_utama_insiden", "rekomendasi_tindakan", "pihak_yang_bertanggungjawab", "pelaksana", "tanggal_pemeriksaan", "status_investigasi_insiden_id", "prepard_by", "prepard_tanggal", "reviewed_by", "reviewed_tanggal", "approved_by", "approved_tanggal"];
-		for (var i in investigasiinsiden) {
-			var adadiTable = 0
-			for (var b in arr) {
-				if (i == arr[b]) {
-					adadiTable = 1;
-					break;
-				}
-			}
-		    if (investigasiinsiden[i] && adadiTable == 1) {
-		        str += i + " = ?, ";
-		        obj.push(investigasiinsiden[i]);
-		    }
-		    no++;
-		}
-		obj.push(id);
-		str = str.substring(0, str.length - 2);
+        var str = "", obj = [], no = 1;
+        var arr = ["approval_status_id", "enable", "no_report", "unit_terkait", "judul_report", "kronologi_kejadian", "temuan_investigasi", "bukti_temuan", "saksi_1", "saksi_2", "investigator", "rincian_kegiatan", "luka_sakit", "wujud_cedera", "bagian_tubuh_cedera", "mekanisme_cedera", "kerusakan_alat", "uraian_kejadian", "analisa_penyebab", "peralatan_kelengkapan", "alat_pelindung_diri", "perilaku", "kebersihan_kerapihan", "peralatan_perlengkapan", "kemampuan_kondisi_fisik", "pemeliharaan_perbaikan", "design", "tingkat_kemampuan", "penjagaan", "tidandakan_terkait", "faktor_utama_insiden", "rekomendasi_tindakan", "pihak_yang_bertanggungjawab", "pelaksana", "tanggal_pemeriksaan", "status_investigasi_insiden_id", "prepard_by", "prepard_tanggal", "reviewed_by", "reviewed_tanggal", "approved_by", "approved_tanggal"];
+        for (var i in investigasiinsiden) {
+            var adadiTable = 0
+            for (var b in arr) {
+                if (i == arr[b]) {
+                    adadiTable = 1;
+                    break;
+                }
+            }
+            if (investigasiinsiden[i] && adadiTable == 1) {
+                str += i + " = ?, ";
+                obj.push(investigasiinsiden[i]);
+            }
+            no++;
+        }
+        obj.push(id);
+        str = str.substring(0, str.length - 2);
 
-		if (objek.action != null) {
-			await query("INSERT INTO activity_log SET ?", objek);
-		}
-		await query("UPDATE investigasi_insiden SET " + str + " WHERE id = ?", obj);
-		result(null, { id: id, ...investigasiinsiden });
-	} catch (error) {
-	    result(error, null);
-	}
+        if (objek.action != null) {
+            await query("INSERT INTO activity_log SET ?", objek);
+        }
+        await query("UPDATE investigasi_insiden SET " + str + " WHERE id = ?", obj);
+        result(null, { id: id, ...investigasiinsiden });
+    } catch (error) {
+        result(error, null);
+    }
 };
 
 InvestigasiInsiden.remove = (id, result) => {

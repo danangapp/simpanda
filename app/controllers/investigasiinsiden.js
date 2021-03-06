@@ -57,19 +57,21 @@ exports.create = (req, res) => {
         user_id: req.fields.user_id,
         remark: req.fields.remark,
         koneksi: req.fields.koneksi,
+        checks: req.fields.checks,
         investigasi_insiden_tim: req.fields.investigasi_insiden_tim,
     };
 
-	var used = {};
-	for (var i in investigasiinsiden) {
-	    if (!investigasiinsiden[i]) {
-	        delete investigasiinsiden[i];
-	    }
-	}
+    var used = {};
+    for (var i in investigasiinsiden) {
+        if (!investigasiinsiden[i]) {
+            delete investigasiinsiden[i];
+        }
+    }
 
-	if (req.fields.bukti_temuan) {
-	    investigasiinsiden.bukti_temuan = f.uploadFile64('investigasi_insiden', req.fields.bukti_temuan);
-	}
+    if (req.fields.bukti_temuan) {
+        investigasiinsiden.bukti_temuan = f.uploadFile64('investigasi_insiden', req.fields.bukti_temuan);
+    }
+
 
     InvestigasiInsiden.create(investigasiinsiden, (err, data) => {
         if (err)
@@ -127,12 +129,12 @@ exports.update = (req, res) => {
         });
     }
 
-	req.fields.prepard_tanggal = f.toDate(req.fields.prepard_tanggal);
-	req.fields.reviewed_tanggal = f.toDate(req.fields.reviewed_tanggal);
-	req.fields.approved_tanggal = f.toDate(req.fields.approved_tanggal);
-	if (req.fields.bukti_temuan) {
-	    req.fields.bukti_temuan = f.uploadFile64('investigasi_insiden', req.fields.bukti_temuan);
-	}
+    req.fields.prepard_tanggal = f.toDate(req.fields.prepard_tanggal);
+    req.fields.reviewed_tanggal = f.toDate(req.fields.reviewed_tanggal);
+    req.fields.approved_tanggal = f.toDate(req.fields.approved_tanggal);
+    if (req.fields.bukti_temuan) {
+        req.fields.bukti_temuan = f.uploadFile64('investigasi_insiden', req.fields.bukti_temuan);
+    }
 
 
     InvestigasiInsiden.updateById(

@@ -103,7 +103,7 @@ User.getAll = (param, result) => {
 
 User.login = (req, result) => {
     req.password = f.hashCode(req.password);
-    var query = "SELECT a.username, a.nama, a.user_group_id , a1.nama as user_group, a2.nama as role FROM user a  LEFT JOIN user_group a1 ON a.user_group_id = a1.id  LEFT JOIN role a2 ON a.role_id = a2.id WHERE a.username = '" + req.username + "' AND password = '" + req.password + "' ";
+    var query = "SELECT a.username, a.nama, a.user_group_id , a1.nama as user_group, a2.nama as role, a1.cabang_id, a3.nama as cabang FROM user a  LEFT JOIN user_group a1 ON a.user_group_id = a1.id  LEFT JOIN role a2 ON a.role_id = a2.id LEFT JOIN cabang a3 ON a3.id = a1.cabang_id WHERE a.username = '" + req.username + "' AND password = '" + req.password + "' ";
 
     sql.query(query, (err, res) => {
         if (err) {

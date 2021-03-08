@@ -2,6 +2,8 @@ const sql = require("../config/db.js");
 const util = require('util');
 const query = util.promisify(sql.query).bind(sql);
 const f = require('../controllers/function');
+var cors = require('cors')
+var jwt = require('jsonwebtoken');
 var objek = new Object();
 
 // constructor
@@ -110,9 +112,11 @@ User.login = (req, result) => {
             return;
         }
 
-        console.log(res.length);
-        if (res.length > 0)
-            result(null, res);
+        if (res.length > 0) {
+            var token = jwt.sign({ username: res[0].username, password: res[0].password }, 'simpanda');
+            res[0].accessToken = token;
+            result(null, res[0]);
+        }
         else
             result(null, "user atau login salah");
     });

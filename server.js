@@ -3,6 +3,7 @@ const express = require("express");
 // var XlsxTemplate = require('xlsx-template');
 const formidableMiddleware = require('express-formidable');
 const f = require('./app/controllers/function')
+var cors = require('cors')
 require('dotenv').config();
 
 const app = express();
@@ -29,6 +30,7 @@ app.get("/", (req, res) => {
   res.json({ message: "Simpanda Application" });
 });
 
+app.use(cors());
 require("./app/routes/action")(app);
 require("./app/routes/activitylog")(app);
 require("./app/routes/approvalstatus")(app);
